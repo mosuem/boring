@@ -205,6 +205,23 @@ hooks:
 
 ---
 
+## Conformance Testing
+
+`package:boring` validates its cryptographic primitives and PKI implementations against [**Project Wycheproof**](https://github.com/google/wycheproof) — Google's suite of known attacks, edge cases, and RFC conformance test vectors.
+
+Run the test suite locally:
+
+```bash
+./tool/run_conformance_tests.sh
+```
+
+This tests:
+- **AEAD**: AES-GCM (128 and 256-bit), ChaCha20-Poly1305, and XChaCha20-Poly1305.
+- **Signatures**: Ed25519, ECDSA (P-256, P-384, P-521), RSA PKCS#1 v1.5 (2048, 3072, 4096-bit).
+- **Key Derivation & MAC**: HKDF (SHA-256, SHA-384, SHA-512) and HMAC (SHA-256, SHA-384, SHA-512).
+
+---
+
 ## License
 
 Apache License, Version 2.0. See [LICENSE](LICENSE) for details. BoringSSL is licensed under Apache 2.0 and BSD-style licenses.
