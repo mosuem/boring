@@ -476,5 +476,317 @@ void main() {
         });
       }
     });
+
+    group('AES-CBC', () {
+      test('aes_cbc_pkcs5_test.json', () {
+        final file = File('${wycheproofDir.path}/aes_cbc_pkcs5_test.json');
+        final data = _readJson(file);
+        final groups = _castList(data['testGroups']);
+
+        for (final group in groups) {
+          final keySize = group['keySize'] as int;
+          final alg = switch (keySize) {
+            128 => CipherAlgorithm.aes128Cbc,
+            192 => CipherAlgorithm.aes192Cbc,
+            256 => CipherAlgorithm.aes256Cbc,
+            _ => throw UnsupportedError('Unsupported key size: $keySize'),
+          };
+
+          final tests = _castList(group['tests']);
+          for (final testCase in tests) {
+            final key = _hexDecode(testCase['key'] as String);
+            final iv = _hexDecode(testCase['iv'] as String);
+            final msg = _hexDecode(testCase['msg'] as String);
+            final ct = _hexDecode(testCase['ct'] as String);
+            final expectedResult = testCase['result'] as String;
+
+            final cipher = BoringCipher(alg, key);
+            var decryptedOk = false;
+            try {
+              final decrypted = cipher.decrypt(iv: iv, ciphertext: ct);
+              decryptedOk = _hexEncode(decrypted) == _hexEncode(msg);
+            } catch (_) {
+              decryptedOk = false;
+            }
+
+            if (expectedResult == 'valid') {
+              expect(
+                decryptedOk,
+                isTrue,
+                reason: 'Test ${testCase['tcId']} expected valid decryption',
+              );
+            } else if (expectedResult == 'invalid') {
+              expect(
+                decryptedOk,
+                isFalse,
+                reason: 'Test ${testCase['tcId']} accepted invalid ciphertext',
+              );
+            }
+          }
+        }
+      });
+    });
+
+    group('AES Key Wrap', () {
+      test('aes_wrap_test.json', () {
+        final file = File('${wycheproofDir.path}/aes_wrap_test.json');
+        final data = _readJson(file);
+        final groups = _castList(data['testGroups']);
+
+        for (final group in groups) {
+          final tests = _castList(group['tests']);
+          for (final testCase in tests) {
+            final key = _hexDecode(testCase['key'] as String);
+            final msg = _hexDecode(testCase['msg'] as String);
+            final ct = _hexDecode(testCase['ct'] as String);
+            final expectedResult = testCase['result'] as String;
+
+            var unwrappedOk = false;
+            try {
+              final unwrapped = BoringAesKeyWrap.unwrap(key: key, data: ct);
+              unwrappedOk = _hexEncode(unwrapped) == _hexEncode(msg);
+            } catch (_) {
+              unwrappedOk = false;
+            }
+
+            if (expectedResult == 'valid') {
+              expect(
+                unwrappedOk,
+                isTrue,
+                reason: 'Test ${testCase['tcId']} expected valid unwrap',
+              );
+            } else if (expectedResult == 'invalid') {
+              expect(
+                unwrappedOk,
+                isFalse,
+                reason: 'Test ${testCase['tcId']} accepted invalid key wrap',
+              );
+            }
+          }
+        }
+      });
+    });
+
+    group('PBKDF2', () {
+      final suites = [
+        ('pbkdf2_hmacsha1_test.json', HashAlgorithm.sha1),
+        ('pbkdf2_hmacsha224_test.json', HashAlgorithm.sha224),
+        ('pbkdf2_hmacsha256_test.json', HashAlgorithm.sha256),
+        ('pbkdf2_hmacsha384_test.json', HashAlgorithm.sha384),
+        ('pbkdf2_hmacsha512_test.json', HashAlgorithm.sha512),
+      ];
+
+      for (final (filename, hashAlg) in suites) {
+        test(filename, () {
+          final file = File('${wycheproofDir.path}/$filename');
+          final data = _readJson(file);
+          final groups = _castList(data['testGroups']);
+
+          for (final group in groups) {
+            final tests = _castList(group['tests']);
+            for (final testCase in tests) {
+              final password = _hexDecode(testCase['password'] as String);
+              final salt = _hexDecode(testCase['salt'] as String);
+              final iterations = testCase['iterationCount'] as int;
+              final dkLen = testCase['dkLen'] as int;
+              final expectedDk = testCase['dk'] as String;
+              final expectedResult = testCase['result'] as String;
+
+              var derivedOk = false;
+              try {
+                final dk = BoringPbkdf2.deriveBits(
+                  hash: hashAlg,
+                  password: password,
+                  salt: salt,
+                  iterations: iterations,
+                  length: dkLen,
+                );
+                derivedOk = _hexEncode(dk) == expectedDk;
+              } catch (_) {
+                derivedOk = false;
+              }
+
+              if (expectedResult == 'valid') {
+                expect(
+                  derivedOk,
+                  isTrue,
+                  reason: 'Test ${testCase['tcId']} expected valid derivation',
+                );
+              } else if (expectedResult == 'invalid') {
+                expect(
+                  derivedOk,
+                  isFalse,
+                  reason:
+                      'Test ${testCase['tcId']} accepted invalid parameters',
+                );
+              }
+            }
+          }
+        });
+      }
+    });
+
+    group('RSA-PSS Signatures', () {
+      final suites = [
+        'rsa_pss_2048_sha256_mgf1_32_test.json',
+        'rsa_pss_3072_sha256_mgf1_32_test.json',
+        'rsa_pss_4096_sha256_mgf1_32_test.json',
+      ];
+
+      for (final filename in suites) {
+        test(filename, () {
+          final file = File('${wycheproofDir.path}/$filename');
+          final data = _readJson(file);
+          final groups = _castList(data['testGroups']);
+
+          for (final group in groups) {
+            final pubDer = _hexDecode(group['publicKeyDer'] as String);
+            final sLen = group['sLen'] as int;
+            final pubKey = BoringPublicKey.fromDer(pubDer);
+
+            final tests = _castList(group['tests']);
+            for (final testCase in tests) {
+              final msg = _hexDecode(testCase['msg'] as String);
+              final sig = _hexDecode(testCase['sig'] as String);
+              final expectedResult = testCase['result'] as String;
+
+              var valid = false;
+              try {
+                valid = pubKey.verify(
+                  algorithm: HashAlgorithm.sha256,
+                  data: msg,
+                  signature: sig,
+                  rsaPadding: RsaSignaturePadding.pss,
+                  pssSaltLength: sLen,
+                );
+              } catch (_) {
+                valid = false;
+              }
+
+              if (expectedResult == 'valid') {
+                expect(
+                  valid,
+                  isTrue,
+                  reason: 'Test ${testCase['tcId']} expected valid signature',
+                );
+              } else if (expectedResult == 'invalid') {
+                expect(
+                  valid,
+                  isFalse,
+                  reason: 'Test ${testCase['tcId']} accepted invalid signature',
+                );
+              }
+            }
+          }
+        });
+      }
+    });
+
+    group('RSA-OAEP Decryption', () {
+      final suites = [
+        'rsa_oaep_2048_sha256_mgf1sha256_test.json',
+        'rsa_oaep_3072_sha256_mgf1sha256_test.json',
+        'rsa_oaep_4096_sha256_mgf1sha256_test.json',
+      ];
+
+      for (final filename in suites) {
+        test(filename, () {
+          final file = File('${wycheproofDir.path}/$filename');
+          final data = _readJson(file);
+          final groups = _castList(data['testGroups']);
+
+          for (final group in groups) {
+            final privDer = _hexDecode(group['privateKeyPkcs8'] as String);
+            final privKey = BoringPrivateKey.fromDer(privDer);
+
+            final tests = _castList(group['tests']);
+            for (final testCase in tests) {
+              final msg = _hexDecode(testCase['msg'] as String);
+              final ct = _hexDecode(testCase['ct'] as String);
+              final label = _hexDecode(testCase['label'] as String);
+              final expectedResult = testCase['result'] as String;
+
+              var decOk = false;
+              try {
+                final dec = privKey.decryptOaep(
+                  ciphertext: ct,
+                  hash: HashAlgorithm.sha256,
+                  label: label,
+                );
+                decOk = _hexEncode(dec) == _hexEncode(msg);
+              } catch (_) {
+                decOk = false;
+              }
+
+              if (expectedResult == 'valid') {
+                expect(
+                  decOk,
+                  isTrue,
+                  reason: 'Test ${testCase['tcId']} expected valid decryption',
+                );
+              } else if (expectedResult == 'invalid') {
+                expect(
+                  decOk,
+                  isFalse,
+                  reason:
+                      'Test ${testCase['tcId']} accepted invalid ciphertext',
+                );
+              }
+            }
+          }
+        });
+      }
+    });
+
+    group('ECDH Key Agreement', () {
+      final suites = [
+        'ecdh_secp256r1_pem_test.json',
+        'ecdh_secp384r1_pem_test.json',
+        'ecdh_secp521r1_pem_test.json',
+      ];
+
+      for (final filename in suites) {
+        test(filename, () {
+          final file = File('${wycheproofDir.path}/$filename');
+          final data = _readJson(file);
+          final groups = _castList(data['testGroups']);
+
+          for (final group in groups) {
+            final tests = _castList(group['tests']);
+            for (final testCase in tests) {
+              final pubPem = testCase['public'] as String;
+              final privPem = testCase['private'] as String;
+              final expectedShared = testCase['shared'] as String;
+              final expectedResult = testCase['result'] as String;
+
+              var agreedOk = false;
+              try {
+                final pubKey = BoringPublicKey.fromPem(pubPem);
+                final privKey = BoringPrivateKey.fromPem(privPem);
+                final shared = privKey.deriveSharedSecret(pubKey);
+                agreedOk = _hexEncode(shared) == expectedShared;
+              } catch (_) {
+                agreedOk = false;
+              }
+
+              if (expectedResult == 'valid') {
+                expect(
+                  agreedOk,
+                  isTrue,
+                  reason:
+                      'Test ${testCase['tcId']} expected valid shared secret',
+                );
+              } else if (expectedResult == 'invalid') {
+                expect(
+                  agreedOk,
+                  isFalse,
+                  reason: 'Test ${testCase['tcId']} accepted invalid key pair',
+                );
+              }
+            }
+          }
+        });
+      }
+    });
   });
 }

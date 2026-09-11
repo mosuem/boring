@@ -117,4 +117,29 @@ abstract final class BoringDigest {
   /// Computes the BLAKE2b-256 hash of [data].
   static Uint8List blake2b256(Uint8List data) =>
       hash(HashAlgorithm.blake2b256, data);
+
+  /// Computes the hash of [stream] using [algorithm].
+  static Future<Uint8List> hashStream(
+    HashAlgorithm algorithm,
+    Stream<List<int>> stream,
+  ) async {
+    final ctx = DigestContext(algorithm);
+    await for (final chunk in stream) {
+      if (chunk.isEmpty) continue;
+      ctx.update(chunk is Uint8List ? chunk : Uint8List.fromList(chunk));
+    }
+    return ctx.finalize();
+  }
+
+  /// Computes the SHA-256 hash of [stream].
+  static Future<Uint8List> sha256Stream(Stream<List<int>> stream) =>
+      hashStream(HashAlgorithm.sha256, stream);
+
+  /// Computes the SHA-384 hash of [stream].
+  static Future<Uint8List> sha384Stream(Stream<List<int>> stream) =>
+      hashStream(HashAlgorithm.sha384, stream);
+
+  /// Computes the SHA-512 hash of [stream].
+  static Future<Uint8List> sha512Stream(Stream<List<int>> stream) =>
+      hashStream(HashAlgorithm.sha512, stream);
 }

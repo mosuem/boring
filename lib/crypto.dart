@@ -6,6 +6,8 @@
 library;
 
 export 'src/crypto/aead.dart' show AeadAlgorithm, BoringAead;
+export 'src/crypto/cipher.dart'
+    show BoringAesKeyWrap, BoringCipher, CipherAlgorithm;
 export 'src/crypto/digest.dart' show BoringDigest, DigestContext, HashAlgorithm;
 export 'src/crypto/ed25519.dart'
     show
@@ -16,7 +18,13 @@ export 'src/crypto/ed25519.dart'
         ed25519SignatureLength;
 export 'src/crypto/hkdf.dart' show BoringHkdf;
 export 'src/crypto/hmac.dart' show BoringHmac, HmacContext;
+export 'src/crypto/pbkdf2.dart' show BoringPbkdf2;
 export 'src/crypto/pkey.dart'
-    show BoringPrivateKey, BoringPublicKey, EcCurve, KeyType;
+    show
+        BoringPrivateKey,
+        BoringPublicKey,
+        EcCurve,
+        KeyType,
+        RsaSignaturePadding;
 export 'src/crypto/rand.dart' show BoringRand;
 export 'src/ffi/error.dart' show BoringSslException;

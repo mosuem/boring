@@ -69,44 +69,76 @@ final key = BoringRand.secureRandom(32);
 final mac = BoringHmac.sha256(key: key, data: data);
 ```
 
-### 4. HKDF (RFC 5869)
+### 4. Key Derivation (HKDF & PBKDF2)
 
 ```dart
 import 'package:boring/crypto.dart';
 
-final derivedKey = BoringHkdf.deriveBits(
+// HKDF (RFC 5869)
+final hkdfKey = BoringHkdf.deriveBits(
   algorithm: HashAlgorithm.sha256,
   ikm: keyMaterial,
   length: 32,
   salt: optionalSalt,
   info: optionalContextInfo,
 );
+
+// PBKDF2 (RFC 2898 / PKCS #5 v2.0)
+final pbkdf2Key = BoringPbkdf2.deriveBits(
+  hash: HashAlgorithm.sha256,
+  password: passwordBytes,
+  salt: saltBytes,
+  iterations: 100000,
+  length: 32,
+);
 ```
 
-### 5. Authenticated Encryption with Associated Data (AEAD)
+### 5. Symmetric Ciphers & AEAD
 
-Supported algorithms: `AeadAlgorithm.aes128Gcm`, `AeadAlgorithm.aes256Gcm`, `AeadAlgorithm.chacha20Poly1305`, and `AeadAlgorithm.xchacha20Poly1305`.
+#### Authenticated Encryption (AEAD)
+
+Supported: `AeadAlgorithm.aes128Gcm`, `AeadAlgorithm.aes256Gcm`, `AeadAlgorithm.chacha20Poly1305`, `AeadAlgorithm.xchacha20Poly1305`.
 
 ```dart
 import 'package:boring/crypto.dart';
 
 final key = BoringRand.secureRandom(32);
 final nonce = BoringRand.secureRandom(12); // 12 bytes for AES-GCM
-final cipher = BoringAead(AeadAlgorithm.aes256Gcm, key);
+final aead = BoringAead(AeadAlgorithm.aes256Gcm, key);
 
-// Encrypt and authenticate
-final ciphertext = cipher.seal(
+final ciphertext = aead.seal(
   nonce: nonce,
   plaintext: plaintext,
   additionalData: associatedData,
 );
 
-// Decrypt and verify
-final decrypted = cipher.open(
+final decrypted = aead.open(
   nonce: nonce,
   ciphertext: ciphertext,
   additionalData: associatedData,
 );
+```
+
+#### Block & Stream Ciphers (AES-CBC & AES-CTR)
+
+Supported: `CipherAlgorithm.aes128Cbc`, `aes256Cbc`, `aes128Ctr`, `aes256Ctr`.
+
+```dart
+import 'package:boring/crypto.dart';
+
+// AES-CBC (with PKCS#7 padding)
+final cbcCipher = BoringCipher(CipherAlgorithm.aes256Cbc, key);
+final cbcCiphertext = cbcCipher.encrypt(iv: iv, plaintext: plaintext);
+final cbcPlaintext = cbcCipher.decrypt(iv: iv, ciphertext: cbcCiphertext);
+
+// AES-CTR (full 128-bit counter stream)
+final ctrCipher = BoringCipher(CipherAlgorithm.aes256Ctr, key);
+final ctrCiphertext = ctrCipher.encrypt(iv: iv, plaintext: plaintext);
+final ctrPlaintext = ctrCipher.decrypt(iv: iv, ciphertext: ctrCiphertext);
+
+// AES Key Wrap (RFC 3394 / NIST SP 800-38F)
+final wrappedKey = BoringAesKeyWrap.wrap(key: kek, data: targetKey);
+final unwrappedKey = BoringAesKeyWrap.unwrap(key: kek, data: wrappedKey);
 ```
 
 ### 6. Ed25519 Signatures (RFC 8032)
@@ -140,19 +172,42 @@ import 'package:boring/crypto.dart';
 final rsaKey = BoringPrivateKey.generateRsa(bits: 2048);
 final ecKey = BoringPrivateKey.generateEc(EcCurve.p256);
 
-// Sign & Verify
-final sig = rsaKey.sign(algorithm: HashAlgorithm.sha256, data: data);
-final valid = rsaKey.publicKey.verify(
+// Sign & Verify: PKCS#1 v1.5 or RSA-PSS
+final sigPkcs1 = rsaKey.sign(algorithm: HashAlgorithm.sha256, data: data);
+final sigPss = rsaKey.sign(
   algorithm: HashAlgorithm.sha256,
   data: data,
-  signature: sig,
+  rsaPadding: RsaSignaturePadding.pss,
+);
+final validPss = rsaKey.publicKey.verify(
+  algorithm: HashAlgorithm.sha256,
+  data: data,
+  signature: sigPss,
+  rsaPadding: RsaSignaturePadding.pss,
 );
 
-// Export to PEM / DER
+// RSA-OAEP Encryption & Decryption (RFC 8017)
+final ciphertext = rsaKey.publicKey.encryptOaep(plaintext: secretBytes);
+final decrypted = rsaKey.decryptOaep(ciphertext: ciphertext);
+
+// ECDH Key Agreement (RFC 5903)
+final peerEcKey = BoringPrivateKey.generateEc(EcCurve.p256);
+final sharedSecret = ecKey.deriveSharedSecret(peerEcKey.publicKey);
+
+// Streaming Sign & Verify
+final streamSig = await rsaKey.signStream(
+  algorithm: HashAlgorithm.sha256,
+  data: dataStream,
+);
+final streamValid = await rsaKey.publicKey.verifyStream(
+  algorithm: HashAlgorithm.sha256,
+  data: dataStream,
+  signature: streamSig,
+);
+
+// Export / Import (PEM / DER)
 final pubPem = rsaKey.publicKey.toPem();
 final privPem = rsaKey.toPem();
-
-// Import from PEM
 final importedKey = BoringPublicKey.fromPem(pubPem);
 ```
 
@@ -318,9 +373,11 @@ hooks:
 ```
 
 This tests:
-- **AEAD**: AES-GCM (128 and 256-bit), ChaCha20-Poly1305, and XChaCha20-Poly1305.
-- **Signatures**: Ed25519, ECDSA (P-256, P-384, P-521), RSA PKCS#1 v1.5 (2048, 3072, 4096-bit).
-- **Key Derivation & MAC**: HKDF (SHA-256, SHA-384, SHA-512) and HMAC (SHA-256, SHA-384, SHA-512).
+- **AEAD & Ciphers**: AES-GCM (128 and 256-bit), ChaCha20-Poly1305, XChaCha20-Poly1305, AES-CBC (PKCS#5/7), and AES Key Wrap (KW).
+- **Signatures**: Ed25519, ECDSA (P-256, P-384, P-521), RSA PKCS#1 v1.5 (2048, 3072, 4096-bit), and RSA-PSS (2048, 3072, 4096-bit).
+- **Asymmetric Encryption**: RSA-OAEP (2048, 3072, 4096-bit).
+- **Key Agreement**: ECDH (P-256, P-384, P-521).
+- **Key Derivation & MAC**: HKDF (SHA-256, SHA-384, SHA-512), PBKDF2 (SHA-1 through SHA-512), and HMAC (SHA-256, SHA-384, SHA-512).
 
 ### x509-limbo
 

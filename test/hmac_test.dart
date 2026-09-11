@@ -67,5 +67,36 @@ void main() {
         ),
       );
     });
+
+    test('computeStream and sha256Stream', () async {
+      final stream = Stream.fromIterable([
+        utf8.encode('The quick brown fox '),
+        utf8.encode('jumps over the lazy dog'),
+      ]);
+      final mac = await BoringHmac.sha256Stream(key: key, stream: stream);
+      expect(
+        _toHex(mac),
+        equals(
+          'affee3b4888c714d8369e419b5e51d1ff7c024b64a94d76b8dd53c8fb5d0a2dc',
+        ),
+      );
+
+      final stream2 = Stream.fromIterable([
+        utf8.encode('The quick brown fox '),
+        utf8.encode('jumps over the lazy dog'),
+      ]);
+      final mac512 = await BoringHmac.computeStream(
+        algorithm: HashAlgorithm.sha512,
+        key: key,
+        stream: stream2,
+      );
+      expect(
+        _toHex(mac512),
+        equals(
+          '246be23a6a10781830011e57db63ec7fcd18f284bf002d6d85a0b79358aaf610'
+          '84c151977e7e99781672271c5d57abcf43c747acac6efda65bc099ad295ff217',
+        ),
+      );
+    });
   });
 }

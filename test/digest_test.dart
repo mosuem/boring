@@ -87,5 +87,32 @@ void main() {
       // Updating after finalize should throw StateError
       expect(() => ctx.update(Uint8List(0)), throwsStateError);
     });
+
+    test('hashStream and sha256Stream', () async {
+      final stream = Stream.fromIterable([
+        utf8.encode('hello '),
+        utf8.encode('world'),
+      ]);
+      final hash = await BoringDigest.sha256Stream(stream);
+      expect(
+        _toHex(hash),
+        equals(
+          'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9',
+        ),
+      );
+
+      final stream2 = Stream.fromIterable([
+        utf8.encode('hello '),
+        utf8.encode('world'),
+      ]);
+      final hashSha1 = await BoringDigest.hashStream(
+        HashAlgorithm.sha1,
+        stream2,
+      );
+      expect(
+        _toHex(hashSha1),
+        equals('2aae6c35c94fcfb415dbe95f408b9ce91ee846ed'),
+      );
+    });
   });
 }

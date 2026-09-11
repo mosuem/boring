@@ -1,5 +1,32 @@
 ## 0.3.0
 
+Expanded cryptographic primitives to match modern native application and
+`package:webcrypto` capabilities:
+
+- **PBKDF2**: Added `BoringPbkdf2.deriveBits` and `deriveKey` for password-based
+  key derivation (RFC 2898 / PKCS #5 v2.0) across all supported hash algorithms.
+- **Symmetric Ciphers (AES-CBC & AES-CTR)**: Added `BoringCipher` and
+  `CipherAlgorithm` supporting AES-128/192/256 in CBC mode (with PKCS#7 padding)
+  and CTR mode (standard 128-bit counter stream).
+- **AES Key Wrap**: Added `BoringAesKeyWrap.wrap` and `unwrap` for RFC 3394 /
+  NIST SP 800-38F key wrapping.
+- **RSA-PSS**: Added Probabilistic Signature Scheme support to
+  `BoringPrivateKey.sign` and `BoringPublicKey.verify` via `RsaSignaturePadding.pss`
+  and configurable `pssSaltLength`.
+- **RSA-OAEP**: Added `BoringPublicKey.encryptOaep` and
+  `BoringPrivateKey.decryptOaep` for RFC 8017 asymmetric encryption with
+  configurable OAEP hash, MGF1 hash, and optional labels.
+- **ECDH Key Agreement**: Added `BoringPrivateKey.deriveSharedSecret` and
+  `deriveBits` for elliptic-curve Diffie-Hellman key agreement across P-256,
+  P-384, and P-521.
+- **Streaming APIs**: Added stream-based operations:
+  - `BoringDigest.hashStream` and `sha256Stream`/`sha384Stream`/`sha512Stream`.
+  - `BoringHmac.computeStream` and `sha256Stream`/`sha384Stream`/`sha512Stream`.
+  - `BoringPrivateKey.signStream` and `BoringPublicKey.verifyStream` for RSA,
+    ECDSA, and Ed25519.
+- **Wycheproof Conformance**: Added conformance test suites for AES-CBC, AES Key
+  Wrap, PBKDF2, RSA-PSS, RSA-OAEP, and ECDH.
+
 `X509Verifier` can now check peer identity, key usage and chain length, and the
 package is validated against the [x509-limbo](https://x509-limbo.com) path
 validation suite.

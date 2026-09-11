@@ -69,6 +69,23 @@ R withResource<T extends NativeType, R>({
   }
 }
 
+/// Asynchronous version of [withResource] that awaits [body] before calling
+/// [destroy].
+Future<R> withResourceAsync<T extends NativeType, R>({
+  required Pointer<T> Function() create,
+  required void Function(Pointer<T>) destroy,
+  required String operation,
+  required Future<R> Function(Pointer<T>) body,
+}) async {
+  final handle = create();
+  checkPointer(handle, operation);
+  try {
+    return await body(handle);
+  } finally {
+    destroy(handle);
+  }
+}
+
 /// Converts a BoringSSL-allocated C string into a Dart string and frees it.
 ///
 /// Functions such as `X509_NAME_oneline`, `BN_bn2hex`, and

@@ -21,6 +21,18 @@ enum EcCurve {
   const EcCurve(this.nid);
 }
 
+/// Padding scheme for RSA signatures.
+enum RsaSignaturePadding {
+  /// PKCS#1 v1.5 signature padding (RSASSA-PKCS1-v1_5).
+  pkcs1(bssl.RSA_PKCS1_PADDING),
+
+  /// Probabilistic Signature Scheme (RSASSA-PSS).
+  pss(bssl.RSA_PKCS1_PSS_PADDING);
+
+  final int nativeValue;
+  const RsaSignaturePadding(this.nativeValue);
+}
+
 /// Asymmetric key algorithm type.
 enum KeyType {
   rsa,
@@ -114,37 +126,217 @@ final class BoringPublicKey implements ffi.Finalizable {
   /// For Ed25519, [algorithm] must be null. For RSA and ECDSA, specify the
   /// [HashAlgorithm] used when creating the signature (e.g.
   /// [HashAlgorithm.sha256]).
+  ///
+  /// For RSA keys, [rsaPadding] specifies the signature padding mode (defaults
+  /// to [RsaSignaturePadding.pkcs1]). If [rsaPadding] is
+  /// [RsaSignaturePadding.pss], [pssSaltLength] optionally specifies the salt
+  /// length in bytes (defaults to matching the digest length).
   bool verify({
     HashAlgorithm? algorithm,
     required Uint8List data,
     required Uint8List signature,
+    RsaSignaturePadding rsaPadding = RsaSignaturePadding.pkcs1,
+    int? pssSaltLength,
   }) => withResource(
     create: bssl.EVP_MD_CTX_new,
     destroy: bssl.EVP_MD_CTX_free,
     operation: 'EVP_MD_CTX_new',
-    body: (ctx) {
+    body: (ctx) => using((arena) {
+      final pctx = arena<ffi.Pointer<bssl.EVP_PKEY_CTX>>();
       checkBssl(
         bssl.EVP_DigestVerifyInit(
           ctx,
-          ffi.nullptr,
+          pctx,
           algorithm?.evpMd ?? ffi.nullptr,
           ffi.nullptr,
           _pkey,
         ),
         'EVP_DigestVerifyInit',
       );
-      return using((arena) {
-        final verifyRet = bssl.EVP_DigestVerify(
-          ctx,
-          copyBytesToNative(signature, arena),
-          signature.length,
-          copyBytesOrNull(data, arena),
-          data.length,
+      if (keyType == KeyType.rsa) {
+        checkBssl(
+          bssl.EVP_PKEY_CTX_set_rsa_padding(
+            pctx.value,
+            rsaPadding.nativeValue,
+          ),
+          'EVP_PKEY_CTX_set_rsa_padding',
         );
-        return verifyRet == 1;
-      });
-    },
+        if (rsaPadding == RsaSignaturePadding.pss) {
+          checkBssl(
+            bssl.EVP_PKEY_CTX_set_rsa_pss_saltlen(
+              pctx.value,
+              pssSaltLength ?? bssl.RSA_PSS_SALTLEN_DIGEST,
+            ),
+            'EVP_PKEY_CTX_set_rsa_pss_saltlen',
+          );
+        }
+      }
+      final verifyRet = bssl.EVP_DigestVerify(
+        ctx,
+        copyBytesToNative(signature, arena),
+        signature.length,
+        copyBytesOrNull(data, arena),
+        data.length,
+      );
+      drainErrorQueue();
+      return verifyRet == 1;
+    }),
   );
+
+  /// Verifies a digital [signature] over streaming [data].
+  ///
+  /// For Ed25519, the stream is buffered before verification.
+  /// For RSA and ECDSA, data is verified incrementally.
+  Future<bool> verifyStream({
+    HashAlgorithm? algorithm,
+    required Stream<List<int>> data,
+    required Uint8List signature,
+    RsaSignaturePadding rsaPadding = RsaSignaturePadding.pkcs1,
+    int? pssSaltLength,
+  }) async {
+    if (keyType == KeyType.ed25519) {
+      final bb = BytesBuilder();
+      await for (final chunk in data) {
+        bb.add(chunk);
+      }
+      return verify(
+        algorithm: algorithm,
+        data: bb.toBytes(),
+        signature: signature,
+        rsaPadding: rsaPadding,
+        pssSaltLength: pssSaltLength,
+      );
+    }
+
+    return withResourceAsync(
+      create: bssl.EVP_MD_CTX_new,
+      destroy: bssl.EVP_MD_CTX_free,
+      operation: 'EVP_MD_CTX_new',
+      body: (ctx) async {
+        using((arena) {
+          final pctx = arena<ffi.Pointer<bssl.EVP_PKEY_CTX>>();
+          checkBssl(
+            bssl.EVP_DigestVerifyInit(
+              ctx,
+              pctx,
+              algorithm?.evpMd ?? ffi.nullptr,
+              ffi.nullptr,
+              _pkey,
+            ),
+            'EVP_DigestVerifyInit',
+          );
+          if (keyType == KeyType.rsa) {
+            checkBssl(
+              bssl.EVP_PKEY_CTX_set_rsa_padding(
+                pctx.value,
+                rsaPadding.nativeValue,
+              ),
+              'EVP_PKEY_CTX_set_rsa_padding',
+            );
+            if (rsaPadding == RsaSignaturePadding.pss) {
+              checkBssl(
+                bssl.EVP_PKEY_CTX_set_rsa_pss_saltlen(
+                  pctx.value,
+                  pssSaltLength ?? bssl.RSA_PSS_SALTLEN_DIGEST,
+                ),
+                'EVP_PKEY_CTX_set_rsa_pss_saltlen',
+              );
+            }
+          }
+        });
+
+        await for (final chunk in data) {
+          if (chunk.isEmpty) continue;
+          using((arena) {
+            final ptr = copyBytesToNative(
+              chunk is Uint8List ? chunk : Uint8List.fromList(chunk),
+              arena,
+            );
+            checkBssl(
+              bssl.EVP_DigestVerifyUpdate(ctx, ptr.cast(), chunk.length),
+              'EVP_DigestVerifyUpdate',
+            );
+          });
+        }
+
+        return using((arena) {
+          final sigPtr = copyBytesToNative(signature, arena);
+          final verifyRet = bssl.EVP_DigestVerifyFinal(
+            ctx,
+            sigPtr,
+            signature.length,
+          );
+          drainErrorQueue();
+          return verifyRet == 1;
+        });
+      },
+    );
+  }
+
+  /// Encrypts [plaintext] using RSA-OAEP (Optimal Asymmetric Encryption
+  /// Padding, RFC 8017).
+  ///
+  /// - [hash]: Hash algorithm for OAEP and MGF1 (default:
+  ///   [HashAlgorithm.sha256]).
+  /// - [mgf1Hash]: Hash algorithm for MGF1 (defaults to [hash]).
+  /// - [label]: Optional OAEP label/parameter.
+  Uint8List encryptOaep({
+    required Uint8List plaintext,
+    HashAlgorithm hash = HashAlgorithm.sha256,
+    HashAlgorithm? mgf1Hash,
+    Uint8List? label,
+  }) {
+    if (keyType != KeyType.rsa) {
+      throw StateError(
+        'RSA-OAEP encryption is only supported for RSA keys (got $keyType).',
+      );
+    }
+    return withResource(
+      create: () => bssl.EVP_PKEY_CTX_new(_pkey, ffi.nullptr),
+      destroy: bssl.EVP_PKEY_CTX_free,
+      operation: 'EVP_PKEY_CTX_new',
+      body: (ctx) => using((arena) {
+        checkBssl(bssl.EVP_PKEY_encrypt_init(ctx), 'EVP_PKEY_encrypt_init');
+        checkBssl(
+          bssl.EVP_PKEY_CTX_set_rsa_padding(ctx, bssl.RSA_PKCS1_OAEP_PADDING),
+          'EVP_PKEY_CTX_set_rsa_padding',
+        );
+        checkBssl(
+          bssl.EVP_PKEY_CTX_set_rsa_oaep_md(ctx, hash.evpMd),
+          'EVP_PKEY_CTX_set_rsa_oaep_md',
+        );
+        checkBssl(
+          bssl.EVP_PKEY_CTX_set_rsa_mgf1_md(ctx, (mgf1Hash ?? hash).evpMd),
+          'EVP_PKEY_CTX_set_rsa_mgf1_md',
+        );
+        if (label != null && label.isNotEmpty) {
+          final labelPtr = bssl.OPENSSL_malloc(label.length).cast<ffi.Uint8>();
+          checkPointer(labelPtr, 'OPENSSL_malloc');
+          labelPtr.asTypedList(label.length).setAll(0, label);
+          final ret = bssl.EVP_PKEY_CTX_set0_rsa_oaep_label(
+            ctx,
+            labelPtr,
+            label.length,
+          );
+          if (ret != 1) {
+            bssl.OPENSSL_free(labelPtr.cast());
+            checkBssl(ret, 'EVP_PKEY_CTX_set0_rsa_oaep_label');
+          }
+        }
+        final inPtr = copyBytesToNative(plaintext, arena);
+        return withOutputBuffer(
+          'EVP_PKEY_encrypt',
+          (out, len) => bssl.EVP_PKEY_encrypt(
+            ctx,
+            out,
+            len,
+            inPtr,
+            plaintext.length,
+          ),
+        );
+      }),
+    );
+  }
 }
 
 /// Private asymmetric cryptographic key (RSA, ECDSA, Ed25519).
@@ -257,36 +449,256 @@ final class BoringPrivateKey implements ffi.Finalizable {
     ),
   );
 
+  /// Derives a shared secret with [peerPublicKey] using ECDH (RFC 5903).
+  ///
+  /// Returns the raw shared secret bytes.
+  Uint8List deriveSharedSecret(BoringPublicKey peerPublicKey) {
+    if (keyType != KeyType.ec) {
+      throw StateError(
+        'Key agreement is only supported for EC keys (got $keyType).',
+      );
+    }
+    if (peerPublicKey.keyType != KeyType.ec) {
+      throw ArgumentError.value(
+        peerPublicKey.keyType,
+        'peerPublicKey',
+        'Peer key must be an EC key',
+      );
+    }
+    return withResource(
+      create: () => bssl.EVP_PKEY_CTX_new(_pkey, ffi.nullptr),
+      destroy: bssl.EVP_PKEY_CTX_free,
+      operation: 'EVP_PKEY_CTX_new',
+      body: (ctx) {
+        checkBssl(bssl.EVP_PKEY_derive_init(ctx), 'EVP_PKEY_derive_init');
+        checkBssl(
+          bssl.EVP_PKEY_derive_set_peer(ctx, peerPublicKey.handle),
+          'EVP_PKEY_derive_set_peer',
+        );
+        return withOutputBuffer(
+          'EVP_PKEY_derive',
+          (out, len) => bssl.EVP_PKEY_derive(ctx, out, len),
+        );
+      },
+    );
+  }
+
+  /// Derives [length] bytes of key material with [peerPublicKey] using ECDH.
+  Uint8List deriveBits({
+    required BoringPublicKey peerPublicKey,
+    required int length,
+  }) {
+    final secret = deriveSharedSecret(peerPublicKey);
+    if (length < 0 || length > secret.length) {
+      throw ArgumentError.value(
+        length,
+        'length',
+        'Length must be between 0 and ${secret.length} bytes',
+      );
+    }
+    return Uint8List.sublistView(secret, 0, length);
+  }
+
   /// Generates a digital signature over [data].
   ///
   /// For Ed25519, [algorithm] must be null. For RSA and ECDSA, specify the
   /// [HashAlgorithm] to use (e.g. [HashAlgorithm.sha256]).
+  ///
+  /// For RSA keys, [rsaPadding] specifies the signature padding mode (defaults
+  /// to [RsaSignaturePadding.pkcs1]). If [rsaPadding] is
+  /// [RsaSignaturePadding.pss], [pssSaltLength] optionally specifies the salt
+  /// length in bytes (defaults to matching the digest length).
   Uint8List sign({
     HashAlgorithm? algorithm,
     required Uint8List data,
+    RsaSignaturePadding rsaPadding = RsaSignaturePadding.pkcs1,
+    int? pssSaltLength,
   }) => withResource(
     create: bssl.EVP_MD_CTX_new,
     destroy: bssl.EVP_MD_CTX_free,
     operation: 'EVP_MD_CTX_new',
-    body: (ctx) {
+    body: (ctx) => using((arena) {
+      final pctx = arena<ffi.Pointer<bssl.EVP_PKEY_CTX>>();
       checkBssl(
         bssl.EVP_DigestSignInit(
           ctx,
-          ffi.nullptr,
+          pctx,
           algorithm?.evpMd ?? ffi.nullptr,
           ffi.nullptr,
           _pkey,
         ),
         'EVP_DigestSignInit',
       );
-      return using((arena) {
-        final dataPtr = copyBytesOrNull(data, arena);
-        return withOutputBuffer(
-          'EVP_DigestSign',
-          (out, len) =>
-              bssl.EVP_DigestSign(ctx, out, len, dataPtr, data.length),
+      if (keyType == KeyType.rsa) {
+        checkBssl(
+          bssl.EVP_PKEY_CTX_set_rsa_padding(
+            pctx.value,
+            rsaPadding.nativeValue,
+          ),
+          'EVP_PKEY_CTX_set_rsa_padding',
         );
-      });
-    },
+        if (rsaPadding == RsaSignaturePadding.pss) {
+          checkBssl(
+            bssl.EVP_PKEY_CTX_set_rsa_pss_saltlen(
+              pctx.value,
+              pssSaltLength ?? bssl.RSA_PSS_SALTLEN_DIGEST,
+            ),
+            'EVP_PKEY_CTX_set_rsa_pss_saltlen',
+          );
+        }
+      }
+      final dataPtr = copyBytesOrNull(data, arena);
+      return withOutputBuffer(
+        'EVP_DigestSign',
+        (out, len) => bssl.EVP_DigestSign(ctx, out, len, dataPtr, data.length),
+      );
+    }),
   );
+
+  /// Generates a digital signature over streaming [data].
+  ///
+  /// For Ed25519, the stream is buffered before signing.
+  /// For RSA and ECDSA, data is signed incrementally.
+  Future<Uint8List> signStream({
+    HashAlgorithm? algorithm,
+    required Stream<List<int>> data,
+    RsaSignaturePadding rsaPadding = RsaSignaturePadding.pkcs1,
+    int? pssSaltLength,
+  }) async {
+    if (keyType == KeyType.ed25519) {
+      final bb = BytesBuilder();
+      await for (final chunk in data) {
+        bb.add(chunk);
+      }
+      return sign(
+        algorithm: algorithm,
+        data: bb.toBytes(),
+        rsaPadding: rsaPadding,
+        pssSaltLength: pssSaltLength,
+      );
+    }
+
+    return withResourceAsync(
+      create: bssl.EVP_MD_CTX_new,
+      destroy: bssl.EVP_MD_CTX_free,
+      operation: 'EVP_MD_CTX_new',
+      body: (ctx) async {
+        using((arena) {
+          final pctx = arena<ffi.Pointer<bssl.EVP_PKEY_CTX>>();
+          checkBssl(
+            bssl.EVP_DigestSignInit(
+              ctx,
+              pctx,
+              algorithm?.evpMd ?? ffi.nullptr,
+              ffi.nullptr,
+              _pkey,
+            ),
+            'EVP_DigestSignInit',
+          );
+          if (keyType == KeyType.rsa) {
+            checkBssl(
+              bssl.EVP_PKEY_CTX_set_rsa_padding(
+                pctx.value,
+                rsaPadding.nativeValue,
+              ),
+              'EVP_PKEY_CTX_set_rsa_padding',
+            );
+            if (rsaPadding == RsaSignaturePadding.pss) {
+              checkBssl(
+                bssl.EVP_PKEY_CTX_set_rsa_pss_saltlen(
+                  pctx.value,
+                  pssSaltLength ?? bssl.RSA_PSS_SALTLEN_DIGEST,
+                ),
+                'EVP_PKEY_CTX_set_rsa_pss_saltlen',
+              );
+            }
+          }
+        });
+
+        await for (final chunk in data) {
+          if (chunk.isEmpty) continue;
+          using((arena) {
+            final ptr = copyBytesToNative(
+              chunk is Uint8List ? chunk : Uint8List.fromList(chunk),
+              arena,
+            );
+            checkBssl(
+              bssl.EVP_DigestSignUpdate(ctx, ptr.cast(), chunk.length),
+              'EVP_DigestSignUpdate',
+            );
+          });
+        }
+
+        return withOutputBuffer(
+          'EVP_DigestSignFinal',
+          (out, len) => bssl.EVP_DigestSignFinal(ctx, out, len),
+        );
+      },
+    );
+  }
+
+  /// Decrypts [ciphertext] using RSA-OAEP (Optimal Asymmetric Encryption
+  /// Padding, RFC 8017).
+  ///
+  /// - [hash]: Hash algorithm for OAEP and MGF1 (default:
+  ///   [HashAlgorithm.sha256]).
+  /// - [mgf1Hash]: Hash algorithm for MGF1 (defaults to [hash]).
+  /// - [label]: Optional OAEP label/parameter.
+  Uint8List decryptOaep({
+    required Uint8List ciphertext,
+    HashAlgorithm hash = HashAlgorithm.sha256,
+    HashAlgorithm? mgf1Hash,
+    Uint8List? label,
+  }) {
+    if (keyType != KeyType.rsa) {
+      throw StateError(
+        'RSA-OAEP decryption is only supported for RSA keys (got $keyType).',
+      );
+    }
+    return withResource(
+      create: () => bssl.EVP_PKEY_CTX_new(_pkey, ffi.nullptr),
+      destroy: bssl.EVP_PKEY_CTX_free,
+      operation: 'EVP_PKEY_CTX_new',
+      body: (ctx) => using((arena) {
+        checkBssl(bssl.EVP_PKEY_decrypt_init(ctx), 'EVP_PKEY_decrypt_init');
+        checkBssl(
+          bssl.EVP_PKEY_CTX_set_rsa_padding(ctx, bssl.RSA_PKCS1_OAEP_PADDING),
+          'EVP_PKEY_CTX_set_rsa_padding',
+        );
+        checkBssl(
+          bssl.EVP_PKEY_CTX_set_rsa_oaep_md(ctx, hash.evpMd),
+          'EVP_PKEY_CTX_set_rsa_oaep_md',
+        );
+        checkBssl(
+          bssl.EVP_PKEY_CTX_set_rsa_mgf1_md(ctx, (mgf1Hash ?? hash).evpMd),
+          'EVP_PKEY_CTX_set_rsa_mgf1_md',
+        );
+        if (label != null && label.isNotEmpty) {
+          final labelPtr = bssl.OPENSSL_malloc(label.length).cast<ffi.Uint8>();
+          checkPointer(labelPtr, 'OPENSSL_malloc');
+          labelPtr.asTypedList(label.length).setAll(0, label);
+          final ret = bssl.EVP_PKEY_CTX_set0_rsa_oaep_label(
+            ctx,
+            labelPtr,
+            label.length,
+          );
+          if (ret != 1) {
+            bssl.OPENSSL_free(labelPtr.cast());
+            checkBssl(ret, 'EVP_PKEY_CTX_set0_rsa_oaep_label');
+          }
+        }
+        final inPtr = copyBytesToNative(ciphertext, arena);
+        return withOutputBuffer(
+          'EVP_PKEY_decrypt',
+          (out, len) => bssl.EVP_PKEY_decrypt(
+            ctx,
+            out,
+            len,
+            inPtr,
+            ciphertext.length,
+          ),
+        );
+      }),
+    );
+  }
 }

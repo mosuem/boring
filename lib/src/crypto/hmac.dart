@@ -96,4 +96,48 @@ abstract final class BoringHmac {
     required Uint8List key,
     required Uint8List data,
   }) => compute(algorithm: HashAlgorithm.sha512, key: key, data: data);
+
+  /// Computes HMAC for [stream] using [key] and [algorithm].
+  static Future<Uint8List> computeStream({
+    required HashAlgorithm algorithm,
+    required Uint8List key,
+    required Stream<List<int>> stream,
+  }) async {
+    final ctx = HmacContext(algorithm, key);
+    await for (final chunk in stream) {
+      if (chunk.isEmpty) continue;
+      ctx.update(chunk is Uint8List ? chunk : Uint8List.fromList(chunk));
+    }
+    return ctx.finalize();
+  }
+
+  /// Computes HMAC-SHA256 for [stream] using [key].
+  static Future<Uint8List> sha256Stream({
+    required Uint8List key,
+    required Stream<List<int>> stream,
+  }) => computeStream(
+    algorithm: HashAlgorithm.sha256,
+    key: key,
+    stream: stream,
+  );
+
+  /// Computes HMAC-SHA384 for [stream] using [key].
+  static Future<Uint8List> sha384Stream({
+    required Uint8List key,
+    required Stream<List<int>> stream,
+  }) => computeStream(
+    algorithm: HashAlgorithm.sha384,
+    key: key,
+    stream: stream,
+  );
+
+  /// Computes HMAC-SHA512 for [stream] using [key].
+  static Future<Uint8List> sha512Stream({
+    required Uint8List key,
+    required Stream<List<int>> stream,
+  }) => computeStream(
+    algorithm: HashAlgorithm.sha512,
+    key: key,
+    stream: stream,
+  );
 }
