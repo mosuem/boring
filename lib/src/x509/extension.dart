@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 import '../asn1/asn1.dart';
@@ -139,7 +140,7 @@ final class X509Extension {
       }
     }
     try {
-      return String.fromCharCodes(value);
+      return utf8.decode(value);
     } on FormatException {
       return null;
     }

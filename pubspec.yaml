@@ -1,6 +1,6 @@
 name: boring
 description: High-performance cryptography and PKI powered by BoringSSL with Dart Native Assets.
-version: 0.2.0
+version: 0.3.0
 repository: https://github.com/mosuem/boring
 
 environment:

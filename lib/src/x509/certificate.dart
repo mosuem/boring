@@ -17,22 +17,14 @@ DateTime _parseAsn1Time(ffi.Pointer<bssl.ASN1_TIME> timePtr) {
   if (timePtr == ffi.nullptr) {
     throw BoringSslException('ASN1_TIME pointer is null');
   }
-  final genTime = bssl.ASN1_TIME_to_generalizedtime(timePtr, ffi.nullptr);
-  checkPointer(genTime, 'ASN1_TIME_to_generalizedtime');
-  try {
-    final len = bssl.ASN1_STRING_length(genTime.cast());
-    final data = bssl.ASN1_STRING_get0_data(genTime.cast());
-    final str = utf8.decode(data.cast<ffi.Uint8>().asTypedList(len));
-    final year = int.parse(str.substring(0, 4));
-    final month = int.parse(str.substring(4, 6));
-    final day = int.parse(str.substring(6, 8));
-    final hour = int.parse(str.substring(8, 10));
-    final minute = int.parse(str.substring(10, 12));
-    final second = int.parse(str.substring(12, 14));
-    return DateTime.utc(year, month, day, hour, minute, second);
-  } finally {
-    bssl.ASN1_GENERALIZEDTIME_free(genTime);
-  }
+  return using((arena) {
+    final seconds = arena<ffi.Int64>();
+    checkBssl(bssl.ASN1_TIME_to_posix(timePtr, seconds), 'ASN1_TIME_to_posix');
+    return DateTime.fromMillisecondsSinceEpoch(
+      seconds.value * 1000,
+      isUtc: true,
+    );
+  });
 }
 
 String _readBioString(ffi.Pointer<bssl.BIO> bio) {

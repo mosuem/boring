@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:boring/asn1.dart';
@@ -124,6 +125,46 @@ void main() {
     test('rejects reading children of a primitive', () {
       final value = Asn1Reader.parse(bytes([0x02, 0x01, 0x01]));
       expect(() => value.children, throwsA(isA<Asn1Exception>()));
+    });
+
+    test('rejects non-minimal long-form length', () {
+      // 0x81 0x01 encodes length 1 in long form, but DER requires the short
+      // form for lengths below 128. BoringSSL's CBS parser enforces this.
+      expect(
+        () => Asn1Reader.parse(bytes([0x02, 0x81, 0x01, 0x05])),
+        throwsA(isA<Asn1Exception>()),
+      );
+    });
+
+    test('rejects non-minimal INTEGER encoding', () {
+      // A leading 0x00 is only permitted when the next byte has its high bit
+      // set, so 00 05 is not a valid DER INTEGER.
+      final value = Asn1Reader.parse(bytes([0x02, 0x02, 0x00, 0x05]));
+      expect(value.asInteger, throwsA(isA<Asn1Exception>()));
+    });
+
+    test('decodes BMPString as UTF-16BE', () {
+      // "hi" encoded as BMPString: two UTF-16BE code units.
+      final value = Asn1Reader.parse(
+        bytes([0x1E, 0x04, 0x00, 0x68, 0x00, 0x69]),
+      );
+      expect(value.asString(), 'hi');
+    });
+
+    test('decodes multi-byte UTF8String', () {
+      final encoded = utf8.encode('héllo');
+      final value = Asn1Reader.parse(
+        bytes([0x0C, encoded.length, ...encoded]),
+      );
+      expect(value.asString(), 'héllo');
+    });
+
+    test('asString honours an explicit stringType for implicit tags', () {
+      // [0] IMPLICIT BMPString "hi".
+      final value = Asn1Reader.parse(
+        bytes([0x80, 0x04, 0x00, 0x68, 0x00, 0x69]),
+      );
+      expect(value.asString(stringType: Asn1Tag.bmpString), 'hi');
     });
   });
 }

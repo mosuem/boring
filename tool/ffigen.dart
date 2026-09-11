@@ -66,6 +66,7 @@ void main() {
           decl.originalName.startsWith('RSA_') ||
           decl.originalName.startsWith('X509_') ||
           decl.originalName.startsWith('V_ASN1_') ||
+          decl.originalName.startsWith('CBS_ASN1_') ||
           decl.originalName.startsWith('MBSTRING_') ||
           decl.originalName.startsWith('AES_'),
       rename: (decl) {

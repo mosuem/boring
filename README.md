@@ -25,7 +25,7 @@ Add `boring` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  boring: ^0.2.0
+  boring: ^0.3.0
 ```
 
 ---
@@ -223,7 +223,14 @@ print(cert.getExtensionString(X509Oid.fulcioIssuerV1));
 
 Certificates and signatures are decoded natively by BoringSSL, but the payload
 of an X.509 extension is application-specific. `package:boring/asn1.dart`
-provides a minimal DER reader for those payloads.
+exposes BoringSSL's own DER parser for those payloads.
+
+This is a binding, not a reimplementation: tag and length parsing is
+`CBS_get_any_asn1_element`, object identifiers are rendered by
+`CBS_asn1_oid_to_text`, integers go through `CBS_is_valid_asn1_integer` and
+`BN_bn2dec`, and strings are transcoded by `ASN1_STRING_to_UTF8`. DER encoding
+rules — minimal lengths, minimal integers, no indefinite lengths — are therefore
+enforced by BoringSSL rather than by Dart code.
 
 ```dart
 import 'package:boring/asn1.dart';

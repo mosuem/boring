@@ -1,3 +1,32 @@
+## 0.3.0
+
+This release removes hand-written parsing logic from the Dart layer. Every
+ASN.1 operation is now delegated to BoringSSL, keeping `package:boring` a thin
+wrapper rather than a reimplementation.
+
+- **Breaking:** `Asn1Value.identifier` (the raw DER identifier octet) is
+  replaced by `Asn1Value.tag`, which holds BoringSSL's `CBS_ASN1_TAG`. Use
+  `tagClass`, `isConstructed`, and `tagNumber` instead of decoding it by hand.
+- **Breaking:** the `Asn1Value` constructor is now private; values are produced
+  by `Asn1Reader`.
+- The DER reader is now backed by BoringSSL's `CBS` parser:
+  - Tag/length parsing uses `CBS_get_any_asn1_element`.
+  - `asObjectIdentifier()` uses `CBS_asn1_oid_to_text`.
+  - `asInteger()` uses `CBS_is_valid_asn1_integer` with `BN_bin2bn`/`BN_bn2dec`.
+  - `asBoolean()` uses `CBS_get_asn1_bool`.
+  - `asString()` uses `ASN1_STRING_to_UTF8`, which correctly transcodes every
+    ASN.1 string type BoringSSL supports.
+  - `Asn1Tag` and `Asn1Class` now re-export BoringSSL's `CBS_ASN1_*` constants.
+  - As a result, DER encoding rules are enforced by BoringSSL: non-minimal
+    long-form lengths and non-minimal `INTEGER` encodings are now rejected.
+- `Asn1Value.asString()` accepts an optional `stringType` for IMPLICIT
+  context-specific tags, where the tag number identifies the `CHOICE`
+  alternative rather than the underlying string type.
+- Certificate validity times are parsed with `ASN1_TIME_to_posix` instead of
+  slicing the `GeneralizedTime` string in Dart.
+- Fixed `X509Extension.stringValue` mangling non-ASCII values in the raw
+  (non-DER) fallback path, which decoded UTF-8 bytes as UTF-16 code units.
+
 ## 0.2.0
 
 - Added a minimal ASN.1 DER reader (`package:boring/asn1.dart`) for decoding the

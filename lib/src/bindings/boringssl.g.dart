@@ -22,7 +22,9 @@ import 'dart:ffi' as ffi;
 @ffi.Native<ffi.Void Function(ffi.Pointer<ACCESS_DESCRIPTION>)>(
   symbol: 'bssl_dart_ACCESS_DESCRIPTION_free',
 )
-external void ACCESS_DESCRIPTION_free(ffi.Pointer<ACCESS_DESCRIPTION> desc);
+external void ACCESS_DESCRIPTION_free(
+  ffi.Pointer<ACCESS_DESCRIPTION> desc,
+);
 
 /// ACCESS_DESCRIPTION_new returns a newly-allocated, empty |ACCESS_DESCRIPTION|
 /// object, or NULL on error.
@@ -330,14 +332,19 @@ external int ASN1_BIT_STRING_check(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_BIT_STRING>)>(
   symbol: 'bssl_dart_ASN1_BIT_STRING_free',
 )
-external void ASN1_BIT_STRING_free(ffi.Pointer<ASN1_BIT_STRING> str);
+external void ASN1_BIT_STRING_free(
+  ffi.Pointer<ASN1_BIT_STRING> str,
+);
 
 /// ASN1_BIT_STRING_get_bit returns one if bit |n| of |a| is in bounds and set,
 /// and zero otherwise. |n| is indexed beginning from zero.
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_BIT_STRING>, ffi.Int)>(
   symbol: 'bssl_dart_ASN1_BIT_STRING_get_bit',
 )
-external int ASN1_BIT_STRING_get_bit(ffi.Pointer<ASN1_BIT_STRING> str, int n);
+external int ASN1_BIT_STRING_get_bit(
+  ffi.Pointer<ASN1_BIT_STRING> str,
+  int n,
+);
 
 /// ASN1_BIT_STRING_new calls |ASN1_STRING_type_new| with |V_ASN1_BIT_STRING|.
 @ffi.Native<ffi.Pointer<ASN1_BIT_STRING> Function()>(
@@ -417,13 +424,17 @@ external int ASN1_BIT_STRING_set_bit(
 @ffi.Native<ffi.Uint8 Function(ffi.Pointer<ASN1_BIT_STRING>)>(
   symbol: 'bssl_dart_ASN1_BIT_STRING_unused_bits',
 )
-external int ASN1_BIT_STRING_unused_bits(ffi.Pointer<ASN1_BIT_STRING> str);
+external int ASN1_BIT_STRING_unused_bits(
+  ffi.Pointer<ASN1_BIT_STRING> str,
+);
 
 /// The following functions call |ASN1_STRING_free|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_BMPSTRING>)>(
   symbol: 'bssl_dart_ASN1_BMPSTRING_free',
 )
-external void ASN1_BMPSTRING_free(ffi.Pointer<ASN1_BMPSTRING> str);
+external void ASN1_BMPSTRING_free(
+  ffi.Pointer<ASN1_BMPSTRING> str,
+);
 
 /// The following functions call |ASN1_STRING_type_new| with the corresponding
 /// |V_ASN1_*| constant.
@@ -436,7 +447,9 @@ external ffi.Pointer<ASN1_BMPSTRING> ASN1_BMPSTRING_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_ENUMERATED>)>(
   symbol: 'bssl_dart_ASN1_ENUMERATED_free',
 )
-external void ASN1_ENUMERATED_free(ffi.Pointer<ASN1_ENUMERATED> str);
+external void ASN1_ENUMERATED_free(
+  ffi.Pointer<ASN1_ENUMERATED> str,
+);
 
 /// ASN1_ENUMERATED_get returns the value of |a| as a |long|, or -1 if |a| is out
 /// of range or the wrong type.
@@ -446,7 +459,9 @@ external void ASN1_ENUMERATED_free(ffi.Pointer<ASN1_ENUMERATED> str);
 @ffi.Native<ffi.Long Function(ffi.Pointer<ASN1_ENUMERATED>)>(
   symbol: 'bssl_dart_ASN1_ENUMERATED_get',
 )
-external int ASN1_ENUMERATED_get(ffi.Pointer<ASN1_ENUMERATED> a);
+external int ASN1_ENUMERATED_get(
+  ffi.Pointer<ASN1_ENUMERATED> a,
+);
 
 /// ASN1_ENUMERATED_get_int64 converts |a| to a |int64_t|. On success, it
 /// returns one and sets |*out| to the result. If |a| did not fit or has the
@@ -484,14 +499,20 @@ external ffi.Pointer<ASN1_ENUMERATED> ASN1_ENUMERATED_new();
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_ENUMERATED>, ffi.Long)>(
   symbol: 'bssl_dart_ASN1_ENUMERATED_set',
 )
-external int ASN1_ENUMERATED_set(ffi.Pointer<ASN1_ENUMERATED> a, int v);
+external int ASN1_ENUMERATED_set(
+  ffi.Pointer<ASN1_ENUMERATED> a,
+  int v,
+);
 
 /// ASN1_ENUMERATED_set_int64 sets |a| to an ENUMERATED with value |v|. It
 /// returns one on success and zero on error.
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_ENUMERATED>, ffi.Int64)>(
   symbol: 'bssl_dart_ASN1_ENUMERATED_set_int64',
 )
-external int ASN1_ENUMERATED_set_int64(ffi.Pointer<ASN1_ENUMERATED> out, int v);
+external int ASN1_ENUMERATED_set_int64(
+  ffi.Pointer<ASN1_ENUMERATED> out,
+  int v,
+);
 
 /// ASN1_ENUMERATED_set_uint64 sets |a| to an ENUMERATED with value |v|. It
 /// returns one on success and zero on error.
@@ -544,13 +565,17 @@ external ffi.Pointer<ASN1_GENERALIZEDTIME> ASN1_GENERALIZEDTIME_adj(
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_GENERALIZEDTIME>)>(
   symbol: 'bssl_dart_ASN1_GENERALIZEDTIME_check',
 )
-external int ASN1_GENERALIZEDTIME_check(ffi.Pointer<ASN1_GENERALIZEDTIME> a);
+external int ASN1_GENERALIZEDTIME_check(
+  ffi.Pointer<ASN1_GENERALIZEDTIME> a,
+);
 
 /// ASN1_GENERALIZEDTIME_free calls |ASN1_STRING_free|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_GENERALIZEDTIME>)>(
   symbol: 'bssl_dart_ASN1_GENERALIZEDTIME_free',
 )
-external void ASN1_GENERALIZEDTIME_free(ffi.Pointer<ASN1_GENERALIZEDTIME> str);
+external void ASN1_GENERALIZEDTIME_free(
+  ffi.Pointer<ASN1_GENERALIZEDTIME> str,
+);
 
 /// ASN1_GENERALIZEDTIME_new calls |ASN1_STRING_type_new| with
 /// |V_ASN1_GENERALIZEDTIME|. The resulting object contains empty contents and
@@ -602,7 +627,9 @@ external int ASN1_GENERALIZEDTIME_set_string(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_GENERALSTRING>)>(
   symbol: 'bssl_dart_ASN1_GENERALSTRING_free',
 )
-external void ASN1_GENERALSTRING_free(ffi.Pointer<ASN1_GENERALSTRING> str);
+external void ASN1_GENERALSTRING_free(
+  ffi.Pointer<ASN1_GENERALSTRING> str,
+);
 
 @ffi.Native<ffi.Pointer<ASN1_GENERALSTRING> Function()>(
   symbol: 'bssl_dart_ASN1_GENERALSTRING_new',
@@ -612,7 +639,9 @@ external ffi.Pointer<ASN1_GENERALSTRING> ASN1_GENERALSTRING_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_IA5STRING>)>(
   symbol: 'bssl_dart_ASN1_IA5STRING_free',
 )
-external void ASN1_IA5STRING_free(ffi.Pointer<ASN1_IA5STRING> str);
+external void ASN1_IA5STRING_free(
+  ffi.Pointer<ASN1_IA5STRING> str,
+);
 
 @ffi.Native<ffi.Pointer<ASN1_IA5STRING> Function()>(
   symbol: 'bssl_dart_ASN1_IA5STRING_new',
@@ -642,7 +671,9 @@ external ffi.Pointer<ASN1_INTEGER> ASN1_INTEGER_dup(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_INTEGER>)>(
   symbol: 'bssl_dart_ASN1_INTEGER_free',
 )
-external void ASN1_INTEGER_free(ffi.Pointer<ASN1_INTEGER> str);
+external void ASN1_INTEGER_free(
+  ffi.Pointer<ASN1_INTEGER> str,
+);
 
 /// ASN1_INTEGER_get returns the value of |a| as a |long|, or -1 if |a| is out of
 /// range or the wrong type.
@@ -652,7 +683,9 @@ external void ASN1_INTEGER_free(ffi.Pointer<ASN1_INTEGER> str);
 @ffi.Native<ffi.Long Function(ffi.Pointer<ASN1_INTEGER>)>(
   symbol: 'bssl_dart_ASN1_INTEGER_get',
 )
-external int ASN1_INTEGER_get(ffi.Pointer<ASN1_INTEGER> a);
+external int ASN1_INTEGER_get(
+  ffi.Pointer<ASN1_INTEGER> a,
+);
 
 /// ASN1_INTEGER_get_int64 converts |a| to a |int64_t|. On success, it returns
 /// one and sets |*out| to the result. If |a| did not fit or has the wrong type,
@@ -690,21 +723,30 @@ external ffi.Pointer<ASN1_INTEGER> ASN1_INTEGER_new();
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_INTEGER>, ffi.Long)>(
   symbol: 'bssl_dart_ASN1_INTEGER_set',
 )
-external int ASN1_INTEGER_set(ffi.Pointer<ASN1_INTEGER> a, int v);
+external int ASN1_INTEGER_set(
+  ffi.Pointer<ASN1_INTEGER> a,
+  int v,
+);
 
 /// ASN1_INTEGER_set_int64 sets |a| to an INTEGER with value |v|. It returns one
 /// on success and zero on error.
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_INTEGER>, ffi.Int64)>(
   symbol: 'bssl_dart_ASN1_INTEGER_set_int64',
 )
-external int ASN1_INTEGER_set_int64(ffi.Pointer<ASN1_INTEGER> out, int v);
+external int ASN1_INTEGER_set_int64(
+  ffi.Pointer<ASN1_INTEGER> out,
+  int v,
+);
 
 /// ASN1_INTEGER_set_uint64 sets |a| to an INTEGER with value |v|. It returns one
 /// on success and zero on error.
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_INTEGER>, ffi.Uint64)>(
   symbol: 'bssl_dart_ASN1_INTEGER_set_uint64',
 )
-external int ASN1_INTEGER_set_uint64(ffi.Pointer<ASN1_INTEGER> out, int v);
+external int ASN1_INTEGER_set_uint64(
+  ffi.Pointer<ASN1_INTEGER> out,
+  int v,
+);
 
 /// ASN1_INTEGER_to_BN sets |bn| to the value of |ai| and returns |bn| on success
 /// or NULL or error. If |bn| is NULL, it returns a newly-allocated |BIGNUM| on
@@ -721,7 +763,9 @@ external ffi.Pointer<BIGNUM> ASN1_INTEGER_to_BN(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_NULL>)>(
   symbol: 'bssl_dart_ASN1_NULL_free',
 )
-external void ASN1_NULL_free(ffi.Pointer<ASN1_NULL> null$);
+external void ASN1_NULL_free(
+  ffi.Pointer<ASN1_NULL> null$,
+);
 
 /// ASN1_NULL_new returns an opaque, non-NULL pointer. It is safe to call
 /// |ASN1_NULL_free| on the result, but not necessary.
@@ -763,7 +807,9 @@ external ffi.Pointer<ASN1_OBJECT> ASN1_OBJECT_create(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_OBJECT>)>(
   symbol: 'bssl_dart_ASN1_OBJECT_free',
 )
-external void ASN1_OBJECT_free(ffi.Pointer<ASN1_OBJECT> a);
+external void ASN1_OBJECT_free(
+  ffi.Pointer<ASN1_OBJECT> a,
+);
 
 /// ASN1_OCTET_STRING_cmp calls |ASN1_STRING_cmp|.
 @ffi.Native<
@@ -788,7 +834,9 @@ external ffi.Pointer<ASN1_OCTET_STRING> ASN1_OCTET_STRING_dup(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_OCTET_STRING>)>(
   symbol: 'bssl_dart_ASN1_OCTET_STRING_free',
 )
-external void ASN1_OCTET_STRING_free(ffi.Pointer<ASN1_OCTET_STRING> str);
+external void ASN1_OCTET_STRING_free(
+  ffi.Pointer<ASN1_OCTET_STRING> str,
+);
 
 @ffi.Native<ffi.Pointer<ASN1_OCTET_STRING> Function()>(
   symbol: 'bssl_dart_ASN1_OCTET_STRING_new',
@@ -812,7 +860,9 @@ external int ASN1_OCTET_STRING_set(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_PRINTABLESTRING>)>(
   symbol: 'bssl_dart_ASN1_PRINTABLESTRING_free',
 )
-external void ASN1_PRINTABLESTRING_free(ffi.Pointer<ASN1_PRINTABLESTRING> str);
+external void ASN1_PRINTABLESTRING_free(
+  ffi.Pointer<ASN1_PRINTABLESTRING> str,
+);
 
 @ffi.Native<ffi.Pointer<ASN1_PRINTABLESTRING> Function()>(
   symbol: 'bssl_dart_ASN1_PRINTABLESTRING_new',
@@ -897,13 +947,17 @@ external ffi.Pointer<ffi.UnsignedChar> ASN1_STRING_data(
 @ffi.Native<ffi.Pointer<ASN1_STRING> Function(ffi.Pointer<ASN1_STRING>)>(
   symbol: 'bssl_dart_ASN1_STRING_dup',
 )
-external ffi.Pointer<ASN1_STRING> ASN1_STRING_dup(ffi.Pointer<ASN1_STRING> str);
+external ffi.Pointer<ASN1_STRING> ASN1_STRING_dup(
+  ffi.Pointer<ASN1_STRING> str,
+);
 
 /// ASN1_STRING_free releases memory associated with |str|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_STRING>)>(
   symbol: 'bssl_dart_ASN1_STRING_free',
 )
-external void ASN1_STRING_free(ffi.Pointer<ASN1_STRING> str);
+external void ASN1_STRING_free(
+  ffi.Pointer<ASN1_STRING> str,
+);
 
 /// ASN1_STRING_get0_data returns a pointer to |str|'s contents. Callers should
 /// use |ASN1_STRING_length| to determine the length of the string. The string
@@ -933,7 +987,9 @@ external int ASN1_STRING_get_default_mask();
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_STRING>)>(
   symbol: 'bssl_dart_ASN1_STRING_length',
 )
-external int ASN1_STRING_length(ffi.Pointer<ASN1_STRING> str);
+external int ASN1_STRING_length(
+  ffi.Pointer<ASN1_STRING> str,
+);
 
 /// ASN1_STRING_new returns a newly-allocated empty |ASN1_STRING| object with an
 /// arbitrary type. Prefer one of the type-specific constructors, such as
@@ -1069,13 +1125,17 @@ external ffi.Pointer<ASN1_STRING> ASN1_STRING_set_by_NID(
 @ffi.Native<ffi.Void Function(ffi.UnsignedLong)>(
   symbol: 'bssl_dart_ASN1_STRING_set_default_mask',
 )
-external void ASN1_STRING_set_default_mask(int mask);
+external void ASN1_STRING_set_default_mask(
+  int mask,
+);
 
 /// ASN1_STRING_set_default_mask_asc returns one.
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_ASN1_STRING_set_default_mask_asc',
 )
-external int ASN1_STRING_set_default_mask_asc(ffi.Pointer<ffi.Char> p);
+external int ASN1_STRING_set_default_mask_asc(
+  ffi.Pointer<ffi.Char> p,
+);
 
 /// ASN1_STRING_to_UTF8 converts |in| to UTF-8. On success, sets |*out| to a
 /// newly-allocated buffer containing the resulting string and returns the length
@@ -1097,19 +1157,25 @@ external int ASN1_STRING_to_UTF8(
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_STRING>)>(
   symbol: 'bssl_dart_ASN1_STRING_type',
 )
-external int ASN1_STRING_type(ffi.Pointer<ASN1_STRING> str);
+external int ASN1_STRING_type(
+  ffi.Pointer<ASN1_STRING> str,
+);
 
 /// ASN1_STRING_type_new returns a newly-allocated empty |ASN1_STRING| object of
 /// type |type|, or NULL on error.
 @ffi.Native<ffi.Pointer<ASN1_STRING> Function(ffi.Int)>(
   symbol: 'bssl_dart_ASN1_STRING_type_new',
 )
-external ffi.Pointer<ASN1_STRING> ASN1_STRING_type_new(int type);
+external ffi.Pointer<ASN1_STRING> ASN1_STRING_type_new(
+  int type,
+);
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_T61STRING>)>(
   symbol: 'bssl_dart_ASN1_T61STRING_free',
 )
-external void ASN1_T61STRING_free(ffi.Pointer<ASN1_T61STRING> str);
+external void ASN1_T61STRING_free(
+  ffi.Pointer<ASN1_T61STRING> str,
+);
 
 @ffi.Native<ffi.Pointer<ASN1_T61STRING> Function()>(
   symbol: 'bssl_dart_ASN1_T61STRING_new',
@@ -1145,7 +1211,9 @@ external ffi.Pointer<ASN1_TIME> ASN1_TIME_adj(
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_TIME>)>(
   symbol: 'bssl_dart_ASN1_TIME_check',
 )
-external int ASN1_TIME_check(ffi.Pointer<ASN1_TIME> t);
+external int ASN1_TIME_check(
+  ffi.Pointer<ASN1_TIME> t,
+);
 
 /// ASN1_TIME_diff computes |to| - |from|. On success, it sets |*out_days| to the
 /// difference in days, rounded towards zero, sets |*out_seconds| to the
@@ -1176,7 +1244,9 @@ external int ASN1_TIME_diff(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_TIME>)>(
   symbol: 'bssl_dart_ASN1_TIME_free',
 )
-external void ASN1_TIME_free(ffi.Pointer<ASN1_TIME> str);
+external void ASN1_TIME_free(
+  ffi.Pointer<ASN1_TIME> str,
+);
 
 /// ASN1_TIME_new returns a newly-allocated |ASN1_TIME| with type -1, or NULL on
 /// error. The resulting |ASN1_TIME| is not a valid X.509 Time until initialized
@@ -1191,7 +1261,10 @@ external ffi.Pointer<ASN1_TIME> ASN1_TIME_new();
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_TIME>)>(
   symbol: 'bssl_dart_ASN1_TIME_print',
 )
-external int ASN1_TIME_print(ffi.Pointer<BIO> out, ffi.Pointer<ASN1_TIME> a);
+external int ASN1_TIME_print(
+  ffi.Pointer<BIO> out,
+  ffi.Pointer<ASN1_TIME> a,
+);
 
 /// ASN1_TIME_set is exactly the same as |ASN1_TIME_set_posix| but with a
 /// time_t as input for compatibility.
@@ -1296,20 +1369,27 @@ external int ASN1_TIME_to_time_t(
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_TYPE>, ffi.Pointer<ASN1_TYPE>)>(
   symbol: 'bssl_dart_ASN1_TYPE_cmp',
 )
-external int ASN1_TYPE_cmp(ffi.Pointer<ASN1_TYPE> a, ffi.Pointer<ASN1_TYPE> b);
+external int ASN1_TYPE_cmp(
+  ffi.Pointer<ASN1_TYPE> a,
+  ffi.Pointer<ASN1_TYPE> b,
+);
 
 /// ASN1_TYPE_free releases memory associated with |a|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_TYPE>)>(
   symbol: 'bssl_dart_ASN1_TYPE_free',
 )
-external void ASN1_TYPE_free(ffi.Pointer<ASN1_TYPE> a);
+external void ASN1_TYPE_free(
+  ffi.Pointer<ASN1_TYPE> a,
+);
 
 /// ASN1_TYPE_get returns the type of |a|, which will be one of the |V_ASN1_*|
 /// constants, or zero if |a| is not fully initialized.
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_TYPE>)>(
   symbol: 'bssl_dart_ASN1_TYPE_get',
 )
-external int ASN1_TYPE_get(ffi.Pointer<ASN1_TYPE> a);
+external int ASN1_TYPE_get(
+  ffi.Pointer<ASN1_TYPE> a,
+);
 
 /// ASN1_TYPE_new returns a newly-allocated |ASN1_TYPE|, or NULL on allocation
 /// failure. The resulting object has type -1 and must be initialized to be
@@ -1354,7 +1434,9 @@ external int ASN1_TYPE_set1(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_UNIVERSALSTRING>)>(
   symbol: 'bssl_dart_ASN1_UNIVERSALSTRING_free',
 )
-external void ASN1_UNIVERSALSTRING_free(ffi.Pointer<ASN1_UNIVERSALSTRING> str);
+external void ASN1_UNIVERSALSTRING_free(
+  ffi.Pointer<ASN1_UNIVERSALSTRING> str,
+);
 
 @ffi.Native<ffi.Pointer<ASN1_UNIVERSALSTRING> Function()>(
   symbol: 'bssl_dart_ASN1_UNIVERSALSTRING_new',
@@ -1387,13 +1469,17 @@ external ffi.Pointer<ASN1_UTCTIME> ASN1_UTCTIME_adj(
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_UTCTIME>)>(
   symbol: 'bssl_dart_ASN1_UTCTIME_check',
 )
-external int ASN1_UTCTIME_check(ffi.Pointer<ASN1_UTCTIME> a);
+external int ASN1_UTCTIME_check(
+  ffi.Pointer<ASN1_UTCTIME> a,
+);
 
 /// ASN1_UTCTIME_free calls |ASN1_STRING_free|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_UTCTIME>)>(
   symbol: 'bssl_dart_ASN1_UTCTIME_free',
 )
-external void ASN1_UTCTIME_free(ffi.Pointer<ASN1_UTCTIME> str);
+external void ASN1_UTCTIME_free(
+  ffi.Pointer<ASN1_UTCTIME> str,
+);
 
 /// ASN1_UTCTIME_new calls |ASN1_STRING_type_new| with |V_ASN1_UTCTIME|. The
 /// resulting object contains empty contents and must be initialized to be a
@@ -1442,7 +1528,9 @@ external int ASN1_UTCTIME_set_string(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_UTF8STRING>)>(
   symbol: 'bssl_dart_ASN1_UTF8STRING_free',
 )
-external void ASN1_UTF8STRING_free(ffi.Pointer<ASN1_UTF8STRING> str);
+external void ASN1_UTF8STRING_free(
+  ffi.Pointer<ASN1_UTF8STRING> str,
+);
 
 @ffi.Native<ffi.Pointer<ASN1_UTF8STRING> Function()>(
   symbol: 'bssl_dart_ASN1_UTF8STRING_new',
@@ -1452,7 +1540,9 @@ external ffi.Pointer<ASN1_UTF8STRING> ASN1_UTF8STRING_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_VISIBLESTRING>)>(
   symbol: 'bssl_dart_ASN1_VISIBLESTRING_free',
 )
-external void ASN1_VISIBLESTRING_free(ffi.Pointer<ASN1_VISIBLESTRING> str);
+external void ASN1_VISIBLESTRING_free(
+  ffi.Pointer<ASN1_VISIBLESTRING> str,
+);
 
 @ffi.Native<ffi.Pointer<ASN1_VISIBLESTRING> Function()>(
   symbol: 'bssl_dart_ASN1_VISIBLESTRING_new',
@@ -1711,7 +1801,9 @@ external int ASN1_item_i2d_fp(
 @ffi.Native<ffi.Pointer<ASN1_VALUE> Function(ffi.Pointer<ASN1_ITEM>)>(
   symbol: 'bssl_dart_ASN1_item_new',
 )
-external ffi.Pointer<ASN1_VALUE> ASN1_item_new(ffi.Pointer<ASN1_ITEM> it);
+external ffi.Pointer<ASN1_VALUE> ASN1_item_new(
+  ffi.Pointer<ASN1_ITEM> it,
+);
 
 /// ASN1_item_pack marshals |obj| as |it|'s ASN.1 type. If |out| is NULL, it
 /// returns a newly-allocated |ASN1_STRING| with the result, or NULL on error.
@@ -1919,7 +2011,11 @@ external int ASN1_mbstring_ncopy(
 @ffi.Native<ffi.Int Function(ffi.Int, ffi.Int, ffi.Int)>(
   symbol: 'bssl_dart_ASN1_object_size',
 )
-external int ASN1_object_size(int constructed, int length, int tag);
+external int ASN1_object_size(
+  int constructed,
+  int length,
+  int tag,
+);
 
 /// ASN1_put_eoc writes two zero bytes to |*outp|, advances |*outp| to point past
 /// those bytes, and returns two.
@@ -1928,7 +2024,9 @@ external int ASN1_object_size(int constructed, int length, int tag);
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>)>(
   symbol: 'bssl_dart_ASN1_put_eoc',
 )
-external int ASN1_put_eoc(ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>> outp);
+external int ASN1_put_eoc(
+  ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>> outp,
+);
 
 /// ASN1_put_object writes the header for a DER or BER element to |*outp| and
 /// advances |*outp| by the number of bytes written. The caller is responsible
@@ -1962,14 +2060,18 @@ external void ASN1_put_object(
 @ffi.Native<ffi.UnsignedLong Function(ffi.Int)>(
   symbol: 'bssl_dart_ASN1_tag2bit',
 )
-external int ASN1_tag2bit(int tag);
+external int ASN1_tag2bit(
+  int tag,
+);
 
 /// ASN1_tag2str returns a string representation of |tag|, interpret as a tag
 /// number for a universal type, or |V_ASN1_NEG_*|.
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Int)>(
   symbol: 'bssl_dart_ASN1_tag2str',
 )
-external ffi.Pointer<ffi.Char> ASN1_tag2str(int tag);
+external ffi.Pointer<ffi.Char> ASN1_tag2str(
+  int tag,
+);
 
 /// AUTHORITY_INFO_ACCESS_free releases memory associated with |aia|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<AUTHORITY_INFO_ACCESS>)>(
@@ -1990,7 +2092,9 @@ external ffi.Pointer<AUTHORITY_INFO_ACCESS> AUTHORITY_INFO_ACCESS_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<AUTHORITY_KEYID>)>(
   symbol: 'bssl_dart_AUTHORITY_KEYID_free',
 )
-external void AUTHORITY_KEYID_free(ffi.Pointer<AUTHORITY_KEYID> akid);
+external void AUTHORITY_KEYID_free(
+  ffi.Pointer<AUTHORITY_KEYID> akid,
+);
 
 /// AUTHORITY_KEYID_new returns a newly-allocated, empty |AUTHORITY_KEYID|
 /// object, or NULL on error.
@@ -2003,7 +2107,9 @@ external ffi.Pointer<AUTHORITY_KEYID> AUTHORITY_KEYID_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<BASIC_CONSTRAINTS>)>(
   symbol: 'bssl_dart_BASIC_CONSTRAINTS_free',
 )
-external void BASIC_CONSTRAINTS_free(ffi.Pointer<BASIC_CONSTRAINTS> bcons);
+external void BASIC_CONSTRAINTS_free(
+  ffi.Pointer<BASIC_CONSTRAINTS> bcons,
+);
 
 /// BASIC_CONSTRAINTS_new returns a newly-allocated, empty |BASIC_CONSTRAINTS|
 /// object, or NULL on error.
@@ -2042,21 +2148,28 @@ external int BIO_callback_ctrl(
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_clear_flags',
 )
-external void BIO_clear_flags(ffi.Pointer<BIO> bio, int flags);
+external void BIO_clear_flags(
+  ffi.Pointer<BIO> bio,
+  int flags,
+);
 
 /// BIO_clear_retry_flags clears the |BIO_FLAGS_READ|, |BIO_FLAGS_WRITE|,
 /// |BIO_FLAGS_IO_SPECIAL| and |BIO_FLAGS_SHOULD_RETRY| flags from |bio|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_clear_retry_flags',
 )
-external void BIO_clear_retry_flags(ffi.Pointer<BIO> bio);
+external void BIO_clear_retry_flags(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_copy_next_retry sets the retry flags and |retry_reason| of |bio| from
 /// the next BIO in the chain.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_copy_next_retry',
 )
-external void BIO_copy_next_retry(ffi.Pointer<BIO> bio);
+external void BIO_copy_next_retry(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_ctrl sends the control request |cmd| to |bio|. The |cmd| argument should
 /// be one of the |BIO_C_*| values.
@@ -2075,7 +2188,9 @@ external int BIO_ctrl(
 @ffi.Native<ffi.Size Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_ctrl_get_read_request',
 )
-external int BIO_ctrl_get_read_request(ffi.Pointer<BIO> bio);
+external int BIO_ctrl_get_read_request(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_ctrl_get_write_guarantee returns the number of bytes that |bio| (which
 /// must have been returned by |BIO_new_bio_pair|) will accept on the next
@@ -2083,27 +2198,35 @@ external int BIO_ctrl_get_read_request(ffi.Pointer<BIO> bio);
 @ffi.Native<ffi.Size Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_ctrl_get_write_guarantee',
 )
-external int BIO_ctrl_get_write_guarantee(ffi.Pointer<BIO> bio);
+external int BIO_ctrl_get_write_guarantee(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_ctrl_pending calls |BIO_pending| and exists only for compatibility with
 /// OpenSSL.
 @ffi.Native<ffi.Size Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_ctrl_pending',
 )
-external int BIO_ctrl_pending(ffi.Pointer<BIO> bio);
+external int BIO_ctrl_pending(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_do_connect connects |bio| if it has not been connected yet. It returns
 /// one on success and <= 0 otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_do_connect',
 )
-external int BIO_do_connect(ffi.Pointer<BIO> bio);
+external int BIO_do_connect(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_eof returns non-zero when |bio| has reached end-of-file. The precise
 /// meaning of which depends on the concrete type of |bio|. Note that in the
 /// case of BIO_pair this always returns non-zero.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(symbol: 'bssl_dart_BIO_eof')
-external int BIO_eof(ffi.Pointer<BIO> bio);
+external int BIO_eof(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_f_base64 returns a filter |BIO| that base64-encodes data written into
 /// it, and decodes data read from it. |BIO_gets| is not supported. Call
@@ -2128,12 +2251,17 @@ external ffi.Pointer<BIO_METHOD> BIO_f_base64();
 @ffi.Native<ffi.Pointer<BIO> Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_find_type',
 )
-external ffi.Pointer<BIO> BIO_find_type(ffi.Pointer<BIO> bio, int type);
+external ffi.Pointer<BIO> BIO_find_type(
+  ffi.Pointer<BIO> bio,
+  int type,
+);
 
 /// BIO_flush flushes any buffered output. It returns one on success and zero
 /// otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(symbol: 'bssl_dart_BIO_flush')
-external int BIO_flush(ffi.Pointer<BIO> bio);
+external int BIO_flush(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_free decrements the reference count of |bio|. If the reference count
 /// drops to zero, it calls the destroy callback, if present, on the method and
@@ -2150,14 +2278,18 @@ external int BIO_flush(ffi.Pointer<BIO> bio);
 /// use-after-free, each part of the application must release only the reference
 /// counts it owns.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(symbol: 'bssl_dart_BIO_free')
-external int BIO_free(ffi.Pointer<BIO> bio);
+external int BIO_free(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_free_all calls |BIO_free|. Code that targets BoringSSL does not need to
 /// call a separate free function for |BIO|s that are part of a chain.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_free_all',
 )
-external void BIO_free_all(ffi.Pointer<BIO> bio);
+external void BIO_free_all(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_get_data returns custom data on |bio| set by |BIO_get_data|.
 ///
@@ -2167,12 +2299,17 @@ external void BIO_free_all(ffi.Pointer<BIO> bio);
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_get_data',
 )
-external ffi.Pointer<ffi.Void> BIO_get_data(ffi.Pointer<BIO> bio);
+external ffi.Pointer<ffi.Void> BIO_get_data(
+  ffi.Pointer<BIO> bio,
+);
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_get_ex_data',
 )
-external ffi.Pointer<ffi.Void> BIO_get_ex_data(ffi.Pointer<BIO> bio, int idx);
+external ffi.Pointer<ffi.Void> BIO_get_ex_data(
+  ffi.Pointer<BIO> bio,
+  int idx,
+);
 
 /// ex_data functions.
 ///
@@ -2203,7 +2340,10 @@ external int BIO_get_ex_new_index(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Int>)>(
   symbol: 'bssl_dart_BIO_get_fd',
 )
-external int BIO_get_fd(ffi.Pointer<BIO> bio, ffi.Pointer<ffi.Int> out_fd);
+external int BIO_get_fd(
+  ffi.Pointer<BIO> bio,
+  ffi.Pointer<ffi.Int> out_fd,
+);
 
 /// BIO_get_fp sets |*out_file| to the current |FILE| for |bio|. It returns one
 /// on success and zero otherwise.
@@ -2219,7 +2359,9 @@ external int BIO_get_fp(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_get_init',
 )
-external int BIO_get_init(ffi.Pointer<BIO> bio);
+external int BIO_get_init(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_get_mem_data sets |*contents| to point to the current contents of |bio|
 /// and returns the length of the data.
@@ -2255,20 +2397,26 @@ external int BIO_get_new_index();
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_get_retry_flags',
 )
-external int BIO_get_retry_flags(ffi.Pointer<BIO> bio);
+external int BIO_get_retry_flags(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_get_retry_reason returns the special I/O operation that needs to be
 /// retried. The return value is one of the |BIO_RR_*| values.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_get_retry_reason',
 )
-external int BIO_get_retry_reason(ffi.Pointer<BIO> bio);
+external int BIO_get_retry_reason(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_get_shutdown returns the method-specific "shutdown" bit.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_get_shutdown',
 )
-external int BIO_get_shutdown(ffi.Pointer<BIO> bio);
+external int BIO_get_shutdown(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_gets reads a line from |bio| and writes at most |size| bytes into |buf|.
 /// It returns the number of bytes read or a negative number on error. This
@@ -2309,14 +2457,23 @@ external int BIO_hexdump(
 @ffi.Native<
   ffi.Int Function(ffi.Pointer<BIO>, ffi.UnsignedInt, ffi.UnsignedInt)
 >(symbol: 'bssl_dart_BIO_indent')
-external int BIO_indent(ffi.Pointer<BIO> bio, int indent, int max_indent);
+external int BIO_indent(
+  ffi.Pointer<BIO> bio,
+  int indent,
+  int max_indent,
+);
 
 /// BIO_int_ctrl acts like |BIO_ctrl| but passes the address of a copy of |iarg|
 /// as |parg|.
 @ffi.Native<ffi.Long Function(ffi.Pointer<BIO>, ffi.Int, ffi.Long, ffi.Int)>(
   symbol: 'bssl_dart_BIO_int_ctrl',
 )
-external int BIO_int_ctrl(ffi.Pointer<BIO> bp, int cmd, int larg, int iarg);
+external int BIO_int_ctrl(
+  ffi.Pointer<BIO> bp,
+  int cmd,
+  int larg,
+  int iarg,
+);
 
 /// BIO_mem_contents sets |*out_contents| to point to the current contents of
 /// |bio| and |*out_len| to contain the length of that data. It returns one on
@@ -2338,7 +2495,9 @@ external int BIO_mem_contents(
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO_METHOD>)>(
   symbol: 'bssl_dart_BIO_meth_free',
 )
-external void BIO_meth_free(ffi.Pointer<BIO_METHOD> method);
+external void BIO_meth_free(
+  ffi.Pointer<BIO_METHOD> method,
+);
 
 @ffi.Native<
   ffi.Pointer<
@@ -2353,7 +2512,9 @@ external ffi.Pointer<
     ffi.Long Function(ffi.Pointer<BIO>, ffi.Int, ffi.Pointer<BIO_info_cb>)
   >
 >
-BIO_meth_get_callback_ctrl(ffi.Pointer<BIO_METHOD> method);
+BIO_meth_get_callback_ctrl(
+  ffi.Pointer<BIO_METHOD> method,
+);
 
 @ffi.Native<
   ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>> Function(
@@ -2361,7 +2522,9 @@ BIO_meth_get_callback_ctrl(ffi.Pointer<BIO_METHOD> method);
   )
 >(symbol: 'bssl_dart_BIO_meth_get_create')
 external ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
-BIO_meth_get_create(ffi.Pointer<BIO_METHOD> method);
+BIO_meth_get_create(
+  ffi.Pointer<BIO_METHOD> method,
+);
 
 @ffi.Native<
   ffi.Pointer<
@@ -2386,7 +2549,9 @@ external ffi.Pointer<
     )
   >
 >
-BIO_meth_get_ctrl(ffi.Pointer<BIO_METHOD> method);
+BIO_meth_get_ctrl(
+  ffi.Pointer<BIO_METHOD> method,
+);
 
 @ffi.Native<
   ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>> Function(
@@ -2394,7 +2559,9 @@ BIO_meth_get_ctrl(ffi.Pointer<BIO_METHOD> method);
   )
 >(symbol: 'bssl_dart_BIO_meth_get_destroy')
 external ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
-BIO_meth_get_destroy(ffi.Pointer<BIO_METHOD> method);
+BIO_meth_get_destroy(
+  ffi.Pointer<BIO_METHOD> method,
+);
 
 @ffi.Native<
   ffi.Pointer<
@@ -2409,7 +2576,9 @@ external ffi.Pointer<
     ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>, ffi.Int)
   >
 >
-BIO_meth_get_gets(ffi.Pointer<BIO_METHOD> method);
+BIO_meth_get_gets(
+  ffi.Pointer<BIO_METHOD> method,
+);
 
 @ffi.Native<
   ffi.Pointer<
@@ -2422,7 +2591,9 @@ BIO_meth_get_gets(ffi.Pointer<BIO_METHOD> method);
 external ffi.Pointer<
   ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)>
 >
-BIO_meth_get_puts(ffi.Pointer<BIO_METHOD> method);
+BIO_meth_get_puts(
+  ffi.Pointer<BIO_METHOD> method,
+);
 
 @ffi.Native<
   ffi.Pointer<
@@ -2437,7 +2608,9 @@ external ffi.Pointer<
     ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>, ffi.Int)
   >
 >
-BIO_meth_get_read(ffi.Pointer<BIO_METHOD> method);
+BIO_meth_get_read(
+  ffi.Pointer<BIO_METHOD> method,
+);
 
 /// The following functions return function pointers, possibly NULL, which are
 /// compatible with the corresponding |BIO_meth_set_*| function. |method| must be
@@ -2475,7 +2648,9 @@ external ffi.Pointer<
     ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>, ffi.Int)
   >
 >
-BIO_meth_get_write(ffi.Pointer<BIO_METHOD> method);
+BIO_meth_get_write(
+  ffi.Pointer<BIO_METHOD> method,
+);
 
 /// BIO_meth_new returns a newly-allocated |BIO_METHOD| or NULL on allocation
 /// error. The |type| specifies the type that will be returned by
@@ -2678,14 +2853,18 @@ external int BIO_meth_set_write(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_method_type',
 )
-external int BIO_method_type(ffi.Pointer<BIO> bio);
+external int BIO_method_type(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_new creates a new BIO with the given method and a reference count of one.
 /// It returns the fresh |BIO|, or NULL on error.
 @ffi.Native<ffi.Pointer<BIO> Function(ffi.Pointer<BIO_METHOD>)>(
   symbol: 'bssl_dart_BIO_new',
 )
-external ffi.Pointer<BIO> BIO_new(ffi.Pointer<BIO_METHOD> method);
+external ffi.Pointer<BIO> BIO_new(
+  ffi.Pointer<BIO_METHOD> method,
+);
 
 /// BIO_new_bio_pair sets |*out1| and |*out2| to two freshly created BIOs where
 /// data written to one can be read from the other and vice versa. The
@@ -2724,7 +2903,10 @@ external ffi.Pointer<BIO> BIO_new_connect(
 @ffi.Native<ffi.Pointer<BIO> Function(ffi.Int, ffi.Int)>(
   symbol: 'bssl_dart_BIO_new_fd',
 )
-external ffi.Pointer<BIO> BIO_new_fd(int fd, int close_flag);
+external ffi.Pointer<BIO> BIO_new_fd(
+  int fd,
+  int close_flag,
+);
 
 /// BIO_new_file creates a file BIO by opening |filename| with the given mode.
 /// See the |fopen| manual page for details of the mode argument. On Windows,
@@ -2759,7 +2941,10 @@ external ffi.Pointer<BIO> BIO_new_file(
 @ffi.Native<ffi.Pointer<BIO> Function(ffi.Pointer<FILE>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_new_fp',
 )
-external ffi.Pointer<BIO> BIO_new_fp(ffi.Pointer<FILE> file, int flags);
+external ffi.Pointer<BIO> BIO_new_fp(
+  ffi.Pointer<FILE> file,
+  int flags,
+);
 
 /// BIO_new_mem_buf creates read-only BIO that reads from |len| bytes at |buf|.
 /// It returns the BIO or NULL on error. This function does not copy or take
@@ -2771,7 +2956,10 @@ external ffi.Pointer<BIO> BIO_new_fp(ffi.Pointer<FILE> file, int flags);
 @ffi.Native<ffi.Pointer<BIO> Function(ffi.Pointer<ffi.Void>, ossl_ssize_t)>(
   symbol: 'bssl_dart_BIO_new_mem_buf',
 )
-external ffi.Pointer<BIO> BIO_new_mem_buf(ffi.Pointer<ffi.Void> buf, int len);
+external ffi.Pointer<BIO> BIO_new_mem_buf(
+  ffi.Pointer<ffi.Void> buf,
+  int len,
+);
 
 /// BIO_new_socket allocates and initialises a fresh BIO which will read and
 /// write to the socket |fd|. If |close_flag| is |BIO_CLOSE| then closing the
@@ -2779,34 +2967,45 @@ external ffi.Pointer<BIO> BIO_new_mem_buf(ffi.Pointer<ffi.Void> buf, int len);
 @ffi.Native<ffi.Pointer<BIO> Function(ffi.Int, ffi.Int)>(
   symbol: 'bssl_dart_BIO_new_socket',
 )
-external ffi.Pointer<BIO> BIO_new_socket(int fd, int close_flag);
+external ffi.Pointer<BIO> BIO_new_socket(
+  int fd,
+  int close_flag,
+);
 
 /// BIO_next returns the next BIO in the chain after |bio|, or NULL if there is
 /// no such BIO.
 @ffi.Native<ffi.Pointer<BIO> Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_next',
 )
-external ffi.Pointer<BIO> BIO_next(ffi.Pointer<BIO> bio);
+external ffi.Pointer<BIO> BIO_next(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_number_read returns the number of bytes that have been read from
 /// |bio|.
 @ffi.Native<ffi.Uint64 Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_number_read',
 )
-external int BIO_number_read(ffi.Pointer<BIO> bio);
+external int BIO_number_read(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_number_written returns the number of bytes that have been written to
 /// |bio|.
 @ffi.Native<ffi.Uint64 Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_number_written',
 )
-external int BIO_number_written(ffi.Pointer<BIO> bio);
+external int BIO_number_written(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_pending returns the number of bytes pending to be read.
 @ffi.Native<ffi.Size Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_pending',
 )
-external int BIO_pending(ffi.Pointer<BIO> bio);
+external int BIO_pending(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_pop removes |bio| from the head of a chain and returns the next BIO in
 /// the chain, or NULL if there is no next BIO.
@@ -2815,14 +3014,19 @@ external int BIO_pending(ffi.Pointer<BIO> bio);
 @ffi.Native<ffi.Pointer<BIO> Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_pop',
 )
-external ffi.Pointer<BIO> BIO_pop(ffi.Pointer<BIO> bio);
+external ffi.Pointer<BIO> BIO_pop(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_printf behaves like |printf| but outputs to |bio| rather than a |FILE|.
 /// It returns the number of bytes written or a negative number on error.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_BIO_printf',
 )
-external int BIO_printf(ffi.Pointer<BIO> bio, ffi.Pointer<ffi.Char> format);
+external int BIO_printf(
+  ffi.Pointer<BIO> bio,
+  ffi.Pointer<ffi.Char> format,
+);
 
 /// BIO_ptr_ctrl acts like |BIO_ctrl| but passes the address of a |void*|
 /// pointer as |parg| and returns the value that is written to it, or NULL if
@@ -2854,7 +3058,10 @@ external ffi.Pointer<BIO> BIO_push(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_BIO_puts',
 )
-external int BIO_puts(ffi.Pointer<BIO> bio, ffi.Pointer<ffi.Char> buf);
+external int BIO_puts(
+  ffi.Pointer<BIO> bio,
+  ffi.Pointer<ffi.Char> buf,
+);
 
 /// BIO_read attempts to read |len| bytes into |data|. It returns the number of
 /// bytes read, zero on EOF, or a negative number on error.
@@ -2914,7 +3121,9 @@ external int BIO_read_filename(
 /// WARNING: This function's return value conventions differs from most functions
 /// in this library.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(symbol: 'bssl_dart_BIO_reset')
-external int BIO_reset(ffi.Pointer<BIO> bio);
+external int BIO_reset(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_rw_filename opens |filename| for reading and writing and sets the result
 /// as the |FILE| for |bio|. It returns one on success and zero otherwise. The
@@ -2963,7 +3172,10 @@ external ffi.Pointer<BIO_METHOD> BIO_s_socket();
 @ffi.Native<ffi.Long Function(ffi.Pointer<BIO>, ffi.Long)>(
   symbol: 'bssl_dart_BIO_seek',
 )
-external int BIO_seek(ffi.Pointer<BIO> bio, int offset);
+external int BIO_seek(
+  ffi.Pointer<BIO> bio,
+  int offset,
+);
 
 /// BIO_set_close sets the close flag for |bio|. The meaning of which depends on
 /// the type of |bio| but, for example, a memory BIO interprets the close flag
@@ -2972,7 +3184,10 @@ external int BIO_seek(ffi.Pointer<BIO> bio, int offset);
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_set_close',
 )
-external int BIO_set_close(ffi.Pointer<BIO> bio, int close_flag);
+external int BIO_set_close(
+  ffi.Pointer<BIO> bio,
+  int close_flag,
+);
 
 /// BIO_set_conn_hostname sets |host_and_optional_port| as the hostname and
 /// optional port that |bio| will connect to. If the port is omitted, it must be
@@ -3016,7 +3231,10 @@ external int BIO_set_conn_port(
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Void>)>(
   symbol: 'bssl_dart_BIO_set_data',
 )
-external void BIO_set_data(ffi.Pointer<BIO> bio, ffi.Pointer<ffi.Void> ptr);
+external void BIO_set_data(
+  ffi.Pointer<BIO> bio,
+  ffi.Pointer<ffi.Void> ptr,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int, ffi.Pointer<ffi.Void>)>(
   symbol: 'bssl_dart_BIO_set_ex_data',
@@ -3036,14 +3254,21 @@ external int BIO_set_ex_data(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int, ffi.Int)>(
   symbol: 'bssl_dart_BIO_set_fd',
 )
-external int BIO_set_fd(ffi.Pointer<BIO> bio, int fd, int close_flag);
+external int BIO_set_fd(
+  ffi.Pointer<BIO> bio,
+  int fd,
+  int close_flag,
+);
 
 /// BIO_set_flags ORs |flags| with |bio->flags|. Unless otherwise documented,
 /// flags are private to either BoringSSL or the custom |BIO_METHOD|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_set_flags',
 )
-external void BIO_set_flags(ffi.Pointer<BIO> bio, int flags);
+external void BIO_set_flags(
+  ffi.Pointer<BIO> bio,
+  int flags,
+);
 
 /// BIO_set_fp sets the |FILE| for |bio|. If |flags| contains |BIO_CLOSE| then
 /// |fclose| will be called on |file| when |bio| is closed. It returns one on
@@ -3078,7 +3303,10 @@ external int BIO_set_fp(
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_set_init',
 )
-external void BIO_set_init(ffi.Pointer<BIO> bio, int init);
+external void BIO_set_init(
+  ffi.Pointer<BIO> bio,
+  int init,
+);
 
 /// BIO_set_mem_buf sets |b| as the contents of |bio|. If |take_ownership| is
 /// non-zero, then |b| will be freed when |bio| is closed. Returns one on
@@ -3105,7 +3333,10 @@ external int BIO_set_mem_buf(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_set_mem_eof_return',
 )
-external int BIO_set_mem_eof_return(ffi.Pointer<BIO> bio, int eof_value);
+external int BIO_set_mem_eof_return(
+  ffi.Pointer<BIO> bio,
+  int eof_value,
+);
 
 /// BIO_set_nbio sets whether |bio| will use non-blocking I/O operations. It
 /// returns one on success and zero otherwise. This only works for connect BIOs
@@ -3116,45 +3347,63 @@ external int BIO_set_mem_eof_return(ffi.Pointer<BIO> bio, int eof_value);
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_set_nbio',
 )
-external int BIO_set_nbio(ffi.Pointer<BIO> bio, int on);
+external int BIO_set_nbio(
+  ffi.Pointer<BIO> bio,
+  int on,
+);
 
 /// BIO_set_retry_read sets the |BIO_FLAGS_READ| and |BIO_FLAGS_SHOULD_RETRY|
 /// flags on |bio|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_set_retry_read',
 )
-external void BIO_set_retry_read(ffi.Pointer<BIO> bio);
+external void BIO_set_retry_read(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_set_retry_reason sets the special I/O operation that needs to be retried
 /// to |reason|, which should be one of the |BIO_RR_*| values.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_set_retry_reason',
 )
-external void BIO_set_retry_reason(ffi.Pointer<BIO> bio, int reason);
+external void BIO_set_retry_reason(
+  ffi.Pointer<BIO> bio,
+  int reason,
+);
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_set_retry_special',
 )
-external void BIO_set_retry_special(ffi.Pointer<BIO> bio);
+external void BIO_set_retry_special(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_set_retry_write sets the |BIO_FLAGS_WRITE| and |BIO_FLAGS_SHOULD_RETRY|
 /// flags on |bio|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_set_retry_write',
 )
-external void BIO_set_retry_write(ffi.Pointer<BIO> bio);
+external void BIO_set_retry_write(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_set_shutdown sets a method-specific "shutdown" bit on |bio|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_set_shutdown',
 )
-external void BIO_set_shutdown(ffi.Pointer<BIO> bio, int shutdown);
+external void BIO_set_shutdown(
+  ffi.Pointer<BIO> bio,
+  int shutdown,
+);
 
 /// BIO_set_write_buffer_size returns zero.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_set_write_buffer_size',
 )
-external int BIO_set_write_buffer_size(ffi.Pointer<BIO> bio, int buffer_size);
+external int BIO_set_write_buffer_size(
+  ffi.Pointer<BIO> bio,
+  int buffer_size,
+);
 
 /// BIO_should_io_special returns non-zero if |bio| encountered a temporary
 /// error while performing a special I/O operation, indicating that the caller
@@ -3163,7 +3412,9 @@ external int BIO_set_write_buffer_size(ffi.Pointer<BIO> bio, int buffer_size);
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_should_io_special',
 )
-external int BIO_should_io_special(ffi.Pointer<BIO> bio);
+external int BIO_should_io_special(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_should_read returns non-zero if |bio| encountered a temporary error
 /// while reading (i.e. EAGAIN), indicating that the caller should retry the
@@ -3171,7 +3422,9 @@ external int BIO_should_io_special(ffi.Pointer<BIO> bio);
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_should_read',
 )
-external int BIO_should_read(ffi.Pointer<BIO> bio);
+external int BIO_should_read(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_should_retry returns non-zero if the reason that caused a failed I/O
 /// operation is temporary and thus the operation should be retried. Otherwise,
@@ -3179,7 +3432,9 @@ external int BIO_should_read(ffi.Pointer<BIO> bio);
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_should_retry',
 )
-external int BIO_should_retry(ffi.Pointer<BIO> bio);
+external int BIO_should_retry(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_should_write returns non-zero if |bio| encountered a temporary error
 /// while writing (i.e. EAGAIN), indicating that the caller should retry the
@@ -3187,7 +3442,9 @@ external int BIO_should_retry(ffi.Pointer<BIO> bio);
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_should_write',
 )
-external int BIO_should_write(ffi.Pointer<BIO> bio);
+external int BIO_should_write(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_shutdown_wr marks |bio| as closed, from the point of view of the other
 /// side of the pair. Future |BIO_write| calls on |bio| will fail. It returns
@@ -3195,7 +3452,9 @@ external int BIO_should_write(ffi.Pointer<BIO> bio);
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_shutdown_wr',
 )
-external int BIO_shutdown_wr(ffi.Pointer<BIO> bio);
+external int BIO_shutdown_wr(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_snprintf has the same behavior as snprintf(3).
 @ffi.Native<
@@ -3213,24 +3472,33 @@ external int BIO_snprintf(
 /// TODO(crbug.com/42290329): On platforms where |long| is 32-bit, this function
 /// cannot report 64-bit offsets.
 @ffi.Native<ffi.Long Function(ffi.Pointer<BIO>)>(symbol: 'bssl_dart_BIO_tell')
-external int BIO_tell(ffi.Pointer<BIO> bio);
+external int BIO_tell(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_test_flags returns |bio->flags| AND |flags|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int)>(
   symbol: 'bssl_dart_BIO_test_flags',
 )
-external int BIO_test_flags(ffi.Pointer<BIO> bio, int flags);
+external int BIO_test_flags(
+  ffi.Pointer<BIO> bio,
+  int flags,
+);
 
 /// BIO_up_ref increments the reference count of |bio| and returns one.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>)>(symbol: 'bssl_dart_BIO_up_ref')
-external int BIO_up_ref(ffi.Pointer<BIO> bio);
+external int BIO_up_ref(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_vfree performs the same actions as |BIO_free|, but has a void return
 /// value. This is provided for API-compat.
 ///
 /// TODO(fork): remove.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>)>(symbol: 'bssl_dart_BIO_vfree')
-external void BIO_vfree(ffi.Pointer<BIO> bio);
+external void BIO_vfree(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_vsnprintf has the same behavior as vsnprintf(3).
 @ffi.Native<
@@ -3252,7 +3520,9 @@ external int BIO_vsnprintf(
 @ffi.Native<ffi.Size Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_BIO_wpending',
 )
-external int BIO_wpending(ffi.Pointer<BIO> bio);
+external int BIO_wpending(
+  ffi.Pointer<BIO> bio,
+);
 
 /// BIO_write writes |len| bytes from |data| to |bio|. It returns the number of
 /// bytes written or a negative number on error.
@@ -3293,14 +3563,18 @@ external int BIO_write_filename(
 @ffi.Native<ffi.Void Function(ffi.Pointer<BN_CTX>)>(
   symbol: 'bssl_dart_BN_CTX_end',
 )
-external void BN_CTX_end(ffi.Pointer<BN_CTX> ctx);
+external void BN_CTX_end(
+  ffi.Pointer<BN_CTX> ctx,
+);
 
 /// BN_CTX_free frees all BIGNUMs contained in |ctx| and then frees |ctx|
 /// itself.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BN_CTX>)>(
   symbol: 'bssl_dart_BN_CTX_free',
 )
-external void BN_CTX_free(ffi.Pointer<BN_CTX> ctx);
+external void BN_CTX_free(
+  ffi.Pointer<BN_CTX> ctx,
+);
 
 /// BN_CTX_get returns a new |BIGNUM|, or NULL on allocation failure. Once
 /// |BN_CTX_get| has returned NULL, all future calls will also return NULL until
@@ -3308,7 +3582,9 @@ external void BN_CTX_free(ffi.Pointer<BN_CTX> ctx);
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BN_CTX>)>(
   symbol: 'bssl_dart_BN_CTX_get',
 )
-external ffi.Pointer<BIGNUM> BN_CTX_get(ffi.Pointer<BN_CTX> ctx);
+external ffi.Pointer<BIGNUM> BN_CTX_get(
+  ffi.Pointer<BN_CTX> ctx,
+);
 
 /// BN_CTX_new returns a new, empty BN_CTX or NULL on allocation failure.
 @ffi.Native<ffi.Pointer<BN_CTX> Function()>(symbol: 'bssl_dart_BN_CTX_new')
@@ -3319,26 +3595,36 @@ external ffi.Pointer<BN_CTX> BN_CTX_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<BN_CTX>)>(
   symbol: 'bssl_dart_BN_CTX_start',
 )
-external void BN_CTX_start(ffi.Pointer<BN_CTX> ctx);
+external void BN_CTX_start(
+  ffi.Pointer<BN_CTX> ctx,
+);
 
 /// BN_GENCB_call calls |callback|, if not NULL, and returns the return value of
 /// the callback, or 1 if |callback| is NULL.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BN_GENCB>, ffi.Int, ffi.Int)>(
   symbol: 'bssl_dart_BN_GENCB_call',
 )
-external int BN_GENCB_call(ffi.Pointer<BN_GENCB> callback, int event, int n);
+external int BN_GENCB_call(
+  ffi.Pointer<BN_GENCB> callback,
+  int event,
+  int n,
+);
 
 /// BN_GENCB_free releases memory associated with |callback|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BN_GENCB>)>(
   symbol: 'bssl_dart_BN_GENCB_free',
 )
-external void BN_GENCB_free(ffi.Pointer<BN_GENCB> callback);
+external void BN_GENCB_free(
+  ffi.Pointer<BN_GENCB> callback,
+);
 
 /// BN_GENCB_get_arg returns |callback->arg|.
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<BN_GENCB>)>(
   symbol: 'bssl_dart_BN_GENCB_get_arg',
 )
-external ffi.Pointer<ffi.Void> BN_GENCB_get_arg(ffi.Pointer<BN_GENCB> callback);
+external ffi.Pointer<ffi.Void> BN_GENCB_get_arg(
+  ffi.Pointer<BN_GENCB> callback,
+);
 
 /// BN_GENCB_new returns a newly-allocated |BN_GENCB| object, or NULL on
 /// allocation failure. The result must be released with |BN_GENCB_free| when
@@ -3387,7 +3673,9 @@ external ffi.Pointer<BN_MONT_CTX> BN_MONT_CTX_copy(
 @ffi.Native<ffi.Void Function(ffi.Pointer<BN_MONT_CTX>)>(
   symbol: 'bssl_dart_BN_MONT_CTX_free',
 )
-external void BN_MONT_CTX_free(ffi.Pointer<BN_MONT_CTX> mont);
+external void BN_MONT_CTX_free(
+  ffi.Pointer<BN_MONT_CTX> mont,
+);
 
 /// BN_MONT_CTX_new returns a fresh |BN_MONT_CTX| or NULL on allocation failure.
 /// Use |BN_MONT_CTX_new_for_modulus| instead.
@@ -3437,7 +3725,10 @@ external int BN_MONT_CTX_set(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>(
   symbol: 'bssl_dart_BN_abs_is_word',
 )
-external int BN_abs_is_word(ffi.Pointer<BIGNUM> bn, int w);
+external int BN_abs_is_word(
+  ffi.Pointer<BIGNUM> bn,
+  int w,
+);
 
 /// BN_add sets |r| = |a| + |b|, where |r| may be the same pointer as either |a|
 /// or |b|. It returns one on success and zero on allocation failure.
@@ -3458,7 +3749,10 @@ external int BN_add(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>(
   symbol: 'bssl_dart_BN_add_word',
 )
-external int BN_add_word(ffi.Pointer<BIGNUM> a, int w);
+external int BN_add_word(
+  ffi.Pointer<BIGNUM> a,
+  int w,
+);
 
 /// BN_asc2bn acts like |BN_dec2bn| or |BN_hex2bn| depending on whether |in|
 /// begins with "0X" or "0x" (indicating hex) or not (indicating decimal). A
@@ -3496,7 +3790,10 @@ external ffi.Pointer<BIGNUM> BN_bin2bn(
 @ffi.Native<ffi.Size Function(ffi.Pointer<BIGNUM>, ffi.Pointer<ffi.Uint8>)>(
   symbol: 'bssl_dart_BN_bn2bin',
 )
-external int BN_bn2bin(ffi.Pointer<BIGNUM> in$, ffi.Pointer<ffi.Uint8> out);
+external int BN_bn2bin(
+  ffi.Pointer<BIGNUM> in$,
+  ffi.Pointer<ffi.Uint8> out,
+);
 
 /// BN_bn2bin_padded serialises the absolute value of |in| to |out| as a
 /// big-endian integer. The integer is padded with leading zeros up to size
@@ -3544,7 +3841,9 @@ external int BN_bn2cbb_padded(
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_bn2dec',
 )
-external ffi.Pointer<ffi.Char> BN_bn2dec(ffi.Pointer<BIGNUM> a);
+external ffi.Pointer<ffi.Char> BN_bn2dec(
+  ffi.Pointer<BIGNUM> a,
+);
 
 /// BN_bn2hex returns an allocated string that contains a NUL-terminated, hex
 /// representation of |bn|. If |bn| is negative, the first char in the resulting
@@ -3552,7 +3851,9 @@ external ffi.Pointer<ffi.Char> BN_bn2dec(ffi.Pointer<BIGNUM> a);
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_bn2hex',
 )
-external ffi.Pointer<ffi.Char> BN_bn2hex(ffi.Pointer<BIGNUM> bn);
+external ffi.Pointer<ffi.Char> BN_bn2hex(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_bn2le_padded serialises the absolute value of |in| to |out| as a
 /// little-endian integer, which must have |len| of space available, padding
@@ -3589,13 +3890,18 @@ external int BN_bn2lebinpad(
 @ffi.Native<ffi.Size Function(ffi.Pointer<BIGNUM>, ffi.Pointer<ffi.Uint8>)>(
   symbol: 'bssl_dart_BN_bn2mpi',
 )
-external int BN_bn2mpi(ffi.Pointer<BIGNUM> in$, ffi.Pointer<ffi.Uint8> out);
+external int BN_bn2mpi(
+  ffi.Pointer<BIGNUM> in$,
+  ffi.Pointer<ffi.Uint8> out,
+);
 
 /// BN_clear sets |bn| to zero and erases the old data.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_clear',
 )
-external void BN_clear(ffi.Pointer<BIGNUM> bn);
+external void BN_clear(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_clear_bit clears the |n|th, least-significant bit in |a|. For example, if
 /// |a| is 3, clearing bit zero will make it two. It returns one on success or
@@ -3603,28 +3909,39 @@ external void BN_clear(ffi.Pointer<BIGNUM> bn);
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int)>(
   symbol: 'bssl_dart_BN_clear_bit',
 )
-external int BN_clear_bit(ffi.Pointer<BIGNUM> a, int n);
+external int BN_clear_bit(
+  ffi.Pointer<BIGNUM> a,
+  int n,
+);
 
 /// BN_clear_free erases and frees the data referenced by |bn| and, if |bn| was
 /// originally allocated on the heap, frees |bn| also.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_clear_free',
 )
-external void BN_clear_free(ffi.Pointer<BIGNUM> bn);
+external void BN_clear_free(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_cmp returns a value less than, equal to or greater than zero if |a| is
 /// less than, equal to or greater than |b|, respectively.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_cmp',
 )
-external int BN_cmp(ffi.Pointer<BIGNUM> a, ffi.Pointer<BIGNUM> b);
+external int BN_cmp(
+  ffi.Pointer<BIGNUM> a,
+  ffi.Pointer<BIGNUM> b,
+);
 
 /// BN_cmp_word is like |BN_cmp| except it takes its second argument as a
 /// |BN_ULONG| instead of a |BIGNUM|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>(
   symbol: 'bssl_dart_BN_cmp_word',
 )
-external int BN_cmp_word(ffi.Pointer<BIGNUM> a, int b);
+external int BN_cmp_word(
+  ffi.Pointer<BIGNUM> a,
+  int b,
+);
 
 /// BN_copy sets |dest| equal to |src| and returns |dest| or NULL on allocation
 /// failure.
@@ -3642,7 +3959,9 @@ external ffi.Pointer<BIGNUM> BN_copy(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_count_low_zero_bits',
 )
-external int BN_count_low_zero_bits(ffi.Pointer<BIGNUM> bn);
+external int BN_count_low_zero_bits(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_dec2bn parses the leading decimal number from |in|, which may be
 /// proceeded by a '-' to indicate a negative number and may contain trailing,
@@ -3694,14 +4013,19 @@ external int BN_div(
 @ffi.Native<BN_ULONG Function(ffi.Pointer<BIGNUM>, BN_ULONG)>(
   symbol: 'bssl_dart_BN_div_word',
 )
-external int BN_div_word(ffi.Pointer<BIGNUM> numerator, int divisor);
+external int BN_div_word(
+  ffi.Pointer<BIGNUM> numerator,
+  int divisor,
+);
 
 /// BN_dup allocates a new BIGNUM and sets it equal to |src|. It returns the
 /// allocated BIGNUM on success or NULL otherwise.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_dup',
 )
-external ffi.Pointer<BIGNUM> BN_dup(ffi.Pointer<BIGNUM> src);
+external ffi.Pointer<BIGNUM> BN_dup(
+  ffi.Pointer<BIGNUM> src,
+);
 
 /// BN_enhanced_miller_rabin_primality_test tests whether |w| is probably a prime
 /// number using the Enhanced Miller-Rabin Test (FIPS 186-5 B.3.2) with
@@ -3738,7 +4062,10 @@ external int BN_enhanced_miller_rabin_primality_test(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_equal_consttime',
 )
-external int BN_equal_consttime(ffi.Pointer<BIGNUM> a, ffi.Pointer<BIGNUM> b);
+external int BN_equal_consttime(
+  ffi.Pointer<BIGNUM> a,
+  ffi.Pointer<BIGNUM> b,
+);
 
 /// BN_exp sets |r| equal to |a|^{|p|}. It does so with a square-and-multiply
 /// algorithm that leaks side-channel information. It returns one on success or
@@ -3761,7 +4088,9 @@ external int BN_exp(
 /// BN_free frees the data referenced by |bn| and, if |bn| was originally
 /// allocated on the heap, frees |bn| also.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIGNUM>)>(symbol: 'bssl_dart_BN_free')
-external void BN_free(ffi.Pointer<BIGNUM> bn);
+external void BN_free(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_from_montgomery sets |ret| equal to |a| * R^-1, i.e. translates values out
 /// of the Montgomery domain. |a| is assumed to be in the range [0, n*R), where
@@ -3837,7 +4166,9 @@ external int BN_generate_prime_ex(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_get_rfc3526_prime_1536',
 )
-external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_1536(ffi.Pointer<BIGNUM> ret);
+external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_1536(
+  ffi.Pointer<BIGNUM> ret,
+);
 
 /// BN_get_rfc3526_prime_2048 sets |*ret| to the 2048-bit MODP group from RFC
 /// 3526 and returns |ret|. If |ret| is NULL then a fresh |BIGNUM| is allocated
@@ -3846,7 +4177,9 @@ external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_1536(ffi.Pointer<BIGNUM> ret);
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_get_rfc3526_prime_2048',
 )
-external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_2048(ffi.Pointer<BIGNUM> ret);
+external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_2048(
+  ffi.Pointer<BIGNUM> ret,
+);
 
 /// BN_get_rfc3526_prime_3072 sets |*ret| to the 3072-bit MODP group from RFC
 /// 3526 and returns |ret|. If |ret| is NULL then a fresh |BIGNUM| is allocated
@@ -3855,7 +4188,9 @@ external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_2048(ffi.Pointer<BIGNUM> ret);
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_get_rfc3526_prime_3072',
 )
-external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_3072(ffi.Pointer<BIGNUM> ret);
+external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_3072(
+  ffi.Pointer<BIGNUM> ret,
+);
 
 /// BN_get_rfc3526_prime_4096 sets |*ret| to the 4096-bit MODP group from RFC
 /// 3526 and returns |ret|. If |ret| is NULL then a fresh |BIGNUM| is allocated
@@ -3864,7 +4199,9 @@ external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_3072(ffi.Pointer<BIGNUM> ret);
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_get_rfc3526_prime_4096',
 )
-external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_4096(ffi.Pointer<BIGNUM> ret);
+external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_4096(
+  ffi.Pointer<BIGNUM> ret,
+);
 
 /// BN_get_rfc3526_prime_6144 sets |*ret| to the 6144-bit MODP group from RFC
 /// 3526 and returns |ret|. If |ret| is NULL then a fresh |BIGNUM| is allocated
@@ -3873,7 +4210,9 @@ external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_4096(ffi.Pointer<BIGNUM> ret);
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_get_rfc3526_prime_6144',
 )
-external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_6144(ffi.Pointer<BIGNUM> ret);
+external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_6144(
+  ffi.Pointer<BIGNUM> ret,
+);
 
 /// BN_get_rfc3526_prime_8192 sets |*ret| to the 8192-bit MODP group from RFC
 /// 3526 and returns |ret|. If |ret| is NULL then a fresh |BIGNUM| is allocated
@@ -3882,7 +4221,9 @@ external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_6144(ffi.Pointer<BIGNUM> ret);
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_get_rfc3526_prime_8192',
 )
-external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_8192(ffi.Pointer<BIGNUM> ret);
+external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_8192(
+  ffi.Pointer<BIGNUM> ret,
+);
 
 /// BN_get_u64 sets |*out| to the absolute value of |bn| as a |uint64_t| and
 /// returns one. If |bn| is too large to be represented as a |uint64_t|, it
@@ -3890,7 +4231,10 @@ external ffi.Pointer<BIGNUM> BN_get_rfc3526_prime_8192(ffi.Pointer<BIGNUM> ret);
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<ffi.Uint64>)>(
   symbol: 'bssl_dart_BN_get_u64',
 )
-external int BN_get_u64(ffi.Pointer<BIGNUM> bn, ffi.Pointer<ffi.Uint64> out);
+external int BN_get_u64(
+  ffi.Pointer<BIGNUM> bn,
+  ffi.Pointer<ffi.Uint64> out,
+);
 
 /// BN_get_word returns the absolute value of |bn| as a single word. If |bn| is
 /// too large to be represented as a single word, the maximum possible value
@@ -3898,7 +4242,9 @@ external int BN_get_u64(ffi.Pointer<BIGNUM> bn, ffi.Pointer<ffi.Uint64> out);
 @ffi.Native<BN_ULONG Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_get_word',
 )
-external int BN_get_word(ffi.Pointer<BIGNUM> bn);
+external int BN_get_word(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_hex2bn parses the leading hex number from |in|, which may be proceeded by
 /// a '-' to indicate a negative number and may contain trailing, non-hex data.
@@ -3916,38 +4262,51 @@ external int BN_hex2bn(
 
 /// BN_init initialises a stack allocated |BIGNUM|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIGNUM>)>(symbol: 'bssl_dart_BN_init')
-external void BN_init(ffi.Pointer<BIGNUM> bn);
+external void BN_init(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_is_bit_set returns one if the |n|th least-significant bit in |a| exists
 /// and is set. Otherwise, it returns zero.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int)>(
   symbol: 'bssl_dart_BN_is_bit_set',
 )
-external int BN_is_bit_set(ffi.Pointer<BIGNUM> a, int n);
+external int BN_is_bit_set(
+  ffi.Pointer<BIGNUM> a,
+  int n,
+);
 
 /// BN_is_negative returns one if |bn| is negative and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_is_negative',
 )
-external int BN_is_negative(ffi.Pointer<BIGNUM> bn);
+external int BN_is_negative(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_is_odd returns one if |bn| is odd and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_is_odd',
 )
-external int BN_is_odd(ffi.Pointer<BIGNUM> bn);
+external int BN_is_odd(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_is_one returns one if |bn| equals one and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_is_one',
 )
-external int BN_is_one(ffi.Pointer<BIGNUM> bn);
+external int BN_is_one(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_is_pow2 returns 1 if |a| is a power of two, and 0 otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_is_pow2',
 )
-external int BN_is_pow2(ffi.Pointer<BIGNUM> a);
+external int BN_is_pow2(
+  ffi.Pointer<BIGNUM> a,
+);
 
 /// BN_is_prime_ex acts the same as |BN_is_prime_fasttest_ex| with
 /// |do_trial_division| set to zero.
@@ -4002,13 +4361,18 @@ external int BN_is_prime_fasttest_ex(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>(
   symbol: 'bssl_dart_BN_is_word',
 )
-external int BN_is_word(ffi.Pointer<BIGNUM> bn, int w);
+external int BN_is_word(
+  ffi.Pointer<BIGNUM> bn,
+  int w,
+);
 
 /// BN_is_zero returns one if |bn| is zero and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_is_zero',
 )
-external int BN_is_zero(ffi.Pointer<BIGNUM> bn);
+external int BN_is_zero(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_le2bn calls |BN_lebin2bn|.
 @ffi.Native<
@@ -4046,21 +4410,31 @@ external ffi.Pointer<BIGNUM> BN_lebin2bn(
 @ffi.Native<
   ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>, ffi.Int)
 >(symbol: 'bssl_dart_BN_lshift')
-external int BN_lshift(ffi.Pointer<BIGNUM> r, ffi.Pointer<BIGNUM> a, int n);
+external int BN_lshift(
+  ffi.Pointer<BIGNUM> r,
+  ffi.Pointer<BIGNUM> a,
+  int n,
+);
 
 /// BN_lshift1 sets |r| equal to |a| << 1, where |r| and |a| may be the same
 /// pointer. It returns one on success and zero on allocation failure.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_lshift1',
 )
-external int BN_lshift1(ffi.Pointer<BIGNUM> r, ffi.Pointer<BIGNUM> a);
+external int BN_lshift1(
+  ffi.Pointer<BIGNUM> r,
+  ffi.Pointer<BIGNUM> a,
+);
 
 /// BN_marshal_asn1 marshals |bn| as a non-negative DER INTEGER and appends the
 /// result to |cbb|. It returns one on success and zero on failure.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_marshal_asn1',
 )
-external int BN_marshal_asn1(ffi.Pointer<CBB> cbb, ffi.Pointer<BIGNUM> bn);
+external int BN_marshal_asn1(
+  ffi.Pointer<CBB> cbb,
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_mask_bits truncates |a| so that it is only |n| bits long. It returns one
 /// on success or zero if |n| is negative.
@@ -4072,7 +4446,10 @@ external int BN_marshal_asn1(ffi.Pointer<CBB> cbb, ffi.Pointer<BIGNUM> bn);
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int)>(
   symbol: 'bssl_dart_BN_mask_bits',
 )
-external int BN_mask_bits(ffi.Pointer<BIGNUM> a, int n);
+external int BN_mask_bits(
+  ffi.Pointer<BIGNUM> a,
+  int n,
+);
 
 /// BN_mod_add sets |r| = |a| + |b| mod |m|. It returns one on success and zero
 /// on error.
@@ -4411,7 +4788,11 @@ external int BN_mod_mul_montgomery(
 @ffi.Native<
   ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>, ffi.Size)
 >(symbol: 'bssl_dart_BN_mod_pow2')
-external int BN_mod_pow2(ffi.Pointer<BIGNUM> r, ffi.Pointer<BIGNUM> a, int e);
+external int BN_mod_pow2(
+  ffi.Pointer<BIGNUM> r,
+  ffi.Pointer<BIGNUM> a,
+  int e,
+);
 
 /// BN_mod_sqr sets |r| = |a|^2 mod |m|. It returns one on success and zero
 /// on error.
@@ -4497,7 +4878,10 @@ external int BN_mod_sub_quick(
 @ffi.Native<BN_ULONG Function(ffi.Pointer<BIGNUM>, BN_ULONG)>(
   symbol: 'bssl_dart_BN_mod_word',
 )
-external int BN_mod_word(ffi.Pointer<BIGNUM> a, int w);
+external int BN_mod_word(
+  ffi.Pointer<BIGNUM> a,
+  int w,
+);
 
 /// BN_mpi2bn parses |len| bytes from |in| and returns the resulting value. The
 /// bytes at |in| are expected to be in the format emitted by |BN_bn2mpi|.
@@ -4540,7 +4924,10 @@ external int BN_mul(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>(
   symbol: 'bssl_dart_BN_mul_word',
 )
-external int BN_mul_word(ffi.Pointer<BIGNUM> bn, int w);
+external int BN_mul_word(
+  ffi.Pointer<BIGNUM> bn,
+  int w,
+);
 
 /// BN_new creates a new, allocated BIGNUM and initialises it.
 @ffi.Native<ffi.Pointer<BIGNUM> Function()>(symbol: 'bssl_dart_BN_new')
@@ -4569,19 +4956,27 @@ external int BN_nnmod(
 @ffi.Native<
   ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>, ffi.Size)
 >(symbol: 'bssl_dart_BN_nnmod_pow2')
-external int BN_nnmod_pow2(ffi.Pointer<BIGNUM> r, ffi.Pointer<BIGNUM> a, int e);
+external int BN_nnmod_pow2(
+  ffi.Pointer<BIGNUM> r,
+  ffi.Pointer<BIGNUM> a,
+  int e,
+);
 
 /// BN_num_bits returns the minimum number of bits needed to represent the
 /// absolute value of |bn|.
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_num_bits',
 )
-external int BN_num_bits(ffi.Pointer<BIGNUM> bn);
+external int BN_num_bits(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 @ffi.Native<ffi.UnsignedInt Function(BN_ULONG)>(
   symbol: 'bssl_dart_BN_num_bits_word',
 )
-external int BN_num_bits_word(int l);
+external int BN_num_bits_word(
+  int l,
+);
 
 /// BN_num_bytes returns the minimum number of bytes needed to represent the
 /// absolute value of |bn|.
@@ -4592,12 +4987,16 @@ external int BN_num_bits_word(int l);
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_num_bytes',
 )
-external int BN_num_bytes(ffi.Pointer<BIGNUM> bn);
+external int BN_num_bytes(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_one sets |bn| to one. It returns one on success or zero on allocation
 /// failure.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>)>(symbol: 'bssl_dart_BN_one')
-external int BN_one(ffi.Pointer<BIGNUM> bn);
+external int BN_one(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BN_parse_asn1_unsigned parses a non-negative DER INTEGER from |cbs| writes
 /// the result to |ret|. It returns one on success and zero on failure.
@@ -4647,13 +5046,19 @@ external int BN_primality_test(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_print',
 )
-external int BN_print(ffi.Pointer<BIO> bio, ffi.Pointer<BIGNUM> a);
+external int BN_print(
+  ffi.Pointer<BIO> bio,
+  ffi.Pointer<BIGNUM> a,
+);
 
 /// BN_print_fp acts like |BIO_print|, but wraps |fp| in a |BIO| first.
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_print_fp',
 )
-external int BN_print_fp(ffi.Pointer<FILE> fp, ffi.Pointer<BIGNUM> a);
+external int BN_print_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<BIGNUM> a,
+);
 
 /// BN_pseudo_rand is an alias for |BN_rand|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int, ffi.Int, ffi.Int)>(
@@ -4690,14 +5095,22 @@ external int BN_pseudo_rand_range(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int, ffi.Int, ffi.Int)>(
   symbol: 'bssl_dart_BN_rand',
 )
-external int BN_rand(ffi.Pointer<BIGNUM> rnd, int bits, int top, int bottom);
+external int BN_rand(
+  ffi.Pointer<BIGNUM> rnd,
+  int bits,
+  int top,
+  int bottom,
+);
 
 /// BN_rand_range is equivalent to |BN_rand_range_ex| with |min_inclusive| set
 /// to zero and |max_exclusive| set to |range|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_rand_range',
 )
-external int BN_rand_range(ffi.Pointer<BIGNUM> rnd, ffi.Pointer<BIGNUM> range);
+external int BN_rand_range(
+  ffi.Pointer<BIGNUM> rnd,
+  ffi.Pointer<BIGNUM> range,
+);
 
 /// BN_rand_range_ex sets |rnd| to a random value in
 /// [min_inclusive..max_exclusive). It returns one on success and zero
@@ -4716,14 +5129,21 @@ external int BN_rand_range_ex(
 @ffi.Native<
   ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>, ffi.Int)
 >(symbol: 'bssl_dart_BN_rshift')
-external int BN_rshift(ffi.Pointer<BIGNUM> r, ffi.Pointer<BIGNUM> a, int n);
+external int BN_rshift(
+  ffi.Pointer<BIGNUM> r,
+  ffi.Pointer<BIGNUM> a,
+  int n,
+);
 
 /// BN_rshift1 sets |r| equal to |a| >> 1, where |r| and |a| may be the same
 /// pointer. It returns one on success and zero on allocation failure.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_rshift1',
 )
-external int BN_rshift1(ffi.Pointer<BIGNUM> r, ffi.Pointer<BIGNUM> a);
+external int BN_rshift1(
+  ffi.Pointer<BIGNUM> r,
+  ffi.Pointer<BIGNUM> a,
+);
 
 /// BN_secure_new calls |BN_new|.
 @ffi.Native<ffi.Pointer<BIGNUM> Function()>(symbol: 'bssl_dart_BN_secure_new')
@@ -4735,27 +5155,39 @@ external ffi.Pointer<BIGNUM> BN_secure_new();
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int)>(
   symbol: 'bssl_dart_BN_set_bit',
 )
-external int BN_set_bit(ffi.Pointer<BIGNUM> a, int n);
+external int BN_set_bit(
+  ffi.Pointer<BIGNUM> a,
+  int n,
+);
 
 /// BN_set_negative sets the sign of |bn|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIGNUM>, ffi.Int)>(
   symbol: 'bssl_dart_BN_set_negative',
 )
-external void BN_set_negative(ffi.Pointer<BIGNUM> bn, int sign);
+external void BN_set_negative(
+  ffi.Pointer<BIGNUM> bn,
+  int sign,
+);
 
 /// BN_set_u64 sets |bn| to |value|. It returns one on success or zero on
 /// allocation failure.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Uint64)>(
   symbol: 'bssl_dart_BN_set_u64',
 )
-external int BN_set_u64(ffi.Pointer<BIGNUM> bn, int value);
+external int BN_set_u64(
+  ffi.Pointer<BIGNUM> bn,
+  int value,
+);
 
 /// BN_set_word sets |bn| to |value|. It returns one on success or zero on
 /// allocation failure.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>(
   symbol: 'bssl_dart_BN_set_word',
 )
-external int BN_set_word(ffi.Pointer<BIGNUM> bn, int value);
+external int BN_set_word(
+  ffi.Pointer<BIGNUM> bn,
+  int value,
+);
 
 /// BN_sqr sets |r| = |a|^2 (i.e. squares), where |r| may be the same pointer as
 /// |a|. Returns one on success and zero otherwise. This is more efficient than
@@ -4810,7 +5242,10 @@ external int BN_sub(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>(
   symbol: 'bssl_dart_BN_sub_word',
 )
-external int BN_sub_word(ffi.Pointer<BIGNUM> a, int w);
+external int BN_sub_word(
+  ffi.Pointer<BIGNUM> a,
+  int w,
+);
 
 /// BN_to_ASN1_ENUMERATED sets |ai| to an ENUMERATED with value |bn| and returns
 /// |ai| on success or NULL or error. If |ai| is NULL, it returns a
@@ -4882,7 +5317,10 @@ external int BN_uadd(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)>(
   symbol: 'bssl_dart_BN_ucmp',
 )
-external int BN_ucmp(ffi.Pointer<BIGNUM> a, ffi.Pointer<BIGNUM> b);
+external int BN_ucmp(
+  ffi.Pointer<BIGNUM> a,
+  ffi.Pointer<BIGNUM> b,
+);
 
 /// BN_usub sets |r| = |a| - |b|, considering only the absolute values of |a| and
 /// |b|. The result must be non-negative, i.e. |b| <= |a|. |r| may be the same
@@ -4906,7 +5344,9 @@ external ffi.Pointer<BIGNUM> BN_value_one();
 
 /// BN_zero sets |bn| to zero.
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIGNUM>)>(symbol: 'bssl_dart_BN_zero')
-external void BN_zero(ffi.Pointer<BIGNUM> bn);
+external void BN_zero(
+  ffi.Pointer<BIGNUM> bn,
+);
 
 /// BORINGSSL_integrity_test triggers the module's integrity test where the code
 /// and data of the module is matched against a hash injected at build time. It
@@ -4943,7 +5383,9 @@ external int BUF_MEM_append(
 @ffi.Native<ffi.Void Function(ffi.Pointer<BUF_MEM>)>(
   symbol: 'bssl_dart_BUF_MEM_free',
 )
-external void BUF_MEM_free(ffi.Pointer<BUF_MEM> buf);
+external void BUF_MEM_free(
+  ffi.Pointer<BUF_MEM> buf,
+);
 
 /// BUF_MEM_grow ensures that |buf| has length |len| and allocates memory if
 /// needed. If the length of |buf| increased, the new bytes are filled with
@@ -4951,14 +5393,20 @@ external void BUF_MEM_free(ffi.Pointer<BUF_MEM> buf);
 @ffi.Native<ffi.Size Function(ffi.Pointer<BUF_MEM>, ffi.Size)>(
   symbol: 'bssl_dart_BUF_MEM_grow',
 )
-external int BUF_MEM_grow(ffi.Pointer<BUF_MEM> buf, int len);
+external int BUF_MEM_grow(
+  ffi.Pointer<BUF_MEM> buf,
+  int len,
+);
 
 /// BUF_MEM_grow_clean calls |BUF_MEM_grow|. BoringSSL always zeros memory
 /// allocated memory on free.
 @ffi.Native<ffi.Size Function(ffi.Pointer<BUF_MEM>, ffi.Size)>(
   symbol: 'bssl_dart_BUF_MEM_grow_clean',
 )
-external int BUF_MEM_grow_clean(ffi.Pointer<BUF_MEM> buf, int len);
+external int BUF_MEM_grow_clean(
+  ffi.Pointer<BUF_MEM> buf,
+  int len,
+);
 
 /// BUF_MEM_new creates a new BUF_MEM which has no allocated data buffer.
 @ffi.Native<ffi.Pointer<BUF_MEM> Function()>(symbol: 'bssl_dart_BUF_MEM_new')
@@ -4969,19 +5417,27 @@ external ffi.Pointer<BUF_MEM> BUF_MEM_new();
 @ffi.Native<ffi.Int Function(ffi.Pointer<BUF_MEM>, ffi.Size)>(
   symbol: 'bssl_dart_BUF_MEM_reserve',
 )
-external int BUF_MEM_reserve(ffi.Pointer<BUF_MEM> buf, int cap);
+external int BUF_MEM_reserve(
+  ffi.Pointer<BUF_MEM> buf,
+  int cap,
+);
 
 /// BUF_memdup calls |OPENSSL_memdup|.
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Size)>(
   symbol: 'bssl_dart_BUF_memdup',
 )
-external ffi.Pointer<ffi.Void> BUF_memdup(ffi.Pointer<ffi.Void> data, int size);
+external ffi.Pointer<ffi.Void> BUF_memdup(
+  ffi.Pointer<ffi.Void> data,
+  int size,
+);
 
 /// BUF_strdup calls |OPENSSL_strdup|.
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_BUF_strdup',
 )
-external ffi.Pointer<ffi.Char> BUF_strdup(ffi.Pointer<ffi.Char> str);
+external ffi.Pointer<ffi.Char> BUF_strdup(
+  ffi.Pointer<ffi.Char> str,
+);
 
 /// BUF_strlcat calls |OPENSSL_strlcat|.
 @ffi.Native<
@@ -5007,13 +5463,19 @@ external int BUF_strlcpy(
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>, ffi.Size)>(
   symbol: 'bssl_dart_BUF_strndup',
 )
-external ffi.Pointer<ffi.Char> BUF_strndup(ffi.Pointer<ffi.Char> str, int size);
+external ffi.Pointer<ffi.Char> BUF_strndup(
+  ffi.Pointer<ffi.Char> str,
+  int size,
+);
 
 /// BUF_strnlen calls |OPENSSL_strnlen|.
 @ffi.Native<ffi.Size Function(ffi.Pointer<ffi.Char>, ffi.Size)>(
   symbol: 'bssl_dart_BUF_strnlen',
 )
-external int BUF_strnlen(ffi.Pointer<ffi.Char> str, int max_len);
+external int BUF_strnlen(
+  ffi.Pointer<ffi.Char> str,
+  int max_len,
+);
 
 /// CBB_add_asn1 sets |*out_contents| to a |CBB| into which the contents of an
 /// ASN.1 object can be written. The |tag| argument will be used as the tag for
@@ -5032,7 +5494,10 @@ external int CBB_add_asn1(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Int)>(
   symbol: 'bssl_dart_CBB_add_asn1_bool',
 )
-external int CBB_add_asn1_bool(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_asn1_bool(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_asn1_element adds an ASN.1 element with the specified tag and
 /// contents. It returns one on success and zero on error. This is a convenience
@@ -5058,7 +5523,10 @@ external int CBB_add_asn1_element(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Int64)>(
   symbol: 'bssl_dart_CBB_add_asn1_int64',
 )
-external int CBB_add_asn1_int64(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_asn1_int64(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_asn1_int64_with_tag behaves like |CBB_add_asn1_int64| but uses |tag|
 /// as the tag instead of INTEGER. This is useful if the INTEGER type uses
@@ -5088,7 +5556,10 @@ external int CBB_add_asn1_octet_string(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint64)>(
   symbol: 'bssl_dart_CBB_add_asn1_oid_component',
 )
-external int CBB_add_asn1_oid_component(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_asn1_oid_component(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_asn1_oid_from_text decodes |len| bytes from |text| as an ASCII OID
 /// representation, e.g. "1.2.840.113554.4.1.72585", and writes the DER-encoded
@@ -5130,7 +5601,10 @@ external int CBB_add_asn1_relative_oid_from_text(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint64)>(
   symbol: 'bssl_dart_CBB_add_asn1_uint64',
 )
-external int CBB_add_asn1_uint64(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_asn1_uint64(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_asn1_uint64_with_tag behaves like |CBB_add_asn1_uint64| but uses
 /// |tag| as the tag instead of INTEGER. This is useful if the INTEGER type uses
@@ -5158,7 +5632,10 @@ external int CBB_add_bytes(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>(
   symbol: 'bssl_dart_CBB_add_latin1',
 )
-external int CBB_add_latin1(ffi.Pointer<CBB> cbb, int u);
+external int CBB_add_latin1(
+  ffi.Pointer<CBB> cbb,
+  int u,
+);
 
 /// CBB_add_space appends |len| bytes to |cbb| and sets |*out_data| to point to
 /// the beginning of that space. The caller must then write |len| bytes of
@@ -5182,7 +5659,10 @@ external int CBB_add_space(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint16)>(
   symbol: 'bssl_dart_CBB_add_u16',
 )
-external int CBB_add_u16(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_u16(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_u16_length_prefixed sets |*out_contents| to a new child of |cbb|.
 /// The data written to |*out_contents| will be prefixed in |cbb| with a 16-bit,
@@ -5200,14 +5680,20 @@ external int CBB_add_u16_length_prefixed(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint16)>(
   symbol: 'bssl_dart_CBB_add_u16le',
 )
-external int CBB_add_u16le(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_u16le(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_u24 appends a 24-bit, big-endian number from |value| to |cbb|. It
 /// returns one on success and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>(
   symbol: 'bssl_dart_CBB_add_u24',
 )
-external int CBB_add_u24(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_u24(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_u24_length_prefixed sets |*out_contents| to a new child of |cbb|.
 /// The data written to |*out_contents| will be prefixed in |cbb| with a 24-bit,
@@ -5225,35 +5711,50 @@ external int CBB_add_u24_length_prefixed(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>(
   symbol: 'bssl_dart_CBB_add_u32',
 )
-external int CBB_add_u32(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_u32(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_u32le appends a 32-bit, little-endian number from |value| to |cbb|.
 /// It returns one on success and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>(
   symbol: 'bssl_dart_CBB_add_u32le',
 )
-external int CBB_add_u32le(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_u32le(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_u64 appends a 64-bit, big-endian number from |value| to |cbb|. It
 /// returns one on success and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint64)>(
   symbol: 'bssl_dart_CBB_add_u64',
 )
-external int CBB_add_u64(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_u64(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_u64le appends a 64-bit, little-endian number from |value| to |cbb|.
 /// It returns one on success and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint64)>(
   symbol: 'bssl_dart_CBB_add_u64le',
 )
-external int CBB_add_u64le(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_u64le(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_u8 appends an 8-bit number from |value| to |cbb|. It returns one on
 /// success and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint8)>(
   symbol: 'bssl_dart_CBB_add_u8',
 )
-external int CBB_add_u8(ffi.Pointer<CBB> cbb, int value);
+external int CBB_add_u8(
+  ffi.Pointer<CBB> cbb,
+  int value,
+);
 
 /// CBB_add_u8_length_prefixed sets |*out_contents| to a new child of |cbb|. The
 /// data written to |*out_contents| will be prefixed in |cbb| with an 8-bit
@@ -5269,12 +5770,18 @@ external int CBB_add_u8_length_prefixed(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>(
   symbol: 'bssl_dart_CBB_add_ucs2_be',
 )
-external int CBB_add_ucs2_be(ffi.Pointer<CBB> cbb, int u);
+external int CBB_add_ucs2_be(
+  ffi.Pointer<CBB> cbb,
+  int u,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>(
   symbol: 'bssl_dart_CBB_add_utf32_be',
 )
-external int CBB_add_utf32_be(ffi.Pointer<CBB> cbb, int u);
+external int CBB_add_utf32_be(
+  ffi.Pointer<CBB> cbb,
+  int u,
+);
 
 /// The following functions encode |u| to |cbb| with the corresponding
 /// encoding. They return one on success and zero on error. Error conditions
@@ -5283,14 +5790,20 @@ external int CBB_add_utf32_be(ffi.Pointer<CBB> cbb, int u);
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>(
   symbol: 'bssl_dart_CBB_add_utf8',
 )
-external int CBB_add_utf8(ffi.Pointer<CBB> cbb, int u);
+external int CBB_add_utf8(
+  ffi.Pointer<CBB> cbb,
+  int u,
+);
 
 /// CBB_add_zeros append |len| bytes with value zero to |cbb|. It returns one on
 /// success and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Size)>(
   symbol: 'bssl_dart_CBB_add_zeros',
 )
-external int CBB_add_zeros(ffi.Pointer<CBB> cbb, int len);
+external int CBB_add_zeros(
+  ffi.Pointer<CBB> cbb,
+  int len,
+);
 
 /// CBB_cleanup frees all resources owned by |cbb| and other |CBB| objects
 /// writing to the same buffer. This should be used in an error case where a
@@ -5302,7 +5815,9 @@ external int CBB_add_zeros(ffi.Pointer<CBB> cbb, int len);
 @ffi.Native<ffi.Void Function(ffi.Pointer<CBB>)>(
   symbol: 'bssl_dart_CBB_cleanup',
 )
-external void CBB_cleanup(ffi.Pointer<CBB> cbb);
+external void CBB_cleanup(
+  ffi.Pointer<CBB> cbb,
+);
 
 /// CBB_data returns a pointer to the bytes written to |cbb|. It does not flush
 /// |cbb|. The pointer is valid until the next operation to |cbb|.
@@ -5312,28 +5827,38 @@ external void CBB_cleanup(ffi.Pointer<CBB> cbb);
 @ffi.Native<ffi.Pointer<ffi.Uint8> Function(ffi.Pointer<CBB>)>(
   symbol: 'bssl_dart_CBB_data',
 )
-external ffi.Pointer<ffi.Uint8> CBB_data(ffi.Pointer<CBB> cbb);
+external ffi.Pointer<ffi.Uint8> CBB_data(
+  ffi.Pointer<CBB> cbb,
+);
 
 /// CBB_did_write advances |cbb| by |len| bytes, assuming the space has been
 /// written to by the caller. It returns one on success and zero on error.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Size)>(
   symbol: 'bssl_dart_CBB_did_write',
 )
-external int CBB_did_write(ffi.Pointer<CBB> cbb, int len);
+external int CBB_did_write(
+  ffi.Pointer<CBB> cbb,
+  int len,
+);
 
 /// CBB_discard discards the last |len| bytes written to |cbb|. The process will
 /// abort if |cbb| has an unflushed child, or its length is smaller than |len|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<CBB>, ffi.Size)>(
   symbol: 'bssl_dart_CBB_discard',
 )
-external void CBB_discard(ffi.Pointer<CBB> cbb, int len);
+external void CBB_discard(
+  ffi.Pointer<CBB> cbb,
+  int len,
+);
 
 /// CBB_discard_child discards the current unflushed child of |cbb|. Neither the
 /// child's contents nor the length prefix will be included in the output.
 @ffi.Native<ffi.Void Function(ffi.Pointer<CBB>)>(
   symbol: 'bssl_dart_CBB_discard_child',
 )
-external void CBB_discard_child(ffi.Pointer<CBB> cbb);
+external void CBB_discard_child(
+  ffi.Pointer<CBB> cbb,
+);
 
 /// CBB_finish completes any pending length prefix and sets |*out_data| to a
 /// malloced buffer and |*out_len| to the length of that buffer. The caller
@@ -5362,7 +5887,9 @@ external int CBB_finish(
 /// added as children to a |CBB| that persists after a function returns. This
 /// function returns one on success or zero on error.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>)>(symbol: 'bssl_dart_CBB_flush')
-external int CBB_flush(ffi.Pointer<CBB> cbb);
+external int CBB_flush(
+  ffi.Pointer<CBB> cbb,
+);
 
 /// CBB_flush_asn1_set_of calls |CBB_flush| on |cbb| and then reorders the
 /// contents for a DER-encoded ASN.1 SET OF type. It returns one on success and
@@ -5374,12 +5901,16 @@ external int CBB_flush(ffi.Pointer<CBB> cbb);
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>)>(
   symbol: 'bssl_dart_CBB_flush_asn1_set_of',
 )
-external int CBB_flush_asn1_set_of(ffi.Pointer<CBB> cbb);
+external int CBB_flush_asn1_set_of(
+  ffi.Pointer<CBB> cbb,
+);
 
 /// CBB_get_utf8_len returns the number of bytes needed to represent |u| in
 /// UTF-8.
 @ffi.Native<ffi.Size Function(ffi.Uint32)>(symbol: 'bssl_dart_CBB_get_utf8_len')
-external int CBB_get_utf8_len(int u);
+external int CBB_get_utf8_len(
+  int u,
+);
 
 /// CBB_init initialises |cbb| with |initial_capacity|. Since a |CBB| grows as
 /// needed, the |initial_capacity| is just a hint. It returns one on success or
@@ -5387,7 +5918,10 @@ external int CBB_get_utf8_len(int u);
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Size)>(
   symbol: 'bssl_dart_CBB_init',
 )
-external int CBB_init(ffi.Pointer<CBB> cbb, int initial_capacity);
+external int CBB_init(
+  ffi.Pointer<CBB> cbb,
+  int initial_capacity,
+);
 
 /// CBB_init_fixed initialises |cbb| to write to |len| bytes at |buf|. Since
 /// |buf| cannot grow, trying to write more than |len| bytes will cause CBB
@@ -5408,7 +5942,9 @@ external int CBB_init_fixed(
 /// To avoid unfinalized length prefixes, it is a fatal error to call this on a
 /// CBB with any active children.
 @ffi.Native<ffi.Size Function(ffi.Pointer<CBB>)>(symbol: 'bssl_dart_CBB_len')
-external int CBB_len(ffi.Pointer<CBB> cbb);
+external int CBB_len(
+  ffi.Pointer<CBB> cbb,
+);
 
 /// CBB_reserve ensures |cbb| has room for |len| additional bytes and sets
 /// |*out_data| to point to the beginning of that space. It returns one on
@@ -5433,7 +5969,9 @@ external int CBB_reserve(
 /// call |CBB_cleanup| without a successful |CBB_init|. This may be used for more
 /// uniform cleanup of a |CBB|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<CBB>)>(symbol: 'bssl_dart_CBB_zero')
-external void CBB_zero(ffi.Pointer<CBB> cbb);
+external void CBB_zero(
+  ffi.Pointer<CBB> cbb,
+);
 
 /// CBS_asn1_bitstring_has_bit returns one if |cbs| is a valid ASN.1 BIT STRING
 /// body and the specified bit is present and set. Otherwise, it returns zero.
@@ -5441,7 +5979,10 @@ external void CBB_zero(ffi.Pointer<CBB> cbb);
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.UnsignedInt)>(
   symbol: 'bssl_dart_CBS_asn1_bitstring_has_bit',
 )
-external int CBS_asn1_bitstring_has_bit(ffi.Pointer<CBS> cbs, int bit);
+external int CBS_asn1_bitstring_has_bit(
+  ffi.Pointer<CBS> cbs,
+  int bit,
+);
 
 /// CBS_asn1_oid_to_text interprets |cbs| as DER-encoded ASN.1 OBJECT IDENTIFIER
 /// contents (not including the element framing) and returns the ASCII
@@ -5454,7 +5995,9 @@ external int CBS_asn1_bitstring_has_bit(ffi.Pointer<CBS> cbs, int bit);
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_CBS_asn1_oid_to_text',
 )
-external ffi.Pointer<ffi.Char> CBS_asn1_oid_to_text(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<ffi.Char> CBS_asn1_oid_to_text(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// CBS_asn1_relative_oid_to_text interprets |cbs| as DER-encoded ASN.1
 /// RELATIVE-OID contents (not including the element framing) and returns the
@@ -5475,7 +6018,9 @@ external ffi.Pointer<ffi.Char> CBS_asn1_relative_oid_to_text(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_CBS_contains_zero_byte',
 )
-external int CBS_contains_zero_byte(ffi.Pointer<CBS> cbs);
+external int CBS_contains_zero_byte(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// CBS_copy_bytes copies the next |len| bytes from |cbs| to |out| and advances
 /// |cbs|. It returns one on success and zero on error.
@@ -5573,7 +6118,10 @@ external int CBS_get_asn1(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Int>)>(
   symbol: 'bssl_dart_CBS_get_asn1_bool',
 )
-external int CBS_get_asn1_bool(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Int> out);
+external int CBS_get_asn1_bool(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Int> out,
+);
 
 /// CBS_get_asn1_element acts like |CBS_get_asn1| but |out| will include the
 /// ASN.1 header bytes too.
@@ -5642,19 +6190,29 @@ external int CBS_get_asn1_uint64_with_tag(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<CBS>, ffi.Size)>(
   symbol: 'bssl_dart_CBS_get_bytes',
 )
-external int CBS_get_bytes(ffi.Pointer<CBS> cbs, ffi.Pointer<CBS> out, int len);
+external int CBS_get_bytes(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<CBS> out,
+  int len,
+);
 
 /// CBS_get_last_u8 sets |*out| to the last uint8_t from |cbs| and shortens
 /// |cbs|. It returns one on success and zero on error.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint8>)>(
   symbol: 'bssl_dart_CBS_get_last_u8',
 )
-external int CBS_get_last_u8(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint8> out);
+external int CBS_get_last_u8(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint8> out,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)>(
   symbol: 'bssl_dart_CBS_get_latin1',
 )
-external int CBS_get_latin1(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint32> out);
+external int CBS_get_latin1(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint32> out,
+);
 
 /// CBS_get_optional_asn1 gets an optional explicitly-tagged element from |cbs|
 /// tagged with |tag| and sets |*out| to its contents, or ignores it if |out| is
@@ -5742,7 +6300,10 @@ external int CBS_get_optional_asn1_uint64(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint16>)>(
   symbol: 'bssl_dart_CBS_get_u16',
 )
-external int CBS_get_u16(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint16> out);
+external int CBS_get_u16(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint16> out,
+);
 
 /// CBS_get_u16_length_prefixed sets |*out| to the contents of a 16-bit,
 /// big-endian, length-prefixed value from |cbs| and advances |cbs| over it. It
@@ -5760,14 +6321,20 @@ external int CBS_get_u16_length_prefixed(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint16>)>(
   symbol: 'bssl_dart_CBS_get_u16le',
 )
-external int CBS_get_u16le(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint16> out);
+external int CBS_get_u16le(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint16> out,
+);
 
 /// CBS_get_u24 sets |*out| to the next, big-endian 24-bit value from |cbs| and
 /// advances |cbs|. It returns one on success and zero on error.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)>(
   symbol: 'bssl_dart_CBS_get_u24',
 )
-external int CBS_get_u24(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint32> out);
+external int CBS_get_u24(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint32> out,
+);
 
 /// CBS_get_u24_length_prefixed sets |*out| to the contents of a 24-bit,
 /// big-endian, length-prefixed value from |cbs| and advances |cbs| over it. It
@@ -5785,21 +6352,30 @@ external int CBS_get_u24_length_prefixed(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)>(
   symbol: 'bssl_dart_CBS_get_u32',
 )
-external int CBS_get_u32(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint32> out);
+external int CBS_get_u32(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint32> out,
+);
 
 /// CBS_get_u32le sets |*out| to the next, little-endian uint32_t value from
 /// |cbs| and advances |cbs|. It returns one on success and zero on error.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)>(
   symbol: 'bssl_dart_CBS_get_u32le',
 )
-external int CBS_get_u32le(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint32> out);
+external int CBS_get_u32le(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint32> out,
+);
 
 /// CBS_get_u64 sets |*out| to the next, big-endian uint64_t value from |cbs|
 /// and advances |cbs|. It returns one on success and zero on error.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint64>)>(
   symbol: 'bssl_dart_CBS_get_u64',
 )
-external int CBS_get_u64(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint64> out);
+external int CBS_get_u64(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint64> out,
+);
 
 /// CBS_get_u64_decimal reads a decimal integer from |cbs| and writes it to
 /// |*out|. It stops reading at the end of the string, or the first non-digit
@@ -5819,14 +6395,20 @@ external int CBS_get_u64_decimal(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint64>)>(
   symbol: 'bssl_dart_CBS_get_u64le',
 )
-external int CBS_get_u64le(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint64> out);
+external int CBS_get_u64le(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint64> out,
+);
 
 /// CBS_get_u8 sets |*out| to the next uint8_t from |cbs| and advances |cbs|. It
 /// returns one on success and zero on error.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint8>)>(
   symbol: 'bssl_dart_CBS_get_u8',
 )
-external int CBS_get_u8(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint8> out);
+external int CBS_get_u8(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint8> out,
+);
 
 /// CBS_get_u8_length_prefixed sets |*out| to the contents of an 8-bit,
 /// length-prefixed value from |cbs| and advances |cbs| over it. It returns one
@@ -5842,7 +6424,10 @@ external int CBS_get_u8_length_prefixed(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)>(
   symbol: 'bssl_dart_CBS_get_ucs2_be',
 )
-external int CBS_get_ucs2_be(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint32> out);
+external int CBS_get_ucs2_be(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint32> out,
+);
 
 /// CBS_get_until_first finds the first instance of |c| in |cbs|. If found, it
 /// sets |*out| to the text before the match, advances |cbs| over it, and returns
@@ -5896,21 +6481,28 @@ external int CBS_get_utf32_be(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)>(
   symbol: 'bssl_dart_CBS_get_utf8',
 )
-external int CBS_get_utf8(ffi.Pointer<CBS> cbs, ffi.Pointer<ffi.Uint32> out);
+external int CBS_get_utf8(
+  ffi.Pointer<CBS> cbs,
+  ffi.Pointer<ffi.Uint32> out,
+);
 
 /// CBS_is_unsigned_asn1_integer returns one if |cbs| is a valid non-negative
 /// ASN.1 INTEGER body and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_CBS_is_unsigned_asn1_integer',
 )
-external int CBS_is_unsigned_asn1_integer(ffi.Pointer<CBS> cbs);
+external int CBS_is_unsigned_asn1_integer(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// CBS_is_valid_asn1_bitstring returns one if |cbs| is a valid ASN.1 BIT STRING
 /// body and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_CBS_is_valid_asn1_bitstring',
 )
-external int CBS_is_valid_asn1_bitstring(ffi.Pointer<CBS> cbs);
+external int CBS_is_valid_asn1_bitstring(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// CBS_is_valid_asn1_integer returns one if |cbs| is a valid ASN.1 INTEGER,
 /// body and zero otherwise. On success, if |out_is_negative| is non-NULL,
@@ -5930,7 +6522,9 @@ external int CBS_is_valid_asn1_integer(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_CBS_is_valid_asn1_oid',
 )
-external int CBS_is_valid_asn1_oid(ffi.Pointer<CBS> cbs);
+external int CBS_is_valid_asn1_oid(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// CBS_is_valid_asn1_relative_oid returns one if |cbs| is a valid DER-encoded
 /// ASN.1 RELATIVE-OID contents (not including the element framing) and zero
@@ -5941,7 +6535,9 @@ external int CBS_is_valid_asn1_oid(ffi.Pointer<CBS> cbs);
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_CBS_is_valid_asn1_relative_oid',
 )
-external int CBS_is_valid_asn1_relative_oid(ffi.Pointer<CBS> cbs);
+external int CBS_is_valid_asn1_relative_oid(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// CBS_mem_equal compares the current contents of |cbs| with the |len| bytes
 /// starting at |data|. If they're equal, it returns one, otherwise zero. If the
@@ -5995,14 +6591,20 @@ external int CBS_parse_utc_time(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, CBS_ASN1_TAG)>(
   symbol: 'bssl_dart_CBS_peek_asn1_tag',
 )
-external int CBS_peek_asn1_tag(ffi.Pointer<CBS> cbs, int tag_value);
+external int CBS_peek_asn1_tag(
+  ffi.Pointer<CBS> cbs,
+  int tag_value,
+);
 
 /// CBS_skip advances |cbs| by |len| bytes. It returns one on success and zero
 /// otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>, ffi.Size)>(
   symbol: 'bssl_dart_CBS_skip',
 )
-external int CBS_skip(ffi.Pointer<CBS> cbs, int len);
+external int CBS_skip(
+  ffi.Pointer<CBS> cbs,
+  int len,
+);
 
 /// CBS_stow copies the current contents of |cbs| into |*out_ptr| and
 /// |*out_len|. If |*out_ptr| is not NULL, the contents are freed with
@@ -6073,13 +6675,17 @@ external int CONF_modules_load_file(
 
 /// CONF_modules_unload does nothing.
 @ffi.Native<ffi.Void Function(ffi.Int)>(symbol: 'bssl_dart_CONF_modules_unload')
-external void CONF_modules_unload(int all);
+external void CONF_modules_unload(
+  int all,
+);
 
 /// CRL_DIST_POINTS_free releases memory associated with |crldp|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<CRL_DIST_POINTS>)>(
   symbol: 'bssl_dart_CRL_DIST_POINTS_free',
 )
-external void CRL_DIST_POINTS_free(ffi.Pointer<CRL_DIST_POINTS> crldp);
+external void CRL_DIST_POINTS_free(
+  ffi.Pointer<CRL_DIST_POINTS> crldp,
+);
 
 /// CRL_DIST_POINTS_new returns a newly-allocated, empty |CRL_DIST_POINTS|
 /// object, or NULL on error.
@@ -6093,7 +6699,9 @@ external ffi.Pointer<CRL_DIST_POINTS> CRL_DIST_POINTS_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<CRYPTO_BUFFER_POOL>)>(
   symbol: 'bssl_dart_CRYPTO_BUFFER_POOL_free',
 )
-external void CRYPTO_BUFFER_POOL_free(ffi.Pointer<CRYPTO_BUFFER_POOL> pool);
+external void CRYPTO_BUFFER_POOL_free(
+  ffi.Pointer<CRYPTO_BUFFER_POOL> pool,
+);
 
 /// CRYPTO_BUFFER_POOL_new returns a freshly allocated |CRYPTO_BUFFER_POOL| or
 /// NULL on error.
@@ -6108,7 +6716,9 @@ external ffi.Pointer<CRYPTO_BUFFER_POOL> CRYPTO_BUFFER_POOL_new();
 @ffi.Native<ffi.Int Function(ffi.Pointer<CRYPTO_BUFFER_POOL>)>(
   symbol: 'bssl_dart_CRYPTO_BUFFER_POOL_up_ref',
 )
-external int CRYPTO_BUFFER_POOL_up_ref(ffi.Pointer<CRYPTO_BUFFER_POOL> pool);
+external int CRYPTO_BUFFER_POOL_up_ref(
+  ffi.Pointer<CRYPTO_BUFFER_POOL> pool,
+);
 
 /// CRYPTO_BUFFER_alloc creates an unpooled |CRYPTO_BUFFER| of the given size and
 /// writes the underlying data pointer to |*out_data|. It returns NULL on error.
@@ -6152,7 +6762,9 @@ external ffi.Pointer<CRYPTO_BUFFER> CRYPTO_BUFFER_dup_ref(
 @ffi.Native<ffi.Void Function(ffi.Pointer<CRYPTO_BUFFER>)>(
   symbol: 'bssl_dart_CRYPTO_BUFFER_free',
 )
-external void CRYPTO_BUFFER_free(ffi.Pointer<CRYPTO_BUFFER> buf);
+external void CRYPTO_BUFFER_free(
+  ffi.Pointer<CRYPTO_BUFFER> buf,
+);
 
 /// CRYPTO_BUFFER_init_CBS initialises |out| to point at the data from |buf|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<CRYPTO_BUFFER>, ffi.Pointer<CBS>)>(
@@ -6168,7 +6780,9 @@ external void CRYPTO_BUFFER_init_CBS(
 @ffi.Native<ffi.Size Function(ffi.Pointer<CRYPTO_BUFFER>)>(
   symbol: 'bssl_dart_CRYPTO_BUFFER_len',
 )
-external int CRYPTO_BUFFER_len(ffi.Pointer<CRYPTO_BUFFER> buf);
+external int CRYPTO_BUFFER_len(
+  ffi.Pointer<CRYPTO_BUFFER> buf,
+);
 
 /// CRYPTO_BUFFER_new returns a |CRYPTO_BUFFER| containing a copy of |data|, or
 /// else NULL on error. If |pool| is not NULL then the returned value may be a
@@ -6225,13 +6839,17 @@ external ffi.Pointer<CRYPTO_BUFFER> CRYPTO_BUFFER_new_from_static_data_unsafe(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CRYPTO_BUFFER>)>(
   symbol: 'bssl_dart_CRYPTO_BUFFER_up_ref',
 )
-external int CRYPTO_BUFFER_up_ref(ffi.Pointer<CRYPTO_BUFFER> buf);
+external int CRYPTO_BUFFER_up_ref(
+  ffi.Pointer<CRYPTO_BUFFER> buf,
+);
 
 /// CRYPTO_THREADID_current does nothing.
 @ffi.Native<ffi.Void Function(ffi.Pointer<CRYPTO_THREADID>)>(
   symbol: 'bssl_dart_CRYPTO_THREADID_current',
 )
-external void CRYPTO_THREADID_current(ffi.Pointer<CRYPTO_THREADID> id);
+external void CRYPTO_THREADID_current(
+  ffi.Pointer<CRYPTO_THREADID> id,
+);
 
 /// CRYPTO_THREADID_set_callback returns one.
 @ffi.Native<
@@ -6374,7 +6992,9 @@ CRYPTO_get_dynlock_lock_callback();
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Int)>(
   symbol: 'bssl_dart_CRYPTO_get_lock_name',
 )
-external ffi.Pointer<ffi.Char> CRYPTO_get_lock_name(int lock_num);
+external ffi.Pointer<ffi.Char> CRYPTO_get_lock_name(
+  int lock_num,
+);
 
 /// CRYPTO_get_locking_callback returns NULL.
 @ffi.Native<
@@ -6475,7 +7095,10 @@ external ffi.Pointer<ffi.Void> CRYPTO_realloc(
 @ffi.Native<ffi.Int Function(ffi.Size, ffi.Size)>(
   symbol: 'bssl_dart_CRYPTO_secure_malloc_init',
 )
-external int CRYPTO_secure_malloc_init(int size, int min_size);
+external int CRYPTO_secure_malloc_init(
+  int size,
+  int min_size,
+);
 
 /// CRYPTO_secure_malloc_initialized returns zero.
 @ffi.Native<ffi.Int Function()>(
@@ -6642,7 +7265,9 @@ external void CRYPTO_set_locking_callback(
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_DH_bits',
 )
-external int DH_bits(ffi.Pointer<DH> dh);
+external int DH_bits(
+  ffi.Pointer<DH> dh,
+);
 
 /// DH_check checks the suitability of |dh| as a Diffie-Hellman group. and sets
 /// |DH_CHECK_*| flags in |*out_flags| if it finds any errors. It returns one if
@@ -6652,7 +7277,10 @@ external int DH_bits(ffi.Pointer<DH> dh);
 @ffi.Native<ffi.Int Function(ffi.Pointer<DH>, ffi.Pointer<ffi.Int>)>(
   symbol: 'bssl_dart_DH_check',
 )
-external int DH_check(ffi.Pointer<DH> dh, ffi.Pointer<ffi.Int> out_flags);
+external int DH_check(
+  ffi.Pointer<DH> dh,
+  ffi.Pointer<ffi.Int> out_flags,
+);
 
 /// DH_check_pub_key checks the suitability of |pub_key| as a public key for the
 /// DH group in |dh| and sets |DH_CHECK_PUBKEY_*| flags in |*out_flags| if it
@@ -6759,7 +7387,9 @@ external int DH_compute_key_padded(
 /// DH_free decrements the reference count of |dh| and frees it if the reference
 /// count drops to zero.
 @ffi.Native<ffi.Void Function(ffi.Pointer<DH>)>(symbol: 'bssl_dart_DH_free')
-external void DH_free(ffi.Pointer<DH> dh);
+external void DH_free(
+  ffi.Pointer<DH> dh,
+);
 
 /// DH_generate_key generates a new, random, private key and stores it in
 /// |dh|, if |dh| does not already have a private key. Otherwise, it updates
@@ -6768,7 +7398,9 @@ external void DH_free(ffi.Pointer<DH> dh);
 @ffi.Native<ffi.Int Function(ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_DH_generate_key',
 )
-external int DH_generate_key(ffi.Pointer<DH> dh);
+external int DH_generate_key(
+  ffi.Pointer<DH> dh,
+);
 
 /// DH_generate_parameters behaves like |DH_generate_parameters_ex|, which is
 /// what you should use instead. It returns NULL on error, or a newly-allocated
@@ -6819,7 +7451,9 @@ external int DH_generate_parameters_ex(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_DH_get0_g',
 )
-external ffi.Pointer<BIGNUM> DH_get0_g(ffi.Pointer<DH> dh);
+external ffi.Pointer<BIGNUM> DH_get0_g(
+  ffi.Pointer<DH> dh,
+);
 
 /// DH_get0_key sets |*out_pub_key| and |*out_priv_key|, if non-NULL, to |dh|'s
 /// public and private key, respectively. If |dh| is a public key, the private
@@ -6841,7 +7475,9 @@ external void DH_get0_key(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_DH_get0_p',
 )
-external ffi.Pointer<BIGNUM> DH_get0_p(ffi.Pointer<DH> dh);
+external ffi.Pointer<BIGNUM> DH_get0_p(
+  ffi.Pointer<DH> dh,
+);
 
 /// DH_get0_pqg sets |*out_p|, |*out_q|, and |*out_g|, if non-NULL, to |dh|'s p,
 /// q, and g parameters, respectively.
@@ -6864,19 +7500,25 @@ external void DH_get0_pqg(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_DH_get0_priv_key',
 )
-external ffi.Pointer<BIGNUM> DH_get0_priv_key(ffi.Pointer<DH> dh);
+external ffi.Pointer<BIGNUM> DH_get0_priv_key(
+  ffi.Pointer<DH> dh,
+);
 
 /// DH_get0_pub_key returns |dh|'s public key.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_DH_get0_pub_key',
 )
-external ffi.Pointer<BIGNUM> DH_get0_pub_key(ffi.Pointer<DH> dh);
+external ffi.Pointer<BIGNUM> DH_get0_pub_key(
+  ffi.Pointer<DH> dh,
+);
 
 /// DH_get0_q returns the size of |dh|'s subgroup, or NULL if it is unset.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_DH_get0_q',
 )
-external ffi.Pointer<BIGNUM> DH_get0_q(ffi.Pointer<DH> dh);
+external ffi.Pointer<BIGNUM> DH_get0_q(
+  ffi.Pointer<DH> dh,
+);
 
 /// DH_get_rfc7919_2048 returns the group `ffdhe2048` from
 /// https://tools.ietf.org/html/rfc7919#appendix-A.1. It returns NULL if out
@@ -6890,7 +7532,10 @@ external ffi.Pointer<DH> DH_get_rfc7919_2048();
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_DH_marshal_parameters',
 )
-external int DH_marshal_parameters(ffi.Pointer<CBB> cbb, ffi.Pointer<DH> dh);
+external int DH_marshal_parameters(
+  ffi.Pointer<CBB> cbb,
+  ffi.Pointer<DH> dh,
+);
 
 /// DH_new returns a new, empty DH object or NULL on error.
 @ffi.Native<ffi.Pointer<DH> Function()>(symbol: 'bssl_dart_DH_new')
@@ -6902,7 +7547,9 @@ external ffi.Pointer<DH> DH_new();
 @ffi.Native<ffi.Pointer<DH> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_DH_parse_parameters',
 )
-external ffi.Pointer<DH> DH_parse_parameters(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<DH> DH_parse_parameters(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// DH_set0_key sets |dh|'s public and private key to the specified values. If
 /// NULL, the field is left unchanged. On success, it takes ownership of each
@@ -6941,29 +7588,40 @@ external int DH_set0_pqg(
 @ffi.Native<ffi.Int Function(ffi.Pointer<DH>, ffi.UnsignedInt)>(
   symbol: 'bssl_dart_DH_set_length',
 )
-external int DH_set_length(ffi.Pointer<DH> dh, int priv_length);
+external int DH_set_length(
+  ffi.Pointer<DH> dh,
+  int priv_length,
+);
 
 /// DH_size returns the number of bytes in the DH group's prime.
 @ffi.Native<ffi.Int Function(ffi.Pointer<DH>)>(symbol: 'bssl_dart_DH_size')
-external int DH_size(ffi.Pointer<DH> dh);
+external int DH_size(
+  ffi.Pointer<DH> dh,
+);
 
 /// DH_up_ref increments the reference count of |dh| and returns one. It does not
 /// mutate |dh| for thread-safety purposes and may be used concurrently.
 @ffi.Native<ffi.Int Function(ffi.Pointer<DH>)>(symbol: 'bssl_dart_DH_up_ref')
-external int DH_up_ref(ffi.Pointer<DH> dh);
+external int DH_up_ref(
+  ffi.Pointer<DH> dh,
+);
 
 /// DHparams_dup allocates a fresh |DH| and copies the parameters from |dh| into
 /// it. It returns the new |DH| or NULL on error.
 @ffi.Native<ffi.Pointer<DH> Function(ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_DHparams_dup',
 )
-external ffi.Pointer<DH> DHparams_dup(ffi.Pointer<DH> dh);
+external ffi.Pointer<DH> DHparams_dup(
+  ffi.Pointer<DH> dh,
+);
 
 /// DIRECTORYSTRING_free calls |ASN1_STRING_free|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_STRING>)>(
   symbol: 'bssl_dart_DIRECTORYSTRING_free',
 )
-external void DIRECTORYSTRING_free(ffi.Pointer<ASN1_STRING> str);
+external void DIRECTORYSTRING_free(
+  ffi.Pointer<ASN1_STRING> str,
+);
 
 /// DIRECTORYSTRING_new returns a newly-allocated |ASN1_STRING| with type -1, or
 /// NULL on error. The resulting |ASN1_STRING| is not a valid X.509
@@ -6977,7 +7635,9 @@ external ffi.Pointer<ASN1_STRING> DIRECTORYSTRING_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<ASN1_STRING>)>(
   symbol: 'bssl_dart_DISPLAYTEXT_free',
 )
-external void DISPLAYTEXT_free(ffi.Pointer<ASN1_STRING> str);
+external void DISPLAYTEXT_free(
+  ffi.Pointer<ASN1_STRING> str,
+);
 
 /// DISPLAYTEXT_new returns a newly-allocated |ASN1_STRING| with type -1, or NULL
 /// on error. The resulting |ASN1_STRING| is not a valid X.509 DisplayText until
@@ -6991,7 +7651,9 @@ external ffi.Pointer<ASN1_STRING> DISPLAYTEXT_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<DIST_POINT_NAME>)>(
   symbol: 'bssl_dart_DIST_POINT_NAME_free',
 )
-external void DIST_POINT_NAME_free(ffi.Pointer<DIST_POINT_NAME> name);
+external void DIST_POINT_NAME_free(
+  ffi.Pointer<DIST_POINT_NAME> name,
+);
 
 /// DIST_POINT_NAME_new returns a newly-allocated, empty |DIST_POINT_NAME|
 /// object, or NULL on error.
@@ -7004,7 +7666,9 @@ external ffi.Pointer<DIST_POINT_NAME> DIST_POINT_NAME_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<DIST_POINT>)>(
   symbol: 'bssl_dart_DIST_POINT_free',
 )
-external void DIST_POINT_free(ffi.Pointer<DIST_POINT> dp);
+external void DIST_POINT_free(
+  ffi.Pointer<DIST_POINT> dp,
+);
 
 /// DIST_POINT_new returns a newly-allocated, empty |DIST_POINT| object, or NULL
 /// on error.
@@ -7017,7 +7681,9 @@ external ffi.Pointer<DIST_POINT> DIST_POINT_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<DSA_SIG>)>(
   symbol: 'bssl_dart_DSA_SIG_free',
 )
-external void DSA_SIG_free(ffi.Pointer<DSA_SIG> sig);
+external void DSA_SIG_free(
+  ffi.Pointer<DSA_SIG> sig,
+);
 
 /// DSA_SIG_get0 sets |*out_r| and |*out_s|, if non-NULL, to the two components
 /// of |sig|.
@@ -7039,7 +7705,10 @@ external void DSA_SIG_get0(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<DSA_SIG>)>(
   symbol: 'bssl_dart_DSA_SIG_marshal',
 )
-external int DSA_SIG_marshal(ffi.Pointer<CBB> cbb, ffi.Pointer<DSA_SIG> sig);
+external int DSA_SIG_marshal(
+  ffi.Pointer<CBB> cbb,
+  ffi.Pointer<DSA_SIG> sig,
+);
 
 /// DSA_SIG_new returns a freshly allocated, DIG_SIG structure or NULL on error.
 /// Both |r| and |s| in the signature will be NULL.
@@ -7051,7 +7720,9 @@ external ffi.Pointer<DSA_SIG> DSA_SIG_new();
 @ffi.Native<ffi.Pointer<DSA_SIG> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_DSA_SIG_parse',
 )
-external ffi.Pointer<DSA_SIG> DSA_SIG_parse(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<DSA_SIG> DSA_SIG_parse(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// DSA_SIG_set0 sets |sig|'s components to |r| and |s|, neither of which may be
 /// NULL. On success, it takes ownership of each argument and returns one.
@@ -7073,7 +7744,9 @@ external int DSA_SIG_set0(
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_DSA_bits',
 )
-external int DSA_bits(ffi.Pointer<DSA> dsa);
+external int DSA_bits(
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_check_signature sets |*out_valid| to zero. Then it verifies that |sig|
 /// is a valid, ASN.1 signature, by the public key in |dsa|, of the hash in
@@ -7169,12 +7842,16 @@ external int DSA_do_verify(
 @ffi.Native<ffi.Pointer<DH> Function(ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_DSA_dup_DH',
 )
-external ffi.Pointer<DH> DSA_dup_DH(ffi.Pointer<DSA> dsa);
+external ffi.Pointer<DH> DSA_dup_DH(
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_free decrements the reference count of |dsa| and frees it if the
 /// reference count drops to zero.
 @ffi.Native<ffi.Void Function(ffi.Pointer<DSA>)>(symbol: 'bssl_dart_DSA_free')
-external void DSA_free(ffi.Pointer<DSA> dsa);
+external void DSA_free(
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_generate_key generates a public/private key pair in |dsa|, which must
 /// already have parameters setup. It returns one on success and zero on
@@ -7182,7 +7859,9 @@ external void DSA_free(ffi.Pointer<DSA> dsa);
 @ffi.Native<ffi.Int Function(ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_DSA_generate_key',
 )
-external int DSA_generate_key(ffi.Pointer<DSA> dsa);
+external int DSA_generate_key(
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_generate_parameters is a deprecated version of
 /// |DSA_generate_parameters_ex| that creates and returns a |DSA*|. Don't use
@@ -7259,7 +7938,9 @@ external int DSA_generate_parameters_ex(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_DSA_get0_g',
 )
-external ffi.Pointer<BIGNUM> DSA_get0_g(ffi.Pointer<DSA> dsa);
+external ffi.Pointer<BIGNUM> DSA_get0_g(
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_get0_key sets |*out_pub_key| and |*out_priv_key|, if non-NULL, to |dsa|'s
 /// public and private key, respectively. If |dsa| is a public key, the private
@@ -7281,7 +7962,9 @@ external void DSA_get0_key(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_DSA_get0_p',
 )
-external ffi.Pointer<BIGNUM> DSA_get0_p(ffi.Pointer<DSA> dsa);
+external ffi.Pointer<BIGNUM> DSA_get0_p(
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_get0_pqg sets |*out_p|, |*out_q|, and |*out_g|, if non-NULL, to |dsa|'s
 /// p, q, and g parameters, respectively.
@@ -7305,24 +7988,33 @@ external void DSA_get0_pqg(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_DSA_get0_priv_key',
 )
-external ffi.Pointer<BIGNUM> DSA_get0_priv_key(ffi.Pointer<DSA> dsa);
+external ffi.Pointer<BIGNUM> DSA_get0_priv_key(
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_get0_pub_key returns |dsa|'s public key.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_DSA_get0_pub_key',
 )
-external ffi.Pointer<BIGNUM> DSA_get0_pub_key(ffi.Pointer<DSA> dsa);
+external ffi.Pointer<BIGNUM> DSA_get0_pub_key(
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_get0_q returns the size of |dsa|'s subgroup.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_DSA_get0_q',
 )
-external ffi.Pointer<BIGNUM> DSA_get0_q(ffi.Pointer<DSA> dsa);
+external ffi.Pointer<BIGNUM> DSA_get0_q(
+  ffi.Pointer<DSA> dsa,
+);
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<DSA>, ffi.Int)>(
   symbol: 'bssl_dart_DSA_get_ex_data',
 )
-external ffi.Pointer<ffi.Void> DSA_get_ex_data(ffi.Pointer<DSA> dsa, int idx);
+external ffi.Pointer<ffi.Void> DSA_get_ex_data(
+  ffi.Pointer<DSA> dsa,
+  int idx,
+);
 
 /// ex_data functions.
 ///
@@ -7350,7 +8042,10 @@ external int DSA_get_ex_new_index(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_DSA_marshal_parameters',
 )
-external int DSA_marshal_parameters(ffi.Pointer<CBB> cbb, ffi.Pointer<DSA> dsa);
+external int DSA_marshal_parameters(
+  ffi.Pointer<CBB> cbb,
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_marshal_private_key marshals |dsa| as a DER-encoded DSA private key and
 /// appends the result to |cbb|. It returns one on success and zero on
@@ -7369,7 +8064,10 @@ external int DSA_marshal_private_key(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_DSA_marshal_public_key',
 )
-external int DSA_marshal_public_key(ffi.Pointer<CBB> cbb, ffi.Pointer<DSA> dsa);
+external int DSA_marshal_public_key(
+  ffi.Pointer<CBB> cbb,
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_new returns a new, empty DSA object or NULL on error.
 @ffi.Native<ffi.Pointer<DSA> Function()>(symbol: 'bssl_dart_DSA_new')
@@ -7381,21 +8079,27 @@ external ffi.Pointer<DSA> DSA_new();
 @ffi.Native<ffi.Pointer<DSA> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_DSA_parse_parameters',
 )
-external ffi.Pointer<DSA> DSA_parse_parameters(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<DSA> DSA_parse_parameters(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// DSA_parse_private_key parses a DER-encoded DSA private key from |cbs| and
 /// advances |cbs|. It returns a newly-allocated |DSA| or NULL on error.
 @ffi.Native<ffi.Pointer<DSA> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_DSA_parse_private_key',
 )
-external ffi.Pointer<DSA> DSA_parse_private_key(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<DSA> DSA_parse_private_key(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// DSA_parse_public_key parses a DER-encoded DSA public key from |cbs| and
 /// advances |cbs|. It returns a newly-allocated |DSA| or NULL on error.
 @ffi.Native<ffi.Pointer<DSA> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_DSA_parse_public_key',
 )
-external ffi.Pointer<DSA> DSA_parse_public_key(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<DSA> DSA_parse_public_key(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// DSA_set0_key sets |dsa|'s public and private key to |pub_key| and |priv_key|,
 /// respectively, if non-NULL. On success, it takes ownership of each argument
@@ -7469,12 +8173,16 @@ external int DSA_sign(
 /// DSA_size returns the size, in bytes, of an ASN.1 encoded, DSA signature
 /// generated by |dsa|. Parameters must already have been setup in |dsa|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<DSA>)>(symbol: 'bssl_dart_DSA_size')
-external int DSA_size(ffi.Pointer<DSA> dsa);
+external int DSA_size(
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_up_ref increments the reference count of |dsa| and returns one. It does
 /// not mutate |dsa| for thread-safety purposes and may be used concurrently.
 @ffi.Native<ffi.Int Function(ffi.Pointer<DSA>)>(symbol: 'bssl_dart_DSA_up_ref')
-external int DSA_up_ref(ffi.Pointer<DSA> dsa);
+external int DSA_up_ref(
+  ffi.Pointer<DSA> dsa,
+);
 
 /// DSA_verify verifies that |sig| is a valid, ASN.1 signature, by the public
 /// key in |dsa|, of the hash in |digest|. It returns one if so, zero if invalid
@@ -7512,7 +8220,9 @@ external int DSA_verify(
 @ffi.Native<ffi.Pointer<DSA> Function(ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_DSAparams_dup',
 )
-external ffi.Pointer<DSA> DSAparams_dup(ffi.Pointer<DSA> dsa);
+external ffi.Pointer<DSA> DSAparams_dup(
+  ffi.Pointer<DSA> dsa,
+);
 
 /// ECDH_compute_key calculates the shared key between |pub_key| and |priv_key|.
 /// If |kdf| is not NULL, then it is called with the bytes of the shared key and
@@ -7587,7 +8297,9 @@ external int ECDH_compute_key_fips(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ECDSA_SIG>)>(
   symbol: 'bssl_dart_ECDSA_SIG_free',
 )
-external void ECDSA_SIG_free(ffi.Pointer<ECDSA_SIG> sig);
+external void ECDSA_SIG_free(
+  ffi.Pointer<ECDSA_SIG> sig,
+);
 
 /// ECDSA_SIG_from_bytes parses |in| as a DER-encoded ECDSA-Sig-Value structure.
 /// It returns a newly-allocated |ECDSA_SIG| structure or NULL on error.
@@ -7618,13 +8330,17 @@ external void ECDSA_SIG_get0(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<ECDSA_SIG>)>(
   symbol: 'bssl_dart_ECDSA_SIG_get0_r',
 )
-external ffi.Pointer<BIGNUM> ECDSA_SIG_get0_r(ffi.Pointer<ECDSA_SIG> sig);
+external ffi.Pointer<BIGNUM> ECDSA_SIG_get0_r(
+  ffi.Pointer<ECDSA_SIG> sig,
+);
 
 /// ECDSA_SIG_get0_s returns the s component of |sig|.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<ECDSA_SIG>)>(
   symbol: 'bssl_dart_ECDSA_SIG_get0_s',
 )
-external ffi.Pointer<BIGNUM> ECDSA_SIG_get0_s(ffi.Pointer<ECDSA_SIG> sig);
+external ffi.Pointer<BIGNUM> ECDSA_SIG_get0_s(
+  ffi.Pointer<ECDSA_SIG> sig,
+);
 
 /// ECDSA_SIG_marshal marshals |sig| as a DER-encoded ECDSA-Sig-Value and appends
 /// the result to |cbb|. It returns one on success and zero on error.
@@ -7640,7 +8356,9 @@ external int ECDSA_SIG_marshal(
 /// structure for a group whose order is represented in |order_len| bytes, or
 /// zero on overflow.
 @ffi.Native<ffi.Size Function(ffi.Size)>(symbol: 'bssl_dart_ECDSA_SIG_max_len')
-external int ECDSA_SIG_max_len(int order_len);
+external int ECDSA_SIG_max_len(
+  int order_len,
+);
 
 /// ECDSA_SIG_new returns a fresh |ECDSA_SIG| structure or NULL on error.
 @ffi.Native<ffi.Pointer<ECDSA_SIG> Function()>(
@@ -7653,7 +8371,9 @@ external ffi.Pointer<ECDSA_SIG> ECDSA_SIG_new();
 @ffi.Native<ffi.Pointer<ECDSA_SIG> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_ECDSA_SIG_parse',
 )
-external ffi.Pointer<ECDSA_SIG> ECDSA_SIG_parse(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<ECDSA_SIG> ECDSA_SIG_parse(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// ECDSA_SIG_set0 sets |sig|'s components to |r| and |s|, neither of which may
 /// be NULL. On success, it takes ownership of each argument and returns one.
@@ -7814,14 +8534,18 @@ ECDSA_sign_with_nonce_and_leak_private_key_for_testing(
 @ffi.Native<ffi.Size Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_ECDSA_size',
 )
-external int ECDSA_size(ffi.Pointer<EC_KEY> key);
+external int ECDSA_size(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// ECDSA_size_p1363 returns the size of a P1363-based ECDSA signature using
 /// |key|. It returns zero if |key| is NULL or if it doesn't have a group set.
 @ffi.Native<ffi.Size Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_ECDSA_size_p1363',
 )
-external int ECDSA_size_p1363(ffi.Pointer<EC_KEY> key);
+external int ECDSA_size_p1363(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// ECDSA_verify verifies that |sig_len| bytes from |sig| constitute a valid
 /// ASN.1-based signature by |key| of |digest|. (The |type| argument should be
@@ -7899,7 +8623,9 @@ external int EC_GROUP_cmp(
 @ffi.Native<ffi.Pointer<EC_GROUP> Function(ffi.Pointer<EC_GROUP>)>(
   symbol: 'bssl_dart_EC_GROUP_dup',
 )
-external ffi.Pointer<EC_GROUP> EC_GROUP_dup(ffi.Pointer<EC_GROUP> group);
+external ffi.Pointer<EC_GROUP> EC_GROUP_dup(
+  ffi.Pointer<EC_GROUP> group,
+);
 
 /// EC_GROUP_free releases a reference to |group|, if |group| was created by
 /// |EC_GROUP_new_curve_GFp|. If |group| is static, it does nothing.
@@ -7910,7 +8636,9 @@ external ffi.Pointer<EC_GROUP> EC_GROUP_dup(ffi.Pointer<EC_GROUP> group);
 @ffi.Native<ffi.Void Function(ffi.Pointer<EC_GROUP>)>(
   symbol: 'bssl_dart_EC_GROUP_free',
 )
-external void EC_GROUP_free(ffi.Pointer<EC_GROUP> group);
+external void EC_GROUP_free(
+  ffi.Pointer<EC_GROUP> group,
+);
 
 /// EC_GROUP_get0_generator returns a pointer to the internal |EC_POINT| object
 /// in |group| that specifies the generator for the group.
@@ -7926,13 +8654,17 @@ external ffi.Pointer<EC_POINT> EC_GROUP_get0_generator(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<EC_GROUP>)>(
   symbol: 'bssl_dart_EC_GROUP_get0_order',
 )
-external ffi.Pointer<BIGNUM> EC_GROUP_get0_order(ffi.Pointer<EC_GROUP> group);
+external ffi.Pointer<BIGNUM> EC_GROUP_get0_order(
+  ffi.Pointer<EC_GROUP> group,
+);
 
 /// EC_GROUP_get_asn1_flag returns |OPENSSL_EC_NAMED_CURVE|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<EC_GROUP>)>(
   symbol: 'bssl_dart_EC_GROUP_get_asn1_flag',
 )
-external int EC_GROUP_get_asn1_flag(ffi.Pointer<EC_GROUP> group);
+external int EC_GROUP_get_asn1_flag(
+  ffi.Pointer<EC_GROUP> group,
+);
 
 /// EC_GROUP_get_cofactor sets |*cofactor| to the cofactor of |group|. It returns
 /// one on success and zero otherwise. |ctx| is ignored and may be NULL.
@@ -7975,14 +8707,18 @@ external int EC_GROUP_get_curve_GFp(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EC_GROUP>)>(
   symbol: 'bssl_dart_EC_GROUP_get_curve_name',
 )
-external int EC_GROUP_get_curve_name(ffi.Pointer<EC_GROUP> group);
+external int EC_GROUP_get_curve_name(
+  ffi.Pointer<EC_GROUP> group,
+);
 
 /// EC_GROUP_get_degree returns the number of bits needed to represent an
 /// element of the field underlying |group|.
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<EC_GROUP>)>(
   symbol: 'bssl_dart_EC_GROUP_get_degree',
 )
-external int EC_GROUP_get_degree(ffi.Pointer<EC_GROUP> group);
+external int EC_GROUP_get_degree(
+  ffi.Pointer<EC_GROUP> group,
+);
 
 /// EC_GROUP_get_order sets |*order| to the order of |group|, if it's not
 /// NULL. It returns one on success and zero otherwise. |ctx| is ignored and may
@@ -8004,7 +8740,9 @@ external int EC_GROUP_get_order(
 @ffi.Native<ffi.Pointer<EC_METHOD> Function(ffi.Pointer<EC_GROUP>)>(
   symbol: 'bssl_dart_EC_GROUP_method_of',
 )
-external ffi.Pointer<EC_METHOD> EC_GROUP_method_of(ffi.Pointer<EC_GROUP> group);
+external ffi.Pointer<EC_METHOD> EC_GROUP_method_of(
+  ffi.Pointer<EC_GROUP> group,
+);
 
 /// EC_GROUP_new_by_curve_name returns the |EC_GROUP| object for the elliptic
 /// curve specified by |nid|, or NULL on unsupported NID.  For OpenSSL
@@ -8026,7 +8764,9 @@ external ffi.Pointer<EC_METHOD> EC_GROUP_method_of(ffi.Pointer<EC_GROUP> group);
 @ffi.Native<ffi.Pointer<EC_GROUP> Function(ffi.Int)>(
   symbol: 'bssl_dart_EC_GROUP_new_by_curve_name',
 )
-external ffi.Pointer<EC_GROUP> EC_GROUP_new_by_curve_name(int nid);
+external ffi.Pointer<EC_GROUP> EC_GROUP_new_by_curve_name(
+  int nid,
+);
 
 /// EC_GROUP_new_curve_GFp creates a new, arbitrary elliptic curve group based
 /// on the equation y² = x³ + a·x + b. It returns the new group or NULL on
@@ -8069,13 +8809,18 @@ external ffi.Pointer<EC_GROUP> EC_GROUP_new_curve_GFp(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EC_GROUP>)>(
   symbol: 'bssl_dart_EC_GROUP_order_bits',
 )
-external int EC_GROUP_order_bits(ffi.Pointer<EC_GROUP> group);
+external int EC_GROUP_order_bits(
+  ffi.Pointer<EC_GROUP> group,
+);
 
 /// EC_GROUP_set_asn1_flag does nothing.
 @ffi.Native<ffi.Void Function(ffi.Pointer<EC_GROUP>, ffi.Int)>(
   symbol: 'bssl_dart_EC_GROUP_set_asn1_flag',
 )
-external void EC_GROUP_set_asn1_flag(ffi.Pointer<EC_GROUP> group, int flag);
+external void EC_GROUP_set_asn1_flag(
+  ffi.Pointer<EC_GROUP> group,
+  int flag,
+);
 
 /// EC_GROUP_set_generator sets the generator for |group| to |generator|, which
 /// must have the given order and cofactor. It may only be used with |EC_GROUP|
@@ -8110,7 +8855,10 @@ void EC_GROUP_set_point_conversion_form(
   ffi.Pointer<EC_GROUP> group,
   point_conversion_form_t form,
 ) {
-  return _EC_GROUP_set_point_conversion_form(group, form.value);
+  return _EC_GROUP_set_point_conversion_form(
+    group,
+    form.value,
+  );
 }
 
 /// EC_KEY_check_fips performs both a signing pairwise consistency test
@@ -8119,7 +8867,9 @@ void EC_GROUP_set_point_conversion_form(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_check_fips',
 )
-external int EC_KEY_check_fips(ffi.Pointer<EC_KEY> key);
+external int EC_KEY_check_fips(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// EC_KEY_check_key performs several checks on |key| (possibly including an
 /// expensive check that the public key is in the primary subgroup). It returns
@@ -8128,7 +8878,9 @@ external int EC_KEY_check_fips(ffi.Pointer<EC_KEY> key);
 @ffi.Native<ffi.Int Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_check_key',
 )
-external int EC_KEY_check_key(ffi.Pointer<EC_KEY> key);
+external int EC_KEY_check_key(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// EC_KEY_derive_from_secret deterministically derives a private key for |group|
 /// from an input secret using HKDF-SHA256. It returns a newly-allocated |EC_KEY|
@@ -8157,13 +8909,17 @@ external ffi.Pointer<EC_KEY> EC_KEY_derive_from_secret(
 @ffi.Native<ffi.Pointer<EC_KEY> Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_dup',
 )
-external ffi.Pointer<EC_KEY> EC_KEY_dup(ffi.Pointer<EC_KEY> src);
+external ffi.Pointer<EC_KEY> EC_KEY_dup(
+  ffi.Pointer<EC_KEY> src,
+);
 
 /// EC_KEY_free frees all the data owned by |key| and |key| itself.
 @ffi.Native<ffi.Void Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_free',
 )
-external void EC_KEY_free(ffi.Pointer<EC_KEY> key);
+external void EC_KEY_free(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// EC_KEY_generate_key generates a random, private key, calculates the
 /// corresponding public key and stores both in |key|. It returns one on success
@@ -8171,7 +8927,9 @@ external void EC_KEY_free(ffi.Pointer<EC_KEY> key);
 @ffi.Native<ffi.Int Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_generate_key',
 )
-external int EC_KEY_generate_key(ffi.Pointer<EC_KEY> key);
+external int EC_KEY_generate_key(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// EC_KEY_generate_key_fips behaves like |EC_KEY_generate_key| but performs
 /// additional checks for FIPS compliance. This function is applicable when
@@ -8180,36 +8938,52 @@ external int EC_KEY_generate_key(ffi.Pointer<EC_KEY> key);
 @ffi.Native<ffi.Int Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_generate_key_fips',
 )
-external int EC_KEY_generate_key_fips(ffi.Pointer<EC_KEY> key);
+external int EC_KEY_generate_key_fips(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// EC_KEY_get0_group returns a pointer to the |EC_GROUP| object inside |key|.
 @ffi.Native<ffi.Pointer<EC_GROUP> Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_get0_group',
 )
-external ffi.Pointer<EC_GROUP> EC_KEY_get0_group(ffi.Pointer<EC_KEY> key);
+external ffi.Pointer<EC_GROUP> EC_KEY_get0_group(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// EC_KEY_get0_private_key returns a pointer to the private key inside |key|.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_get0_private_key',
 )
-external ffi.Pointer<BIGNUM> EC_KEY_get0_private_key(ffi.Pointer<EC_KEY> key);
+external ffi.Pointer<BIGNUM> EC_KEY_get0_private_key(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// EC_KEY_get0_public_key returns a pointer to the public key point inside
 /// |key|.
 @ffi.Native<ffi.Pointer<EC_POINT> Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_get0_public_key',
 )
-external ffi.Pointer<EC_POINT> EC_KEY_get0_public_key(ffi.Pointer<EC_KEY> key);
+external ffi.Pointer<EC_POINT> EC_KEY_get0_public_key(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// EC_KEY_get_conv_form returns the conversation form that will be used by
 /// |key|.
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_get_conv_form',
 )
-external int _EC_KEY_get_conv_form(ffi.Pointer<EC_KEY> key);
+external int _EC_KEY_get_conv_form(
+  ffi.Pointer<EC_KEY> key,
+);
 
-point_conversion_form_t EC_KEY_get_conv_form(ffi.Pointer<EC_KEY> key) {
-  return point_conversion_form_t.fromValue(_EC_KEY_get_conv_form(key));
+point_conversion_form_t EC_KEY_get_conv_form(
+  ffi.Pointer<EC_KEY> key,
+) {
+  return point_conversion_form_t.fromValue(
+    _EC_KEY_get_conv_form(
+      key,
+    ),
+  );
 }
 
 /// EC_KEY_get_enc_flags returns the encoding flags for |key|, which is a
@@ -8217,7 +8991,9 @@ point_conversion_form_t EC_KEY_get_conv_form(ffi.Pointer<EC_KEY> key) {
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_get_enc_flags',
 )
-external int EC_KEY_get_enc_flags(ffi.Pointer<EC_KEY> key);
+external int EC_KEY_get_enc_flags(
+  ffi.Pointer<EC_KEY> key,
+);
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<EC_KEY>, ffi.Int)>(
   symbol: 'bssl_dart_EC_KEY_get_ex_data',
@@ -8252,7 +9028,9 @@ external int EC_KEY_get_ex_new_index(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_is_opaque',
 )
-external int EC_KEY_is_opaque(ffi.Pointer<EC_KEY> key);
+external int EC_KEY_is_opaque(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// EC_KEY_key2buf behaves like |EC_POINT_point2buf|, except it encodes the
 /// public key in |key|. |ctx| is ignored and may be NULL.
@@ -8277,7 +9055,12 @@ int EC_KEY_key2buf(
   ffi.Pointer<ffi.Pointer<ffi.Uint8>> out_buf,
   ffi.Pointer<BN_CTX> ctx,
 ) {
-  return _EC_KEY_key2buf(key, form.value, out_buf, ctx);
+  return _EC_KEY_key2buf(
+    key,
+    form.value,
+    out_buf,
+    ctx,
+  );
 }
 
 /// EC_KEY_marshal_curve_name marshals |group| as a DER-encoded OBJECT IDENTIFIER
@@ -8313,14 +9096,18 @@ external ffi.Pointer<EC_KEY> EC_KEY_new();
 @ffi.Native<ffi.Pointer<EC_KEY> Function(ffi.Int)>(
   symbol: 'bssl_dart_EC_KEY_new_by_curve_name',
 )
-external ffi.Pointer<EC_KEY> EC_KEY_new_by_curve_name(int nid);
+external ffi.Pointer<EC_KEY> EC_KEY_new_by_curve_name(
+  int nid,
+);
 
 /// EC_KEY_new_method acts the same as |EC_KEY_new|, but takes an explicit
 /// |ENGINE|.
 @ffi.Native<ffi.Pointer<EC_KEY> Function(ffi.Pointer<ENGINE>)>(
   symbol: 'bssl_dart_EC_KEY_new_method',
 )
-external ffi.Pointer<EC_KEY> EC_KEY_new_method(ffi.Pointer<ENGINE> engine);
+external ffi.Pointer<EC_KEY> EC_KEY_new_method(
+  ffi.Pointer<ENGINE> engine,
+);
 
 /// EC_KEY_oct2key decodes |len| bytes from |in| as an EC public key in X9.62
 /// form. |key| must already have a group configured. On success, it sets the
@@ -8367,7 +9154,9 @@ external int EC_KEY_oct2priv(
 @ffi.Native<ffi.Pointer<EC_GROUP> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_EC_KEY_parse_curve_name',
 )
-external ffi.Pointer<EC_GROUP> EC_KEY_parse_curve_name(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<EC_GROUP> EC_KEY_parse_curve_name(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// EC_KEY_parse_parameters parses a DER-encoded ECParameters structure (RFC
 /// 5480) from |cbs| and advances |cbs|. It returns the resulting |EC_GROUP| or
@@ -8383,7 +9172,9 @@ external ffi.Pointer<EC_GROUP> EC_KEY_parse_curve_name(ffi.Pointer<CBS> cbs);
 @ffi.Native<ffi.Pointer<EC_GROUP> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_EC_KEY_parse_parameters',
 )
-external ffi.Pointer<EC_GROUP> EC_KEY_parse_parameters(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<EC_GROUP> EC_KEY_parse_parameters(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// EC_KEY_parse_private_key parses a DER-encoded ECPrivateKey structure (RFC
 /// 5915) from |cbs| and advances |cbs|. It returns a newly-allocated |EC_KEY| or
@@ -8428,19 +9219,28 @@ external int EC_KEY_priv2oct(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EC_KEY>, ffi.Int)>(
   symbol: 'bssl_dart_EC_KEY_set_asn1_flag',
 )
-external void EC_KEY_set_asn1_flag(ffi.Pointer<EC_KEY> key, int flag);
+external void EC_KEY_set_asn1_flag(
+  ffi.Pointer<EC_KEY> key,
+  int flag,
+);
 
 /// EC_KEY_set_conv_form sets the conversion form to be used by |key|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<EC_KEY>, ffi.UnsignedInt)>(
   symbol: 'bssl_dart_EC_KEY_set_conv_form',
 )
-external void _EC_KEY_set_conv_form(ffi.Pointer<EC_KEY> key, int cform);
+external void _EC_KEY_set_conv_form(
+  ffi.Pointer<EC_KEY> key,
+  int cform,
+);
 
 void EC_KEY_set_conv_form(
   ffi.Pointer<EC_KEY> key,
   point_conversion_form_t cform,
 ) {
-  return _EC_KEY_set_conv_form(key, cform.value);
+  return _EC_KEY_set_conv_form(
+    key,
+    cform.value,
+  );
 }
 
 /// EC_KEY_set_enc_flags sets the encoding flags for |key|, which is a
@@ -8448,7 +9248,10 @@ void EC_KEY_set_conv_form(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EC_KEY>, ffi.UnsignedInt)>(
   symbol: 'bssl_dart_EC_KEY_set_enc_flags',
 )
-external void EC_KEY_set_enc_flags(ffi.Pointer<EC_KEY> key, int flags);
+external void EC_KEY_set_enc_flags(
+  ffi.Pointer<EC_KEY> key,
+  int flags,
+);
 
 @ffi.Native<
   ffi.Int Function(ffi.Pointer<EC_KEY>, ffi.Int, ffi.Pointer<ffi.Void>)
@@ -8514,13 +9317,17 @@ external int EC_KEY_set_public_key_affine_coordinates(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_up_ref',
 )
-external int EC_KEY_up_ref(ffi.Pointer<EC_KEY> key);
+external int EC_KEY_up_ref(
+  ffi.Pointer<EC_KEY> key,
+);
 
 /// EC_METHOD_get_field_type returns NID_X9_62_prime_field.
 @ffi.Native<ffi.Int Function(ffi.Pointer<EC_METHOD>)>(
   symbol: 'bssl_dart_EC_METHOD_get_field_type',
 )
-external int EC_METHOD_get_field_type(ffi.Pointer<EC_METHOD> meth);
+external int EC_METHOD_get_field_type(
+  ffi.Pointer<EC_METHOD> meth,
+);
 
 /// EC_POINT_add sets |r| equal to |a| plus |b|. It returns one on success and
 /// zero otherwise. |ctx| is ignored and may be NULL.
@@ -8545,7 +9352,9 @@ external int EC_POINT_add(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EC_POINT>)>(
   symbol: 'bssl_dart_EC_POINT_clear_free',
 )
-external void EC_POINT_clear_free(ffi.Pointer<EC_POINT> point);
+external void EC_POINT_clear_free(
+  ffi.Pointer<EC_POINT> point,
+);
 
 /// EC_POINT_cmp returns zero if |a| is equal to |b|, greater than zero if
 /// not equal and -1 on error. |ctx| is ignored and may be NULL.
@@ -8605,7 +9414,9 @@ external ffi.Pointer<EC_POINT> EC_POINT_dup(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EC_POINT>)>(
   symbol: 'bssl_dart_EC_POINT_free',
 )
-external void EC_POINT_free(ffi.Pointer<EC_POINT> point);
+external void EC_POINT_free(
+  ffi.Pointer<EC_POINT> point,
+);
 
 /// EC_POINT_get_affine_coordinates is an alias of
 /// |EC_POINT_get_affine_coordinates_GFp|.
@@ -8716,7 +9527,9 @@ external int EC_POINT_mul(
 @ffi.Native<ffi.Pointer<EC_POINT> Function(ffi.Pointer<EC_GROUP>)>(
   symbol: 'bssl_dart_EC_POINT_new',
 )
-external ffi.Pointer<EC_POINT> EC_POINT_new(ffi.Pointer<EC_GROUP> group);
+external ffi.Pointer<EC_POINT> EC_POINT_new(
+  ffi.Pointer<EC_GROUP> group,
+);
 
 /// EC_POINT_oct2point sets |point| from |len| bytes of X9.62 format
 /// serialisation in |buf|. It returns one on success and zero on error. |ctx|
@@ -8767,7 +9580,13 @@ int EC_POINT_point2buf(
   ffi.Pointer<ffi.Pointer<ffi.Uint8>> out_buf,
   ffi.Pointer<BN_CTX> ctx,
 ) {
-  return _EC_POINT_point2buf(group, point, form.value, out_buf, ctx);
+  return _EC_POINT_point2buf(
+    group,
+    point,
+    form.value,
+    out_buf,
+    ctx,
+  );
 }
 
 /// EC_POINT_point2cbb behaves like |EC_POINT_point2oct| but appends the
@@ -8797,7 +9616,13 @@ int EC_POINT_point2cbb(
   point_conversion_form_t form,
   ffi.Pointer<BN_CTX> ctx,
 ) {
-  return _EC_POINT_point2cbb(out, group, point, form.value, ctx);
+  return _EC_POINT_point2cbb(
+    out,
+    group,
+    point,
+    form.value,
+    ctx,
+  );
 }
 
 /// EC_POINT_point2oct serialises |point| into the X9.62 form given by |form|
@@ -8831,7 +9656,14 @@ int EC_POINT_point2oct(
   int max_out,
   ffi.Pointer<BN_CTX> ctx,
 ) {
-  return _EC_POINT_point2oct(group, point, form.value, buf, max_out, ctx);
+  return _EC_POINT_point2oct(
+    group,
+    point,
+    form.value,
+    buf,
+    max_out,
+    ctx,
+  );
 }
 
 /// EC_POINT_set_affine_coordinates is an alias of
@@ -8915,7 +9747,9 @@ external int EC_POINT_set_to_infinity(
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Int)>(
   symbol: 'bssl_dart_EC_curve_nid2nist',
 )
-external ffi.Pointer<ffi.Char> EC_curve_nid2nist(int nid);
+external ffi.Pointer<ffi.Char> EC_curve_nid2nist(
+  int nid,
+);
 
 /// EC_curve_nist2nid returns the NID of the elliptic curve specified by the NIST
 /// name |name|, or |NID_undef| if |name| is not a recognized name. For example,
@@ -8923,7 +9757,9 @@ external ffi.Pointer<ffi.Char> EC_curve_nid2nist(int nid);
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_EC_curve_nist2nid',
 )
-external int EC_curve_nist2nid(ffi.Pointer<ffi.Char> name);
+external int EC_curve_nist2nid(
+  ffi.Pointer<ffi.Char> name,
+);
 
 /// EC_encode_to_curve_p256_xmd_sha256_sswu hashes |msg| to a point on |group|
 /// and writes the result to |out|, implementing the P256_XMD:SHA-256_SSWU_NU_
@@ -9122,7 +9958,9 @@ external int ED25519_verify(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EDIPARTYNAME>)>(
   symbol: 'bssl_dart_EDIPARTYNAME_free',
 )
-external void EDIPARTYNAME_free(ffi.Pointer<EDIPARTYNAME> name);
+external void EDIPARTYNAME_free(
+  ffi.Pointer<EDIPARTYNAME> name,
+);
 
 /// EDIPARTYNAME_new returns a new, empty |EDIPARTYNAME|, or NULL on error.
 /// EDIPartyName is rarely used in practice, so callers are unlikely to need this
@@ -9141,7 +9979,9 @@ external void ENGINE_cleanup();
 @ffi.Native<ffi.Int Function(ffi.Pointer<ENGINE>)>(
   symbol: 'bssl_dart_ENGINE_free',
 )
-external int ENGINE_free(ffi.Pointer<ENGINE> engine);
+external int ENGINE_free(
+  ffi.Pointer<ENGINE> engine,
+);
 
 @ffi.Native<ffi.Pointer<ECDSA_METHOD> Function(ffi.Pointer<ENGINE>)>(
   symbol: 'bssl_dart_ENGINE_get_ECDSA_method',
@@ -9206,14 +10046,18 @@ external int ENGINE_set_RSA_method(
 @ffi.Native<ffi.Void Function(ffi.UnsignedInt)>(
   symbol: 'bssl_dart_ERR_add_error_data',
 )
-external void ERR_add_error_data(int count);
+external void ERR_add_error_data(
+  int count,
+);
 
 /// ERR_add_error_dataf takes a printf-style format and arguments, and sets the
 /// result as the data on the most recent error.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_ERR_add_error_dataf',
 )
-external void ERR_add_error_dataf(ffi.Pointer<ffi.Char> format);
+external void ERR_add_error_dataf(
+  ffi.Pointer<ffi.Char> format,
+);
 
 /// ERR_clear_error clears the error queue for the current thread.
 @ffi.Native<ffi.Void Function()>(symbol: 'bssl_dart_ERR_clear_error')
@@ -9270,7 +10114,9 @@ external void ERR_free_strings();
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Uint32)>(
   symbol: 'bssl_dart_ERR_func_error_string',
 )
-external ffi.Pointer<ffi.Char> ERR_func_error_string(int packed_error);
+external ffi.Pointer<ffi.Char> ERR_func_error_string(
+  int packed_error,
+);
 
 /// ERR_get_error gets the packed error code for the least recent error and
 /// removes that error from the queue. If there are no errors in the queue then
@@ -9321,7 +10167,9 @@ external int ERR_get_next_error_library();
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Uint32)>(
   symbol: 'bssl_dart_ERR_lib_error_string',
 )
-external ffi.Pointer<ffi.Char> ERR_lib_error_string(int packed_error);
+external ffi.Pointer<ffi.Char> ERR_lib_error_string(
+  int packed_error,
+);
 
 /// ERR_lib_symbol_name returns the symbol name of library that generated
 /// |packed_error|, or NULL if unrecognized. For example, an error from
@@ -9329,7 +10177,9 @@ external ffi.Pointer<ffi.Char> ERR_lib_error_string(int packed_error);
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Uint32)>(
   symbol: 'bssl_dart_ERR_lib_symbol_name',
 )
-external ffi.Pointer<ffi.Char> ERR_lib_symbol_name(int packed_error);
+external ffi.Pointer<ffi.Char> ERR_lib_symbol_name(
+  int packed_error,
+);
 
 /// ERR_load_BIO_strings does nothing.
 @ffi.Native<ffi.Void Function()>(symbol: 'bssl_dart_ERR_load_BIO_strings')
@@ -9415,7 +10265,9 @@ external int ERR_pop_to_mark();
 @ffi.Native<ffi.Void Function(ffi.Pointer<BIO>)>(
   symbol: 'bssl_dart_ERR_print_errors',
 )
-external void ERR_print_errors(ffi.Pointer<BIO> bio);
+external void ERR_print_errors(
+  ffi.Pointer<BIO> bio,
+);
 
 /// ERR_print_errors_cb clears the current thread's error queue, calling
 /// |callback| with a string representation of each error, from the least recent
@@ -9442,7 +10294,9 @@ external void ERR_print_errors_cb(
 @ffi.Native<ffi.Void Function(ffi.Pointer<FILE>)>(
   symbol: 'bssl_dart_ERR_print_errors_fp',
 )
-external void ERR_print_errors_fp(ffi.Pointer<FILE> file);
+external void ERR_print_errors_fp(
+  ffi.Pointer<FILE> file,
+);
 
 /// ERR_put_error adds an error to the error queue, dropping the least recent
 /// error if necessary for space reasons.
@@ -9468,7 +10322,9 @@ external void ERR_put_error(
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Uint32)>(
   symbol: 'bssl_dart_ERR_reason_error_string',
 )
-external ffi.Pointer<ffi.Char> ERR_reason_error_string(int packed_error);
+external ffi.Pointer<ffi.Char> ERR_reason_error_string(
+  int packed_error,
+);
 
 /// ERR_reason_symbol_name returns the symbol name of the reason for
 /// |packed_error|, or NULL if unrecognized. For example, |ERR_R_INTERNAL_ERROR|
@@ -9479,13 +10335,17 @@ external ffi.Pointer<ffi.Char> ERR_reason_error_string(int packed_error);
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Uint32)>(
   symbol: 'bssl_dart_ERR_reason_symbol_name',
 )
-external ffi.Pointer<ffi.Char> ERR_reason_symbol_name(int packed_error);
+external ffi.Pointer<ffi.Char> ERR_reason_symbol_name(
+  int packed_error,
+);
 
 /// ERR_remove_state calls |ERR_clear_error|.
 @ffi.Native<ffi.Void Function(ffi.UnsignedLong)>(
   symbol: 'bssl_dart_ERR_remove_state',
 )
-external void ERR_remove_state(int pid);
+external void ERR_remove_state(
+  int pid,
+);
 
 /// ERR_remove_thread_state clears the error queue for the current thread if
 /// |tid| is NULL. Otherwise it calls |assert(0)|, because it's no longer
@@ -9496,7 +10356,9 @@ external void ERR_remove_state(int pid);
 @ffi.Native<ffi.Void Function(ffi.Pointer<CRYPTO_THREADID>)>(
   symbol: 'bssl_dart_ERR_remove_thread_state',
 )
-external void ERR_remove_thread_state(ffi.Pointer<CRYPTO_THREADID> tid);
+external void ERR_remove_thread_state(
+  ffi.Pointer<CRYPTO_THREADID> tid,
+);
 
 /// ERR_set_error_data sets the data on the most recent error to |data|, which
 /// must be a NUL-terminated string. |flags| must contain |ERR_FLAG_STRING|. If
@@ -9510,7 +10372,10 @@ external void ERR_remove_thread_state(ffi.Pointer<CRYPTO_THREADID> tid);
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Char>, ffi.Int)>(
   symbol: 'bssl_dart_ERR_set_error_data',
 )
-external void ERR_set_error_data(ffi.Pointer<ffi.Char> data, int flags);
+external void ERR_set_error_data(
+  ffi.Pointer<ffi.Char> data,
+  int flags,
+);
 
 /// ERR_set_mark "marks" the most recent error for use with |ERR_pop_to_mark|.
 /// It returns one if an error was marked and zero if there are no errors.
@@ -9522,7 +10387,9 @@ external int ERR_set_mark();
 @ffi.Native<ffi.Pointer<EVP_AEAD> Function(ffi.Pointer<EVP_AEAD_CTX>)>(
   symbol: 'bssl_dart_EVP_AEAD_CTX_aead',
 )
-external ffi.Pointer<EVP_AEAD> EVP_AEAD_CTX_aead(ffi.Pointer<EVP_AEAD_CTX> ctx);
+external ffi.Pointer<EVP_AEAD> EVP_AEAD_CTX_aead(
+  ffi.Pointer<EVP_AEAD_CTX> ctx,
+);
 
 /// EVP_AEAD_CTX_cleanup frees any data allocated by |ctx|. It is a no-op to
 /// call |EVP_AEAD_CTX_cleanup| on a |EVP_AEAD_CTX| that has been |memset| to
@@ -9530,14 +10397,18 @@ external ffi.Pointer<EVP_AEAD> EVP_AEAD_CTX_aead(ffi.Pointer<EVP_AEAD_CTX> ctx);
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_AEAD_CTX>)>(
   symbol: 'bssl_dart_EVP_AEAD_CTX_cleanup',
 )
-external void EVP_AEAD_CTX_cleanup(ffi.Pointer<EVP_AEAD_CTX> ctx);
+external void EVP_AEAD_CTX_cleanup(
+  ffi.Pointer<EVP_AEAD_CTX> ctx,
+);
 
 /// EVP_AEAD_CTX_free calls |EVP_AEAD_CTX_cleanup| and |OPENSSL_free| on
 /// |ctx|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_AEAD_CTX>)>(
   symbol: 'bssl_dart_EVP_AEAD_CTX_free',
 )
-external void EVP_AEAD_CTX_free(ffi.Pointer<EVP_AEAD_CTX> ctx);
+external void EVP_AEAD_CTX_free(
+  ffi.Pointer<EVP_AEAD_CTX> ctx,
+);
 
 /// EVP_AEAD_CTX_get_iv sets |*out_len| to the length of the IV for |ctx| and
 /// sets |*out_iv| to point to that many bytes of the current IV. This is only
@@ -10049,21 +10920,27 @@ external int EVP_AEAD_CTX_tag_len(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_AEAD_CTX>)>(
   symbol: 'bssl_dart_EVP_AEAD_CTX_zero',
 )
-external void EVP_AEAD_CTX_zero(ffi.Pointer<EVP_AEAD_CTX> ctx);
+external void EVP_AEAD_CTX_zero(
+  ffi.Pointer<EVP_AEAD_CTX> ctx,
+);
 
 /// EVP_AEAD_key_length returns the length, in bytes, of the keys used by
 /// |aead|.
 @ffi.Native<ffi.Size Function(ffi.Pointer<EVP_AEAD>)>(
   symbol: 'bssl_dart_EVP_AEAD_key_length',
 )
-external int EVP_AEAD_key_length(ffi.Pointer<EVP_AEAD> aead);
+external int EVP_AEAD_key_length(
+  ffi.Pointer<EVP_AEAD> aead,
+);
 
 /// EVP_AEAD_max_overhead returns the maximum number of additional bytes added
 /// by the act of sealing data with |aead|.
 @ffi.Native<ffi.Size Function(ffi.Pointer<EVP_AEAD>)>(
   symbol: 'bssl_dart_EVP_AEAD_max_overhead',
 )
-external int EVP_AEAD_max_overhead(ffi.Pointer<EVP_AEAD> aead);
+external int EVP_AEAD_max_overhead(
+  ffi.Pointer<EVP_AEAD> aead,
+);
 
 /// EVP_AEAD_max_tag_len returns the maximum tag length when using |aead|. This
 /// is the largest value that can be passed as |tag_len| to
@@ -10071,14 +10948,18 @@ external int EVP_AEAD_max_overhead(ffi.Pointer<EVP_AEAD> aead);
 @ffi.Native<ffi.Size Function(ffi.Pointer<EVP_AEAD>)>(
   symbol: 'bssl_dart_EVP_AEAD_max_tag_len',
 )
-external int EVP_AEAD_max_tag_len(ffi.Pointer<EVP_AEAD> aead);
+external int EVP_AEAD_max_tag_len(
+  ffi.Pointer<EVP_AEAD> aead,
+);
 
 /// EVP_AEAD_nonce_length returns the length, in bytes, of the per-message nonce
 /// for |aead|.
 @ffi.Native<ffi.Size Function(ffi.Pointer<EVP_AEAD>)>(
   symbol: 'bssl_dart_EVP_AEAD_nonce_length',
 )
-external int EVP_AEAD_nonce_length(ffi.Pointer<EVP_AEAD> aead);
+external int EVP_AEAD_nonce_length(
+  ffi.Pointer<EVP_AEAD> aead,
+);
 
 /// EVP_BytesToKey generates a key and IV for the cipher |type| by iterating
 /// |md| |count| times using |data| and an optional |salt|, writing the result to
@@ -10127,7 +11008,9 @@ external int EVP_BytesToKey(
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER_CTX>)>(
   symbol: 'bssl_dart_EVP_CIPHER_CTX_block_size',
 )
-external int EVP_CIPHER_CTX_block_size(ffi.Pointer<EVP_CIPHER_CTX> ctx);
+external int EVP_CIPHER_CTX_block_size(
+  ffi.Pointer<EVP_CIPHER_CTX> ctx,
+);
 
 /// EVP_CIPHER_CTX_cipher returns the |EVP_CIPHER| underlying |ctx|, or NULL if
 /// none has been set.
@@ -10143,7 +11026,9 @@ external ffi.Pointer<EVP_CIPHER> EVP_CIPHER_CTX_cipher(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>)>(
   symbol: 'bssl_dart_EVP_CIPHER_CTX_cleanup',
 )
-external int EVP_CIPHER_CTX_cleanup(ffi.Pointer<EVP_CIPHER_CTX> ctx);
+external int EVP_CIPHER_CTX_cleanup(
+  ffi.Pointer<EVP_CIPHER_CTX> ctx,
+);
 
 /// EVP_CIPHER_CTX_copy sets |out| to be a duplicate of the current state of
 /// |in|. The |out| argument must have been previously initialised.
@@ -10178,21 +11063,27 @@ external int EVP_CIPHER_CTX_ctrl(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>)>(
   symbol: 'bssl_dart_EVP_CIPHER_CTX_encrypting',
 )
-external int EVP_CIPHER_CTX_encrypting(ffi.Pointer<EVP_CIPHER_CTX> ctx);
+external int EVP_CIPHER_CTX_encrypting(
+  ffi.Pointer<EVP_CIPHER_CTX> ctx,
+);
 
 /// EVP_CIPHER_CTX_flags returns a value which is the OR of zero or more
 /// |EVP_CIPH_*| flags. It will crash if no cipher has been configured.
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<EVP_CIPHER_CTX>)>(
   symbol: 'bssl_dart_EVP_CIPHER_CTX_flags',
 )
-external int EVP_CIPHER_CTX_flags(ffi.Pointer<EVP_CIPHER_CTX> ctx);
+external int EVP_CIPHER_CTX_flags(
+  ffi.Pointer<EVP_CIPHER_CTX> ctx,
+);
 
 /// EVP_CIPHER_CTX_free calls |EVP_CIPHER_CTX_cleanup| on |ctx| and then frees
 /// |ctx| itself.
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_CIPHER_CTX>)>(
   symbol: 'bssl_dart_EVP_CIPHER_CTX_free',
 )
-external void EVP_CIPHER_CTX_free(ffi.Pointer<EVP_CIPHER_CTX> ctx);
+external void EVP_CIPHER_CTX_free(
+  ffi.Pointer<EVP_CIPHER_CTX> ctx,
+);
 
 /// EVP_CIPHER_CTX_get_app_data returns the opaque, application data pointer for
 /// |ctx|, or NULL if none has been set.
@@ -10207,28 +11098,36 @@ external ffi.Pointer<ffi.Void> EVP_CIPHER_CTX_get_app_data(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_CIPHER_CTX>)>(
   symbol: 'bssl_dart_EVP_CIPHER_CTX_init',
 )
-external void EVP_CIPHER_CTX_init(ffi.Pointer<EVP_CIPHER_CTX> ctx);
+external void EVP_CIPHER_CTX_init(
+  ffi.Pointer<EVP_CIPHER_CTX> ctx,
+);
 
 /// EVP_CIPHER_CTX_iv_length returns the IV size, in bytes, of the cipher
 /// underlying |ctx|. It will crash if no cipher has been configured.
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER_CTX>)>(
   symbol: 'bssl_dart_EVP_CIPHER_CTX_iv_length',
 )
-external int EVP_CIPHER_CTX_iv_length(ffi.Pointer<EVP_CIPHER_CTX> ctx);
+external int EVP_CIPHER_CTX_iv_length(
+  ffi.Pointer<EVP_CIPHER_CTX> ctx,
+);
 
 /// EVP_CIPHER_CTX_key_length returns the key size, in bytes, of the cipher
 /// underlying |ctx| or zero if no cipher has been configured.
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER_CTX>)>(
   symbol: 'bssl_dart_EVP_CIPHER_CTX_key_length',
 )
-external int EVP_CIPHER_CTX_key_length(ffi.Pointer<EVP_CIPHER_CTX> ctx);
+external int EVP_CIPHER_CTX_key_length(
+  ffi.Pointer<EVP_CIPHER_CTX> ctx,
+);
 
 /// EVP_CIPHER_CTX_mode returns one of the |EVP_CIPH_*| cipher mode values
 /// enumerated below. It will crash if no cipher has been configured.
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<EVP_CIPHER_CTX>)>(
   symbol: 'bssl_dart_EVP_CIPHER_CTX_mode',
 )
-external int EVP_CIPHER_CTX_mode(ffi.Pointer<EVP_CIPHER_CTX> ctx);
+external int EVP_CIPHER_CTX_mode(
+  ffi.Pointer<EVP_CIPHER_CTX> ctx,
+);
 
 /// EVP_CIPHER_CTX_new allocates a fresh |EVP_CIPHER_CTX|, calls
 /// |EVP_CIPHER_CTX_init| and returns it, or NULL on allocation failure.
@@ -10243,14 +11142,18 @@ external ffi.Pointer<EVP_CIPHER_CTX> EVP_CIPHER_CTX_new();
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>)>(
   symbol: 'bssl_dart_EVP_CIPHER_CTX_nid',
 )
-external int EVP_CIPHER_CTX_nid(ffi.Pointer<EVP_CIPHER_CTX> ctx);
+external int EVP_CIPHER_CTX_nid(
+  ffi.Pointer<EVP_CIPHER_CTX> ctx,
+);
 
 /// EVP_CIPHER_CTX_reset calls |EVP_CIPHER_CTX_cleanup| followed by
 /// |EVP_CIPHER_CTX_init| and returns one.
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>)>(
   symbol: 'bssl_dart_EVP_CIPHER_CTX_reset',
 )
-external int EVP_CIPHER_CTX_reset(ffi.Pointer<EVP_CIPHER_CTX> ctx);
+external int EVP_CIPHER_CTX_reset(
+  ffi.Pointer<EVP_CIPHER_CTX> ctx,
+);
 
 /// EVP_CIPHER_CTX_set_app_data sets the opaque, application data pointer for
 /// |ctx| to |data|.
@@ -10298,7 +11201,9 @@ external int EVP_CIPHER_CTX_set_padding(
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER>)>(
   symbol: 'bssl_dart_EVP_CIPHER_block_size',
 )
-external int EVP_CIPHER_block_size(ffi.Pointer<EVP_CIPHER> cipher);
+external int EVP_CIPHER_block_size(
+  ffi.Pointer<EVP_CIPHER> cipher,
+);
 
 @ffi.Native<
   ffi.Void Function(
@@ -10335,14 +11240,18 @@ external void EVP_CIPHER_do_all_sorted(
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<EVP_CIPHER>)>(
   symbol: 'bssl_dart_EVP_CIPHER_flags',
 )
-external int EVP_CIPHER_flags(ffi.Pointer<EVP_CIPHER> cipher);
+external int EVP_CIPHER_flags(
+  ffi.Pointer<EVP_CIPHER> cipher,
+);
 
 /// EVP_CIPHER_iv_length returns the IV size, in bytes, of |cipher|, or zero if
 /// |cipher| doesn't take an IV.
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER>)>(
   symbol: 'bssl_dart_EVP_CIPHER_iv_length',
 )
-external int EVP_CIPHER_iv_length(ffi.Pointer<EVP_CIPHER> cipher);
+external int EVP_CIPHER_iv_length(
+  ffi.Pointer<EVP_CIPHER> cipher,
+);
 
 /// EVP_CIPHER_key_length returns the key size, in bytes, for |cipher|. If
 /// |cipher| can take a variable key length then this function returns the
@@ -10351,20 +11260,26 @@ external int EVP_CIPHER_iv_length(ffi.Pointer<EVP_CIPHER> cipher);
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER>)>(
   symbol: 'bssl_dart_EVP_CIPHER_key_length',
 )
-external int EVP_CIPHER_key_length(ffi.Pointer<EVP_CIPHER> cipher);
+external int EVP_CIPHER_key_length(
+  ffi.Pointer<EVP_CIPHER> cipher,
+);
 
 /// EVP_CIPHER_mode returns one of the cipher mode values enumerated below.
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<EVP_CIPHER>)>(
   symbol: 'bssl_dart_EVP_CIPHER_mode',
 )
-external int EVP_CIPHER_mode(ffi.Pointer<EVP_CIPHER> cipher);
+external int EVP_CIPHER_mode(
+  ffi.Pointer<EVP_CIPHER> cipher,
+);
 
 /// EVP_CIPHER_nid returns a NID identifying |cipher|. (For example,
 /// |NID_aes_128_gcm|.)
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_CIPHER>)>(
   symbol: 'bssl_dart_EVP_CIPHER_nid',
 )
-external int EVP_CIPHER_nid(ffi.Pointer<EVP_CIPHER> cipher);
+external int EVP_CIPHER_nid(
+  ffi.Pointer<EVP_CIPHER> cipher,
+);
 
 /// EVP_Cipher historically exposed an internal implementation detail of |ctx|
 /// and should not be used. Use |EVP_CipherUpdate| and |EVP_CipherFinal_ex|
@@ -10620,7 +11535,9 @@ external int EVP_DecodeFinal(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_ENCODE_CTX>)>(
   symbol: 'bssl_dart_EVP_DecodeInit',
 )
-external void EVP_DecodeInit(ffi.Pointer<EVP_ENCODE_CTX> ctx);
+external void EVP_DecodeInit(
+  ffi.Pointer<EVP_ENCODE_CTX> ctx,
+);
 
 /// EVP_DecodeUpdate decodes |in_len| bytes from |in| and writes the decoded
 /// data to |out| and sets |*out_len| to the number of bytes written. Some state
@@ -10653,7 +11570,10 @@ external int EVP_DecodeUpdate(
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Size>, ffi.Size)>(
   symbol: 'bssl_dart_EVP_DecodedLength',
 )
-external int EVP_DecodedLength(ffi.Pointer<ffi.Size> out_len, int len);
+external int EVP_DecodedLength(
+  ffi.Pointer<ffi.Size> out_len,
+  int len,
+);
 
 /// EVP_DecryptFinal calls |EVP_DecryptFinal_ex|.
 @ffi.Native<
@@ -11101,7 +12021,9 @@ external int EVP_DigestVerifyUpdate(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_ENCODE_CTX>)>(
   symbol: 'bssl_dart_EVP_ENCODE_CTX_free',
 )
-external void EVP_ENCODE_CTX_free(ffi.Pointer<EVP_ENCODE_CTX> ctx);
+external void EVP_ENCODE_CTX_free(
+  ffi.Pointer<EVP_ENCODE_CTX> ctx,
+);
 
 /// EVP_ENCODE_CTX_new returns a newly-allocated |EVP_ENCODE_CTX| or NULL on
 /// error. The caller must release the result with |EVP_ENCODE_CTX_free|  when
@@ -11147,7 +12069,9 @@ external void EVP_EncodeFinal(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_ENCODE_CTX>)>(
   symbol: 'bssl_dart_EVP_EncodeInit',
 )
-external void EVP_EncodeInit(ffi.Pointer<EVP_ENCODE_CTX> ctx);
+external void EVP_EncodeInit(
+  ffi.Pointer<EVP_ENCODE_CTX> ctx,
+);
 
 /// EVP_EncodeUpdate encodes |in_len| bytes from |in| and writes an encoded
 /// version of them to |out| and sets |*out_len| to the number of bytes written.
@@ -11177,7 +12101,10 @@ external void EVP_EncodeUpdate(
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Size>, ffi.Size)>(
   symbol: 'bssl_dart_EVP_EncodedLength',
 )
-external int EVP_EncodedLength(ffi.Pointer<ffi.Size> out_len, int len);
+external int EVP_EncodedLength(
+  ffi.Pointer<ffi.Size> out_len,
+  int len,
+);
 
 /// EVP_EncryptFinal calls |EVP_EncryptFinal_ex|.
 @ffi.Native<
@@ -11340,7 +12267,9 @@ external int EVP_EncryptUpdate_ex(
 @ffi.Native<ffi.Size Function(ffi.Pointer<EVP_KEM>)>(
   symbol: 'bssl_dart_EVP_KEM_ciphertext_len',
 )
-external int EVP_KEM_ciphertext_len(ffi.Pointer<EVP_KEM> kem);
+external int EVP_KEM_ciphertext_len(
+  ffi.Pointer<EVP_KEM> kem,
+);
 
 /// EVP_KEM_decap uses |kem| to decapsulate a |ciphertext| of length
 /// |ciphertext_len|, using |key| as a decapsulation key. It outputs a shared
@@ -11401,14 +12330,18 @@ external int EVP_KEM_encap(
 @ffi.Native<ffi.Size Function(ffi.Pointer<EVP_KEM>)>(
   symbol: 'bssl_dart_EVP_KEM_secret_len',
 )
-external int EVP_KEM_secret_len(ffi.Pointer<EVP_KEM> kem);
+external int EVP_KEM_secret_len(
+  ffi.Pointer<EVP_KEM> kem,
+);
 
 /// EVP_MD_CTX_block_size returns the block size of the digest function used by
 /// |ctx|, in bytes. It will crash if a digest hasn't been set on |ctx|.
 @ffi.Native<ffi.Size Function(ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_EVP_MD_CTX_block_size',
 )
-external int EVP_MD_CTX_block_size(ffi.Pointer<EVP_MD_CTX> ctx);
+external int EVP_MD_CTX_block_size(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// EVP_MD_CTX_cleanse zeros the digest state in |ctx| and then performs the
 /// actions of |EVP_MD_CTX_cleanup|. Note that some |EVP_MD_CTX| objects contain
@@ -11418,14 +12351,18 @@ external int EVP_MD_CTX_block_size(ffi.Pointer<EVP_MD_CTX> ctx);
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_EVP_MD_CTX_cleanse',
 )
-external void EVP_MD_CTX_cleanse(ffi.Pointer<EVP_MD_CTX> ctx);
+external void EVP_MD_CTX_cleanse(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// EVP_MD_CTX_cleanup frees any resources owned by |ctx| and resets it to a
 /// freshly initialised state. It does not free |ctx| itself. It returns one.
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_EVP_MD_CTX_cleanup',
 )
-external int EVP_MD_CTX_cleanup(ffi.Pointer<EVP_MD_CTX> ctx);
+external int EVP_MD_CTX_cleanup(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// EVP_MD_CTX_copy sets |out|, which must /not/ be initialised, to be a copy of
 /// |in|. It returns one on success and zero on error.
@@ -11457,27 +12394,35 @@ external ffi.Pointer<EVP_MD_CTX> EVP_MD_CTX_create();
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_EVP_MD_CTX_destroy',
 )
-external void EVP_MD_CTX_destroy(ffi.Pointer<EVP_MD_CTX> ctx);
+external void EVP_MD_CTX_destroy(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// EVP_MD_CTX_free calls |EVP_MD_CTX_cleanup| and then frees |ctx| itself.
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_EVP_MD_CTX_free',
 )
-external void EVP_MD_CTX_free(ffi.Pointer<EVP_MD_CTX> ctx);
+external void EVP_MD_CTX_free(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// EVP_MD_CTX_get0_md returns the underlying digest function, or NULL if one has
 /// not been set.
 @ffi.Native<ffi.Pointer<EVP_MD> Function(ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_EVP_MD_CTX_get0_md',
 )
-external ffi.Pointer<EVP_MD> EVP_MD_CTX_get0_md(ffi.Pointer<EVP_MD_CTX> ctx);
+external ffi.Pointer<EVP_MD> EVP_MD_CTX_get0_md(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// EVP_MD_CTX_init initialises an, already allocated, |EVP_MD_CTX|. This is the
 /// same as setting the structure to zero.
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_EVP_MD_CTX_init',
 )
-external void EVP_MD_CTX_init(ffi.Pointer<EVP_MD_CTX> ctx);
+external void EVP_MD_CTX_init(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// EVP_MD_CTX_md returns the underlying digest function, or NULL if one has not
 /// been set. (This is the same as |EVP_MD_CTX_get0_md| but OpenSSL has
@@ -11485,7 +12430,9 @@ external void EVP_MD_CTX_init(ffi.Pointer<EVP_MD_CTX> ctx);
 @ffi.Native<ffi.Pointer<EVP_MD> Function(ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_EVP_MD_CTX_md',
 )
-external ffi.Pointer<EVP_MD> EVP_MD_CTX_md(ffi.Pointer<EVP_MD_CTX> ctx);
+external ffi.Pointer<EVP_MD> EVP_MD_CTX_md(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// EVP_MD_CTX_move sets |out|, which must already be initialised, to the hash
 /// state in |in|. |in| is mutated and left in an empty state.
@@ -11520,20 +12467,27 @@ external ffi.Pointer<EVP_PKEY_CTX> EVP_MD_CTX_pkey_ctx(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_EVP_MD_CTX_reset',
 )
-external int EVP_MD_CTX_reset(ffi.Pointer<EVP_MD_CTX> ctx);
+external int EVP_MD_CTX_reset(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// EVP_MD_CTX_set_flags does nothing.
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_MD_CTX>, ffi.Int)>(
   symbol: 'bssl_dart_EVP_MD_CTX_set_flags',
 )
-external void EVP_MD_CTX_set_flags(ffi.Pointer<EVP_MD_CTX> ctx, int flags);
+external void EVP_MD_CTX_set_flags(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+  int flags,
+);
 
 /// EVP_MD_CTX_size returns the digest size of |ctx|, in bytes. It
 /// will crash if a digest hasn't been set on |ctx|.
 @ffi.Native<ffi.Size Function(ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_EVP_MD_CTX_size',
 )
-external int EVP_MD_CTX_size(ffi.Pointer<EVP_MD_CTX> ctx);
+external int EVP_MD_CTX_size(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// EVP_MD_CTX_type returns a NID describing the digest function used by |ctx|.
 /// (For example, |NID_sha256|.) It will crash if a digest hasn't been set on
@@ -11541,13 +12495,17 @@ external int EVP_MD_CTX_size(ffi.Pointer<EVP_MD_CTX> ctx);
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_EVP_MD_CTX_type',
 )
-external int EVP_MD_CTX_type(ffi.Pointer<EVP_MD_CTX> ctx);
+external int EVP_MD_CTX_type(
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// EVP_MD_block_size returns the native block-size of |md|, in bytes.
 @ffi.Native<ffi.Size Function(ffi.Pointer<EVP_MD>)>(
   symbol: 'bssl_dart_EVP_MD_block_size',
 )
-external int EVP_MD_block_size(ffi.Pointer<EVP_MD> md);
+external int EVP_MD_block_size(
+  ffi.Pointer<EVP_MD> md,
+);
 
 @ffi.Native<
   ffi.Void Function(
@@ -11652,43 +12610,57 @@ external ffi.Pointer<EVP_MD> EVP_MD_fetch(
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<EVP_MD>)>(
   symbol: 'bssl_dart_EVP_MD_flags',
 )
-external int EVP_MD_flags(ffi.Pointer<EVP_MD> md);
+external int EVP_MD_flags(
+  ffi.Pointer<EVP_MD> md,
+);
 
 /// EVP_MD_free does nothing. |EVP_MD|s in BoringSSL are static.
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_MD>)>(
   symbol: 'bssl_dart_EVP_MD_free',
 )
-external void EVP_MD_free(ffi.Pointer<EVP_MD> md);
+external void EVP_MD_free(
+  ffi.Pointer<EVP_MD> md,
+);
 
 /// EVP_MD_meth_get_flags calls |EVP_MD_flags|.
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<EVP_MD>)>(
   symbol: 'bssl_dart_EVP_MD_meth_get_flags',
 )
-external int EVP_MD_meth_get_flags(ffi.Pointer<EVP_MD> md);
+external int EVP_MD_meth_get_flags(
+  ffi.Pointer<EVP_MD> md,
+);
 
 /// EVP_MD_nid calls |EVP_MD_type|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_MD>)>(
   symbol: 'bssl_dart_EVP_MD_nid',
 )
-external int EVP_MD_nid(ffi.Pointer<EVP_MD> md);
+external int EVP_MD_nid(
+  ffi.Pointer<EVP_MD> md,
+);
 
 /// EVP_MD_size returns the digest size of |md|, in bytes.
 @ffi.Native<ffi.Size Function(ffi.Pointer<EVP_MD>)>(
   symbol: 'bssl_dart_EVP_MD_size',
 )
-external int EVP_MD_size(ffi.Pointer<EVP_MD> md);
+external int EVP_MD_size(
+  ffi.Pointer<EVP_MD> md,
+);
 
 /// EVP_MD_type returns a NID identifying |md|. (For example, |NID_sha256|.)
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_MD>)>(
   symbol: 'bssl_dart_EVP_MD_type',
 )
-external int EVP_MD_type(ffi.Pointer<EVP_MD> md);
+external int EVP_MD_type(
+  ffi.Pointer<EVP_MD> md,
+);
 
 /// EVP_MD_up_ref returns one. |EVP_MD|s in BoringSSL are static.
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_MD>)>(
   symbol: 'bssl_dart_EVP_MD_up_ref',
 )
-external int EVP_MD_up_ref(ffi.Pointer<EVP_MD> md);
+external int EVP_MD_up_ref(
+  ffi.Pointer<EVP_MD> md,
+);
 
 /// EVP_PBE_scrypt expands |password| into a secret key of length |key_len| using
 /// scrypt, as described in RFC 7914, and writes the result to |out_key|. It
@@ -11770,7 +12742,9 @@ external ffi.Pointer<EVP_PKEY_CTX> EVP_PKEY_CTX_dup(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_PKEY_CTX>)>(
   symbol: 'bssl_dart_EVP_PKEY_CTX_free',
 )
-external void EVP_PKEY_CTX_free(ffi.Pointer<EVP_PKEY_CTX> ctx);
+external void EVP_PKEY_CTX_free(
+  ffi.Pointer<EVP_PKEY_CTX> ctx,
+);
 
 /// EVP_PKEY_CTX_get0_pkey returns the |EVP_PKEY| associated with |ctx|.
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<EVP_PKEY_CTX>)>(
@@ -11923,7 +12897,10 @@ external int EVP_PKEY_CTX_set1_signature_context_string(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Int)>(
   symbol: 'bssl_dart_EVP_PKEY_CTX_set_dh_pad',
 )
-external int EVP_PKEY_CTX_set_dh_pad(ffi.Pointer<EVP_PKEY_CTX> ctx, int pad);
+external int EVP_PKEY_CTX_set_dh_pad(
+  ffi.Pointer<EVP_PKEY_CTX> ctx,
+  int pad,
+);
 
 /// EVP_PKEY_CTX_set_dsa_paramgen_bits returns zero.
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Int)>(
@@ -12133,7 +13110,9 @@ external int EVP_PKEY_assign_RSA(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_base_id',
 )
-external int EVP_PKEY_base_id(ffi.Pointer<EVP_PKEY> pkey);
+external int EVP_PKEY_base_id(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_bits returns the "size", in bits, of |pkey|. For an RSA key, this
 /// returns the bit length of the modulus. For an EC key, this returns the bit
@@ -12141,7 +13120,9 @@ external int EVP_PKEY_base_id(ffi.Pointer<EVP_PKEY> pkey);
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_bits',
 )
-external int EVP_PKEY_bits(ffi.Pointer<EVP_PKEY> pkey);
+external int EVP_PKEY_bits(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_cmp calls |EVP_PKEY_eq|. It returns one if public keys are equal and
 /// zero otherwise.
@@ -12150,7 +13131,10 @@ external int EVP_PKEY_bits(ffi.Pointer<EVP_PKEY> pkey);
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_cmp',
 )
-external int EVP_PKEY_cmp(ffi.Pointer<EVP_PKEY> a, ffi.Pointer<EVP_PKEY> b);
+external int EVP_PKEY_cmp(
+  ffi.Pointer<EVP_PKEY> a,
+  ffi.Pointer<EVP_PKEY> b,
+);
 
 /// EVP_PKEY_cmp_parameters calls |EVP_PKEY_parameters_eq|. It returns one if
 /// parameters are equal and zero otherwise.
@@ -12180,7 +13164,9 @@ external int EVP_PKEY_copy_parameters(
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_copy_public',
 )
-external ffi.Pointer<EVP_PKEY> EVP_PKEY_copy_public(ffi.Pointer<EVP_PKEY> pkey);
+external ffi.Pointer<EVP_PKEY> EVP_PKEY_copy_public(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_decapsulate implements private key decapsulation using |ctx|.
 /// |ciphertext| and |ciphertext_len| specify the ciphertext to be decapsulated.
@@ -12259,7 +13245,9 @@ external int EVP_PKEY_decrypt(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>(
   symbol: 'bssl_dart_EVP_PKEY_decrypt_init',
 )
-external int EVP_PKEY_decrypt_init(ffi.Pointer<EVP_PKEY_CTX> ctx);
+external int EVP_PKEY_decrypt_init(
+  ffi.Pointer<EVP_PKEY_CTX> ctx,
+);
 
 /// EVP_PKEY_derive derives a shared key from |ctx|. If |key| is non-NULL then,
 /// on entry, |out_key_len| must contain the amount of space at |key|. If
@@ -12292,7 +13280,9 @@ external int EVP_PKEY_derive(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>(
   symbol: 'bssl_dart_EVP_PKEY_derive_init',
 )
-external int EVP_PKEY_derive_init(ffi.Pointer<EVP_PKEY_CTX> ctx);
+external int EVP_PKEY_derive_init(
+  ffi.Pointer<EVP_PKEY_CTX> ctx,
+);
 
 /// EVP_PKEY_derive_set_peer sets the peer's key to be used for key derivation
 /// by |ctx| to |peer|. It should be called after |EVP_PKEY_derive_init|. (For
@@ -12315,7 +13305,9 @@ external int EVP_PKEY_derive_set_peer(
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_dup_ref',
 )
-external ffi.Pointer<EVP_PKEY> EVP_PKEY_dup_ref(ffi.Pointer<EVP_PKEY> pkey);
+external ffi.Pointer<EVP_PKEY> EVP_PKEY_dup_ref(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_encapsulate implements public key encapsulation using |ctx|. It
 /// either performs the operation or returns the maximum output sizes, depending
@@ -12400,21 +13392,28 @@ external int EVP_PKEY_encrypt(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>(
   symbol: 'bssl_dart_EVP_PKEY_encrypt_init',
 )
-external int EVP_PKEY_encrypt_init(ffi.Pointer<EVP_PKEY_CTX> ctx);
+external int EVP_PKEY_encrypt_init(
+  ffi.Pointer<EVP_PKEY_CTX> ctx,
+);
 
 /// EVP_PKEY_eq compares |a| and |b| and returns one if their public keys are
 /// equal and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_eq',
 )
-external int EVP_PKEY_eq(ffi.Pointer<EVP_PKEY> a, ffi.Pointer<EVP_PKEY> b);
+external int EVP_PKEY_eq(
+  ffi.Pointer<EVP_PKEY> a,
+  ffi.Pointer<EVP_PKEY> b,
+);
 
 /// EVP_PKEY_free decrements the reference count of |pkey| and frees it if the
 /// reference count drops to zero.
 @ffi.Native<ffi.Void Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_free',
 )
-external void EVP_PKEY_free(ffi.Pointer<EVP_PKEY> pkey);
+external void EVP_PKEY_free(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_from_private_key_info decodes a DER-encoded PrivateKeyInfo structure
 /// (RFC 5208) from |in|. It returns a newly-allocated |EVP_PKEY| or NULL on
@@ -12521,47 +13520,65 @@ external ffi.Pointer<EVP_PKEY> EVP_PKEY_generate_from_alg(
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_get0',
 )
-external ffi.Pointer<ffi.Void> EVP_PKEY_get0(ffi.Pointer<EVP_PKEY> pkey);
+external ffi.Pointer<ffi.Void> EVP_PKEY_get0(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 @ffi.Native<ffi.Pointer<DH> Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_get0_DH',
 )
-external ffi.Pointer<DH> EVP_PKEY_get0_DH(ffi.Pointer<EVP_PKEY> pkey);
+external ffi.Pointer<DH> EVP_PKEY_get0_DH(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 @ffi.Native<ffi.Pointer<DSA> Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_get0_DSA',
 )
-external ffi.Pointer<DSA> EVP_PKEY_get0_DSA(ffi.Pointer<EVP_PKEY> pkey);
+external ffi.Pointer<DSA> EVP_PKEY_get0_DSA(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 @ffi.Native<ffi.Pointer<EC_KEY> Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_get0_EC_KEY',
 )
-external ffi.Pointer<EC_KEY> EVP_PKEY_get0_EC_KEY(ffi.Pointer<EVP_PKEY> pkey);
+external ffi.Pointer<EC_KEY> EVP_PKEY_get0_EC_KEY(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 @ffi.Native<ffi.Pointer<RSA> Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_get0_RSA',
 )
-external ffi.Pointer<RSA> EVP_PKEY_get0_RSA(ffi.Pointer<EVP_PKEY> pkey);
+external ffi.Pointer<RSA> EVP_PKEY_get0_RSA(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 @ffi.Native<ffi.Pointer<DH> Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_get1_DH',
 )
-external ffi.Pointer<DH> EVP_PKEY_get1_DH(ffi.Pointer<EVP_PKEY> pkey);
+external ffi.Pointer<DH> EVP_PKEY_get1_DH(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 @ffi.Native<ffi.Pointer<DSA> Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_get1_DSA',
 )
-external ffi.Pointer<DSA> EVP_PKEY_get1_DSA(ffi.Pointer<EVP_PKEY> pkey);
+external ffi.Pointer<DSA> EVP_PKEY_get1_DSA(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 @ffi.Native<ffi.Pointer<EC_KEY> Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_get1_EC_KEY',
 )
-external ffi.Pointer<EC_KEY> EVP_PKEY_get1_EC_KEY(ffi.Pointer<EVP_PKEY> pkey);
+external ffi.Pointer<EC_KEY> EVP_PKEY_get1_EC_KEY(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 @ffi.Native<ffi.Pointer<RSA> Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_get1_RSA',
 )
-external ffi.Pointer<RSA> EVP_PKEY_get1_RSA(ffi.Pointer<EVP_PKEY> pkey);
+external ffi.Pointer<RSA> EVP_PKEY_get1_RSA(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_get1_tls_encodedpoint sets |*out_ptr| to a newly-allocated buffer
 /// containing the raw encoded public key for |pkey|. The caller must call
@@ -12585,14 +13602,18 @@ external int EVP_PKEY_get1_tls_encodedpoint(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_get_ec_curve_nid',
 )
-external int EVP_PKEY_get_ec_curve_nid(ffi.Pointer<EVP_PKEY> pkey);
+external int EVP_PKEY_get_ec_curve_nid(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_get_ec_point_conv_form returns |pkey|'s point conversion form as a
 /// |POINT_CONVERSION_*| constant, or zero if |pkey| is not an EC key.
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_get_ec_point_conv_form',
 )
-external int EVP_PKEY_get_ec_point_conv_form(ffi.Pointer<EVP_PKEY> pkey);
+external int EVP_PKEY_get_ec_point_conv_form(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_get_private_seed outputs the private key for |pkey| as a private
 /// seed. If |out| is NULL, it sets |*out_len| to the size of the seed.
@@ -12659,14 +13680,18 @@ external int EVP_PKEY_get_raw_public_key(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_has_private',
 )
-external int EVP_PKEY_has_private(ffi.Pointer<EVP_PKEY> pkey);
+external int EVP_PKEY_has_private(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_has_public returns one if |pkey| has a public key, or zero
 /// otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_has_public',
 )
-external int EVP_PKEY_has_public(ffi.Pointer<EVP_PKEY> pkey);
+external int EVP_PKEY_has_public(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_id returns the type of |pkey|, which is one of the |EVP_PKEY_*|
 /// values above. These type values generally correspond to the algorithm OID,
@@ -12677,7 +13702,9 @@ external int EVP_PKEY_has_public(ffi.Pointer<EVP_PKEY> pkey);
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_id',
 )
-external int EVP_PKEY_id(ffi.Pointer<EVP_PKEY> pkey);
+external int EVP_PKEY_id(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_is_opaque returns one if |pkey| is opaque. Opaque keys are backed by
 /// custom implementations which do not expose key material and parameters. It is
@@ -12685,7 +13712,9 @@ external int EVP_PKEY_id(ffi.Pointer<EVP_PKEY> pkey);
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_is_opaque',
 )
-external int EVP_PKEY_is_opaque(ffi.Pointer<EVP_PKEY> pkey);
+external int EVP_PKEY_is_opaque(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_keygen performs a key generation operation using the values from
 /// |ctx|. If |*out_pkey| is non-NULL, it overwrites |*out_pkey| with the
@@ -12709,14 +13738,18 @@ external int EVP_PKEY_keygen(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>(
   symbol: 'bssl_dart_EVP_PKEY_keygen_init',
 )
-external int EVP_PKEY_keygen_init(ffi.Pointer<EVP_PKEY_CTX> ctx);
+external int EVP_PKEY_keygen_init(
+  ffi.Pointer<EVP_PKEY_CTX> ctx,
+);
 
 /// EVP_PKEY_missing_parameters returns one if |pkey| is missing needed
 /// parameters or zero if not, or if the algorithm doesn't take parameters.
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_missing_parameters',
 )
-external int EVP_PKEY_missing_parameters(ffi.Pointer<EVP_PKEY> pkey);
+external int EVP_PKEY_missing_parameters(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_new creates a new, empty public-key object and returns it or NULL
 /// on allocation failure.
@@ -12799,7 +13832,9 @@ external int EVP_PKEY_paramgen(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>(
   symbol: 'bssl_dart_EVP_PKEY_paramgen_init',
 )
-external int EVP_PKEY_paramgen_init(ffi.Pointer<EVP_PKEY_CTX> ctx);
+external int EVP_PKEY_paramgen_init(
+  ffi.Pointer<EVP_PKEY_CTX> ctx,
+);
 
 /// EVP_PKEY_print_params prints a textual representation of the parameters in
 /// |pkey| to |out|. Returns one on success or zero otherwise.
@@ -12855,7 +13890,10 @@ external int EVP_PKEY_print_public(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_EVP_PKEY_set1_DH',
 )
-external int EVP_PKEY_set1_DH(ffi.Pointer<EVP_PKEY> pkey, ffi.Pointer<DH> key);
+external int EVP_PKEY_set1_DH(
+  ffi.Pointer<EVP_PKEY> pkey,
+  ffi.Pointer<DH> key,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_EVP_PKEY_set1_DSA',
@@ -12943,7 +13981,10 @@ external int EVP_PKEY_set1_tls_encodedpoint(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Int)>(
   symbol: 'bssl_dart_EVP_PKEY_set_type',
 )
-external int EVP_PKEY_set_type(ffi.Pointer<EVP_PKEY> pkey, int type);
+external int EVP_PKEY_set_type(
+  ffi.Pointer<EVP_PKEY> pkey,
+  int type,
+);
 
 /// EVP_PKEY_sign signs |digest_len| bytes from |digest| using |ctx|. If |sig| is
 /// NULL, the maximum size of the signature is written to |out_sig_len|.
@@ -12985,7 +14026,9 @@ external int EVP_PKEY_sign(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>(
   symbol: 'bssl_dart_EVP_PKEY_sign_init',
 )
-external int EVP_PKEY_sign_init(ffi.Pointer<EVP_PKEY_CTX> ctx);
+external int EVP_PKEY_sign_init(
+  ffi.Pointer<EVP_PKEY_CTX> ctx,
+);
 
 /// EVP_PKEY_size returns the maximum size, in bytes, of a signature signed by
 /// |pkey|. For an RSA key, this returns the number of bytes needed to represent
@@ -12994,11 +14037,15 @@ external int EVP_PKEY_sign_init(ffi.Pointer<EVP_PKEY_CTX> ctx);
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_size',
 )
-external int EVP_PKEY_size(ffi.Pointer<EVP_PKEY> pkey);
+external int EVP_PKEY_size(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_type returns |nid|.
 @ffi.Native<ffi.Int Function(ffi.Int)>(symbol: 'bssl_dart_EVP_PKEY_type')
-external int EVP_PKEY_type(int nid);
+external int EVP_PKEY_type(
+  int nid,
+);
 
 /// EVP_PKEY_up_ref increments the reference count of |pkey| and returns one. It
 /// does not mutate |pkey| for thread-safety purposes and may be used
@@ -13006,7 +14053,9 @@ external int EVP_PKEY_type(int nid);
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_EVP_PKEY_up_ref',
 )
-external int EVP_PKEY_up_ref(ffi.Pointer<EVP_PKEY> pkey);
+external int EVP_PKEY_up_ref(
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// EVP_PKEY_verify verifies that |sig_len| bytes from |sig| are a valid
 /// signature for |digest|. This function will fail for signature
@@ -13042,7 +14091,9 @@ external int EVP_PKEY_verify(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>(
   symbol: 'bssl_dart_EVP_PKEY_verify_init',
 )
-external int EVP_PKEY_verify_init(ffi.Pointer<EVP_PKEY_CTX> ctx);
+external int EVP_PKEY_verify_init(
+  ffi.Pointer<EVP_PKEY_CTX> ctx,
+);
 
 /// EVP_PKEY_verify_recover decrypts |sig_len| bytes from |sig|. If |out| is
 /// NULL, the maximum size of the plaintext is written to |out_len|. Otherwise,
@@ -13086,7 +14137,9 @@ external int EVP_PKEY_verify_recover(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>(
   symbol: 'bssl_dart_EVP_PKEY_verify_recover_init',
 )
-external int EVP_PKEY_verify_recover_init(ffi.Pointer<EVP_PKEY_CTX> ctx);
+external int EVP_PKEY_verify_recover_init(
+  ffi.Pointer<EVP_PKEY_CTX> ctx,
+);
 
 /// EVP_Q_digest behaves like |EVP_Digest| but specifies the digest by a string
 /// |name|. |libctx| and |propq| are ignored.
@@ -13120,7 +14173,9 @@ external int EVP_Q_digest(
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.UnsignedInt)>(
   symbol: 'bssl_dart_EVP_RSA_gen',
 )
-external ffi.Pointer<EVP_PKEY> EVP_RSA_gen(int bits);
+external ffi.Pointer<EVP_PKEY> EVP_RSA_gen(
+  int bits,
+);
 
 /// EVP_SignFinal signs the data that has been included by one or more calls to
 /// |EVP_SignUpdate|, using the key |pkey|, and writes it to |sig|. On entry,
@@ -13269,7 +14324,9 @@ external int EVP_add_cipher_alias(
 @ffi.Native<ffi.Int Function(ffi.Pointer<EVP_MD>)>(
   symbol: 'bssl_dart_EVP_add_digest',
 )
-external int EVP_add_digest(ffi.Pointer<EVP_MD> digest);
+external int EVP_add_digest(
+  ffi.Pointer<EVP_MD> digest,
+);
 
 /// TLS-specific AEAD algorithms.
 ///
@@ -13724,28 +14781,36 @@ external ffi.Pointer<EVP_CIPHER> EVP_get_cipherbyname(
 @ffi.Native<ffi.Pointer<EVP_CIPHER> Function(ffi.Int)>(
   symbol: 'bssl_dart_EVP_get_cipherbynid',
 )
-external ffi.Pointer<EVP_CIPHER> EVP_get_cipherbynid(int nid);
+external ffi.Pointer<EVP_CIPHER> EVP_get_cipherbynid(
+  int nid,
+);
 
 /// EVP_get_digestbyname returns an |EVP_MD| given a human readable name in
 /// |name|, or NULL if the name is unknown.
 @ffi.Native<ffi.Pointer<EVP_MD> Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_EVP_get_digestbyname',
 )
-external ffi.Pointer<EVP_MD> EVP_get_digestbyname(ffi.Pointer<ffi.Char> name);
+external ffi.Pointer<EVP_MD> EVP_get_digestbyname(
+  ffi.Pointer<ffi.Char> name,
+);
 
 /// EVP_get_digestbynid returns an |EVP_MD| for the given NID, or NULL if no
 /// such digest is known.
 @ffi.Native<ffi.Pointer<EVP_MD> Function(ffi.Int)>(
   symbol: 'bssl_dart_EVP_get_digestbynid',
 )
-external ffi.Pointer<EVP_MD> EVP_get_digestbynid(int nid);
+external ffi.Pointer<EVP_MD> EVP_get_digestbynid(
+  int nid,
+);
 
 /// EVP_get_digestbyobj returns an |EVP_MD| for the given |ASN1_OBJECT|, or NULL
 /// if no such digest is known.
 @ffi.Native<ffi.Pointer<EVP_MD> Function(ffi.Pointer<ASN1_OBJECT>)>(
   symbol: 'bssl_dart_EVP_get_digestbyobj',
 )
-external ffi.Pointer<EVP_MD> EVP_get_digestbyobj(ffi.Pointer<ASN1_OBJECT> obj);
+external ffi.Pointer<EVP_MD> EVP_get_digestbyobj(
+  ffi.Pointer<ASN1_OBJECT> obj,
+);
 
 /// EVP_has_aes_hardware returns one if we enable hardware support for fast and
 /// constant-time AES-GCM.
@@ -13845,7 +14910,9 @@ external ffi.Pointer<EVP_MD> EVP_md5_sha1();
 @ffi.Native<ffi.Pointer<EVP_MD> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_EVP_parse_digest_algorithm',
 )
-external ffi.Pointer<EVP_MD> EVP_parse_digest_algorithm(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<EVP_MD> EVP_parse_digest_algorithm(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// EVP_parse_digest_algorithm_nid behaves like |EVP_parse_digest_algorithm|
 /// except it returns |NID_undef| on error and some other value on success. This
@@ -13853,7 +14920,9 @@ external ffi.Pointer<EVP_MD> EVP_parse_digest_algorithm(ffi.Pointer<CBS> cbs);
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_EVP_parse_digest_algorithm_nid',
 )
-external int EVP_parse_digest_algorithm_nid(ffi.Pointer<CBS> cbs);
+external int EVP_parse_digest_algorithm_nid(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// EVP_parse_private_key decodes a DER-encoded PrivateKeyInfo structure (RFC
 /// 5208) from |cbs| and advances |cbs|. It returns a newly-allocated |EVP_PKEY|
@@ -13882,7 +14951,9 @@ external int EVP_parse_digest_algorithm_nid(ffi.Pointer<CBS> cbs);
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_EVP_parse_private_key',
 )
-external ffi.Pointer<EVP_PKEY> EVP_parse_private_key(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<EVP_PKEY> EVP_parse_private_key(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// EVP_parse_public_key decodes a DER-encoded SubjectPublicKeyInfo structure
 /// (RFC 5280) from |cbs| and advances |cbs|. It returns a newly-allocated
@@ -13906,7 +14977,9 @@ external ffi.Pointer<EVP_PKEY> EVP_parse_private_key(ffi.Pointer<CBS> cbs);
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_EVP_parse_public_key',
 )
-external ffi.Pointer<EVP_PKEY> EVP_parse_public_key(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<EVP_PKEY> EVP_parse_public_key(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// EVP_pkey_dsa implements DSA keys, encoded as in RFC 3279, Section 2.3.2. The
 /// |EVP_PKEY_id| value is |EVP_PKEY_DSA|. This |EVP_PKEY_ALG| accepts all DSA
@@ -14126,7 +15199,9 @@ external ffi.Pointer<EVP_MD> EVP_sha512_256();
 @ffi.Native<ffi.Void Function(ffi.Pointer<EXTENDED_KEY_USAGE>)>(
   symbol: 'bssl_dart_EXTENDED_KEY_USAGE_free',
 )
-external void EXTENDED_KEY_USAGE_free(ffi.Pointer<EXTENDED_KEY_USAGE> eku);
+external void EXTENDED_KEY_USAGE_free(
+  ffi.Pointer<EXTENDED_KEY_USAGE> eku,
+);
 
 /// EXTENDED_KEY_USAGE_new returns a newly-allocated, empty |EXTENDED_KEY_USAGE|
 /// object, or NULL on error.
@@ -14143,7 +15218,9 @@ external int FIPS_mode();
 /// FIPS_mode_set returns one if |on| matches whether BoringSSL was built with
 /// |BORINGSSL_FIPS| and zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Int)>(symbol: 'bssl_dart_FIPS_mode_set')
-external int FIPS_mode_set(int on);
+external int FIPS_mode_set(
+  int on,
+);
 
 /// FIPS_module_hash returns the 32-byte hash of the FIPS module.
 @ffi.Native<ffi.Pointer<ffi.Uint8> Function()>(
@@ -14162,7 +15239,9 @@ external ffi.Pointer<ffi.Char> FIPS_module_name();
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_FIPS_query_algorithm_status',
 )
-external int FIPS_query_algorithm_status(ffi.Pointer<ffi.Char> algorithm);
+external int FIPS_query_algorithm_status(
+  ffi.Pointer<ffi.Char> algorithm,
+);
 
 /// FIPS_read_counter returns a counter of the number of times the specific
 /// function denoted by |counter| has been used. This always returns zero unless
@@ -14170,10 +15249,16 @@ external int FIPS_query_algorithm_status(ffi.Pointer<ffi.Char> algorithm);
 @ffi.Native<ffi.Size Function(ffi.UnsignedInt)>(
   symbol: 'bssl_dart_FIPS_read_counter',
 )
-external int _FIPS_read_counter(int counter);
+external int _FIPS_read_counter(
+  int counter,
+);
 
-int FIPS_read_counter(fips_counter_t counter) {
-  return _FIPS_read_counter(counter.value);
+int FIPS_read_counter(
+  fips_counter_t counter,
+) {
+  return _FIPS_read_counter(
+    counter.value,
+  );
 }
 
 /// FIPS_version returns the version of the FIPS module, or zero if the build
@@ -14188,7 +15273,9 @@ external int FIPS_version();
 @ffi.Native<ffi.Void Function(ffi.Pointer<GENERAL_NAMES>)>(
   symbol: 'bssl_dart_GENERAL_NAMES_free',
 )
-external void GENERAL_NAMES_free(ffi.Pointer<GENERAL_NAMES> gens);
+external void GENERAL_NAMES_free(
+  ffi.Pointer<GENERAL_NAMES> gens,
+);
 
 /// GENERAL_NAMES_new returns a new, empty |GENERAL_NAMES|, or NULL on error.
 @ffi.Native<ffi.Pointer<GENERAL_NAMES> Function()>(
@@ -14210,7 +15297,9 @@ external ffi.Pointer<GENERAL_NAME> GENERAL_NAME_dup(
 @ffi.Native<ffi.Void Function(ffi.Pointer<GENERAL_NAME>)>(
   symbol: 'bssl_dart_GENERAL_NAME_free',
 )
-external void GENERAL_NAME_free(ffi.Pointer<GENERAL_NAME> gen);
+external void GENERAL_NAME_free(
+  ffi.Pointer<GENERAL_NAME> gen,
+);
 
 /// GENERAL_NAME_get0_otherName, if |gen| is an OtherName, sets |*out_oid| and
 /// |*out_value| to the OtherName's type-id and value, respectively, and returns
@@ -14319,7 +15408,9 @@ external void GENERAL_NAME_set0_value(
 @ffi.Native<ffi.Void Function(ffi.Pointer<GENERAL_SUBTREE>)>(
   symbol: 'bssl_dart_GENERAL_SUBTREE_free',
 )
-external void GENERAL_SUBTREE_free(ffi.Pointer<GENERAL_SUBTREE> subtree);
+external void GENERAL_SUBTREE_free(
+  ffi.Pointer<GENERAL_SUBTREE> subtree,
+);
 
 /// GENERAL_SUBTREE_new returns a newly-allocated, empty |GENERAL_SUBTREE|
 /// object, or NULL on error.
@@ -14444,13 +15535,17 @@ external ffi.Pointer<ffi.Uint8> HMAC(
 @ffi.Native<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>(
   symbol: 'bssl_dart_HMAC_CTX_cleanse',
 )
-external void HMAC_CTX_cleanse(ffi.Pointer<HMAC_CTX> ctx);
+external void HMAC_CTX_cleanse(
+  ffi.Pointer<HMAC_CTX> ctx,
+);
 
 /// HMAC_CTX_cleanup frees data owned by |ctx|. It does not free |ctx| itself.
 @ffi.Native<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>(
   symbol: 'bssl_dart_HMAC_CTX_cleanup',
 )
-external void HMAC_CTX_cleanup(ffi.Pointer<HMAC_CTX> ctx);
+external void HMAC_CTX_cleanup(
+  ffi.Pointer<HMAC_CTX> ctx,
+);
 
 /// HMAC_CTX_copy calls |HMAC_CTX_init| on |dest| and then sets it equal to
 /// |src|. On entry, |dest| must /not/ be initialised for an operation with
@@ -14478,13 +15573,17 @@ external int HMAC_CTX_copy_ex(
 @ffi.Native<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>(
   symbol: 'bssl_dart_HMAC_CTX_free',
 )
-external void HMAC_CTX_free(ffi.Pointer<HMAC_CTX> ctx);
+external void HMAC_CTX_free(
+  ffi.Pointer<HMAC_CTX> ctx,
+);
 
 /// HMAC_CTX_get_md returns |ctx|'s hash function.
 @ffi.Native<ffi.Pointer<EVP_MD> Function(ffi.Pointer<HMAC_CTX>)>(
   symbol: 'bssl_dart_HMAC_CTX_get_md',
 )
-external ffi.Pointer<EVP_MD> HMAC_CTX_get_md(ffi.Pointer<HMAC_CTX> ctx);
+external ffi.Pointer<EVP_MD> HMAC_CTX_get_md(
+  ffi.Pointer<HMAC_CTX> ctx,
+);
 
 /// HMAC_CTX_init initialises |ctx| for use in an HMAC operation. It's assumed
 /// that HMAC_CTX objects will be allocated on the stack thus no allocation
@@ -14492,7 +15591,9 @@ external ffi.Pointer<EVP_MD> HMAC_CTX_get_md(ffi.Pointer<HMAC_CTX> ctx);
 @ffi.Native<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>(
   symbol: 'bssl_dart_HMAC_CTX_init',
 )
-external void HMAC_CTX_init(ffi.Pointer<HMAC_CTX> ctx);
+external void HMAC_CTX_init(
+  ffi.Pointer<HMAC_CTX> ctx,
+);
 
 /// HMAC_CTX_new allocates and initialises a new |HMAC_CTX| and returns it, or
 /// NULL on allocation failure. The caller must use |HMAC_CTX_free| to release
@@ -14504,7 +15605,9 @@ external ffi.Pointer<HMAC_CTX> HMAC_CTX_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>(
   symbol: 'bssl_dart_HMAC_CTX_reset',
 )
-external void HMAC_CTX_reset(ffi.Pointer<HMAC_CTX> ctx);
+external void HMAC_CTX_reset(
+  ffi.Pointer<HMAC_CTX> ctx,
+);
 
 /// HMAC_Final completes the HMAC operation in |ctx| and writes the result to
 /// |out|. If |out_len| is not |NULL| then it writes the length of the result to
@@ -14582,13 +15685,17 @@ external int HMAC_Update(
 @ffi.Native<ffi.Size Function(ffi.Pointer<HMAC_CTX>)>(
   symbol: 'bssl_dart_HMAC_size',
 )
-external int HMAC_size(ffi.Pointer<HMAC_CTX> ctx);
+external int HMAC_size(
+  ffi.Pointer<HMAC_CTX> ctx,
+);
 
 /// ISSUING_DIST_POINT_free releases memory associated with |idp|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ISSUING_DIST_POINT>)>(
   symbol: 'bssl_dart_ISSUING_DIST_POINT_free',
 )
-external void ISSUING_DIST_POINT_free(ffi.Pointer<ISSUING_DIST_POINT> idp);
+external void ISSUING_DIST_POINT_free(
+  ffi.Pointer<ISSUING_DIST_POINT> idp,
+);
 
 /// ISSUING_DIST_POINT_new returns a newly-allocated, empty |ISSUING_DIST_POINT|
 /// object, or NULL on error.
@@ -14602,7 +15709,9 @@ external ffi.Pointer<ISSUING_DIST_POINT> ISSUING_DIST_POINT_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'bssl_dart_METHOD_ref',
 )
-external void METHOD_ref(ffi.Pointer<ffi.Void> method);
+external void METHOD_ref(
+  ffi.Pointer<ffi.Void> method,
+);
 
 /// METHOD_unref decrements the reference count of |method| and frees it if the
 /// reference count drops to zero. This is a no-op for now because all methods
@@ -14610,7 +15719,9 @@ external void METHOD_ref(ffi.Pointer<ffi.Void> method);
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'bssl_dart_METHOD_unref',
 )
-external void METHOD_unref(ffi.Pointer<ffi.Void> method);
+external void METHOD_unref(
+  ffi.Pointer<ffi.Void> method,
+);
 
 /// NAME_CONSTRAINTS_check checks if |x509| satisfies name constraints in |nc|.
 /// It returns |X509_V_OK| on success and some |X509_V_ERR_*| constant on error.
@@ -14626,7 +15737,9 @@ external int NAME_CONSTRAINTS_check(
 @ffi.Native<ffi.Void Function(ffi.Pointer<NAME_CONSTRAINTS>)>(
   symbol: 'bssl_dart_NAME_CONSTRAINTS_free',
 )
-external void NAME_CONSTRAINTS_free(ffi.Pointer<NAME_CONSTRAINTS> ncons);
+external void NAME_CONSTRAINTS_free(
+  ffi.Pointer<NAME_CONSTRAINTS> ncons,
+);
 
 /// NAME_CONSTRAINTS_new returns a newly-allocated, empty |NAME_CONSTRAINTS|
 /// object, or NULL on error.
@@ -14639,7 +15752,9 @@ external ffi.Pointer<NAME_CONSTRAINTS> NAME_CONSTRAINTS_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<CONF>)>(
   symbol: 'bssl_dart_NCONF_free',
 )
-external void NCONF_free(ffi.Pointer<CONF> conf);
+external void NCONF_free(
+  ffi.Pointer<CONF> conf,
+);
 
 /// NCONF_get_section returns a stack of values for a given section in |conf|.
 /// If |section| is NULL, the default section is returned. It returns NULL on
@@ -14704,13 +15819,17 @@ external int NCONF_load_bio(
 @ffi.Native<ffi.Pointer<CONF> Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'bssl_dart_NCONF_new',
 )
-external ffi.Pointer<CONF> NCONF_new(ffi.Pointer<ffi.Void> method);
+external ffi.Pointer<CONF> NCONF_new(
+  ffi.Pointer<ffi.Void> method,
+);
 
 /// NETSCAPE_SPKAC_free releases memory associated with |spkac|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<NETSCAPE_SPKAC>)>(
   symbol: 'bssl_dart_NETSCAPE_SPKAC_free',
 )
-external void NETSCAPE_SPKAC_free(ffi.Pointer<NETSCAPE_SPKAC> spkac);
+external void NETSCAPE_SPKAC_free(
+  ffi.Pointer<NETSCAPE_SPKAC> spkac,
+);
 
 /// NETSCAPE_SPKAC_new returns a newly-allocated, empty |NETSCAPE_SPKAC| object,
 /// or NULL on error.
@@ -14747,7 +15866,9 @@ external ffi.Pointer<ffi.Char> NETSCAPE_SPKI_b64_encode(
 @ffi.Native<ffi.Void Function(ffi.Pointer<NETSCAPE_SPKI>)>(
   symbol: 'bssl_dart_NETSCAPE_SPKI_free',
 )
-external void NETSCAPE_SPKI_free(ffi.Pointer<NETSCAPE_SPKI> spki);
+external void NETSCAPE_SPKI_free(
+  ffi.Pointer<NETSCAPE_SPKI> spki,
+);
 
 /// NETSCAPE_SPKI_get_pubkey decodes and returns the public key in |spki| as an
 /// |EVP_PKEY|, or NULL on error. The caller takes ownership of the resulting
@@ -14808,7 +15929,9 @@ external int NETSCAPE_SPKI_verify(
 @ffi.Native<ffi.Void Function(ffi.Pointer<NOTICEREF>)>(
   symbol: 'bssl_dart_NOTICEREF_free',
 )
-external void NOTICEREF_free(ffi.Pointer<NOTICEREF> ref);
+external void NOTICEREF_free(
+  ffi.Pointer<NOTICEREF> ref,
+);
 
 /// NOTICEREF_new returns a newly-allocated, empty |NOTICEREF| object, or NULL
 /// on error.
@@ -14872,7 +15995,9 @@ external void OBJ_NAME_do_all_sorted(
 /// OBJ_cbs2nid returns the nid corresponding to the DER data in |cbs|, or
 /// |NID_undef| if no such object is known.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBS>)>(symbol: 'bssl_dart_OBJ_cbs2nid')
-external int OBJ_cbs2nid(ffi.Pointer<CBS> cbs);
+external int OBJ_cbs2nid(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// OBJ_cleanup does nothing.
 @ffi.Native<ffi.Void Function()>(symbol: 'bssl_dart_OBJ_cleanup')
@@ -14883,7 +16008,10 @@ external void OBJ_cleanup();
 @ffi.Native<
   ffi.Int Function(ffi.Pointer<ASN1_OBJECT>, ffi.Pointer<ASN1_OBJECT>)
 >(symbol: 'bssl_dart_OBJ_cmp')
-external int OBJ_cmp(ffi.Pointer<ASN1_OBJECT> a, ffi.Pointer<ASN1_OBJECT> b);
+external int OBJ_cmp(
+  ffi.Pointer<ASN1_OBJECT> a,
+  ffi.Pointer<ASN1_OBJECT> b,
+);
 
 /// OBJ_create adds a known object and returns the NID of the new object, or
 /// NID_undef on error.
@@ -14912,7 +16040,9 @@ external int OBJ_create(
 @ffi.Native<ffi.Pointer<ASN1_OBJECT> Function(ffi.Pointer<ASN1_OBJECT>)>(
   symbol: 'bssl_dart_OBJ_dup',
 )
-external ffi.Pointer<ASN1_OBJECT> OBJ_dup(ffi.Pointer<ASN1_OBJECT> obj);
+external ffi.Pointer<ASN1_OBJECT> OBJ_dup(
+  ffi.Pointer<ASN1_OBJECT> obj,
+);
 
 /// OBJ_find_sigid_algs finds the digest and public-key NIDs that correspond to
 /// the signing algorithm |sign_nid|. If successful, it sets |*out_digest_nid|
@@ -14949,7 +16079,9 @@ external int OBJ_find_sigid_by_algs(
 @ffi.Native<ffi.Pointer<ffi.Uint8> Function(ffi.Pointer<ASN1_OBJECT>)>(
   symbol: 'bssl_dart_OBJ_get0_data',
 )
-external ffi.Pointer<ffi.Uint8> OBJ_get0_data(ffi.Pointer<ASN1_OBJECT> obj);
+external ffi.Pointer<ffi.Uint8> OBJ_get0_data(
+  ffi.Pointer<ASN1_OBJECT> obj,
+);
 
 /// OBJ_get_undef returns the object for |NID_undef|. Prefer this function over
 /// |OBJ_nid2obj| to avoid pulling in the full OID table.
@@ -14965,27 +16097,36 @@ external ffi.Pointer<ASN1_OBJECT> OBJ_get_undef();
 @ffi.Native<ffi.Size Function(ffi.Pointer<ASN1_OBJECT>)>(
   symbol: 'bssl_dart_OBJ_length',
 )
-external int OBJ_length(ffi.Pointer<ASN1_OBJECT> obj);
+external int OBJ_length(
+  ffi.Pointer<ASN1_OBJECT> obj,
+);
 
 /// OBJ_ln2nid returns the nid corresponding to |long_name|, or |NID_undef| if
 /// no such long name is known.
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_OBJ_ln2nid',
 )
-external int OBJ_ln2nid(ffi.Pointer<ffi.Char> long_name);
+external int OBJ_ln2nid(
+  ffi.Pointer<ffi.Char> long_name,
+);
 
 /// OBJ_nid2cbb writes |nid| as an ASN.1 OBJECT IDENTIFIER to |out|. It returns
 /// one on success or zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Int)>(
   symbol: 'bssl_dart_OBJ_nid2cbb',
 )
-external int OBJ_nid2cbb(ffi.Pointer<CBB> out, int nid);
+external int OBJ_nid2cbb(
+  ffi.Pointer<CBB> out,
+  int nid,
+);
 
 /// OBJ_nid2ln returns the long name for |nid|, or NULL if |nid| is unknown.
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Int)>(
   symbol: 'bssl_dart_OBJ_nid2ln',
 )
-external ffi.Pointer<ffi.Char> OBJ_nid2ln(int nid);
+external ffi.Pointer<ffi.Char> OBJ_nid2ln(
+  int nid,
+);
 
 /// OBJ_nid2obj returns the |ASN1_OBJECT| corresponding to |nid|, or NULL if
 /// |nid| is unknown.
@@ -15005,20 +16146,26 @@ external ffi.Pointer<ffi.Char> OBJ_nid2ln(int nid);
 @ffi.Native<ffi.Pointer<ASN1_OBJECT> Function(ffi.Int)>(
   symbol: 'bssl_dart_OBJ_nid2obj',
 )
-external ffi.Pointer<ASN1_OBJECT> OBJ_nid2obj(int nid);
+external ffi.Pointer<ASN1_OBJECT> OBJ_nid2obj(
+  int nid,
+);
 
 /// OBJ_nid2sn returns the short name for |nid|, or NULL if |nid| is unknown.
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Int)>(
   symbol: 'bssl_dart_OBJ_nid2sn',
 )
-external ffi.Pointer<ffi.Char> OBJ_nid2sn(int nid);
+external ffi.Pointer<ffi.Char> OBJ_nid2sn(
+  int nid,
+);
 
 /// OBJ_obj2nid returns the nid corresponding to |obj|, or |NID_undef| if no
 /// such object is known.
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_OBJECT>)>(
   symbol: 'bssl_dart_OBJ_obj2nid',
 )
-external int OBJ_obj2nid(ffi.Pointer<ASN1_OBJECT> obj);
+external int OBJ_obj2nid(
+  ffi.Pointer<ASN1_OBJECT> obj,
+);
 
 /// OBJ_obj2txt converts |obj| to a textual representation. If
 /// |always_return_oid| is zero then |obj| will be matched against known objects
@@ -15048,7 +16195,9 @@ external int OBJ_obj2txt(
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_OBJ_sn2nid',
 )
-external int OBJ_sn2nid(ffi.Pointer<ffi.Char> short_name);
+external int OBJ_sn2nid(
+  ffi.Pointer<ffi.Char> short_name,
+);
 
 /// OBJ_txt2nid returns the nid corresponding to |s|, which may be a short name,
 /// long name, or an ASCII string containing a dotted sequence of numbers. It
@@ -15056,7 +16205,9 @@ external int OBJ_sn2nid(ffi.Pointer<ffi.Char> short_name);
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_OBJ_txt2nid',
 )
-external int OBJ_txt2nid(ffi.Pointer<ffi.Char> s);
+external int OBJ_txt2nid(
+  ffi.Pointer<ffi.Char> s,
+);
 
 /// OBJ_txt2obj returns an ASN1_OBJECT for the textual representation in |s|.
 /// If |dont_search_names| is zero, then |s| will be matched against the long
@@ -15094,14 +16245,20 @@ external int OPENSSL_asprintf(
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Size, ffi.Size)>(
   symbol: 'bssl_dart_OPENSSL_calloc',
 )
-external ffi.Pointer<ffi.Void> OPENSSL_calloc(int num, int size);
+external ffi.Pointer<ffi.Void> OPENSSL_calloc(
+  int num,
+  int size,
+);
 
 /// OPENSSL_cleanse zeros out |len| bytes of memory at |ptr|. This is similar to
 /// |memset_s| from C11.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Size)>(
   symbol: 'bssl_dart_OPENSSL_cleanse',
 )
-external void OPENSSL_cleanse(ffi.Pointer<ffi.Void> ptr, int len);
+external void OPENSSL_cleanse(
+  ffi.Pointer<ffi.Void> ptr,
+  int len,
+);
 
 /// OPENSSL_cleanup does nothing.
 @ffi.Native<ffi.Void Function()>(symbol: 'bssl_dart_OPENSSL_cleanup')
@@ -15112,13 +16269,18 @@ external void OPENSSL_cleanup();
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Size)>(
   symbol: 'bssl_dart_OPENSSL_clear_free',
 )
-external void OPENSSL_clear_free(ffi.Pointer<ffi.Void> ptr, int len);
+external void OPENSSL_clear_free(
+  ffi.Pointer<ffi.Void> ptr,
+  int len,
+);
 
 /// OPENSSL_config does nothing.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_OPENSSL_config',
 )
-external void OPENSSL_config(ffi.Pointer<ffi.Char> config_name);
+external void OPENSSL_config(
+  ffi.Pointer<ffi.Char> config_name,
+);
 
 /// OPENSSL_free does nothing if |ptr| is NULL. Otherwise it zeros out the
 /// memory allocated at |ptr| and frees it along with the private data.
@@ -15126,7 +16288,9 @@ external void OPENSSL_config(ffi.Pointer<ffi.Char> config_name);
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'bssl_dart_OPENSSL_free',
 )
-external void OPENSSL_free(ffi.Pointer<ffi.Void> ptr);
+external void OPENSSL_free(
+  ffi.Pointer<ffi.Void> ptr,
+);
 
 /// OPENSSL_fromxdigit returns one if |c| is a hexadecimal digit as recognized
 /// by OPENSSL_isxdigit, and sets |out| to the corresponding value. Otherwise
@@ -15134,13 +16298,19 @@ external void OPENSSL_free(ffi.Pointer<ffi.Void> ptr);
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Int)>(
   symbol: 'bssl_dart_OPENSSL_fromxdigit',
 )
-external int OPENSSL_fromxdigit(ffi.Pointer<ffi.Uint8> out, int c);
+external int OPENSSL_fromxdigit(
+  ffi.Pointer<ffi.Uint8> out,
+  int c,
+);
 
 /// OPENSSL_hash32 implements the 32 bit, FNV-1a hash.
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<ffi.Void>, ffi.Size)>(
   symbol: 'bssl_dart_OPENSSL_hash32',
 )
-external int OPENSSL_hash32(ffi.Pointer<ffi.Void> ptr, int len);
+external int OPENSSL_hash32(
+  ffi.Pointer<ffi.Void> ptr,
+  int len,
+);
 
 /// OPENSSL_init_crypto returns one.
 @ffi.Native<ffi.Int Function(ffi.Uint64, ffi.Pointer<OPENSSL_INIT_SETTINGS>)>(
@@ -15154,28 +16324,38 @@ external int OPENSSL_init_crypto(
 /// OPENSSL_isalnum is a locale-independent, ASCII-only version of isalnum(3), It
 /// only recognizes what |OPENSSL_isalpha| and |OPENSSL_isdigit| recognize.
 @ffi.Native<ffi.Int Function(ffi.Int)>(symbol: 'bssl_dart_OPENSSL_isalnum')
-external int OPENSSL_isalnum(int c);
+external int OPENSSL_isalnum(
+  int c,
+);
 
 /// OPENSSL_isalpha is a locale-independent, ASCII-only version of isalpha(3), It
 /// only recognizes 'a' through 'z' and 'A' through 'Z' as alphabetic.
 @ffi.Native<ffi.Int Function(ffi.Int)>(symbol: 'bssl_dart_OPENSSL_isalpha')
-external int OPENSSL_isalpha(int c);
+external int OPENSSL_isalpha(
+  int c,
+);
 
 /// OPENSSL_isdigit is a locale-independent, ASCII-only version of isdigit(3), It
 /// only recognizes '0' through '9' as digits.
 @ffi.Native<ffi.Int Function(ffi.Int)>(symbol: 'bssl_dart_OPENSSL_isdigit')
-external int OPENSSL_isdigit(int c);
+external int OPENSSL_isdigit(
+  int c,
+);
 
 /// OPENSSL_isspace is a locale-independent, ASCII-only version of isspace(3). It
 /// only recognizes '\t', '\n', '\v', '\f', '\r', and ' '.
 @ffi.Native<ffi.Int Function(ffi.Int)>(symbol: 'bssl_dart_OPENSSL_isspace')
-external int OPENSSL_isspace(int c);
+external int OPENSSL_isspace(
+  int c,
+);
 
 /// OPENSSL_isxdigit is a locale-independent, ASCII-only version of isxdigit(3),
 /// It only recognizes '0' through '9', 'a' through 'f', and 'A through 'F' as
 /// digits.
 @ffi.Native<ffi.Int Function(ffi.Int)>(symbol: 'bssl_dart_OPENSSL_isxdigit')
-external int OPENSSL_isxdigit(int c);
+external int OPENSSL_isxdigit(
+  int c,
+);
 
 /// OPENSSL_load_builtin_modules does nothing.
 @ffi.Native<ffi.Void Function()>(
@@ -15190,7 +16370,9 @@ external void OPENSSL_load_builtin_modules();
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Size)>(
   symbol: 'bssl_dart_OPENSSL_malloc',
 )
-external ffi.Pointer<ffi.Void> OPENSSL_malloc(int size);
+external ffi.Pointer<ffi.Void> OPENSSL_malloc(
+  int size,
+);
 
 /// OPENSSL_malloc_init returns one.
 @ffi.Native<ffi.Int Function()>(symbol: 'bssl_dart_OPENSSL_malloc_init')
@@ -15227,13 +16409,18 @@ external ffi.Pointer<ffi.Void> OPENSSL_realloc(
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Size)>(
   symbol: 'bssl_dart_OPENSSL_secure_clear_free',
 )
-external void OPENSSL_secure_clear_free(ffi.Pointer<ffi.Void> ptr, int len);
+external void OPENSSL_secure_clear_free(
+  ffi.Pointer<ffi.Void> ptr,
+  int len,
+);
 
 /// OPENSSL_secure_malloc calls |OPENSSL_malloc|.
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Size)>(
   symbol: 'bssl_dart_OPENSSL_secure_malloc',
 )
-external ffi.Pointer<ffi.Void> OPENSSL_secure_malloc(int size);
+external ffi.Pointer<ffi.Void> OPENSSL_secure_malloc(
+  int size,
+);
 
 @ffi.Native<
   ffi.Pointer<OPENSSL_STACK> Function(
@@ -15311,7 +16498,9 @@ external int OPENSSL_sk_find(
 @ffi.Native<ffi.Void Function(ffi.Pointer<OPENSSL_STACK>)>(
   symbol: 'bssl_dart_OPENSSL_sk_free',
 )
-external void OPENSSL_sk_free(ffi.Pointer<OPENSSL_STACK> sk);
+external void OPENSSL_sk_free(
+  ffi.Pointer<OPENSSL_STACK> sk,
+);
 
 @ffi.Native<
   ffi.Size Function(ffi.Pointer<OPENSSL_STACK>, ffi.Pointer<ffi.Void>, ffi.Size)
@@ -15325,7 +16514,9 @@ external int OPENSSL_sk_insert(
 @ffi.Native<ffi.Int Function(ffi.Pointer<OPENSSL_STACK>)>(
   symbol: 'bssl_dart_OPENSSL_sk_is_sorted',
 )
-external int OPENSSL_sk_is_sorted(ffi.Pointer<OPENSSL_STACK> sk);
+external int OPENSSL_sk_is_sorted(
+  ffi.Pointer<OPENSSL_STACK> sk,
+);
 
 /// The following are raw stack functions. They implement the corresponding typed
 /// |sk_SAMPLE_*| functions generated by |DEFINE_STACK_OF|. Callers shouldn't be
@@ -15333,7 +16524,9 @@ external int OPENSSL_sk_is_sorted(ffi.Pointer<OPENSSL_STACK> sk);
 @ffi.Native<ffi.Pointer<OPENSSL_STACK> Function(OPENSSL_sk_cmp_func)>(
   symbol: 'bssl_dart_OPENSSL_sk_new',
 )
-external ffi.Pointer<OPENSSL_STACK> OPENSSL_sk_new(OPENSSL_sk_cmp_func comp);
+external ffi.Pointer<OPENSSL_STACK> OPENSSL_sk_new(
+  OPENSSL_sk_cmp_func comp,
+);
 
 @ffi.Native<ffi.Pointer<OPENSSL_STACK> Function()>(
   symbol: 'bssl_dart_OPENSSL_sk_new_null',
@@ -15343,12 +16536,16 @@ external ffi.Pointer<OPENSSL_STACK> OPENSSL_sk_new_null();
 @ffi.Native<ffi.Size Function(ffi.Pointer<OPENSSL_STACK>)>(
   symbol: 'bssl_dart_OPENSSL_sk_num',
 )
-external int OPENSSL_sk_num(ffi.Pointer<OPENSSL_STACK> sk);
+external int OPENSSL_sk_num(
+  ffi.Pointer<OPENSSL_STACK> sk,
+);
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<OPENSSL_STACK>)>(
   symbol: 'bssl_dart_OPENSSL_sk_pop',
 )
-external ffi.Pointer<ffi.Void> OPENSSL_sk_pop(ffi.Pointer<OPENSSL_STACK> sk);
+external ffi.Pointer<ffi.Void> OPENSSL_sk_pop(
+  ffi.Pointer<OPENSSL_STACK> sk,
+);
 
 @ffi.Native<
   ffi.Void Function(
@@ -15395,7 +16592,9 @@ external OPENSSL_sk_cmp_func OPENSSL_sk_set_cmp_func(
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<OPENSSL_STACK>)>(
   symbol: 'bssl_dart_OPENSSL_sk_shift',
 )
-external ffi.Pointer<ffi.Void> OPENSSL_sk_shift(ffi.Pointer<OPENSSL_STACK> sk);
+external ffi.Pointer<ffi.Void> OPENSSL_sk_shift(
+  ffi.Pointer<OPENSSL_STACK> sk,
+);
 
 @ffi.Native<
   ffi.Void Function(ffi.Pointer<OPENSSL_STACK>, OPENSSL_sk_call_cmp_func)
@@ -15431,7 +16630,9 @@ external ffi.Pointer<ffi.Void> OPENSSL_sk_value(
 @ffi.Native<ffi.Void Function(ffi.Pointer<OPENSSL_STACK>)>(
   symbol: 'bssl_dart_OPENSSL_sk_zero',
 )
-external void OPENSSL_sk_zero(ffi.Pointer<OPENSSL_STACK> sk);
+external void OPENSSL_sk_zero(
+  ffi.Pointer<OPENSSL_STACK> sk,
+);
 
 /// OPENSSL_strcasecmp is a locale-independent, ASCII-only version of
 /// strcasecmp(3).
@@ -15447,13 +16648,17 @@ external int OPENSSL_strcasecmp(
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_OPENSSL_strdup',
 )
-external ffi.Pointer<ffi.Char> OPENSSL_strdup(ffi.Pointer<ffi.Char> s);
+external ffi.Pointer<ffi.Char> OPENSSL_strdup(
+  ffi.Pointer<ffi.Char> s,
+);
 
 /// OPENSSL_strhash calls |OPENSSL_hash32| on the NUL-terminated string |s|.
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_OPENSSL_strhash',
 )
-external int OPENSSL_strhash(ffi.Pointer<ffi.Char> s);
+external int OPENSSL_strhash(
+  ffi.Pointer<ffi.Char> s,
+);
 
 /// OPENSSL_strlcat acts like strlcat(3).
 @ffi.Native<
@@ -15501,12 +16706,17 @@ external ffi.Pointer<ffi.Char> OPENSSL_strndup(
 @ffi.Native<ffi.Size Function(ffi.Pointer<ffi.Char>, ffi.Size)>(
   symbol: 'bssl_dart_OPENSSL_strnlen',
 )
-external int OPENSSL_strnlen(ffi.Pointer<ffi.Char> s, int len);
+external int OPENSSL_strnlen(
+  ffi.Pointer<ffi.Char> s,
+  int len,
+);
 
 /// OPENSSL_tolower is a locale-independent, ASCII-only version of tolower(3). It
 /// only lowercases ASCII values. Other values are returned as-is.
 @ffi.Native<ffi.Int Function(ffi.Int)>(symbol: 'bssl_dart_OPENSSL_tolower')
-external int OPENSSL_tolower(int c);
+external int OPENSSL_tolower(
+  int c,
+);
 
 /// OPENSSL_vasprintf has the same behavior as vasprintf(3), except that
 /// memory allocated in a returned string must be freed with |OPENSSL_free|.
@@ -15528,13 +16738,17 @@ external int OPENSSL_vasprintf(
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Size)>(
   symbol: 'bssl_dart_OPENSSL_zalloc',
 )
-external ffi.Pointer<ffi.Void> OPENSSL_zalloc(int size);
+external ffi.Pointer<ffi.Void> OPENSSL_zalloc(
+  int size,
+);
 
 /// OTHERNAME_free releases memory associated with |name|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<OTHERNAME>)>(
   symbol: 'bssl_dart_OTHERNAME_free',
 )
-external void OTHERNAME_free(ffi.Pointer<OTHERNAME> name);
+external void OTHERNAME_free(
+  ffi.Pointer<OTHERNAME> name,
+);
 
 /// OTHERNAME_new returns a new, empty |OTHERNAME|, or NULL on error.
 @ffi.Native<ffi.Pointer<OTHERNAME> Function()>(
@@ -15560,7 +16774,9 @@ external void OpenSSL_add_all_digests();
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Int)>(
   symbol: 'bssl_dart_OpenSSL_version',
 )
-external ffi.Pointer<ffi.Char> OpenSSL_version(int which);
+external ffi.Pointer<ffi.Char> OpenSSL_version(
+  int which,
+);
 
 /// OpenSSL_version_num is a compatibility function that returns
 /// OPENSSL_VERSION_NUMBER from base.h.
@@ -16358,7 +17574,10 @@ external int PEM_write(
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_PEM_write_DHparams',
 )
-external int PEM_write_DHparams(ffi.Pointer<FILE> fp, ffi.Pointer<DH> x);
+external int PEM_write_DHparams(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<DH> x,
+);
 
 @ffi.Native<
   ffi.Int Function(
@@ -16384,12 +17603,18 @@ external int PEM_write_DSAPrivateKey(
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_PEM_write_DSA_PUBKEY',
 )
-external int PEM_write_DSA_PUBKEY(ffi.Pointer<FILE> fp, ffi.Pointer<DSA> x);
+external int PEM_write_DSA_PUBKEY(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<DSA> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_PEM_write_DSAparams',
 )
-external int PEM_write_DSAparams(ffi.Pointer<FILE> fp, ffi.Pointer<DSA> x);
+external int PEM_write_DSAparams(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<DSA> x,
+);
 
 @ffi.Native<
   ffi.Int Function(
@@ -16415,17 +17640,26 @@ external int PEM_write_ECPrivateKey(
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_PEM_write_EC_PUBKEY',
 )
-external int PEM_write_EC_PUBKEY(ffi.Pointer<FILE> fp, ffi.Pointer<EC_KEY> x);
+external int PEM_write_EC_PUBKEY(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<EC_KEY> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<PKCS7>)>(
   symbol: 'bssl_dart_PEM_write_PKCS7',
 )
-external int PEM_write_PKCS7(ffi.Pointer<FILE> fp, ffi.Pointer<PKCS7> x);
+external int PEM_write_PKCS7(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<PKCS7> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_SIG>)>(
   symbol: 'bssl_dart_PEM_write_PKCS8',
 )
-external int PEM_write_PKCS8(ffi.Pointer<FILE> fp, ffi.Pointer<X509_SIG> x);
+external int PEM_write_PKCS8(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509_SIG> x,
+);
 
 @ffi.Native<
   ffi.Int Function(
@@ -16480,7 +17714,10 @@ external int PEM_write_PKCS8_PRIV_KEY_INFO(
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_PEM_write_PUBKEY',
 )
-external int PEM_write_PUBKEY(ffi.Pointer<FILE> fp, ffi.Pointer<EVP_PKEY> x);
+external int PEM_write_PUBKEY(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<EVP_PKEY> x,
+);
 
 @ffi.Native<
   ffi.Int Function(
@@ -16527,32 +17764,50 @@ external int PEM_write_RSAPrivateKey(
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_PEM_write_RSAPublicKey',
 )
-external int PEM_write_RSAPublicKey(ffi.Pointer<FILE> fp, ffi.Pointer<RSA> x);
+external int PEM_write_RSAPublicKey(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<RSA> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_PEM_write_RSA_PUBKEY',
 )
-external int PEM_write_RSA_PUBKEY(ffi.Pointer<FILE> fp, ffi.Pointer<RSA> x);
+external int PEM_write_RSA_PUBKEY(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<RSA> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_PEM_write_X509',
 )
-external int PEM_write_X509(ffi.Pointer<FILE> fp, ffi.Pointer<X509> x);
+external int PEM_write_X509(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_PEM_write_X509_AUX',
 )
-external int PEM_write_X509_AUX(ffi.Pointer<FILE> fp, ffi.Pointer<X509> x);
+external int PEM_write_X509_AUX(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_PEM_write_X509_CRL',
 )
-external int PEM_write_X509_CRL(ffi.Pointer<FILE> fp, ffi.Pointer<X509_CRL> x);
+external int PEM_write_X509_CRL(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509_CRL> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_PEM_write_X509_REQ',
 )
-external int PEM_write_X509_REQ(ffi.Pointer<FILE> fp, ffi.Pointer<X509_REQ> x);
+external int PEM_write_X509_REQ(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509_REQ> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_PEM_write_X509_REQ_NEW',
@@ -16586,7 +17841,10 @@ external int PEM_write_bio(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_PEM_write_bio_DHparams',
 )
-external int PEM_write_bio_DHparams(ffi.Pointer<BIO> bp, ffi.Pointer<DH> x);
+external int PEM_write_bio_DHparams(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<DH> x,
+);
 
 @ffi.Native<
   ffi.Int Function(
@@ -16612,12 +17870,18 @@ external int PEM_write_bio_DSAPrivateKey(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_PEM_write_bio_DSA_PUBKEY',
 )
-external int PEM_write_bio_DSA_PUBKEY(ffi.Pointer<BIO> bp, ffi.Pointer<DSA> x);
+external int PEM_write_bio_DSA_PUBKEY(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<DSA> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_PEM_write_bio_DSAparams',
 )
-external int PEM_write_bio_DSAparams(ffi.Pointer<BIO> bp, ffi.Pointer<DSA> x);
+external int PEM_write_bio_DSAparams(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<DSA> x,
+);
 
 @ffi.Native<
   ffi.Int Function(
@@ -16651,12 +17915,18 @@ external int PEM_write_bio_EC_PUBKEY(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<PKCS7>)>(
   symbol: 'bssl_dart_PEM_write_bio_PKCS7',
 )
-external int PEM_write_bio_PKCS7(ffi.Pointer<BIO> bp, ffi.Pointer<PKCS7> x);
+external int PEM_write_bio_PKCS7(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<PKCS7> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_SIG>)>(
   symbol: 'bssl_dart_PEM_write_bio_PKCS8',
 )
-external int PEM_write_bio_PKCS8(ffi.Pointer<BIO> bp, ffi.Pointer<X509_SIG> x);
+external int PEM_write_bio_PKCS8(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<X509_SIG> x,
+);
 
 @ffi.Native<
   ffi.Int Function(
@@ -16711,7 +17981,10 @@ external int PEM_write_bio_PKCS8_PRIV_KEY_INFO(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_PEM_write_bio_PUBKEY',
 )
-external int PEM_write_bio_PUBKEY(ffi.Pointer<BIO> bp, ffi.Pointer<EVP_PKEY> x);
+external int PEM_write_bio_PUBKEY(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<EVP_PKEY> x,
+);
 
 @ffi.Native<
   ffi.Int Function(
@@ -16766,17 +18039,26 @@ external int PEM_write_bio_RSAPublicKey(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_PEM_write_bio_RSA_PUBKEY',
 )
-external int PEM_write_bio_RSA_PUBKEY(ffi.Pointer<BIO> bp, ffi.Pointer<RSA> x);
+external int PEM_write_bio_RSA_PUBKEY(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<RSA> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_PEM_write_bio_X509',
 )
-external int PEM_write_bio_X509(ffi.Pointer<BIO> bp, ffi.Pointer<X509> x);
+external int PEM_write_bio_X509(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<X509> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_PEM_write_bio_X509_AUX',
 )
-external int PEM_write_bio_X509_AUX(ffi.Pointer<BIO> bp, ffi.Pointer<X509> x);
+external int PEM_write_bio_X509_AUX(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<X509> x,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_PEM_write_bio_X509_CRL',
@@ -16889,7 +18171,9 @@ external int PKCS7_bundle_raw_certificates(
 @ffi.Native<ffi.Void Function(ffi.Pointer<PKCS7>)>(
   symbol: 'bssl_dart_PKCS7_free',
 )
-external void PKCS7_free(ffi.Pointer<PKCS7> p7);
+external void PKCS7_free(
+  ffi.Pointer<PKCS7> p7,
+);
 
 /// PKCS7_get_CRLs parses a PKCS#7, SignedData structure from |cbs| and appends
 /// the included CRLs to |out_crls|. It returns one on success and zero on error.
@@ -17009,43 +18293,57 @@ external ffi.Pointer<PKCS7> PKCS7_sign(
 @ffi.Native<ffi.Int Function(ffi.Pointer<PKCS7>)>(
   symbol: 'bssl_dart_PKCS7_type_is_data',
 )
-external int PKCS7_type_is_data(ffi.Pointer<PKCS7> p7);
+external int PKCS7_type_is_data(
+  ffi.Pointer<PKCS7> p7,
+);
 
 /// PKCS7_type_is_digest returns zero.
 @ffi.Native<ffi.Int Function(ffi.Pointer<PKCS7>)>(
   symbol: 'bssl_dart_PKCS7_type_is_digest',
 )
-external int PKCS7_type_is_digest(ffi.Pointer<PKCS7> p7);
+external int PKCS7_type_is_digest(
+  ffi.Pointer<PKCS7> p7,
+);
 
 /// PKCS7_type_is_encrypted returns zero.
 @ffi.Native<ffi.Int Function(ffi.Pointer<PKCS7>)>(
   symbol: 'bssl_dart_PKCS7_type_is_encrypted',
 )
-external int PKCS7_type_is_encrypted(ffi.Pointer<PKCS7> p7);
+external int PKCS7_type_is_encrypted(
+  ffi.Pointer<PKCS7> p7,
+);
 
 /// PKCS7_type_is_enveloped returns zero.
 @ffi.Native<ffi.Int Function(ffi.Pointer<PKCS7>)>(
   symbol: 'bssl_dart_PKCS7_type_is_enveloped',
 )
-external int PKCS7_type_is_enveloped(ffi.Pointer<PKCS7> p7);
+external int PKCS7_type_is_enveloped(
+  ffi.Pointer<PKCS7> p7,
+);
 
 /// PKCS7_type_is_signed returns one. (We only support signed data ContentInfos.)
 @ffi.Native<ffi.Int Function(ffi.Pointer<PKCS7>)>(
   symbol: 'bssl_dart_PKCS7_type_is_signed',
 )
-external int PKCS7_type_is_signed(ffi.Pointer<PKCS7> p7);
+external int PKCS7_type_is_signed(
+  ffi.Pointer<PKCS7> p7,
+);
 
 /// PKCS7_type_is_signedAndEnveloped returns zero.
 @ffi.Native<ffi.Int Function(ffi.Pointer<PKCS7>)>(
   symbol: 'bssl_dart_PKCS7_type_is_signedAndEnveloped',
 )
-external int PKCS7_type_is_signedAndEnveloped(ffi.Pointer<PKCS7> p7);
+external int PKCS7_type_is_signedAndEnveloped(
+  ffi.Pointer<PKCS7> p7,
+);
 
 /// PKCS8_PRIV_KEY_INFO_free releases memory associated with |key|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<PKCS8_PRIV_KEY_INFO>)>(
   symbol: 'bssl_dart_PKCS8_PRIV_KEY_INFO_free',
 )
-external void PKCS8_PRIV_KEY_INFO_free(ffi.Pointer<PKCS8_PRIV_KEY_INFO> key);
+external void PKCS8_PRIV_KEY_INFO_free(
+  ffi.Pointer<PKCS8_PRIV_KEY_INFO> key,
+);
 
 /// PKCS8_PRIV_KEY_INFO_new returns a newly-allocated, empty
 /// |PKCS8_PRIV_KEY_INFO| object, or NULL on error.
@@ -17058,7 +18356,9 @@ external ffi.Pointer<PKCS8_PRIV_KEY_INFO> PKCS8_PRIV_KEY_INFO_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<POLICYINFO>)>(
   symbol: 'bssl_dart_POLICYINFO_free',
 )
-external void POLICYINFO_free(ffi.Pointer<POLICYINFO> info);
+external void POLICYINFO_free(
+  ffi.Pointer<POLICYINFO> info,
+);
 
 /// POLICYINFO_new returns a newly-allocated, empty |POLICYINFO| object, or NULL
 /// on error.
@@ -17071,7 +18371,9 @@ external ffi.Pointer<POLICYINFO> POLICYINFO_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<POLICYQUALINFO>)>(
   symbol: 'bssl_dart_POLICYQUALINFO_free',
 )
-external void POLICYQUALINFO_free(ffi.Pointer<POLICYQUALINFO> info);
+external void POLICYQUALINFO_free(
+  ffi.Pointer<POLICYQUALINFO> info,
+);
 
 /// POLICYQUALINFO_new returns a newly-allocated, empty |POLICYQUALINFO| object,
 /// or NULL on error.
@@ -17084,7 +18386,9 @@ external ffi.Pointer<POLICYQUALINFO> POLICYQUALINFO_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<POLICY_CONSTRAINTS>)>(
   symbol: 'bssl_dart_POLICY_CONSTRAINTS_free',
 )
-external void POLICY_CONSTRAINTS_free(ffi.Pointer<POLICY_CONSTRAINTS> pcons);
+external void POLICY_CONSTRAINTS_free(
+  ffi.Pointer<POLICY_CONSTRAINTS> pcons,
+);
 
 /// POLICY_CONSTRAINTS_new returns a newly-allocated, empty |POLICY_CONSTRAINTS|
 /// object, or NULL on error.
@@ -17097,7 +18401,9 @@ external ffi.Pointer<POLICY_CONSTRAINTS> POLICY_CONSTRAINTS_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<POLICY_MAPPING>)>(
   symbol: 'bssl_dart_POLICY_MAPPING_free',
 )
-external void POLICY_MAPPING_free(ffi.Pointer<POLICY_MAPPING> mapping);
+external void POLICY_MAPPING_free(
+  ffi.Pointer<POLICY_MAPPING> mapping,
+);
 
 /// POLICY_MAPPING_new returns a newly-allocated, empty |POLICY_MAPPING| object,
 /// or NULL on error.
@@ -17122,14 +18428,21 @@ external ffi.Pointer<RAND_METHOD> RAND_SSLeay();
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int, ffi.Double)>(
   symbol: 'bssl_dart_RAND_add',
 )
-external void RAND_add(ffi.Pointer<ffi.Void> buf, int num, double entropy);
+external void RAND_add(
+  ffi.Pointer<ffi.Void> buf,
+  int num,
+  double entropy,
+);
 
 /// RAND_bytes writes |len| bytes of random data to |buf| and returns one. In the
 /// event that sufficient random data can not be obtained, |abort| is called.
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Size)>(
   symbol: 'bssl_dart_RAND_bytes',
 )
-external int RAND_bytes(ffi.Pointer<ffi.Uint8> buf, int len);
+external int RAND_bytes(
+  ffi.Pointer<ffi.Uint8> buf,
+  int len,
+);
 
 /// RAND_cleanup does nothing.
 @ffi.Native<ffi.Void Function()>(symbol: 'bssl_dart_RAND_cleanup')
@@ -17146,7 +18459,9 @@ external void RAND_disable_fork_unsafe_buffering();
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_RAND_egd',
 )
-external int RAND_egd(ffi.Pointer<ffi.Char> arg0);
+external int RAND_egd(
+  ffi.Pointer<ffi.Char> arg0,
+);
 
 /// RAND_enable_fork_unsafe_buffering indicates that clones of the address space,
 /// e.g. via |fork|, will never call into BoringSSL. It may be used to disable
@@ -17170,7 +18485,9 @@ external int RAND_egd(ffi.Pointer<ffi.Char> arg0);
 @ffi.Native<ffi.Void Function(ffi.Int)>(
   symbol: 'bssl_dart_RAND_enable_fork_unsafe_buffering',
 )
-external void RAND_enable_fork_unsafe_buffering(int fd);
+external void RAND_enable_fork_unsafe_buffering(
+  int fd,
+);
 
 /// RAND_file_name returns NULL.
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>, ffi.Size)>(
@@ -17206,7 +18523,10 @@ external void RAND_get_system_entropy_for_custom_prng(
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.Long)>(
   symbol: 'bssl_dart_RAND_load_file',
 )
-external int RAND_load_file(ffi.Pointer<ffi.Char> path, int num);
+external int RAND_load_file(
+  ffi.Pointer<ffi.Char> path,
+  int num,
+);
 
 /// RAND_maybe_reseed might reseed the PRNG if it's getting close to the reseed
 /// limit. If it does so, it may briefly block other threads that are
@@ -17228,20 +18548,28 @@ external int RAND_poll();
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Size)>(
   symbol: 'bssl_dart_RAND_pseudo_bytes',
 )
-external int RAND_pseudo_bytes(ffi.Pointer<ffi.Uint8> buf, int len);
+external int RAND_pseudo_bytes(
+  ffi.Pointer<ffi.Uint8> buf,
+  int len,
+);
 
 /// RAND_seed reads a single byte of random data to ensure that any file
 /// descriptors etc are opened.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int)>(
   symbol: 'bssl_dart_RAND_seed',
 )
-external void RAND_seed(ffi.Pointer<ffi.Void> buf, int num);
+external void RAND_seed(
+  ffi.Pointer<ffi.Void> buf,
+  int num,
+);
 
 /// RAND_set_rand_method returns one.
 @ffi.Native<ffi.Int Function(ffi.Pointer<RAND_METHOD>)>(
   symbol: 'bssl_dart_RAND_set_rand_method',
 )
-external int RAND_set_rand_method(ffi.Pointer<RAND_METHOD> arg0);
+external int RAND_set_rand_method(
+  ffi.Pointer<RAND_METHOD> arg0,
+);
 
 /// RAND_status returns one.
 @ffi.Native<ffi.Int Function()>(symbol: 'bssl_dart_RAND_status')
@@ -17252,20 +18580,26 @@ external int RAND_status();
 @ffi.Native<ffi.Pointer<RSA> Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSAPrivateKey_dup',
 )
-external ffi.Pointer<RSA> RSAPrivateKey_dup(ffi.Pointer<RSA> rsa);
+external ffi.Pointer<RSA> RSAPrivateKey_dup(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSAPublicKey_dup allocates a fresh |RSA| and copies the public key from
 /// |rsa| into it. It returns the fresh |RSA| object, or NULL on error.
 @ffi.Native<ffi.Pointer<RSA> Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSAPublicKey_dup',
 )
-external ffi.Pointer<RSA> RSAPublicKey_dup(ffi.Pointer<RSA> rsa);
+external ffi.Pointer<RSA> RSAPublicKey_dup(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_PSS_PARAMS_free releases memory associated with |params|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<RSA_PSS_PARAMS>)>(
   symbol: 'bssl_dart_RSA_PSS_PARAMS_free',
 )
-external void RSA_PSS_PARAMS_free(ffi.Pointer<RSA_PSS_PARAMS> params);
+external void RSA_PSS_PARAMS_free(
+  ffi.Pointer<RSA_PSS_PARAMS> params,
+);
 
 /// RSA_PSS_PARAMS_new returns a new, empty |RSA_PSS_PARAMS|, or NULL on error.
 @ffi.Native<ffi.Pointer<RSA_PSS_PARAMS> Function()>(
@@ -17300,19 +18634,26 @@ external int RSA_add_pkcs1_prefix(
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_bits',
 )
-external int RSA_bits(ffi.Pointer<RSA> rsa);
+external int RSA_bits(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_blinding_off does nothing.
 @ffi.Native<ffi.Void Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_blinding_off',
 )
-external void RSA_blinding_off(ffi.Pointer<RSA> rsa);
+external void RSA_blinding_off(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_blinding_on returns one.
 @ffi.Native<ffi.Int Function(ffi.Pointer<RSA>, ffi.Pointer<BN_CTX>)>(
   symbol: 'bssl_dart_RSA_blinding_on',
 )
-external int RSA_blinding_on(ffi.Pointer<RSA> rsa, ffi.Pointer<BN_CTX> ctx);
+external int RSA_blinding_on(
+  ffi.Pointer<RSA> rsa,
+  ffi.Pointer<BN_CTX> ctx,
+);
 
 /// RSA_check_fips performs public key validity tests on |key|. It returns one if
 /// they pass and zero otherwise. Opaque keys always fail. This function does not
@@ -17320,7 +18661,9 @@ external int RSA_blinding_on(ffi.Pointer<RSA> rsa, ffi.Pointer<BN_CTX> ctx);
 @ffi.Native<ffi.Int Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_check_fips',
 )
-external int RSA_check_fips(ffi.Pointer<RSA> key);
+external int RSA_check_fips(
+  ffi.Pointer<RSA> key,
+);
 
 /// RSA_check_key performs basic validity tests on |rsa|. It returns one if
 /// they pass and zero otherwise. Opaque keys and public keys always pass. If it
@@ -17328,7 +18671,9 @@ external int RSA_check_fips(ffi.Pointer<RSA> key);
 @ffi.Native<ffi.Int Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_check_key',
 )
-external int RSA_check_key(ffi.Pointer<RSA> rsa);
+external int RSA_check_key(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_decrypt decrypts |in_len| bytes from |in| with the private key from
 /// |rsa| and writes, at most, |max_out| bytes of plaintext to |out|. The
@@ -17410,12 +18755,16 @@ external int RSA_encrypt(
 /// RSA_flags returns the flags for |rsa|. These are a bitwise OR of |RSA_FLAG_*|
 /// constants.
 @ffi.Native<ffi.Int Function(ffi.Pointer<RSA>)>(symbol: 'bssl_dart_RSA_flags')
-external int RSA_flags(ffi.Pointer<RSA> rsa);
+external int RSA_flags(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_free decrements the reference count of |rsa| and frees it if the
 /// reference count drops to zero.
 @ffi.Native<ffi.Void Function(ffi.Pointer<RSA>)>(symbol: 'bssl_dart_RSA_free')
-external void RSA_free(ffi.Pointer<RSA> rsa);
+external void RSA_free(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_generate_key behaves like |RSA_generate_key_ex|, which is what you
 /// should use instead. It returns NULL on error, or a newly-allocated |RSA| on
@@ -17495,27 +18844,35 @@ external void RSA_get0_crt_params(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_get0_d',
 )
-external ffi.Pointer<BIGNUM> RSA_get0_d(ffi.Pointer<RSA> rsa);
+external ffi.Pointer<BIGNUM> RSA_get0_d(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_get0_dmp1 returns d (mod p-1) for |rsa|. If |rsa| is a public key or
 /// lacks CRT parameters, this value will be NULL.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_get0_dmp1',
 )
-external ffi.Pointer<BIGNUM> RSA_get0_dmp1(ffi.Pointer<RSA> rsa);
+external ffi.Pointer<BIGNUM> RSA_get0_dmp1(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_get0_dmq1 returns d (mod q-1) for |rsa|. If |rsa| is a public key or
 /// lacks CRT parameters, this value will be NULL.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_get0_dmq1',
 )
-external ffi.Pointer<BIGNUM> RSA_get0_dmq1(ffi.Pointer<RSA> rsa);
+external ffi.Pointer<BIGNUM> RSA_get0_dmq1(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_get0_e returns |rsa|'s public exponent.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_get0_e',
 )
-external ffi.Pointer<BIGNUM> RSA_get0_e(ffi.Pointer<RSA> rsa);
+external ffi.Pointer<BIGNUM> RSA_get0_e(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_get0_factors sets |*out_p| and |*out_q|, if non-NULL, to |rsa|'s prime
 /// factors. If |rsa| is a public key, they will be set to NULL.
@@ -17537,7 +18894,9 @@ external void RSA_get0_factors(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_get0_iqmp',
 )
-external ffi.Pointer<BIGNUM> RSA_get0_iqmp(ffi.Pointer<RSA> rsa);
+external ffi.Pointer<BIGNUM> RSA_get0_iqmp(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_get0_key sets |*out_n|, |*out_e|, and |*out_d|, if non-NULL, to |rsa|'s
 /// modulus, public exponent, and private exponent, respectively. If |rsa| is a
@@ -17561,14 +18920,18 @@ external void RSA_get0_key(
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_get0_n',
 )
-external ffi.Pointer<BIGNUM> RSA_get0_n(ffi.Pointer<RSA> rsa);
+external ffi.Pointer<BIGNUM> RSA_get0_n(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_get0_p returns |rsa|'s first private prime factor. If |rsa| is a public
 /// key or lacks its prime factors, this value will be NULL.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_get0_p',
 )
-external ffi.Pointer<BIGNUM> RSA_get0_p(ffi.Pointer<RSA> rsa);
+external ffi.Pointer<BIGNUM> RSA_get0_p(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_get0_pss_params returns NULL. In OpenSSL, this function retries RSA-PSS
 /// parameters associated with |RSA| objects, but BoringSSL does not enable the
@@ -17581,19 +18944,26 @@ external ffi.Pointer<BIGNUM> RSA_get0_p(ffi.Pointer<RSA> rsa);
 @ffi.Native<ffi.Pointer<RSA_PSS_PARAMS> Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_get0_pss_params',
 )
-external ffi.Pointer<RSA_PSS_PARAMS> RSA_get0_pss_params(ffi.Pointer<RSA> rsa);
+external ffi.Pointer<RSA_PSS_PARAMS> RSA_get0_pss_params(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_get0_q returns |rsa|'s second private prime factor. If |rsa| is a public
 /// key or lacks its prime factors, this value will be NULL.
 @ffi.Native<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_get0_q',
 )
-external ffi.Pointer<BIGNUM> RSA_get0_q(ffi.Pointer<RSA> rsa);
+external ffi.Pointer<BIGNUM> RSA_get0_q(
+  ffi.Pointer<RSA> rsa,
+);
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<RSA>, ffi.Int)>(
   symbol: 'bssl_dart_RSA_get_ex_data',
 )
-external ffi.Pointer<ffi.Void> RSA_get_ex_data(ffi.Pointer<RSA> rsa, int idx);
+external ffi.Pointer<ffi.Void> RSA_get_ex_data(
+  ffi.Pointer<RSA> rsa,
+  int idx,
+);
 
 /// ex_data functions.
 ///
@@ -17620,7 +18990,9 @@ external int RSA_get_ex_new_index(
 @ffi.Native<ffi.Int Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_is_opaque',
 )
-external int RSA_is_opaque(ffi.Pointer<RSA> rsa);
+external int RSA_is_opaque(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_marshal_private_key marshals |rsa| as a DER-encoded RSAPrivateKey
 /// structure (RFC 8017) and appends the result to |cbb|. It returns one on
@@ -17639,7 +19011,10 @@ external int RSA_marshal_private_key(
 @ffi.Native<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_marshal_public_key',
 )
-external int RSA_marshal_public_key(ffi.Pointer<CBB> cbb, ffi.Pointer<RSA> rsa);
+external int RSA_marshal_public_key(
+  ffi.Pointer<CBB> cbb,
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_new returns a new, empty |RSA| object or NULL on error. Prefer using
 /// |RSA_new_public_key| or |RSA_new_private_key| to import an RSA key.
@@ -17650,7 +19025,9 @@ external ffi.Pointer<RSA> RSA_new();
 @ffi.Native<ffi.Pointer<RSA> Function(ffi.Pointer<ENGINE>)>(
   symbol: 'bssl_dart_RSA_new_method',
 )
-external ffi.Pointer<RSA> RSA_new_method(ffi.Pointer<ENGINE> engine);
+external ffi.Pointer<RSA> RSA_new_method(
+  ffi.Pointer<ENGINE> engine,
+);
 
 /// RSA_new_method_no_e returns a newly-allocated |RSA| object backed by
 /// |engine|, with a public modulus of |n| and no known public exponent.
@@ -17889,7 +19266,9 @@ external int RSA_padding_add_PKCS1_PSS_mgf1(
 @ffi.Native<ffi.Pointer<RSA> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_RSA_parse_private_key',
 )
-external ffi.Pointer<RSA> RSA_parse_private_key(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<RSA> RSA_parse_private_key(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// RSA_parse_public_key parses a DER-encoded RSAPublicKey structure (RFC 8017)
 /// from |cbs| and advances |cbs|. It returns a newly-allocated |RSA| or NULL on
@@ -17897,14 +19276,20 @@ external ffi.Pointer<RSA> RSA_parse_private_key(ffi.Pointer<CBS> cbs);
 @ffi.Native<ffi.Pointer<RSA> Function(ffi.Pointer<CBS>)>(
   symbol: 'bssl_dart_RSA_parse_public_key',
 )
-external ffi.Pointer<RSA> RSA_parse_public_key(ffi.Pointer<CBS> cbs);
+external ffi.Pointer<RSA> RSA_parse_public_key(
+  ffi.Pointer<CBS> cbs,
+);
 
 /// RSA_print prints a textual representation of |rsa| to |bio|. It returns one
 /// on success or zero otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<RSA>, ffi.Int)>(
   symbol: 'bssl_dart_RSA_print',
 )
-external int RSA_print(ffi.Pointer<BIO> bio, ffi.Pointer<RSA> rsa, int indent);
+external int RSA_print(
+  ffi.Pointer<BIO> bio,
+  ffi.Pointer<RSA> rsa,
+  int indent,
+);
 
 /// RSA_private_decrypt decrypts |flen| bytes from |from| with the public key in
 /// |rsa| and writes the plaintext to |to|. The |to| buffer must have at least
@@ -18273,18 +19658,25 @@ external int RSA_sign_raw(
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_RSA_size',
 )
-external int RSA_size(ffi.Pointer<RSA> rsa);
+external int RSA_size(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_test_flags returns the subset of flags in |flags| which are set in |rsa|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<RSA>, ffi.Int)>(
   symbol: 'bssl_dart_RSA_test_flags',
 )
-external int RSA_test_flags(ffi.Pointer<RSA> rsa, int flags);
+external int RSA_test_flags(
+  ffi.Pointer<RSA> rsa,
+  int flags,
+);
 
 /// RSA_up_ref increments the reference count of |rsa| and returns one. It does
 /// not mutate |rsa| for thread-safety purposes and may be used concurrently.
 @ffi.Native<ffi.Int Function(ffi.Pointer<RSA>)>(symbol: 'bssl_dart_RSA_up_ref')
-external int RSA_up_ref(ffi.Pointer<RSA> rsa);
+external int RSA_up_ref(
+  ffi.Pointer<RSA> rsa,
+);
 
 /// RSA_verify verifies that |sig_len| bytes from |sig| are a valid,
 /// RSASSA-PKCS1-v1_5 signature of |digest_len| bytes at |digest| by |rsa|.
@@ -18474,13 +19866,18 @@ external ffi.Pointer<ffi.Uint8> SHA1(
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Pointer<SHA_CTX>)>(
   symbol: 'bssl_dart_SHA1_Final',
 )
-external int SHA1_Final(ffi.Pointer<ffi.Uint8> out, ffi.Pointer<SHA_CTX> sha);
+external int SHA1_Final(
+  ffi.Pointer<ffi.Uint8> out,
+  ffi.Pointer<SHA_CTX> sha,
+);
 
 /// SHA1_Init initialises |sha| and returns one.
 @ffi.Native<ffi.Int Function(ffi.Pointer<SHA_CTX>)>(
   symbol: 'bssl_dart_SHA1_Init',
 )
-external int SHA1_Init(ffi.Pointer<SHA_CTX> sha);
+external int SHA1_Init(
+  ffi.Pointer<SHA_CTX> sha,
+);
 
 /// SHA1_Transform is a low-level function that performs a single, SHA-1 block
 /// transformation using the state from |sha| and |SHA_CBLOCK| bytes from
@@ -18534,7 +19931,9 @@ external int SHA224_Final(
 @ffi.Native<ffi.Int Function(ffi.Pointer<SHA256_CTX>)>(
   symbol: 'bssl_dart_SHA224_Init',
 )
-external int SHA224_Init(ffi.Pointer<SHA256_CTX> sha);
+external int SHA224_Init(
+  ffi.Pointer<SHA256_CTX> sha,
+);
 
 /// SHA224_Update adds |len| bytes from |data| to |sha| and returns 1.
 @ffi.Native<
@@ -18577,7 +19976,9 @@ external int SHA256_Final(
 @ffi.Native<ffi.Int Function(ffi.Pointer<SHA256_CTX>)>(
   symbol: 'bssl_dart_SHA256_Init',
 )
-external int SHA256_Init(ffi.Pointer<SHA256_CTX> sha);
+external int SHA256_Init(
+  ffi.Pointer<SHA256_CTX> sha,
+);
 
 /// SHA256_Transform is a low-level function that performs a single, SHA-256
 /// block transformation using the state from |sha| and |SHA256_CBLOCK| bytes
@@ -18644,7 +20045,9 @@ external int SHA384_Final(
 @ffi.Native<ffi.Int Function(ffi.Pointer<SHA512_CTX>)>(
   symbol: 'bssl_dart_SHA384_Init',
 )
-external int SHA384_Init(ffi.Pointer<SHA512_CTX> sha);
+external int SHA384_Init(
+  ffi.Pointer<SHA512_CTX> sha,
+);
 
 /// SHA384_Update adds |len| bytes from |data| to |sha| and returns 1.
 @ffi.Native<
@@ -18703,7 +20106,9 @@ external int SHA512_256_Final(
 @ffi.Native<ffi.Int Function(ffi.Pointer<SHA512_CTX>)>(
   symbol: 'bssl_dart_SHA512_256_Init',
 )
-external int SHA512_256_Init(ffi.Pointer<SHA512_CTX> sha);
+external int SHA512_256_Init(
+  ffi.Pointer<SHA512_CTX> sha,
+);
 
 /// SHA512_256_Update adds |len| bytes from |data| to |sha| and returns 1.
 @ffi.Native<
@@ -18730,7 +20135,9 @@ external int SHA512_Final(
 @ffi.Native<ffi.Int Function(ffi.Pointer<SHA512_CTX>)>(
   symbol: 'bssl_dart_SHA512_Init',
 )
-external int SHA512_Init(ffi.Pointer<SHA512_CTX> sha);
+external int SHA512_Init(
+  ffi.Pointer<SHA512_CTX> sha,
+);
 
 /// SHA512_Transform is a low-level function that performs a single, SHA-512
 /// block transformation using the state from |sha| and |SHA512_CBLOCK| bytes
@@ -18757,7 +20164,9 @@ external int SHA512_Update(
 @ffi.Native<ffi.Void Function(ffi.Pointer<SPAKE2_CTX>)>(
   symbol: 'bssl_dart_SPAKE2_CTX_free',
 )
-external void SPAKE2_CTX_free(ffi.Pointer<SPAKE2_CTX> ctx);
+external void SPAKE2_CTX_free(
+  ffi.Pointer<SPAKE2_CTX> ctx,
+);
 
 /// SPAKE2_CTX_new creates a new |SPAKE2_CTX| (which can only be used for a
 /// single execution of the protocol). SPAKE2 requires the symmetry of the two
@@ -18877,13 +20286,17 @@ external int SSLeay();
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Int)>(
   symbol: 'bssl_dart_SSLeay_version',
 )
-external ffi.Pointer<ffi.Char> SSLeay_version(int which);
+external ffi.Pointer<ffi.Char> SSLeay_version(
+  int which,
+);
 
 /// USERNOTICE_free releases memory associated with |notice|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<USERNOTICE>)>(
   symbol: 'bssl_dart_USERNOTICE_free',
 )
-external void USERNOTICE_free(ffi.Pointer<USERNOTICE> notice);
+external void USERNOTICE_free(
+  ffi.Pointer<USERNOTICE> notice,
+);
 
 /// USERNOTICE_new returns a newly-allocated, empty |USERNOTICE| object, or NULL
 /// on error.
@@ -18990,7 +20403,9 @@ external int X509V3_EXT_REQ_add_nconf(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509V3_EXT_METHOD>)>(
   symbol: 'bssl_dart_X509V3_EXT_add',
 )
-external int X509V3_EXT_add(ffi.Pointer<X509V3_EXT_METHOD> ext);
+external int X509V3_EXT_add(
+  ffi.Pointer<X509V3_EXT_METHOD> ext,
+);
 
 /// X509V3_EXT_add_alias registers a custom extension with NID |nid_to|. The
 /// corresponding ASN.1 type is copied from |nid_from|. It returns one on success
@@ -19001,7 +20416,10 @@ external int X509V3_EXT_add(ffi.Pointer<X509V3_EXT_METHOD> ext);
 @ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>(
   symbol: 'bssl_dart_X509V3_EXT_add_alias',
 )
-external int X509V3_EXT_add_alias(int nid_to, int nid_from);
+external int X509V3_EXT_add_alias(
+  int nid_to,
+  int nid_from,
+);
 
 /// X509V3_EXT_add_nconf adds extensions to |cert| as in
 /// |X509V3_EXT_add_nconf_sk|. It returns one on success and zero on error.
@@ -19070,7 +20488,9 @@ external ffi.Pointer<X509_EXTENSION> X509V3_EXT_conf_nid(
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<X509_EXTENSION>)>(
   symbol: 'bssl_dart_X509V3_EXT_d2i',
 )
-external ffi.Pointer<ffi.Void> X509V3_EXT_d2i(ffi.Pointer<X509_EXTENSION> ext);
+external ffi.Pointer<ffi.Void> X509V3_EXT_d2i(
+  ffi.Pointer<X509_EXTENSION> ext,
+);
 
 /// X509V3_EXT_free casts |ext_data| into the type that corresponds to |nid| and
 /// releases memory associated with it. It returns one on success and zero if
@@ -19084,7 +20504,10 @@ external ffi.Pointer<ffi.Void> X509V3_EXT_d2i(ffi.Pointer<X509_EXTENSION> ext);
 @ffi.Native<ffi.Int Function(ffi.Int, ffi.Pointer<ffi.Void>)>(
   symbol: 'bssl_dart_X509V3_EXT_free',
 )
-external int X509V3_EXT_free(int nid, ffi.Pointer<ffi.Void> ext_data);
+external int X509V3_EXT_free(
+  int nid,
+  ffi.Pointer<ffi.Void> ext_data,
+);
 
 /// X509V3_EXT_get returns the |X509V3_EXT_METHOD| corresponding to |ext|'s
 /// extension type, or NULL if none was registered.
@@ -19100,7 +20523,9 @@ external ffi.Pointer<X509V3_EXT_METHOD> X509V3_EXT_get(
 @ffi.Native<ffi.Pointer<X509V3_EXT_METHOD> Function(ffi.Int)>(
   symbol: 'bssl_dart_X509V3_EXT_get_nid',
 )
-external ffi.Pointer<X509V3_EXT_METHOD> X509V3_EXT_get_nid(int nid);
+external ffi.Pointer<X509V3_EXT_METHOD> X509V3_EXT_get_nid(
+  int nid,
+);
 
 /// X509V3_EXT_i2d casts |ext_struc| into the type that corresponds to
 /// |ext_nid|, serializes it, and returns a newly-allocated |X509_EXTENSION|
@@ -19245,7 +20670,9 @@ external int X509V3_add_standard_extensions();
 @ffi.Native<ffi.Void Function(ffi.Pointer<CONF_VALUE>)>(
   symbol: 'bssl_dart_X509V3_conf_free',
 )
-external void X509V3_conf_free(ffi.Pointer<CONF_VALUE> val);
+external void X509V3_conf_free(
+  ffi.Pointer<CONF_VALUE> val,
+);
 
 /// X509V3_extensions_print prints |title|, followed by a human-readable
 /// representation of |exts| to |out|. It returns one on success and zero on
@@ -19377,13 +20804,17 @@ external int X509_ALGOR_copy(
 @ffi.Native<ffi.Pointer<X509_ALGOR> Function(ffi.Pointer<X509_ALGOR>)>(
   symbol: 'bssl_dart_X509_ALGOR_dup',
 )
-external ffi.Pointer<X509_ALGOR> X509_ALGOR_dup(ffi.Pointer<X509_ALGOR> alg);
+external ffi.Pointer<X509_ALGOR> X509_ALGOR_dup(
+  ffi.Pointer<X509_ALGOR> alg,
+);
 
 /// X509_ALGOR_free releases memory associated with |alg|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_ALGOR>)>(
   symbol: 'bssl_dart_X509_ALGOR_free',
 )
-external void X509_ALGOR_free(ffi.Pointer<X509_ALGOR> alg);
+external void X509_ALGOR_free(
+  ffi.Pointer<X509_ALGOR> alg,
+);
 
 /// X509_ALGOR_get0 sets |*out_obj| to the |alg|'s algorithm. If |alg|'s
 /// parameter is omitted, it sets |*out_param_type| and |*out_param_value| to
@@ -19478,7 +20909,9 @@ external int X509_ALGOR_set_md(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_ATTRIBUTE>)>(
   symbol: 'bssl_dart_X509_ATTRIBUTE_count',
 )
-external int X509_ATTRIBUTE_count(ffi.Pointer<X509_ATTRIBUTE> attr);
+external int X509_ATTRIBUTE_count(
+  ffi.Pointer<X509_ATTRIBUTE> attr,
+);
 
 /// X509_ATTRIBUTE_create returns a newly-allocated |X509_ATTRIBUTE|, or NULL on
 /// error. The attribute has type |nid| and contains a single value determined by
@@ -19577,7 +21010,9 @@ external ffi.Pointer<X509_ATTRIBUTE> X509_ATTRIBUTE_dup(
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_ATTRIBUTE>)>(
   symbol: 'bssl_dart_X509_ATTRIBUTE_free',
 )
-external void X509_ATTRIBUTE_free(ffi.Pointer<X509_ATTRIBUTE> attr);
+external void X509_ATTRIBUTE_free(
+  ffi.Pointer<X509_ATTRIBUTE> attr,
+);
 
 /// X509_ATTRIBUTE_get0_data returns the |idx|th value of |attr| in a
 /// type-specific representation to |attrtype|, or NULL if out of bounds or the
@@ -19741,7 +21176,10 @@ external int X509_CRL_add_ext(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_cmp',
 )
-external int X509_CRL_cmp(ffi.Pointer<X509_CRL> a, ffi.Pointer<X509_CRL> b);
+external int X509_CRL_cmp(
+  ffi.Pointer<X509_CRL> a,
+  ffi.Pointer<X509_CRL> b,
+);
 
 /// X509_CRL_delete_ext removes the extension in |x| at index |loc| and returns
 /// the removed extension, or NULL if |loc| was out of bounds. If non-NULL, the
@@ -19780,14 +21218,18 @@ external int X509_CRL_digest(
 @ffi.Native<ffi.Pointer<X509_CRL> Function(ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_dup',
 )
-external ffi.Pointer<X509_CRL> X509_CRL_dup(ffi.Pointer<X509_CRL> crl);
+external ffi.Pointer<X509_CRL> X509_CRL_dup(
+  ffi.Pointer<X509_CRL> crl,
+);
 
 /// X509_CRL_free decrements |crl|'s reference count and, if zero, releases
 /// memory associated with |crl|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_free',
 )
-external void X509_CRL_free(ffi.Pointer<X509_CRL> crl);
+external void X509_CRL_free(
+  ffi.Pointer<X509_CRL> crl,
+);
 
 /// X509_CRL_get0_by_cert behaves like |X509_CRL_get0_by_serial|, except it looks
 /// for the entry that matches |x509|.
@@ -19941,7 +21383,9 @@ external int X509_CRL_get_ext_by_critical(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_get_ext_count',
 )
-external int X509_CRL_get_ext_count(ffi.Pointer<X509_CRL> x);
+external int X509_CRL_get_ext_count(
+  ffi.Pointer<X509_CRL> x,
+);
 
 /// X509_CRL_get_ext_d2i behaves like |X509V3_get_d2i| but looks for the
 /// extension in |crl|'s extension list.
@@ -19968,7 +21412,9 @@ external ffi.Pointer<ffi.Void> X509_CRL_get_ext_d2i(
 @ffi.Native<ffi.Pointer<X509_NAME> Function(ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_get_issuer',
 )
-external ffi.Pointer<X509_NAME> X509_CRL_get_issuer(ffi.Pointer<X509_CRL> crl);
+external ffi.Pointer<X509_NAME> X509_CRL_get_issuer(
+  ffi.Pointer<X509_CRL> crl,
+);
 
 /// X509_CRL_get_lastUpdate returns a mutable pointer to |crl|'s thisUpdate time.
 /// The OpenSSL API refers to this field as lastUpdate.
@@ -19997,14 +21443,18 @@ external ffi.Pointer<ASN1_TIME> X509_CRL_get_nextUpdate(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_get_signature_nid',
 )
-external int X509_CRL_get_signature_nid(ffi.Pointer<X509_CRL> crl);
+external int X509_CRL_get_signature_nid(
+  ffi.Pointer<X509_CRL> crl,
+);
 
 /// X509_CRL_get_version returns the numerical value of |crl|'s version, which
 /// will be one of the |X509_CRL_VERSION_*| constants.
 @ffi.Native<ffi.Long Function(ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_get_version',
 )
-external int X509_CRL_get_version(ffi.Pointer<X509_CRL> crl);
+external int X509_CRL_get_version(
+  ffi.Pointer<X509_CRL> crl,
+);
 
 /// X509_CRL_match compares |a| and |b| and returns zero if they are equal, a
 /// negative number if |b| sorts after |a| and a negative number if |a| sorts
@@ -20019,7 +21469,10 @@ external int X509_CRL_get_version(ffi.Pointer<X509_CRL> crl);
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_match',
 )
-external int X509_CRL_match(ffi.Pointer<X509_CRL> a, ffi.Pointer<X509_CRL> b);
+external int X509_CRL_match(
+  ffi.Pointer<X509_CRL> a,
+  ffi.Pointer<X509_CRL> b,
+);
 
 /// X509_CRL_new returns a newly-allocated, empty |X509_CRL| object, or NULL on
 /// error. This object may be filled in and then signed to construct a CRL.
@@ -20031,13 +21484,19 @@ external ffi.Pointer<X509_CRL> X509_CRL_new();
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_print',
 )
-external int X509_CRL_print(ffi.Pointer<BIO> bp, ffi.Pointer<X509_CRL> x);
+external int X509_CRL_print(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<X509_CRL> x,
+);
 
 /// X509_CRL_print_fp behaves like |X509_CRL_print| but writes to |fp|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_print_fp',
 )
-external int X509_CRL_print_fp(ffi.Pointer<FILE> fp, ffi.Pointer<X509_CRL> x);
+external int X509_CRL_print_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509_CRL> x,
+);
 
 /// X509_CRL_set1_lastUpdate sets |crl|'s thisUpdate time to |tm|. It returns one
 /// on success and zero on error. The OpenSSL API refers to this field as
@@ -20108,7 +21567,10 @@ external int X509_CRL_set_issuer_name(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Long)>(
   symbol: 'bssl_dart_X509_CRL_set_version',
 )
-external int X509_CRL_set_version(ffi.Pointer<X509_CRL> crl, int version);
+external int X509_CRL_set_version(
+  ffi.Pointer<X509_CRL> crl,
+  int version,
+);
 
 /// X509_CRL_sign signs |crl| with |pkey| and replaces the signature algorithm
 /// and signature fields. It returns the length of the signature on success and
@@ -20149,13 +21611,17 @@ external int X509_CRL_sign_ctx(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_sort',
 )
-external int X509_CRL_sort(ffi.Pointer<X509_CRL> crl);
+external int X509_CRL_sort(
+  ffi.Pointer<X509_CRL> crl,
+);
 
 /// X509_CRL_up_ref adds one to the reference count of |crl| and returns one.
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_X509_CRL_up_ref',
 )
-external int X509_CRL_up_ref(ffi.Pointer<X509_CRL> crl);
+external int X509_CRL_up_ref(
+  ffi.Pointer<X509_CRL> crl,
+);
 
 /// X509_CRL_verify checks that |crl| has a valid signature by |pkey|. It returns
 /// one if the signature is valid and zero otherwise.
@@ -20221,14 +21687,18 @@ external ffi.Pointer<X509_EXTENSION> X509_EXTENSION_dup(
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_EXTENSION>)>(
   symbol: 'bssl_dart_X509_EXTENSION_free',
 )
-external void X509_EXTENSION_free(ffi.Pointer<X509_EXTENSION> ex);
+external void X509_EXTENSION_free(
+  ffi.Pointer<X509_EXTENSION> ex,
+);
 
 /// X509_EXTENSION_get_critical returns one if |ex| is critical and zero
 /// otherwise.
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_EXTENSION>)>(
   symbol: 'bssl_dart_X509_EXTENSION_get_critical',
 )
-external int X509_EXTENSION_get_critical(ffi.Pointer<X509_EXTENSION> ex);
+external int X509_EXTENSION_get_critical(
+  ffi.Pointer<X509_EXTENSION> ex,
+);
 
 /// X509_EXTENSION_get_data returns |ne|'s extension value. This function returns
 /// a non-const pointer for OpenSSL compatibility, but callers should not mutate
@@ -20291,7 +21761,9 @@ external int X509_EXTENSION_set_object(
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_INFO>)>(
   symbol: 'bssl_dart_X509_INFO_free',
 )
-external void X509_INFO_free(ffi.Pointer<X509_INFO> info);
+external void X509_INFO_free(
+  ffi.Pointer<X509_INFO> info,
+);
 
 /// X509_LOOKUP_add_dir configures |lookup| to load CRLs and trusted certificates
 /// from the directories in |path|. It returns one on success and zero on error.
@@ -20375,7 +21847,9 @@ external ffi.Pointer<X509_LOOKUP_METHOD> X509_LOOKUP_file();
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_LOOKUP>)>(
   symbol: 'bssl_dart_X509_LOOKUP_free',
 )
-external void X509_LOOKUP_free(ffi.Pointer<X509_LOOKUP> ctx);
+external void X509_LOOKUP_free(
+  ffi.Pointer<X509_LOOKUP> ctx,
+);
 
 /// X509_LOOKUP_hash_dir creates |X509_LOOKUP|s that may be used with
 /// |X509_LOOKUP_add_dir|.
@@ -20476,7 +21950,9 @@ external ffi.Pointer<X509_NAME_ENTRY> X509_NAME_ENTRY_dup(
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_NAME_ENTRY>)>(
   symbol: 'bssl_dart_X509_NAME_ENTRY_free',
 )
-external void X509_NAME_ENTRY_free(ffi.Pointer<X509_NAME_ENTRY> entry);
+external void X509_NAME_ENTRY_free(
+  ffi.Pointer<X509_NAME_ENTRY> entry,
+);
 
 /// X509_NAME_ENTRY_get_data returns |entry|'s attribute value, represented as an
 /// |ASN1_STRING|. This value may have any ASN.1 type, so callers must check the
@@ -20518,7 +21994,9 @@ external ffi.Pointer<X509_NAME_ENTRY> X509_NAME_ENTRY_new();
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_NAME_ENTRY>)>(
   symbol: 'bssl_dart_X509_NAME_ENTRY_set',
 )
-external int X509_NAME_ENTRY_set(ffi.Pointer<X509_NAME_ENTRY> entry);
+external int X509_NAME_ENTRY_set(
+  ffi.Pointer<X509_NAME_ENTRY> entry,
+);
 
 /// X509_NAME_ENTRY_set_data sets |entry|'s value to |len| bytes from |bytes|. It
 /// returns one on success and zero on error. If |len| is -1, |bytes| must be a
@@ -20665,7 +22143,10 @@ external int X509_NAME_add_entry_by_txt(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_NAME>, ffi.Pointer<X509_NAME>)>(
   symbol: 'bssl_dart_X509_NAME_cmp',
 )
-external int X509_NAME_cmp(ffi.Pointer<X509_NAME> a, ffi.Pointer<X509_NAME> b);
+external int X509_NAME_cmp(
+  ffi.Pointer<X509_NAME> a,
+  ffi.Pointer<X509_NAME> b,
+);
 
 /// X509_NAME_delete_entry removes and returns the attribute in |name| at index
 /// |loc|, or NULL if |loc| is out of range. |loc| is interpreted using
@@ -20705,19 +22186,25 @@ external int X509_NAME_digest(
 @ffi.Native<ffi.Pointer<X509_NAME> Function(ffi.Pointer<X509_NAME>)>(
   symbol: 'bssl_dart_X509_NAME_dup',
 )
-external ffi.Pointer<X509_NAME> X509_NAME_dup(ffi.Pointer<X509_NAME> name);
+external ffi.Pointer<X509_NAME> X509_NAME_dup(
+  ffi.Pointer<X509_NAME> name,
+);
 
 /// X509_NAME_entry_count returns the number of entries in |name|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_NAME>)>(
   symbol: 'bssl_dart_X509_NAME_entry_count',
 )
-external int X509_NAME_entry_count(ffi.Pointer<X509_NAME> name);
+external int X509_NAME_entry_count(
+  ffi.Pointer<X509_NAME> name,
+);
 
 /// X509_NAME_free releases memory associated with |name|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_NAME>)>(
   symbol: 'bssl_dart_X509_NAME_free',
 )
-external void X509_NAME_free(ffi.Pointer<X509_NAME> name);
+external void X509_NAME_free(
+  ffi.Pointer<X509_NAME> name,
+);
 
 /// X509_NAME_get0_der marshals |name| as a DER-encoded X.509 Name (RFC 5280). On
 /// success, it returns one and sets |*out_der| and |*out_der_len| to a buffer
@@ -20836,7 +22323,9 @@ external int X509_NAME_get_text_by_OBJ(
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<X509_NAME>)>(
   symbol: 'bssl_dart_X509_NAME_hash',
 )
-external int X509_NAME_hash(ffi.Pointer<X509_NAME> name);
+external int X509_NAME_hash(
+  ffi.Pointer<X509_NAME> name,
+);
 
 /// X509_NAME_hash_old returns a hash of |name|, or zero on error. This is the
 /// legacy hash used by |X509_LOOKUP_add_dir|, which is still supported for
@@ -20848,7 +22337,9 @@ external int X509_NAME_hash(ffi.Pointer<X509_NAME> name);
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<X509_NAME>)>(
   symbol: 'bssl_dart_X509_NAME_hash_old',
 )
-external int X509_NAME_hash_old(ffi.Pointer<X509_NAME> name);
+external int X509_NAME_hash_old(
+  ffi.Pointer<X509_NAME> name,
+);
 
 /// X509_NAME_new returns a new, empty |X509_NAME|, or NULL on error.
 @ffi.Native<ffi.Pointer<X509_NAME> Function()>(
@@ -20954,7 +22445,9 @@ external int X509_NAME_set(
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_OBJECT>)>(
   symbol: 'bssl_dart_X509_OBJECT_free',
 )
-external void X509_OBJECT_free(ffi.Pointer<X509_OBJECT> obj);
+external void X509_OBJECT_free(
+  ffi.Pointer<X509_OBJECT> obj,
+);
 
 /// X509_OBJECT_free_contents sets |obj| to the empty object, freeing any values
 /// that were previously there.
@@ -20964,21 +22457,27 @@ external void X509_OBJECT_free(ffi.Pointer<X509_OBJECT> obj);
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_OBJECT>)>(
   symbol: 'bssl_dart_X509_OBJECT_free_contents',
 )
-external void X509_OBJECT_free_contents(ffi.Pointer<X509_OBJECT> obj);
+external void X509_OBJECT_free_contents(
+  ffi.Pointer<X509_OBJECT> obj,
+);
 
 /// X509_OBJECT_get0_X509 returns |obj| as a certificate, or NULL if |obj| is not
 /// a certificate.
 @ffi.Native<ffi.Pointer<X509> Function(ffi.Pointer<X509_OBJECT>)>(
   symbol: 'bssl_dart_X509_OBJECT_get0_X509',
 )
-external ffi.Pointer<X509> X509_OBJECT_get0_X509(ffi.Pointer<X509_OBJECT> obj);
+external ffi.Pointer<X509> X509_OBJECT_get0_X509(
+  ffi.Pointer<X509_OBJECT> obj,
+);
 
 /// X509_OBJECT_get_type returns the type of |obj|, which will be one of the
 /// |X509_LU_*| constants.
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_OBJECT>)>(
   symbol: 'bssl_dart_X509_OBJECT_get_type',
 )
-external int X509_OBJECT_get_type(ffi.Pointer<X509_OBJECT> obj);
+external int X509_OBJECT_get_type(
+  ffi.Pointer<X509_OBJECT> obj,
+);
 
 /// X509_OBJECT_new returns a newly-allocated, empty |X509_OBJECT| or NULL on
 /// error.
@@ -20991,7 +22490,9 @@ external ffi.Pointer<X509_OBJECT> X509_OBJECT_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_PUBKEY>)>(
   symbol: 'bssl_dart_X509_PUBKEY_free',
 )
-external void X509_PUBKEY_free(ffi.Pointer<X509_PUBKEY> key);
+external void X509_PUBKEY_free(
+  ffi.Pointer<X509_PUBKEY> key,
+);
 
 /// X509_PUBKEY_get behaves like |X509_PUBKEY_get0| but increments the reference
 /// count on the |EVP_PKEY|. The caller must release the result with
@@ -21000,7 +22501,9 @@ external void X509_PUBKEY_free(ffi.Pointer<X509_PUBKEY> key);
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509_PUBKEY>)>(
   symbol: 'bssl_dart_X509_PUBKEY_get',
 )
-external ffi.Pointer<EVP_PKEY> X509_PUBKEY_get(ffi.Pointer<X509_PUBKEY> key);
+external ffi.Pointer<EVP_PKEY> X509_PUBKEY_get(
+  ffi.Pointer<X509_PUBKEY> key,
+);
 
 /// X509_PUBKEY_get0 returns |key| as an |EVP_PKEY|, or NULL if |key| either
 /// could not be parsed or is an unrecognized algorithm. The |EVP_PKEY| is cached
@@ -21008,7 +22511,9 @@ external ffi.Pointer<EVP_PKEY> X509_PUBKEY_get(ffi.Pointer<X509_PUBKEY> key);
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509_PUBKEY>)>(
   symbol: 'bssl_dart_X509_PUBKEY_get0',
 )
-external ffi.Pointer<EVP_PKEY> X509_PUBKEY_get0(ffi.Pointer<X509_PUBKEY> key);
+external ffi.Pointer<EVP_PKEY> X509_PUBKEY_get0(
+  ffi.Pointer<X509_PUBKEY> key,
+);
 
 /// X509_PUBKEY_get0_param outputs fields of |pub| and returns one. If |out_obj|
 /// is not NULL, it sets |*out_obj| to AlgorithmIdentifier's OID. If |out_key|
@@ -21105,7 +22610,9 @@ external int X509_PUBKEY_set0_param(
 @ffi.Native<ffi.Pointer<X509_PURPOSE> Function(ffi.Int)>(
   symbol: 'bssl_dart_X509_PURPOSE_get0',
 )
-external ffi.Pointer<X509_PURPOSE> X509_PURPOSE_get0(int id);
+external ffi.Pointer<X509_PURPOSE> X509_PURPOSE_get0(
+  int id,
+);
 
 /// X509_PURPOSE_get_by_sname returns the |X509_PURPOSE_*| constant corresponding
 /// a short name |sname|, or -1 if |sname| was not recognized.
@@ -21120,14 +22627,18 @@ external ffi.Pointer<X509_PURPOSE> X509_PURPOSE_get0(int id);
 @ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'bssl_dart_X509_PURPOSE_get_by_sname',
 )
-external int X509_PURPOSE_get_by_sname(ffi.Pointer<ffi.Char> sname);
+external int X509_PURPOSE_get_by_sname(
+  ffi.Pointer<ffi.Char> sname,
+);
 
 /// X509_PURPOSE_get_id returns |purpose|'s ID. This will be one of the
 /// |X509_PURPOSE_*| constants.
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_PURPOSE>)>(
   symbol: 'bssl_dart_X509_PURPOSE_get_id',
 )
-external int X509_PURPOSE_get_id(ffi.Pointer<X509_PURPOSE> purpose);
+external int X509_PURPOSE_get_id(
+  ffi.Pointer<X509_PURPOSE> purpose,
+);
 
 /// X509_REQ_add1_attr appends a copy of |attr| to |req|'s list of attributes. It
 /// returns one on success and zero on error.
@@ -21276,7 +22787,9 @@ external int X509_REQ_digest(
 @ffi.Native<ffi.Pointer<X509_REQ> Function(ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_X509_REQ_dup',
 )
-external ffi.Pointer<X509_REQ> X509_REQ_dup(ffi.Pointer<X509_REQ> req);
+external ffi.Pointer<X509_REQ> X509_REQ_dup(
+  ffi.Pointer<X509_REQ> req,
+);
 
 /// X509_REQ_extension_nid returns one if |nid| is a supported CSR attribute type
 /// for carrying extensions and zero otherwise. The supported types are
@@ -21285,13 +22798,17 @@ external ffi.Pointer<X509_REQ> X509_REQ_dup(ffi.Pointer<X509_REQ> req);
 @ffi.Native<ffi.Int Function(ffi.Int)>(
   symbol: 'bssl_dart_X509_REQ_extension_nid',
 )
-external int X509_REQ_extension_nid(int nid);
+external int X509_REQ_extension_nid(
+  int nid,
+);
 
 /// X509_REQ_free releases memory associated with |req|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_X509_REQ_free',
 )
-external void X509_REQ_free(ffi.Pointer<X509_REQ> req);
+external void X509_REQ_free(
+  ffi.Pointer<X509_REQ> req,
+);
 
 /// X509_REQ_get0_pubkey returns |req|'s public key as an |EVP_PKEY|, or NULL if
 /// the public key was unsupported or could not be decoded. The |EVP_PKEY| is
@@ -21299,7 +22816,9 @@ external void X509_REQ_free(ffi.Pointer<X509_REQ> req);
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_X509_REQ_get0_pubkey',
 )
-external ffi.Pointer<EVP_PKEY> X509_REQ_get0_pubkey(ffi.Pointer<X509_REQ> req);
+external ffi.Pointer<EVP_PKEY> X509_REQ_get0_pubkey(
+  ffi.Pointer<X509_REQ> req,
+);
 
 /// X509_REQ_get0_signature sets |*out_sig| and |*out_alg| to the signature and
 /// signature algorithm of |req|, respectively. Either output pointer may be NULL
@@ -21374,7 +22893,9 @@ external int X509_REQ_get_attr_by_OBJ(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_X509_REQ_get_attr_count',
 )
-external int X509_REQ_get_attr_count(ffi.Pointer<X509_REQ> req);
+external int X509_REQ_get_attr_count(
+  ffi.Pointer<X509_REQ> req,
+);
 
 /// X509_REQ_get_extensions decodes the most preferred list of requested
 /// extensions in |req| and returns a newly-allocated |STACK_OF(X509_EXTENSION)|
@@ -21400,7 +22921,9 @@ external ffi.Pointer<stack_st_X509_EXTENSION> X509_REQ_get_extensions(
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_X509_REQ_get_pubkey',
 )
-external ffi.Pointer<EVP_PKEY> X509_REQ_get_pubkey(ffi.Pointer<X509_REQ> req);
+external ffi.Pointer<EVP_PKEY> X509_REQ_get_pubkey(
+  ffi.Pointer<X509_REQ> req,
+);
 
 /// X509_REQ_get_signature_nid returns the NID corresponding to |req|'s signature
 /// algorithm, or |NID_undef| if the signature algorithm does not correspond to
@@ -21408,7 +22931,9 @@ external ffi.Pointer<EVP_PKEY> X509_REQ_get_pubkey(ffi.Pointer<X509_REQ> req);
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_X509_REQ_get_signature_nid',
 )
-external int X509_REQ_get_signature_nid(ffi.Pointer<X509_REQ> req);
+external int X509_REQ_get_signature_nid(
+  ffi.Pointer<X509_REQ> req,
+);
 
 /// X509_REQ_get_subject_name returns |req|'s subject name. Note this function is
 /// not const-correct for legacy reasons.
@@ -21426,7 +22951,9 @@ external ffi.Pointer<X509_NAME> X509_REQ_get_subject_name(
 @ffi.Native<ffi.Long Function(ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_X509_REQ_get_version',
 )
-external int X509_REQ_get_version(ffi.Pointer<X509_REQ> req);
+external int X509_REQ_get_version(
+  ffi.Pointer<X509_REQ> req,
+);
 
 /// X509_REQ_new returns a newly-allocated, empty |X509_REQ| object, or NULL on
 /// error. This object may be filled in and then signed to construct a CSR.
@@ -21438,7 +22965,10 @@ external ffi.Pointer<X509_REQ> X509_REQ_new();
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_X509_REQ_print',
 )
-external int X509_REQ_print(ffi.Pointer<BIO> bp, ffi.Pointer<X509_REQ> req);
+external int X509_REQ_print(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<X509_REQ> req,
+);
 
 /// X509_REQ_print_ex writes a human-readable representation of |x| to |bp|. It
 /// returns one on success and zero on error. |nmflags| is the flags parameter
@@ -21463,7 +22993,10 @@ external int X509_REQ_print_ex(
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_X509_REQ_print_fp',
 )
-external int X509_REQ_print_fp(ffi.Pointer<FILE> fp, ffi.Pointer<X509_REQ> req);
+external int X509_REQ_print_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509_REQ> req,
+);
 
 /// X509_REQ_set1_signature_algo sets |req|'s signature algorithm to |algo| and
 /// returns one on success or zero on error.
@@ -21522,7 +23055,10 @@ external int X509_REQ_set_subject_name(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Long)>(
   symbol: 'bssl_dart_X509_REQ_set_version',
 )
-external int X509_REQ_set_version(ffi.Pointer<X509_REQ> req, int version);
+external int X509_REQ_set_version(
+  ffi.Pointer<X509_REQ> req,
+  int version,
+);
 
 /// X509_REQ_sign signs |req| with |pkey| and replaces the signature algorithm
 /// and signature fields. It returns the length of the signature on success and
@@ -21636,7 +23172,9 @@ external ffi.Pointer<X509_REVOKED> X509_REVOKED_dup(
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_REVOKED>)>(
   symbol: 'bssl_dart_X509_REVOKED_free',
 )
-external void X509_REVOKED_free(ffi.Pointer<X509_REVOKED> rev);
+external void X509_REVOKED_free(
+  ffi.Pointer<X509_REVOKED> rev,
+);
 
 /// X509_REVOKED_get0_extensions returns |r|'s extensions list, or NULL if |r|
 /// omits it. A CRL can have extensions on individual entries, which is this
@@ -21714,7 +23252,9 @@ external int X509_REVOKED_get_ext_by_critical(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_REVOKED>)>(
   symbol: 'bssl_dart_X509_REVOKED_get_ext_count',
 )
-external int X509_REVOKED_get_ext_count(ffi.Pointer<X509_REVOKED> x);
+external int X509_REVOKED_get_ext_count(
+  ffi.Pointer<X509_REVOKED> x,
+);
 
 /// X509_REVOKED_get_ext_d2i behaves like |X509V3_get_d2i| but looks for the
 /// extension in |revoked|'s extension list.
@@ -21767,7 +23307,9 @@ external int X509_REVOKED_set_serialNumber(
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_SIG>)>(
   symbol: 'bssl_dart_X509_SIG_free',
 )
-external void X509_SIG_free(ffi.Pointer<X509_SIG> key);
+external void X509_SIG_free(
+  ffi.Pointer<X509_SIG> key,
+);
 
 /// X509_SIG_get0 sets |*out_alg| and |*out_digest| to non-owning pointers to
 /// |sig|'s algorithm and digest fields, respectively. Either |out_alg| and
@@ -21813,13 +23355,17 @@ external ffi.Pointer<X509_SIG> X509_SIG_new();
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_STORE_CTX>)>(
   symbol: 'bssl_dart_X509_STORE_CTX_cleanup',
 )
-external void X509_STORE_CTX_cleanup(ffi.Pointer<X509_STORE_CTX> ctx);
+external void X509_STORE_CTX_cleanup(
+  ffi.Pointer<X509_STORE_CTX> ctx,
+);
 
 /// X509_STORE_CTX_free releases memory associated with |ctx|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_STORE_CTX>)>(
   symbol: 'bssl_dart_X509_STORE_CTX_free',
 )
-external void X509_STORE_CTX_free(ffi.Pointer<X509_STORE_CTX> ctx);
+external void X509_STORE_CTX_free(
+  ffi.Pointer<X509_STORE_CTX> ctx,
+);
 
 /// X509_STORE_CTX_get0_cert returns the leaf certificate that |ctx| is
 /// verifying.
@@ -22006,7 +23552,9 @@ external ffi.Pointer<X509> X509_STORE_CTX_get_current_cert(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_STORE_CTX>)>(
   symbol: 'bssl_dart_X509_STORE_CTX_get_error',
 )
-external int X509_STORE_CTX_get_error(ffi.Pointer<X509_STORE_CTX> ctx);
+external int X509_STORE_CTX_get_error(
+  ffi.Pointer<X509_STORE_CTX> ctx,
+);
 
 /// X509_STORE_CTX_get_error_depth returns the depth at which the error returned
 /// by |X509_STORE_CTX_get_error| occurred. This is zero-indexed integer into the
@@ -22015,7 +23563,9 @@ external int X509_STORE_CTX_get_error(ffi.Pointer<X509_STORE_CTX> ctx);
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_STORE_CTX>)>(
   symbol: 'bssl_dart_X509_STORE_CTX_get_error_depth',
 )
-external int X509_STORE_CTX_get_error_depth(ffi.Pointer<X509_STORE_CTX> ctx);
+external int X509_STORE_CTX_get_error_depth(
+  ffi.Pointer<X509_STORE_CTX> ctx,
+);
 
 @ffi.Native<
   ffi.Pointer<ffi.Void> Function(ffi.Pointer<X509_STORE_CTX>, ffi.Int)
@@ -22396,7 +23946,9 @@ external ffi.Pointer<X509_LOOKUP> X509_STORE_add_lookup(
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_STORE>)>(
   symbol: 'bssl_dart_X509_STORE_free',
 )
-external void X509_STORE_free(ffi.Pointer<X509_STORE> store);
+external void X509_STORE_free(
+  ffi.Pointer<X509_STORE> store,
+);
 
 /// X509_STORE_get0_objects returns a non-owning pointer of |store|'s internal
 /// object list. Although this function is not const, callers must not modify
@@ -22509,7 +24061,9 @@ external int X509_STORE_set1_param(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_STORE>)>(
   symbol: 'bssl_dart_X509_STORE_set_default_paths',
 )
-external int X509_STORE_set_default_paths(ffi.Pointer<X509_STORE> store);
+external int X509_STORE_set_default_paths(
+  ffi.Pointer<X509_STORE> store,
+);
 
 /// X509_STORE_set_depth configures |store| to, by default, limit certificate
 /// chains to |depth| intermediate certificates. This count excludes both the
@@ -22517,7 +24071,10 @@ external int X509_STORE_set_default_paths(ffi.Pointer<X509_STORE> store);
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_STORE>, ffi.Int)>(
   symbol: 'bssl_dart_X509_STORE_set_depth',
 )
-external int X509_STORE_set_depth(ffi.Pointer<X509_STORE> store, int depth);
+external int X509_STORE_set_depth(
+  ffi.Pointer<X509_STORE> store,
+  int depth,
+);
 
 /// X509_STORE_set_flags enables all values in |flags| in |store|'s verification
 /// flags. |flags| should be a combination of |X509_V_FLAG_*| constants.
@@ -22528,21 +24085,30 @@ external int X509_STORE_set_depth(ffi.Pointer<X509_STORE> store, int depth);
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_STORE>, ffi.UnsignedLong)>(
   symbol: 'bssl_dart_X509_STORE_set_flags',
 )
-external int X509_STORE_set_flags(ffi.Pointer<X509_STORE> store, int flags);
+external int X509_STORE_set_flags(
+  ffi.Pointer<X509_STORE> store,
+  int flags,
+);
 
 /// X509_STORE_set_purpose configures the purpose check for |store|. See
 /// |X509_VERIFY_PARAM_set_purpose| for details.
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_STORE>, ffi.Int)>(
   symbol: 'bssl_dart_X509_STORE_set_purpose',
 )
-external int X509_STORE_set_purpose(ffi.Pointer<X509_STORE> store, int purpose);
+external int X509_STORE_set_purpose(
+  ffi.Pointer<X509_STORE> store,
+  int purpose,
+);
 
 /// X509_STORE_set_trust configures the trust check for |store|. See
 /// |X509_VERIFY_PARAM_set_trust| for details.
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_STORE>, ffi.Int)>(
   symbol: 'bssl_dart_X509_STORE_set_trust',
 )
-external int X509_STORE_set_trust(ffi.Pointer<X509_STORE> store, int trust);
+external int X509_STORE_set_trust(
+  ffi.Pointer<X509_STORE> store,
+  int trust,
+);
 
 /// X509_STORE_set_verify_cb acts like |X509_STORE_CTX_set_verify_cb| but sets
 /// the verify callback for any |X509_STORE_CTX| created from this |X509_STORE|
@@ -22561,7 +24127,9 @@ external void X509_STORE_set_verify_cb(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_STORE>)>(
   symbol: 'bssl_dart_X509_STORE_up_ref',
 )
-external int X509_STORE_up_ref(ffi.Pointer<X509_STORE> store);
+external int X509_STORE_up_ref(
+  ffi.Pointer<X509_STORE> store,
+);
 
 /// X509_VERIFY_PARAM_add0_policy adds |policy| to the user-initial-policy-set
 /// (see Section 6.1.1 of RFC 5280). On success, it takes ownership of
@@ -22612,20 +24180,26 @@ external int X509_VERIFY_PARAM_clear_flags(
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509_VERIFY_PARAM>)>(
   symbol: 'bssl_dart_X509_VERIFY_PARAM_free',
 )
-external void X509_VERIFY_PARAM_free(ffi.Pointer<X509_VERIFY_PARAM> param);
+external void X509_VERIFY_PARAM_free(
+  ffi.Pointer<X509_VERIFY_PARAM> param,
+);
 
 /// X509_VERIFY_PARAM_get_depth returns the maximum depth configured in |param|.
 /// See |X509_VERIFY_PARAM_set_depth|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_VERIFY_PARAM>)>(
   symbol: 'bssl_dart_X509_VERIFY_PARAM_get_depth',
 )
-external int X509_VERIFY_PARAM_get_depth(ffi.Pointer<X509_VERIFY_PARAM> param);
+external int X509_VERIFY_PARAM_get_depth(
+  ffi.Pointer<X509_VERIFY_PARAM> param,
+);
 
 /// X509_VERIFY_PARAM_get_flags returns |param|'s verification flags.
 @ffi.Native<ffi.UnsignedLong Function(ffi.Pointer<X509_VERIFY_PARAM>)>(
   symbol: 'bssl_dart_X509_VERIFY_PARAM_get_flags',
 )
-external int X509_VERIFY_PARAM_get_flags(ffi.Pointer<X509_VERIFY_PARAM> param);
+external int X509_VERIFY_PARAM_get_flags(
+  ffi.Pointer<X509_VERIFY_PARAM> param,
+);
 
 /// X509_VERIFY_PARAM_inherit applies |from| as the default values for |to|. That
 /// is, for each parameter that is unset in |to|, it copies the value in |from|.
@@ -22995,7 +24569,9 @@ external ffi.Pointer<stack_st_X509> X509_chain_up_ref(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_check_ca',
 )
-external int X509_check_ca(ffi.Pointer<X509> x509);
+external int X509_check_ca(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_check_email checks if |x509| matches the email address |chk|. It returns
 /// one on match, zero on mismatch, or a negative number on error. |flags| should
@@ -23147,7 +24723,11 @@ external int X509_check_private_key(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>, ffi.Int, ffi.Int)>(
   symbol: 'bssl_dart_X509_check_purpose',
 )
-external int X509_check_purpose(ffi.Pointer<X509> x509, int purpose, int ca);
+external int X509_check_purpose(
+  ffi.Pointer<X509> x509,
+  int purpose,
+  int ca,
+);
 
 /// X509_check_trust checks if |x509| is a valid trust anchor for trust type
 /// |id|. See |X509_VERIFY_PARAM_set_trust| for details. It returns
@@ -23158,7 +24738,11 @@ external int X509_check_purpose(ffi.Pointer<X509> x509, int purpose, int ca);
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>, ffi.Int, ffi.Int)>(
   symbol: 'bssl_dart_X509_check_trust',
 )
-external int X509_check_trust(ffi.Pointer<X509> x509, int id, int flags);
+external int X509_check_trust(
+  ffi.Pointer<X509> x509,
+  int id,
+  int flags,
+);
 
 /// X509_cmp compares |a| and |b| and returns zero if they are equal, a negative
 /// number if |b| sorts after |a| and a negative number if |a| sorts after |b|.
@@ -23174,14 +24758,19 @@ external int X509_check_trust(ffi.Pointer<X509> x509, int id, int flags);
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_cmp',
 )
-external int X509_cmp(ffi.Pointer<X509> a, ffi.Pointer<X509> b);
+external int X509_cmp(
+  ffi.Pointer<X509> a,
+  ffi.Pointer<X509> b,
+);
 
 /// X509_cmp_current_time behaves like |X509_cmp_time| but compares |s| against
 /// the current time.
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_TIME>)>(
   symbol: 'bssl_dart_X509_cmp_current_time',
 )
-external int X509_cmp_current_time(ffi.Pointer<ASN1_TIME> s);
+external int X509_cmp_current_time(
+  ffi.Pointer<ASN1_TIME> s,
+);
 
 /// X509_cmp_time compares |s| against |*t|. On success, it returns a negative
 /// number if |s| <= |*t| and a positive number if |s| > |*t|. On error, it
@@ -23192,7 +24781,10 @@ external int X509_cmp_current_time(ffi.Pointer<ASN1_TIME> s);
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_TIME>, ffi.Pointer<time_t>)>(
   symbol: 'bssl_dart_X509_cmp_time',
 )
-external int X509_cmp_time(ffi.Pointer<ASN1_TIME> s, ffi.Pointer<time_t> t);
+external int X509_cmp_time(
+  ffi.Pointer<ASN1_TIME> s,
+  ffi.Pointer<time_t> t,
+);
 
 /// X509_cmp_time_posix compares |s| against |t|. On success, it returns a
 /// negative number if |s| <= |t| and a positive number if |s| > |t|. On error,
@@ -23203,7 +24795,10 @@ external int X509_cmp_time(ffi.Pointer<ASN1_TIME> s, ffi.Pointer<time_t> t);
 @ffi.Native<ffi.Int Function(ffi.Pointer<ASN1_TIME>, ffi.Int64)>(
   symbol: 'bssl_dart_X509_cmp_time_posix',
 )
-external int X509_cmp_time_posix(ffi.Pointer<ASN1_TIME> s, int t);
+external int X509_cmp_time_posix(
+  ffi.Pointer<ASN1_TIME> s,
+  int t,
+);
 
 /// X509_delete_ext removes the extension in |x| at index |loc| and returns the
 /// removed extension, or NULL if |loc| was out of bounds. If non-NULL, the
@@ -23243,7 +24838,9 @@ external int X509_digest(
 @ffi.Native<ffi.Pointer<X509> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_dup',
 )
-external ffi.Pointer<X509> X509_dup(ffi.Pointer<X509> x509);
+external ffi.Pointer<X509> X509_dup(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_dup_ref increments the reference count of |x509| and returns |x509|.
 /// The caller must call |X509_free| on the result to release the reference.
@@ -23254,7 +24851,9 @@ external ffi.Pointer<X509> X509_dup(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Pointer<X509> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_dup_ref',
 )
-external ffi.Pointer<X509> X509_dup_ref(ffi.Pointer<X509> x509);
+external ffi.Pointer<X509> X509_dup_ref(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_email_free releases memory associated with |sk|, including |sk| itself.
 /// Each |OPENSSL_STRING| in |sk| must be a NUL-terminated string allocated with
@@ -23262,7 +24861,9 @@ external ffi.Pointer<X509> X509_dup_ref(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Void Function(ffi.Pointer<stack_st_OPENSSL_STRING>)>(
   symbol: 'bssl_dart_X509_email_free',
 )
-external void X509_email_free(ffi.Pointer<stack_st_OPENSSL_STRING> sk);
+external void X509_email_free(
+  ffi.Pointer<stack_st_OPENSSL_STRING> sk,
+);
 
 /// X509_find_by_issuer_and_serial returns the first |X509| in |sk| whose issuer
 /// and serial are |name| and |serial|, respectively. If no match is found, it
@@ -23293,7 +24894,9 @@ external ffi.Pointer<X509> X509_find_by_subject(
 /// X509_free decrements |x509|'s reference count and, if zero, releases memory
 /// associated with |x509|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509>)>(symbol: 'bssl_dart_X509_free')
-external void X509_free(ffi.Pointer<X509> x509);
+external void X509_free(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get0_authority_issuer returns the authorityCertIssuer of |x509|'s
 /// authority key identifier, if the extension and field are present. (See
@@ -23356,13 +24959,17 @@ external ffi.Pointer<stack_st_X509_EXTENSION> X509_get0_extensions(
 @ffi.Native<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get0_notAfter',
 )
-external ffi.Pointer<ASN1_TIME> X509_get0_notAfter(ffi.Pointer<X509> x509);
+external ffi.Pointer<ASN1_TIME> X509_get0_notAfter(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get0_notBefore returns |x509|'s notBefore time.
 @ffi.Native<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get0_notBefore',
 )
-external ffi.Pointer<ASN1_TIME> X509_get0_notBefore(ffi.Pointer<X509> x509);
+external ffi.Pointer<ASN1_TIME> X509_get0_notBefore(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get0_pubkey returns |x509|'s public key as an |EVP_PKEY|, or NULL if the
 /// public key was unsupported or could not be decoded. The |EVP_PKEY| is cached
@@ -23370,7 +24977,9 @@ external ffi.Pointer<ASN1_TIME> X509_get0_notBefore(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get0_pubkey',
 )
-external ffi.Pointer<EVP_PKEY> X509_get0_pubkey(ffi.Pointer<X509> x509);
+external ffi.Pointer<EVP_PKEY> X509_get0_pubkey(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get0_pubkey_bitstr returns the BIT STRING portion of |x509|'s public
 /// key. Note this does not contain the AlgorithmIdentifier portion.
@@ -23436,7 +25045,9 @@ external ffi.Pointer<ASN1_OCTET_STRING> X509_get0_subject_key_id(
 @ffi.Native<ffi.Pointer<X509_ALGOR> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get0_tbs_sigalg',
 )
-external ffi.Pointer<X509_ALGOR> X509_get0_tbs_sigalg(ffi.Pointer<X509> x509);
+external ffi.Pointer<X509_ALGOR> X509_get0_tbs_sigalg(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get0_uids sets |*out_issuer_uid| to a non-owning pointer to the
 /// issuerUID field of |x509|, or NULL if |x509| has no issuerUID. It similarly
@@ -23492,7 +25103,9 @@ external ffi.Pointer<stack_st_OPENSSL_STRING> X509_get1_ocsp(
 @ffi.Native<ffi.Pointer<X509_PUBKEY> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_X509_PUBKEY',
 )
-external ffi.Pointer<X509_PUBKEY> X509_get_X509_PUBKEY(ffi.Pointer<X509> x509);
+external ffi.Pointer<X509_PUBKEY> X509_get_X509_PUBKEY(
+  ffi.Pointer<X509> x509,
+);
 
 /// The following functions return filesystem paths used to determine the above
 /// "default" paths, when the corresponding environment variables are not set.
@@ -23538,7 +25151,10 @@ external ffi.Pointer<ffi.Char> X509_get_default_private_dir();
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<X509>, ffi.Int)>(
   symbol: 'bssl_dart_X509_get_ex_data',
 )
-external ffi.Pointer<ffi.Void> X509_get_ex_data(ffi.Pointer<X509> r, int idx);
+external ffi.Pointer<ffi.Void> X509_get_ex_data(
+  ffi.Pointer<X509> r,
+  int idx,
+);
 
 /// ex_data functions.
 ///
@@ -23566,14 +25182,21 @@ external int X509_get_ex_new_index(
 @ffi.Native<ffi.Pointer<X509_EXTENSION> Function(ffi.Pointer<X509>, ffi.Int)>(
   symbol: 'bssl_dart_X509_get_ext',
 )
-external ffi.Pointer<X509_EXTENSION> X509_get_ext(ffi.Pointer<X509> x, int loc);
+external ffi.Pointer<X509_EXTENSION> X509_get_ext(
+  ffi.Pointer<X509> x,
+  int loc,
+);
 
 /// X509_get_ext_by_NID behaves like |X509v3_get_ext_by_NID| but searches for
 /// extensions in |x|.
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>, ffi.Int, ffi.Int)>(
   symbol: 'bssl_dart_X509_get_ext_by_NID',
 )
-external int X509_get_ext_by_NID(ffi.Pointer<X509> x, int nid, int lastpos);
+external int X509_get_ext_by_NID(
+  ffi.Pointer<X509> x,
+  int nid,
+  int lastpos,
+);
 
 /// X509_get_ext_by_OBJ behaves like |X509v3_get_ext_by_OBJ| but searches for
 /// extensions in |x|.
@@ -23601,7 +25224,9 @@ external int X509_get_ext_by_critical(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_ext_count',
 )
-external int X509_get_ext_count(ffi.Pointer<X509> x);
+external int X509_get_ext_count(
+  ffi.Pointer<X509> x,
+);
 
 /// X509_get_ext_d2i behaves like |X509V3_get_d2i| but looks for the extension in
 /// |x509|'s extension list.
@@ -23636,7 +25261,9 @@ external ffi.Pointer<ffi.Void> X509_get_ext_d2i(
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_extended_key_usage',
 )
-external int X509_get_extended_key_usage(ffi.Pointer<X509> x509);
+external int X509_get_extended_key_usage(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get_extension_flags decodes a set of extensions from |x509| and returns
 /// a collection of |EXFLAG_*| bits which reflect |x509|. If there was an error
@@ -23644,13 +25271,17 @@ external int X509_get_extended_key_usage(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_extension_flags',
 )
-external int X509_get_extension_flags(ffi.Pointer<X509> x509);
+external int X509_get_extension_flags(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get_issuer_name returns |x509|'s issuer.
 @ffi.Native<ffi.Pointer<X509_NAME> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_issuer_name',
 )
-external ffi.Pointer<X509_NAME> X509_get_issuer_name(ffi.Pointer<X509> x509);
+external ffi.Pointer<X509_NAME> X509_get_issuer_name(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get_key_usage returns a bitmask of key usages (see Section 4.2.1.3 of
 /// RFC 5280) which |x509| is valid for. This function only reports the first 16
@@ -23668,7 +25299,9 @@ external ffi.Pointer<X509_NAME> X509_get_issuer_name(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_key_usage',
 )
-external int X509_get_key_usage(ffi.Pointer<X509> x509);
+external int X509_get_key_usage(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get_notAfter returns |x509|'s notAfter time. Note this function is not
 /// const-correct for legacy reasons. Use |X509_get0_notAfter| or
@@ -23676,7 +25309,9 @@ external int X509_get_key_usage(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_notAfter',
 )
-external ffi.Pointer<ASN1_TIME> X509_get_notAfter(ffi.Pointer<X509> x509);
+external ffi.Pointer<ASN1_TIME> X509_get_notAfter(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get_notBefore returns |x509|'s notBefore time. Note this function is not
 /// const-correct for legacy reasons. Use |X509_get0_notBefore| or
@@ -23684,7 +25319,9 @@ external ffi.Pointer<ASN1_TIME> X509_get_notAfter(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_notBefore',
 )
-external ffi.Pointer<ASN1_TIME> X509_get_notBefore(ffi.Pointer<X509> x509);
+external ffi.Pointer<ASN1_TIME> X509_get_notBefore(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get_pathlen returns path length constraint from the basic constraints
 /// extension in |x509|. (See RFC 5280, section 4.2.1.9.) It returns -1 if the
@@ -23696,7 +25333,9 @@ external ffi.Pointer<ASN1_TIME> X509_get_notBefore(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Long Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_pathlen',
 )
-external int X509_get_pathlen(ffi.Pointer<X509> x509);
+external int X509_get_pathlen(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get_pubkey behaves like |X509_get0_pubkey| but increments the reference
 /// count on the |EVP_PKEY|. The caller must release the result with
@@ -23705,7 +25344,9 @@ external int X509_get_pathlen(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_pubkey',
 )
-external ffi.Pointer<EVP_PKEY> X509_get_pubkey(ffi.Pointer<X509> x509);
+external ffi.Pointer<EVP_PKEY> X509_get_pubkey(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get_serialNumber returns a mutable pointer to |x509|'s serial number.
 /// Prefer |X509_get0_serialNumber|.
@@ -23722,32 +25363,42 @@ external ffi.Pointer<ASN1_INTEGER> X509_get_serialNumber(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_signature_nid',
 )
-external int X509_get_signature_nid(ffi.Pointer<X509> x509);
+external int X509_get_signature_nid(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get_subject_name returns |x509|'s subject.
 @ffi.Native<ffi.Pointer<X509_NAME> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_subject_name',
 )
-external ffi.Pointer<X509_NAME> X509_get_subject_name(ffi.Pointer<X509> x509);
+external ffi.Pointer<X509_NAME> X509_get_subject_name(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_get_version returns the numerical value of |x509|'s version, which will
 /// be one of the |X509_VERSION_*| constants.
 @ffi.Native<ffi.Long Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_get_version',
 )
-external int X509_get_version(ffi.Pointer<X509> x509);
+external int X509_get_version(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_getm_notAfter returns a mutable pointer to |x509|'s notAfter time.
 @ffi.Native<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_getm_notAfter',
 )
-external ffi.Pointer<ASN1_TIME> X509_getm_notAfter(ffi.Pointer<X509> x);
+external ffi.Pointer<ASN1_TIME> X509_getm_notAfter(
+  ffi.Pointer<X509> x,
+);
 
 /// X509_getm_notBefore returns a mutable pointer to |x509|'s notBefore time.
 @ffi.Native<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_getm_notBefore',
 )
-external ffi.Pointer<ASN1_TIME> X509_getm_notBefore(ffi.Pointer<X509> x509);
+external ffi.Pointer<ASN1_TIME> X509_getm_notBefore(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_gmtime_adj behaves like |X509_time_adj_ex| but adds |offset_sec| to the
 /// current time.
@@ -23764,7 +25415,10 @@ external ffi.Pointer<ASN1_TIME> X509_gmtime_adj(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_issuer_name_cmp',
 )
-external int X509_issuer_name_cmp(ffi.Pointer<X509> a, ffi.Pointer<X509> b);
+external int X509_issuer_name_cmp(
+  ffi.Pointer<X509> a,
+  ffi.Pointer<X509> b,
+);
 
 /// X509_issuer_name_hash returns the hash of |x509|'s issuer name with
 /// |X509_NAME_hash|.
@@ -23776,7 +25430,9 @@ external int X509_issuer_name_cmp(ffi.Pointer<X509> a, ffi.Pointer<X509> b);
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_issuer_name_hash',
 )
-external int X509_issuer_name_hash(ffi.Pointer<X509> x509);
+external int X509_issuer_name_hash(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_issuer_name_hash_old returns the hash of |x509|'s issuer name with
 /// |X509_NAME_hash_old|.
@@ -23787,7 +25443,9 @@ external int X509_issuer_name_hash(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_issuer_name_hash_old',
 )
-external int X509_issuer_name_hash_old(ffi.Pointer<X509> x509);
+external int X509_issuer_name_hash_old(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_keyid_get0 looks up |x509|'s key ID. If found, it sets |*out_len| to the
 /// key ID's length and returns a pointer to a buffer containing the contents. If
@@ -23905,7 +25563,10 @@ external ffi.Pointer<X509> X509_parse_with_algorithms(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_print',
 )
-external int X509_print(ffi.Pointer<BIO> bp, ffi.Pointer<X509> x);
+external int X509_print(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<X509> x,
+);
 
 /// X509_print_ex writes a human-readable representation of |x| to |bp|. It
 /// returns one on success and zero on error. |nmflags| is the flags parameter
@@ -23946,7 +25607,10 @@ external int X509_print_ex_fp(
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_print_fp',
 )
-external int X509_print_fp(ffi.Pointer<FILE> fp, ffi.Pointer<X509> x);
+external int X509_print_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509> x,
+);
 
 /// X509_pubkey_digest hashes the contents of the BIT STRING in |x509|'s
 /// subjectPublicKeyInfo field with |md| and writes the result to |out|.
@@ -23978,7 +25642,9 @@ external int X509_pubkey_digest(
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_reject_clear',
 )
-external void X509_reject_clear(ffi.Pointer<X509> x509);
+external void X509_reject_clear(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_set1_notAfter sets |x509|'s notAfter time to |tm|. it returns one on
 /// success and zero on error.
@@ -24106,7 +25772,10 @@ external int X509_set_subject_name(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>, ffi.Long)>(
   symbol: 'bssl_dart_X509_set_version',
 )
-external int X509_set_version(ffi.Pointer<X509> x509, int version);
+external int X509_set_version(
+  ffi.Pointer<X509> x509,
+  int version,
+);
 
 /// X509_sign signs |x509| with |pkey| and replaces the signature algorithm and
 /// signature fields. It returns the length of the signature on success and zero
@@ -24137,7 +25806,10 @@ external int X509_sign(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<EVP_MD_CTX>)>(
   symbol: 'bssl_dart_X509_sign_ctx',
 )
-external int X509_sign_ctx(ffi.Pointer<X509> x509, ffi.Pointer<EVP_MD_CTX> ctx);
+external int X509_sign_ctx(
+  ffi.Pointer<X509> x509,
+  ffi.Pointer<EVP_MD_CTX> ctx,
+);
 
 /// X509_signature_dump writes a human-readable representation of |sig| to |bio|,
 /// indented with |indent| spaces. It returns one on success and zero on error.
@@ -24170,7 +25842,10 @@ external int X509_signature_print(
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_subject_name_cmp',
 )
-external int X509_subject_name_cmp(ffi.Pointer<X509> a, ffi.Pointer<X509> b);
+external int X509_subject_name_cmp(
+  ffi.Pointer<X509> a,
+  ffi.Pointer<X509> b,
+);
 
 /// X509_subject_name_hash returns the hash of |x509|'s subject name with
 /// |X509_NAME_hash|.
@@ -24182,7 +25857,9 @@ external int X509_subject_name_cmp(ffi.Pointer<X509> a, ffi.Pointer<X509> b);
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_subject_name_hash',
 )
-external int X509_subject_name_hash(ffi.Pointer<X509> x509);
+external int X509_subject_name_hash(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_subject_name_hash_old returns the hash of |x509|'s usjbect name with
 /// |X509_NAME_hash_old|.
@@ -24193,7 +25870,9 @@ external int X509_subject_name_hash(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_subject_name_hash_old',
 )
-external int X509_subject_name_hash_old(ffi.Pointer<X509> x509);
+external int X509_subject_name_hash_old(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_supported_extension returns one if |ex| is a critical X.509 certificate
 /// extension, supported by |X509_verify_cert|, and zero otherwise.
@@ -24205,7 +25884,9 @@ external int X509_subject_name_hash_old(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_EXTENSION>)>(
   symbol: 'bssl_dart_X509_supported_extension',
 )
-external int X509_supported_extension(ffi.Pointer<X509_EXTENSION> ex);
+external int X509_supported_extension(
+  ffi.Pointer<X509_EXTENSION> ex,
+);
 
 /// X509_time_adj calls |X509_time_adj_ex| with |offset_day| equal to zero.
 @ffi.Native<
@@ -24243,13 +25924,17 @@ external ffi.Pointer<ASN1_TIME> X509_time_adj_ex(
 @ffi.Native<ffi.Void Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_trust_clear',
 )
-external void X509_trust_clear(ffi.Pointer<X509> x509);
+external void X509_trust_clear(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_up_ref adds one to the reference count of |x509| and returns one.
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_X509_up_ref',
 )
-external int X509_up_ref(ffi.Pointer<X509> x509);
+external int X509_up_ref(
+  ffi.Pointer<X509> x509,
+);
 
 /// X509_verify checks that |x509| has a valid signature by |pkey|. It returns
 /// one if the signature is valid and zero otherwise. Note this function only
@@ -24258,7 +25943,10 @@ external int X509_up_ref(ffi.Pointer<X509> x509);
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_X509_verify',
 )
-external int X509_verify(ffi.Pointer<X509> x509, ffi.Pointer<EVP_PKEY> pkey);
+external int X509_verify(
+  ffi.Pointer<X509> x509,
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// X509_verify_cert performs certificate verification with |ctx|, which must
 /// have been initialized with |X509_STORE_CTX_init|. It returns one on success
@@ -24272,7 +25960,9 @@ external int X509_verify(ffi.Pointer<X509> x509, ffi.Pointer<EVP_PKEY> pkey);
 @ffi.Native<ffi.Int Function(ffi.Pointer<X509_STORE_CTX>)>(
   symbol: 'bssl_dart_X509_verify_cert',
 )
-external int X509_verify_cert(ffi.Pointer<X509_STORE_CTX> ctx);
+external int X509_verify_cert(
+  ffi.Pointer<X509_STORE_CTX> ctx,
+);
 
 /// X509_verify_cert_error_string returns |err| as a human-readable string, where
 /// |err| should be one of the |X509_V_*| values. If |err| is unknown, it returns
@@ -24280,7 +25970,9 @@ external int X509_verify_cert(ffi.Pointer<X509_STORE_CTX> ctx);
 @ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Long)>(
   symbol: 'bssl_dart_X509_verify_cert_error_string',
 )
-external ffi.Pointer<ffi.Char> X509_verify_cert_error_string(int err);
+external ffi.Pointer<ffi.Char> X509_verify_cert_error_string(
+  int err,
+);
 
 /// X509v3_add_ext adds a copy of |ex| to the extension list in |*x|. If |*x| is
 /// NULL, it allocates a new |STACK_OF(X509_EXTENSION)| to hold the copy and sets
@@ -24382,7 +26074,9 @@ external int X509v3_get_ext_by_critical(
 @ffi.Native<ffi.Int Function(ffi.Pointer<stack_st_X509_EXTENSION>)>(
   symbol: 'bssl_dart_X509v3_get_ext_count',
 )
-external int X509v3_get_ext_count(ffi.Pointer<stack_st_X509_EXTENSION> x);
+external int X509v3_get_ext_count(
+  ffi.Pointer<stack_st_X509_EXTENSION> x,
+);
 
 /// a2i_IPADDRESS decodes |ipasc| as the textual representation of an IPv4 or
 /// IPv6 address. On success, it returns a newly-allocated |ASN1_OCTET_STRING|
@@ -25910,7 +27604,10 @@ external int i2a_ASN1_ENUMERATED(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_INTEGER>)>(
   symbol: 'bssl_dart_i2a_ASN1_INTEGER',
 )
-external int i2a_ASN1_INTEGER(ffi.Pointer<BIO> bp, ffi.Pointer<ASN1_INTEGER> a);
+external int i2a_ASN1_INTEGER(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<ASN1_INTEGER> a,
+);
 
 /// i2a_ASN1_OBJECT writes a human-readable representation of |a| to |bp|. It
 /// returns the number of bytes written on success, or a negative number on
@@ -25918,7 +27615,10 @@ external int i2a_ASN1_INTEGER(ffi.Pointer<BIO> bp, ffi.Pointer<ASN1_INTEGER> a);
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_OBJECT>)>(
   symbol: 'bssl_dart_i2a_ASN1_OBJECT',
 )
-external int i2a_ASN1_OBJECT(ffi.Pointer<BIO> bp, ffi.Pointer<ASN1_OBJECT> a);
+external int i2a_ASN1_OBJECT(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<ASN1_OBJECT> a,
+);
 
 /// i2a_ASN1_STRING writes a text representation of |a|'s contents to |bp|. It
 /// returns the number of bytes written on success, or a negative number on
@@ -26309,7 +28009,10 @@ external int i2d_DHparams(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DH>)>(
   symbol: 'bssl_dart_i2d_DHparams_bio',
 )
-external int i2d_DHparams_bio(ffi.Pointer<BIO> bp, ffi.Pointer<DH> dh);
+external int i2d_DHparams_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<DH> dh,
+);
 
 /// i2d_DIRECTORYSTRING marshals |in| as a DER-encoded X.509 DirectoryString (RFC
 /// 5280), as described in |i2d_SAMPLE|.
@@ -26352,12 +28055,18 @@ external int i2d_DSAPrivateKey(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_i2d_DSAPrivateKey_bio',
 )
-external int i2d_DSAPrivateKey_bio(ffi.Pointer<BIO> bp, ffi.Pointer<DSA> dsa);
+external int i2d_DSAPrivateKey_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<DSA> dsa,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_i2d_DSAPrivateKey_fp',
 )
-external int i2d_DSAPrivateKey_fp(ffi.Pointer<FILE> fp, ffi.Pointer<DSA> dsa);
+external int i2d_DSAPrivateKey_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<DSA> dsa,
+);
 
 /// i2d_DSAPublicKey marshals |in| as a DER-encoded DSA public key, as described
 /// in |i2d_SAMPLE|.
@@ -26386,12 +28095,18 @@ external int i2d_DSA_PUBKEY(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_i2d_DSA_PUBKEY_bio',
 )
-external int i2d_DSA_PUBKEY_bio(ffi.Pointer<BIO> bp, ffi.Pointer<DSA> dsa);
+external int i2d_DSA_PUBKEY_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<DSA> dsa,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<DSA>)>(
   symbol: 'bssl_dart_i2d_DSA_PUBKEY_fp',
 )
-external int i2d_DSA_PUBKEY_fp(ffi.Pointer<FILE> fp, ffi.Pointer<DSA> dsa);
+external int i2d_DSA_PUBKEY_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<DSA> dsa,
+);
 
 /// i2d_DSA_SIG marshals |in| to a DER-encoded DSA-Sig-Value structure, as
 /// described in |i2d_SAMPLE|.
@@ -26496,12 +28211,18 @@ external int i2d_EC_PUBKEY(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_i2d_EC_PUBKEY_bio',
 )
-external int i2d_EC_PUBKEY_bio(ffi.Pointer<BIO> bp, ffi.Pointer<EC_KEY> eckey);
+external int i2d_EC_PUBKEY_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<EC_KEY> eckey,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_i2d_EC_PUBKEY_fp',
 )
-external int i2d_EC_PUBKEY_fp(ffi.Pointer<FILE> fp, ffi.Pointer<EC_KEY> eckey);
+external int i2d_EC_PUBKEY_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<EC_KEY> eckey,
+);
 
 /// i2d_EXTENDED_KEY_USAGE marshals |eku| as a DER-encoded ExtKeyUsageSyntax (RFC
 /// 5280), as described in |i2d_SAMPLE|.
@@ -26596,7 +28317,10 @@ external int i2d_PKCS7(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<PKCS7>)>(
   symbol: 'bssl_dart_i2d_PKCS7_bio',
 )
-external int i2d_PKCS7_bio(ffi.Pointer<BIO> bio, ffi.Pointer<PKCS7> p7);
+external int i2d_PKCS7_bio(
+  ffi.Pointer<BIO> bio,
+  ffi.Pointer<PKCS7> p7,
+);
 
 /// i2d_PKCS8PrivateKeyInfo_bio encodes |key| as a PKCS#8 PrivateKeyInfo
 /// structure (see |EVP_marshal_private_key|) and writes the result to |bp|. It
@@ -26733,12 +28457,18 @@ external int i2d_PKCS8_PRIV_KEY_INFO_fp(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_SIG>)>(
   symbol: 'bssl_dart_i2d_PKCS8_bio',
 )
-external int i2d_PKCS8_bio(ffi.Pointer<BIO> bp, ffi.Pointer<X509_SIG> p8);
+external int i2d_PKCS8_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<X509_SIG> p8,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_SIG>)>(
   symbol: 'bssl_dart_i2d_PKCS8_fp',
 )
-external int i2d_PKCS8_fp(ffi.Pointer<FILE> fp, ffi.Pointer<X509_SIG> p8);
+external int i2d_PKCS8_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509_SIG> p8,
+);
 
 /// i2d_PUBKEY marshals |pkey| as a DER-encoded SubjectPublicKeyInfo, as
 /// described in |i2d_SAMPLE|.
@@ -26755,12 +28485,18 @@ external int i2d_PUBKEY(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_i2d_PUBKEY_bio',
 )
-external int i2d_PUBKEY_bio(ffi.Pointer<BIO> bp, ffi.Pointer<EVP_PKEY> pkey);
+external int i2d_PUBKEY_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<EVP_PKEY>)>(
   symbol: 'bssl_dart_i2d_PUBKEY_fp',
 )
-external int i2d_PUBKEY_fp(ffi.Pointer<FILE> fp, ffi.Pointer<EVP_PKEY> pkey);
+external int i2d_PUBKEY_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<EVP_PKEY> pkey,
+);
 
 /// i2d_PrivateKey marshals a private key from |key| to type-specific format, as
 /// described in |i2d_SAMPLE|.
@@ -26823,12 +28559,18 @@ external int i2d_RSAPrivateKey(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_i2d_RSAPrivateKey_bio',
 )
-external int i2d_RSAPrivateKey_bio(ffi.Pointer<BIO> bp, ffi.Pointer<RSA> rsa);
+external int i2d_RSAPrivateKey_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<RSA> rsa,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_i2d_RSAPrivateKey_fp',
 )
-external int i2d_RSAPrivateKey_fp(ffi.Pointer<FILE> fp, ffi.Pointer<RSA> rsa);
+external int i2d_RSAPrivateKey_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<RSA> rsa,
+);
 
 /// i2d_RSAPublicKey marshals |in| to a DER-encoded RSAPublicKey structure (RFC
 /// 8017), as described in |i2d_SAMPLE|.
@@ -26845,12 +28587,18 @@ external int i2d_RSAPublicKey(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_i2d_RSAPublicKey_bio',
 )
-external int i2d_RSAPublicKey_bio(ffi.Pointer<BIO> bp, ffi.Pointer<RSA> rsa);
+external int i2d_RSAPublicKey_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<RSA> rsa,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_i2d_RSAPublicKey_fp',
 )
-external int i2d_RSAPublicKey_fp(ffi.Pointer<FILE> fp, ffi.Pointer<RSA> rsa);
+external int i2d_RSAPublicKey_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<RSA> rsa,
+);
 
 /// i2d_RSA_PSS_PARAMS marshals |in| as a DER-encoded RSASSA-PSS-params (RFC
 /// 4055), as described in |i2d_SAMPLE|.
@@ -26880,12 +28628,18 @@ external int i2d_RSA_PUBKEY(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_i2d_RSA_PUBKEY_bio',
 )
-external int i2d_RSA_PUBKEY_bio(ffi.Pointer<BIO> bp, ffi.Pointer<RSA> rsa);
+external int i2d_RSA_PUBKEY_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<RSA> rsa,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<RSA>)>(
   symbol: 'bssl_dart_i2d_RSA_PUBKEY_fp',
 )
-external int i2d_RSA_PUBKEY_fp(ffi.Pointer<FILE> fp, ffi.Pointer<RSA> rsa);
+external int i2d_RSA_PUBKEY_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<RSA> rsa,
+);
 
 /// i2d_X509 marshals |x509| as a DER-encoded X.509 Certificate (RFC 5280), as
 /// described in |i2d_SAMPLE|.
@@ -26948,12 +28702,18 @@ external int i2d_X509_CRL(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_i2d_X509_CRL_bio',
 )
-external int i2d_X509_CRL_bio(ffi.Pointer<BIO> bp, ffi.Pointer<X509_CRL> crl);
+external int i2d_X509_CRL_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<X509_CRL> crl,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_CRL>)>(
   symbol: 'bssl_dart_i2d_X509_CRL_fp',
 )
-external int i2d_X509_CRL_fp(ffi.Pointer<FILE> fp, ffi.Pointer<X509_CRL> crl);
+external int i2d_X509_CRL_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509_CRL> crl,
+);
 
 /// i2d_X509_CRL_tbs serializes the TBSCertList portion of |crl|, as described in
 /// |i2d_SAMPLE|.
@@ -27035,12 +28795,18 @@ external int i2d_X509_REQ(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_i2d_X509_REQ_bio',
 )
-external int i2d_X509_REQ_bio(ffi.Pointer<BIO> bp, ffi.Pointer<X509_REQ> req);
+external int i2d_X509_REQ_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<X509_REQ> req,
+);
 
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_REQ>)>(
   symbol: 'bssl_dart_i2d_X509_REQ_fp',
 )
-external int i2d_X509_REQ_fp(ffi.Pointer<FILE> fp, ffi.Pointer<X509_REQ> req);
+external int i2d_X509_REQ_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509_REQ> req,
+);
 
 /// i2d_X509_REVOKED marshals |alg| as a DER-encoded X.509 CRL entry, as
 /// described in |i2d_SAMPLE|.
@@ -27072,14 +28838,20 @@ external int i2d_X509_SIG(
 @ffi.Native<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_i2d_X509_bio',
 )
-external int i2d_X509_bio(ffi.Pointer<BIO> bp, ffi.Pointer<X509> x509);
+external int i2d_X509_bio(
+  ffi.Pointer<BIO> bp,
+  ffi.Pointer<X509> x509,
+);
 
 /// The following functions behave like the corresponding |i2d_*_bio| functions,
 /// but write to |fp| instead.
 @ffi.Native<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509>)>(
   symbol: 'bssl_dart_i2d_X509_fp',
 )
-external int i2d_X509_fp(ffi.Pointer<FILE> fp, ffi.Pointer<X509> x509);
+external int i2d_X509_fp(
+  ffi.Pointer<FILE> fp,
+  ffi.Pointer<X509> x509,
+);
 
 /// i2d_X509_tbs serializes the TBSCertificate portion of |x509|, as described in
 /// |i2d_SAMPLE|.
@@ -27314,7 +29086,9 @@ external ffi.Pointer<ASN1_OCTET_STRING> s2i_ASN1_OCTET_STRING(
 @ffi.Native<ffi.Void Function(ffi.Pointer<OPENSSL_STACK>)>(
   symbol: 'bssl_dart_sk_free',
 )
-external void sk_free(ffi.Pointer<OPENSSL_STACK> sk);
+external void sk_free(
+  ffi.Pointer<OPENSSL_STACK> sk,
+);
 
 /// The following functions call the corresponding |OPENSSL_sk_*| function.
 @Deprecated('Deprecated')
@@ -27327,13 +29101,17 @@ external ffi.Pointer<OPENSSL_STACK> sk_new_null();
 @ffi.Native<ffi.Size Function(ffi.Pointer<OPENSSL_STACK>)>(
   symbol: 'bssl_dart_sk_num',
 )
-external int sk_num(ffi.Pointer<OPENSSL_STACK> sk);
+external int sk_num(
+  ffi.Pointer<OPENSSL_STACK> sk,
+);
 
 @Deprecated('Deprecated')
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<OPENSSL_STACK>)>(
   symbol: 'bssl_dart_sk_pop',
 )
-external ffi.Pointer<ffi.Void> sk_pop(ffi.Pointer<OPENSSL_STACK> sk);
+external ffi.Pointer<ffi.Void> sk_pop(
+  ffi.Pointer<OPENSSL_STACK> sk,
+);
 
 /// sk_pop_free behaves like |OPENSSL_sk_pop_free_ex| but performs an invalid
 /// function pointer cast. It exists because some existing callers called
@@ -27370,13 +29148,19 @@ external void sk_pop_free_ex(
 @ffi.Native<
   ffi.Size Function(ffi.Pointer<OPENSSL_STACK>, ffi.Pointer<ffi.Void>)
 >(symbol: 'bssl_dart_sk_push')
-external int sk_push(ffi.Pointer<OPENSSL_STACK> sk, ffi.Pointer<ffi.Void> p);
+external int sk_push(
+  ffi.Pointer<OPENSSL_STACK> sk,
+  ffi.Pointer<ffi.Void> p,
+);
 
 @Deprecated('Deprecated')
 @ffi.Native<
   ffi.Pointer<ffi.Void> Function(ffi.Pointer<OPENSSL_STACK>, ffi.Size)
 >(symbol: 'bssl_dart_sk_value')
-external ffi.Pointer<ffi.Void> sk_value(ffi.Pointer<OPENSSL_STACK> sk, int i);
+external ffi.Pointer<ffi.Void> sk_value(
+  ffi.Pointer<OPENSSL_STACK> sk,
+  int i,
+);
 
 typedef ACCESS_DESCRIPTION = ACCESS_DESCRIPTION_st;
 
@@ -27505,10 +29289,71 @@ typedef BUF_MEM = buf_mem_st;
 typedef CBB = cbb_st;
 typedef CBS = cbs_st;
 
+const int CBS_ASN1_APPLICATION = 1073741824;
+
+const int CBS_ASN1_BITSTRING = 3;
+
+const int CBS_ASN1_BMPSTRING = 30;
+
+const int CBS_ASN1_BOOLEAN = 1;
+
+const int CBS_ASN1_CLASS_MASK = 3221225472;
+
+const int CBS_ASN1_CONSTRUCTED = 536870912;
+
+const int CBS_ASN1_CONTEXT_SPECIFIC = 2147483648;
+
+const int CBS_ASN1_ENUMERATED = 10;
+
+const int CBS_ASN1_GENERALIZEDTIME = 24;
+
+const int CBS_ASN1_GENERALSTRING = 27;
+
+const int CBS_ASN1_GRAPHICSTRING = 25;
+
+const int CBS_ASN1_IA5STRING = 22;
+
+const int CBS_ASN1_INTEGER = 2;
+
+const int CBS_ASN1_NULL = 5;
+
+const int CBS_ASN1_NUMERICSTRING = 18;
+
+const int CBS_ASN1_OBJECT = 6;
+
+const int CBS_ASN1_OCTETSTRING = 4;
+
+const int CBS_ASN1_PRINTABLESTRING = 19;
+
+const int CBS_ASN1_PRIVATE = 3221225472;
+
+const int CBS_ASN1_SEQUENCE = 536870928;
+
+const int CBS_ASN1_SET = 536870929;
+
+const int CBS_ASN1_T61STRING = 20;
+
 /// CBS_ASN1_TAG is the type used by |CBS| and |CBB| for ASN.1 tags. See that
 /// header for details. This type is defined in base.h as a forward declaration.
 typedef CBS_ASN1_TAG = ffi.Uint32;
 typedef DartCBS_ASN1_TAG = int;
+
+const int CBS_ASN1_TAG_NUMBER_MASK = 536870911;
+
+const int CBS_ASN1_TAG_SHIFT = 24;
+
+const int CBS_ASN1_UNIVERSAL = 0;
+
+const int CBS_ASN1_UNIVERSALSTRING = 28;
+
+const int CBS_ASN1_UTCTIME = 23;
+
+const int CBS_ASN1_UTF8STRING = 12;
+
+const int CBS_ASN1_VIDEOTEXSTRING = 21;
+
+const int CBS_ASN1_VISIBLESTRING = 26;
+
 typedef CERTIFICATEPOLICIES = stack_st_POLICYINFO;
 typedef CMAC_CTX = cmac_ctx_st;
 typedef CMS_ContentInfo = CMS_ContentInfo_st;

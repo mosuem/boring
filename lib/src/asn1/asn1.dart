@@ -3,7 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:ffi' as ffi;
 import 'dart:typed_data';
+
+import 'package:ffi/ffi.dart';
+
+import '../bindings/boringssl.g.dart' as bssl;
+import '../ffi/error.dart';
 
 /// Thrown when ASN.1 DER data is malformed or cannot be decoded.
 final class Asn1Exception implements Exception {
@@ -23,163 +29,211 @@ final class Asn1Exception implements Exception {
 /// The class of an ASN.1 tag (X.690, Section 8.1.2.2).
 enum Asn1Class {
   /// Types defined by the ASN.1 standard itself (e.g. `INTEGER`, `UTF8String`).
-  universal(0x00),
+  universal(bssl.CBS_ASN1_UNIVERSAL),
 
   /// Types whose interpretation depends on the containing structure.
-  application(0x40),
+  application(bssl.CBS_ASN1_APPLICATION),
 
   /// Types whose interpretation depends on the context they appear in, used
   /// for `CHOICE` alternatives such as X.509 `GeneralName`.
-  contextSpecific(0x80),
+  contextSpecific(bssl.CBS_ASN1_CONTEXT_SPECIFIC),
 
   /// Types defined by private, enterprise-specific specifications.
-  private(0xC0);
+  private(bssl.CBS_ASN1_PRIVATE);
 
   const Asn1Class(this.bits);
 
-  /// The two high-order bits of the identifier octet for this class.
+  /// BoringSSL's `CBS_ASN1_*` class bits for this class.
   final int bits;
 }
 
 /// ASN.1 universal tag numbers (X.680) needed to interpret X.509 structures.
+///
+/// These are BoringSSL's `CBS_ASN1_*` tag values re-exported under
+/// Dart-idiomatic names.
 abstract final class Asn1Tag {
   /// `BOOLEAN`.
-  static const int boolean = 0x01;
+  static const int boolean = bssl.CBS_ASN1_BOOLEAN;
 
   /// `INTEGER`.
-  static const int integer = 0x02;
+  static const int integer = bssl.CBS_ASN1_INTEGER;
 
   /// `BIT STRING`.
-  static const int bitString = 0x03;
+  static const int bitString = bssl.CBS_ASN1_BITSTRING;
 
   /// `OCTET STRING`.
-  static const int octetString = 0x04;
+  static const int octetString = bssl.CBS_ASN1_OCTETSTRING;
 
   /// `NULL`.
-  static const int null_ = 0x05;
+  static const int null_ = bssl.CBS_ASN1_NULL;
 
   /// `OBJECT IDENTIFIER`.
-  static const int objectIdentifier = 0x06;
+  static const int objectIdentifier = bssl.CBS_ASN1_OBJECT;
 
   /// `UTF8String`.
-  static const int utf8String = 0x0C;
+  static const int utf8String = bssl.CBS_ASN1_UTF8STRING;
 
   /// `PrintableString`.
-  static const int printableString = 0x13;
+  static const int printableString = bssl.CBS_ASN1_PRINTABLESTRING;
 
   /// `TeletexString` (also known as `T61String`).
-  static const int teletexString = 0x14;
+  static const int teletexString = bssl.CBS_ASN1_T61STRING;
 
   /// `IA5String`.
-  static const int ia5String = 0x16;
+  static const int ia5String = bssl.CBS_ASN1_IA5STRING;
 
   /// `UTCTime`.
-  static const int utcTime = 0x17;
+  static const int utcTime = bssl.CBS_ASN1_UTCTIME;
 
   /// `GeneralizedTime`.
-  static const int generalizedTime = 0x18;
+  static const int generalizedTime = bssl.CBS_ASN1_GENERALIZEDTIME;
 
   /// `VisibleString`.
-  static const int visibleString = 0x1A;
+  static const int visibleString = bssl.CBS_ASN1_VISIBLESTRING;
 
   /// `BMPString`.
-  static const int bmpString = 0x1E;
+  static const int bmpString = bssl.CBS_ASN1_BMPSTRING;
 
   /// `SEQUENCE` / `SEQUENCE OF`.
-  static const int sequence = 0x10;
+  static const int sequence =
+      bssl.CBS_ASN1_SEQUENCE & bssl.CBS_ASN1_TAG_NUMBER_MASK;
 
   /// `SET` / `SET OF`.
-  static const int set = 0x11;
+  static const int set = bssl.CBS_ASN1_SET & bssl.CBS_ASN1_TAG_NUMBER_MASK;
 }
 
 /// A single parsed ASN.1 DER element (a tag-length-value triple).
 final class Asn1Value {
-  /// The full identifier octet, including class and constructed bits.
-  final int identifier;
+  /// BoringSSL's `CBS_ASN1_TAG` for this element.
+  ///
+  /// This packs the tag class, the constructed bit, and the tag number into a
+  /// single 32-bit value. Prefer [tagClass], [isConstructed], and [tagNumber]
+  /// over inspecting this directly.
+  final int tag;
 
   /// The raw contents of this element, excluding tag and length octets.
   final Uint8List contents;
 
-  /// Creates an [Asn1Value] from a raw [identifier] octet and its [contents].
-  const Asn1Value(this.identifier, this.contents);
+  const Asn1Value._(this.tag, this.contents);
 
-  /// The tag class encoded in the identifier octet.
-  Asn1Class get tagClass => switch (identifier & 0xC0) {
-    0x00 => Asn1Class.universal,
-    0x40 => Asn1Class.application,
-    0x80 => Asn1Class.contextSpecific,
+  /// The tag class encoded in [tag].
+  Asn1Class get tagClass => switch (tag & bssl.CBS_ASN1_CLASS_MASK) {
+    bssl.CBS_ASN1_UNIVERSAL => Asn1Class.universal,
+    bssl.CBS_ASN1_APPLICATION => Asn1Class.application,
+    bssl.CBS_ASN1_CONTEXT_SPECIFIC => Asn1Class.contextSpecific,
     _ => Asn1Class.private,
   };
 
   /// Whether this element is constructed (contains nested elements).
-  bool get isConstructed => (identifier & 0x20) != 0;
+  bool get isConstructed => (tag & bssl.CBS_ASN1_CONSTRUCTED) != 0;
 
   /// The tag number with the class and constructed bits masked off.
-  int get tagNumber => identifier & 0x1F;
+  int get tagNumber => tag & bssl.CBS_ASN1_TAG_NUMBER_MASK;
 
   /// Whether this element is a universal type with the given [tag].
   bool hasUniversalTag(int tag) =>
       tagClass == Asn1Class.universal && tagNumber == tag;
 
-  /// Decodes [contents] as a text string.
+  /// Decodes [contents] as text using BoringSSL's `ASN1_STRING_to_UTF8`.
   ///
-  /// `BMPString` values are decoded as UTF-16BE; all other string types are
-  /// decoded as UTF-8, which is a superset of the ASCII-based ASN.1 string
-  /// types used in X.509 (`IA5String`, `PrintableString`, `VisibleString`).
-  String asString() {
-    if (hasUniversalTag(Asn1Tag.bmpString)) {
-      if (contents.length.isOdd) {
-        throw const Asn1Exception('BMPString has an odd number of bytes');
+  /// This handles every ASN.1 string type BoringSSL knows about, including the
+  /// UTF-16BE transcoding required for `BMPString` and the Latin-1 transcoding
+  /// required for `TeletexString`.
+  ///
+  /// For universal tags the string type is taken from [tagNumber]. For
+  /// IMPLICIT context-specific tags — such as the `GeneralName` alternatives in
+  /// an X.509 `SubjectAltName` — the tag number identifies the CHOICE
+  /// alternative rather than the string type, so the underlying type is assumed
+  /// to be `UTF8String` unless [stringType] is given. Pass one of the
+  /// [Asn1Tag] string constants to override it.
+  String asString({int? stringType}) => using((arena) {
+    // ASN1_STRING_to_UTF8 dispatches on the ASN1_STRING's type field, which
+    // uses the same numbering as universal ASN.1 tags.
+    final type =
+        stringType ??
+        (tagClass == Asn1Class.universal ? tagNumber : Asn1Tag.utf8String);
+    final str = bssl.ASN1_STRING_type_new(type);
+    checkPointer(str, 'ASN1_STRING_type_new');
+    try {
+      final buf = arena<ffi.Uint8>(contents.length);
+      buf.asTypedList(contents.length).setAll(0, contents);
+      if (bssl.ASN1_STRING_set(str.cast(), buf.cast(), contents.length) != 1) {
+        throw const Asn1Exception('Failed to load ASN.1 string contents');
       }
-      final units = <int>[];
-      for (var i = 0; i < contents.length; i += 2) {
-        units.add((contents[i] << 8) | contents[i + 1]);
+      final out = arena<ffi.Pointer<ffi.UnsignedChar>>();
+      final length = bssl.ASN1_STRING_to_UTF8(out, str);
+      if (length < 0) {
+        drainErrorQueue();
+        throw const Asn1Exception('Value is not a decodable ASN.1 string');
       }
-      return String.fromCharCodes(units);
+      try {
+        return utf8.decode(out.value.cast<ffi.Uint8>().asTypedList(length));
+      } finally {
+        bssl.OPENSSL_free(out.value.cast());
+      }
+    } finally {
+      bssl.ASN1_STRING_free(str.cast());
     }
-    return utf8.decode(contents, allowMalformed: true);
-  }
+  });
 
-  /// Decodes [contents] as an unsigned or signed big-endian `INTEGER`.
-  BigInt asInteger() {
-    if (contents.isEmpty) {
-      throw const Asn1Exception('INTEGER has empty contents');
+  /// Decodes [contents] as a signed big-endian `INTEGER`.
+  ///
+  /// Validation and sign handling are performed by BoringSSL.
+  BigInt asInteger() => using((arena) {
+    final cbs = _cbsFor(contents, arena);
+    final isNegative = arena<ffi.Int>();
+    if (bssl.CBS_is_valid_asn1_integer(cbs, isNegative) != 1) {
+      throw const Asn1Exception('Value is not a valid ASN.1 INTEGER');
     }
-    var result = BigInt.zero;
-    for (final byte in contents) {
-      result = (result << 8) | BigInt.from(byte);
+    final bn = bssl.BN_bin2bn(cbs.ref.data, cbs.ref.len, ffi.nullptr);
+    checkPointer(bn, 'BN_bin2bn');
+    try {
+      final text = bssl.BN_bn2dec(bn);
+      checkPointer(text, 'BN_bn2dec');
+      try {
+        final magnitude = BigInt.parse(text.cast<Utf8>().toDartString());
+        if (isNegative.value == 0) return magnitude;
+        // DER encodes negatives in two's complement over the same width.
+        return magnitude - (BigInt.one << (contents.length * 8));
+      } finally {
+        bssl.OPENSSL_free(text.cast());
+      }
+    } finally {
+      bssl.BN_free(bn);
     }
-    // Negative values are encoded in two's complement.
-    if (contents[0] & 0x80 != 0) {
-      result -= BigInt.one << (contents.length * 8);
-    }
-    return result;
-  }
+  });
 
   /// Decodes [contents] as a `BOOLEAN`.
-  bool asBoolean() {
-    if (contents.length != 1) {
-      throw const Asn1Exception('BOOLEAN must have exactly one content byte');
+  bool asBoolean() => using((arena) {
+    // CBS_get_asn1_bool parses a full TLV, so re-wrap the contents.
+    final der = Uint8List(2 + contents.length)
+      ..[0] = Asn1Tag.boolean
+      ..[1] = contents.length;
+    der.setRange(2, der.length, contents);
+    final cbs = _cbsFor(der, arena);
+    final out = arena<ffi.Int>();
+    if (bssl.CBS_get_asn1_bool(cbs, out) != 1) {
+      throw const Asn1Exception('Value is not a valid ASN.1 BOOLEAN');
     }
-    return contents[0] != 0;
-  }
+    return out.value != 0;
+  });
 
   /// Decodes [contents] as a dotted-decimal `OBJECT IDENTIFIER` string.
-  String asObjectIdentifier() {
-    if (contents.isEmpty) {
-      throw const Asn1Exception('OBJECT IDENTIFIER has empty contents');
+  String asObjectIdentifier() => using((arena) {
+    final cbs = _cbsFor(contents, arena);
+    final text = bssl.CBS_asn1_oid_to_text(cbs);
+    if (text == ffi.nullptr) {
+      drainErrorQueue();
+      throw const Asn1Exception(
+        'Value is not a valid ASN.1 OBJECT IDENTIFIER',
+      );
     }
-    final components = <int>[contents[0] ~/ 40, contents[0] % 40];
-    var value = 0;
-    for (var i = 1; i < contents.length; i++) {
-      value = (value << 7) | (contents[i] & 0x7F);
-      if (contents[i] & 0x80 == 0) {
-        components.add(value);
-        value = 0;
-      }
+    try {
+      return text.cast<Utf8>().toDartString();
+    } finally {
+      bssl.OPENSSL_free(text.cast());
     }
-    return components.join('.');
-  }
+  });
 
   /// Parses [contents] as a sequence of nested DER elements.
   ///
@@ -197,11 +251,19 @@ final class Asn1Value {
       'constructed: $isConstructed, length: ${contents.length})';
 }
 
+/// Allocates a `CBS` in [arena] pointing at a native copy of [bytes].
+ffi.Pointer<bssl.CBS> _cbsFor(Uint8List bytes, Arena arena) {
+  final buf = arena<ffi.Uint8>(bytes.isEmpty ? 1 : bytes.length);
+  buf.asTypedList(bytes.length).setAll(0, bytes);
+  return arena<bssl.CBS>()
+    ..ref.data = buf
+    ..ref.len = bytes.length;
+}
+
 /// A streaming reader for ASN.1 DER-encoded data (X.690).
 ///
-/// This reader is intentionally minimal: it decodes the tag-length-value
-/// structure needed to inspect X.509 certificate extension payloads without
-/// pulling in a full ASN.1 schema compiler.
+/// Parsing is delegated to BoringSSL's `CBS` DER parser; this class only tracks
+/// the read position and marshals results back into Dart types.
 final class Asn1Reader {
   final Uint8List _bytes;
   int _offset;
@@ -217,62 +279,30 @@ final class Asn1Reader {
   /// Whether any unread bytes remain.
   bool get hasMore => _offset < _bytes.length;
 
-  /// Reads the next DER element.
+  /// Reads the next DER element using BoringSSL's `CBS_get_any_asn1_element`.
   ///
   /// Throws an [Asn1Exception] if the data is truncated or malformed.
   Asn1Value read() {
     if (!hasMore) {
       throw Asn1Exception('Unexpected end of ASN.1 data', offset: _offset);
     }
-
     final start = _offset;
-    final identifier = _bytes[_offset++];
-
-    // High-tag-number form (tag number >= 31) is encoded in following octets.
-    if (identifier & 0x1F == 0x1F) {
-      while (true) {
-        if (!hasMore) {
-          throw Asn1Exception('Truncated high-tag-number form', offset: start);
-        }
-        if (_bytes[_offset++] & 0x80 == 0) break;
+    return using((arena) {
+      final cbs = _cbsFor(Uint8List.sublistView(_bytes, _offset), arena);
+      final element = arena<bssl.CBS>();
+      final tag = arena<bssl.CBS_ASN1_TAG>();
+      final headerLength = arena<ffi.Size>();
+      if (bssl.CBS_get_any_asn1_element(cbs, element, tag, headerLength) != 1) {
+        drainErrorQueue();
+        throw Asn1Exception('Malformed ASN.1 DER element', offset: start);
       }
-    }
-
-    if (!hasMore) {
-      throw Asn1Exception('Missing ASN.1 length octet', offset: start);
-    }
-
-    var length = _bytes[_offset++];
-    if (length & 0x80 != 0) {
-      final lengthOctets = length & 0x7F;
-      if (lengthOctets == 0) {
-        throw Asn1Exception(
-          'Indefinite length is not valid in DER',
-          offset: start,
-        );
-      }
-      if (lengthOctets > 4) {
-        throw Asn1Exception('ASN.1 length is too large', offset: start);
-      }
-      if (_offset + lengthOctets > _bytes.length) {
-        throw Asn1Exception('Truncated ASN.1 length octets', offset: start);
-      }
-      length = 0;
-      for (var i = 0; i < lengthOctets; i++) {
-        length = (length << 8) | _bytes[_offset++];
-      }
-    }
-
-    if (_offset + length > _bytes.length) {
-      throw Asn1Exception(
-        'ASN.1 contents extend past the end of the input',
-        offset: start,
+      final elementLength = element.ref.len;
+      final contents = Uint8List.fromList(
+        element.ref.data.asTypedList(elementLength).sublist(headerLength.value),
       );
-    }
-
-    final contents = Uint8List.sublistView(_bytes, _offset, _offset + length);
-    _offset += length;
-    return Asn1Value(identifier, contents);
+      _offset += elementLength;
+      return Asn1Value._(tag.value, contents);
+    });
   }
 
   /// Reads all remaining DER elements until the input is exhausted.
