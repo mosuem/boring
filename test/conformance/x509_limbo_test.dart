@@ -206,7 +206,12 @@ const _divergenceNotes = <String, String>{
       'character-for-character copy of a SAN entry, forbidding '
       'anyExtendedKeyUsage, forbidding a critical extKeyUsage, requiring an '
       'authorityKeyIdentifier on every certificate, and rejecting key usage '
-      'bits that a given key type cannot honour.',
+      'bits that a given key type cannot honour. The two RSA-2052 cases are '
+      'a deliberate omission rather than a gap: CABF requires the modulus '
+      'size to be divisible by 8, but RSA-2052 is stronger than the RSA-2048 '
+      'the same profile permits, so X509Verifier\'s key strength check, which '
+      'is about strength rather than profile conformance, does not enforce '
+      'it.',
   'unable to get local issuer certificate': _noBacktrackingNote,
   'unable to get issuer certificate': _noBacktrackingNote,
   'invalid CA certificate': _noBacktrackingNote,

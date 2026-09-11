@@ -173,6 +173,27 @@ const _weakSignatureDigests = {
   bssl.NID_sha1,
 };
 
+/// EC curves offering at least a 128-bit security level.
+///
+/// This is the same set that `IsAcceptableCurveForEcdsa` allows in BoringSSL's
+/// own newer `pki/` verifier. Weaker named curves such as P-224 are rejected,
+/// and P-192 and explicitly parameterised curves are not implemented by
+/// BoringSSL at all, so their keys fail to decode.
+const _strongEcCurves = {
+  bssl.NID_X9_62_prime256v1,
+  bssl.NID_secp384r1,
+  bssl.NID_secp521r1,
+};
+
+/// Public key algorithms whose keys are rejected outright.
+///
+/// DSA is obsolete, is forbidden by the CA/Browser Forum baseline
+/// requirements, and is absent from BoringSSL's `pki/` verifier.
+const _rejectedKeyAlgorithms = {bssl.EVP_PKEY_DSA};
+
+/// Public key algorithms whose strength is measured by [bssl.EVP_PKEY_bits].
+const _modulusSizedKeyAlgorithms = {bssl.EVP_PKEY_RSA, bssl.EVP_PKEY_RSA_PSS};
+
 /// Verifies X.509 certificate chains against trusted root certificates.
 final class X509Verifier implements ffi.Finalizable {
   static final _finalizer = ffi.NativeFinalizer(
@@ -219,9 +240,20 @@ final class X509Verifier implements ffi.Finalizable {
   /// - [insecurelyAllowWeakSignatureDigests]: If true, accepts chains signed
   ///   with MD4, MD5 or SHA-1. These digests have practical collision attacks
   ///   and are rejected by default.
+  /// - [insecurelyAllowWeakKeys]: If true, disables the public key strength
+  ///   check described under [minimumRsaKeyBits].
+  /// - [minimumRsaKeyBits]: The smallest RSA modulus to accept, defaulting to
+  ///   2048 as required by the CA/Browser Forum baseline requirements. Set to
+  ///   0 to impose no minimum. Independently of this, EC keys are accepted
+  ///   only on P-256, P-384 and P-521, DSA keys are always rejected, and a key
+  ///   BoringSSL cannot decode at all is rejected. Unless
+  ///   [insecurelyAllowWeakKeys] is set, this applies to every certificate in
+  ///   the chain including the trust anchor, whose key signs the certificate
+  ///   below it.
   ///
   /// Throws [ArgumentError] if [peerNames] contains more than one IP address or
-  /// more than one email address, or if [maxIntermediates] is negative.
+  /// more than one email address, or if [maxIntermediates] or
+  /// [minimumRsaKeyBits] is negative.
   X509VerificationResult verify({
     required X509Certificate leaf,
     List<X509Certificate> intermediates = const [],
@@ -231,11 +263,20 @@ final class X509Verifier implements ffi.Finalizable {
     X509Purpose? purpose,
     int? maxIntermediates,
     bool insecurelyAllowWeakSignatureDigests = false,
+    bool insecurelyAllowWeakKeys = false,
+    int minimumRsaKeyBits = 2048,
   }) {
     if (maxIntermediates != null && maxIntermediates < 0) {
       throw ArgumentError.value(
         maxIntermediates,
         'maxIntermediates',
+        'must not be negative',
+      );
+    }
+    if (minimumRsaKeyBits < 0) {
+      throw ArgumentError.value(
+        minimumRsaKeyBits,
+        'minimumRsaKeyBits',
         'must not be negative',
       );
     }
@@ -291,9 +332,13 @@ final class X509Verifier implements ffi.Finalizable {
           }
 
           if (bssl.X509_verify_cert(ctx) == 1) {
-            return insecurelyAllowWeakSignatureDigests
-                ? X509VerificationResult.success
-                : _checkSignatureDigests(ctx);
+            return _checkChainPolicy(
+              ctx,
+              checkSignatureDigests: !insecurelyAllowWeakSignatureDigests,
+              minimumRsaKeyBits: insecurelyAllowWeakKeys
+                  ? null
+                  : minimumRsaKeyBits,
+            );
           }
 
           final errCode = bssl.X509_STORE_CTX_get_error(ctx);
@@ -317,49 +362,133 @@ final class X509Verifier implements ffi.Finalizable {
     );
   }
 
-  /// Rejects a verified chain if any certificate in it was signed with a
-  /// digest that has a practical collision attack.
+  /// Applies the policy checks that `X509_verify_cert` does not.
   ///
-  /// BoringSSL's `X509_verify_cert` has no signature algorithm policy at all —
-  /// it has neither OpenSSL's `X509_VERIFY_PARAM_set_auth_level` nor its
-  /// `set1_sigalgs` — so this check has to happen here.
-  static X509VerificationResult _checkSignatureDigests(
-    ffi.Pointer<bssl.X509_STORE_CTX> ctx,
-  ) => using((arena) {
+  /// BoringSSL's `X509_verify_cert` has no signature algorithm policy and no
+  /// key strength policy — it has neither OpenSSL's
+  /// `X509_VERIFY_PARAM_set_auth_level` nor its `set1_sigalgs`, and the
+  /// `X509_VERIFY_PARAM_set_purpose` documentation says outright that these
+  /// security checks are the caller's responsibility. So they happen here,
+  /// over the chain BoringSSL actually built.
+  static X509VerificationResult _checkChainPolicy(
+    ffi.Pointer<bssl.X509_STORE_CTX> ctx, {
+    required bool checkSignatureDigests,
+    required int? minimumRsaKeyBits,
+  }) => using((arena) {
     final chain = checkPointer(
       bssl.X509_STORE_CTX_get0_chain(ctx),
       'X509_STORE_CTX_get0_chain',
     ).cast<bssl.OPENSSL_STACK>();
     final digestNid = arena<ffi.Int>();
 
-    // The chain runs from the leaf to the trust anchor. The anchor's own
-    // signature is never verified — it is trusted by virtue of being in the
-    // store, not by virtue of its self-signature — so its digest is
-    // irrelevant and the last element is skipped.
     final length = bssl.OPENSSL_sk_num(chain);
-    for (var depth = 0; depth < length - 1; depth++) {
+    for (var depth = 0; depth < length; depth++) {
       final cert = bssl.OPENSSL_sk_value(chain, depth).cast<bssl.X509>();
-      final signatureNid = bssl.X509_get_signature_nid(cert);
-      // Signature algorithms without a separate digest, such as Ed25519, have
-      // no cross-reference entry. Those are never weak, so leave them be.
-      if (bssl.OBJ_find_sigid_algs(signatureNid, digestNid, ffi.nullptr) != 1) {
-        continue;
-      }
-      if (!_weakSignatureDigests.contains(digestNid.value)) continue;
+      // The chain runs from the leaf to the trust anchor. The anchor's own
+      // signature is never verified — it is trusted by virtue of being in the
+      // store, not by virtue of its self-signature — so the digest it was
+      // signed with is irrelevant. Its key is not: that key verifies the
+      // certificate below it, so the key check does cover the anchor.
+      final isTrustAnchor = depth == length - 1;
 
-      final namePtr = bssl.OBJ_nid2sn(signatureNid);
-      final name = namePtr != ffi.nullptr
-          ? namePtr.cast<Utf8>().toDartString()
-          : 'NID $signatureNid';
-      return X509VerificationResult.failure(
-        bssl.X509_V_ERR_APPLICATION_VERIFICATION,
-        'certificate signed with the weak algorithm $name; pass '
-        'insecurelyAllowWeakSignatureDigests to accept it anyway',
-        errorDepth: depth,
-      );
+      final failure =
+          (checkSignatureDigests && !isTrustAnchor
+              ? _checkSignatureDigest(cert, depth, digestNid)
+              : null) ??
+          (minimumRsaKeyBits != null
+              ? _checkKeyStrength(cert, depth, minimumRsaKeyBits)
+              : null);
+      if (failure != null) return failure;
     }
     return X509VerificationResult.success;
   });
+
+  /// Rejects [cert] if it was signed with a digest that has a practical
+  /// collision attack.
+  ///
+  /// [digestNid] is scratch space for the `OBJ_find_sigid_algs` output.
+  static X509VerificationResult? _checkSignatureDigest(
+    ffi.Pointer<bssl.X509> cert,
+    int depth,
+    ffi.Pointer<ffi.Int> digestNid,
+  ) {
+    final signatureNid = bssl.X509_get_signature_nid(cert);
+    // Signature algorithms without a separate digest, such as Ed25519, have
+    // no cross-reference entry. Those are never weak, so leave them be.
+    if (bssl.OBJ_find_sigid_algs(signatureNid, digestNid, ffi.nullptr) != 1) {
+      return null;
+    }
+    if (!_weakSignatureDigests.contains(digestNid.value)) return null;
+    return X509VerificationResult.failure(
+      bssl.X509_V_ERR_APPLICATION_VERIFICATION,
+      'certificate signed with the weak algorithm ${_nidName(signatureNid)}; '
+      'pass insecurelyAllowWeakSignatureDigests to accept it anyway',
+      errorDepth: depth,
+    );
+  }
+
+  /// Rejects [cert] if its public key is too weak to be trusted.
+  static X509VerificationResult? _checkKeyStrength(
+    ffi.Pointer<bssl.X509> cert,
+    int depth,
+    int minimumRsaKeyBits,
+  ) {
+    X509VerificationResult reject(String what) =>
+        X509VerificationResult.failure(
+          bssl.X509_V_ERR_APPLICATION_VERIFICATION,
+          '$what; pass insecurelyAllowWeakKeys to accept it anyway',
+          errorDepth: depth,
+        );
+
+    // Null means the key is of a type BoringSSL does not implement, or is
+    // malformed. P-192 and explicitly parameterised curves land here. Nothing
+    // in chain building ever decodes the leaf's own key, so without this the
+    // leaf could carry an entirely unexamined key.
+    final key = bssl.X509_get0_pubkey(cert);
+    if (key == ffi.nullptr) {
+      drainErrorQueue();
+      return reject('certificate has an unsupported or malformed public key');
+    }
+
+    final algorithm = bssl.EVP_PKEY_id(key);
+    if (_rejectedKeyAlgorithms.contains(algorithm)) {
+      return reject(
+        'certificate has a ${_nidName(algorithm)} key, which is not accepted',
+      );
+    }
+    if (_modulusSizedKeyAlgorithms.contains(algorithm)) {
+      final bits = bssl.EVP_PKEY_bits(key);
+      if (bits < minimumRsaKeyBits) {
+        return reject(
+          'certificate has a $bits-bit ${_nidName(algorithm)} key, below the '
+          '$minimumRsaKeyBits-bit minimum',
+        );
+      }
+      return null;
+    }
+    if (algorithm == bssl.EVP_PKEY_EC) {
+      final curve = bssl.EVP_PKEY_get_ec_curve_nid(key);
+      if (!_strongEcCurves.contains(curve)) {
+        return reject(
+          'certificate has an EC key on ${_nidName(curve)}, which is below a '
+          '128-bit security level',
+        );
+      }
+    }
+    // Anything else — Ed25519, ML-DSA, algorithms added to BoringSSL later —
+    // is left alone. This deliberately differs from the allow-list in
+    // BoringSSL's `pki/` verifier, which rejects unrecognised algorithms: the
+    // point here is to catch keys that are demonstrably weak, not to enforce
+    // a web PKI profile, and rejecting an unrecognised algorithm as weak
+    // would be a guess.
+    return null;
+  }
+
+  /// The short name for [nid], for use in error messages.
+  static String _nidName(int nid) {
+    final ptr = bssl.OBJ_nid2sn(nid);
+    return ptr != ffi.nullptr ? ptr.cast<Utf8>().toDartString() : 'NID $nid';
+  }
 
   /// Configures the expected peer names on [param].
   static void _applyPeerNames(

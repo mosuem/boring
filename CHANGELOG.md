@@ -4,7 +4,7 @@
 package is validated against the [x509-limbo](https://x509-limbo.com) path
 validation suite.
 
-- `X509Verifier.verify` gained five options:
+- `X509Verifier.verify` gained seven options:
   - `peerNames`: names the leaf must assert, as `X509PeerName.dnsName`,
     `X509PeerName.ipAddress` or `X509PeerName.emailAddress`. Several DNS names
     are matched with OR semantics.
@@ -16,6 +16,8 @@ validation suite.
   - `maxIntermediates`: a chain length limit, excluding leaf and trust anchor.
   - `insecurelyAllowWeakSignatureDigests`: opts out of the weak digest
     rejection described below.
+  - `insecurelyAllowWeakKeys` and `minimumRsaKeyBits`: opt out of, and tune,
+    the key strength rejection described below.
 - **Behaviour change:** `X509Verifier.verify` now rejects a chain containing a
   certificate signed with MD4, MD5 or SHA-1. `X509_verify_cert` applies no
   signature algorithm policy of its own — BoringSSL has neither OpenSSL's
@@ -23,6 +25,14 @@ validation suite.
   chain is walked afterwards. The trust anchor is exempt, since its
   self-signature is never verified. Pass
   `insecurelyAllowWeakSignatureDigests: true` to restore the old behaviour.
+- **Behaviour change:** the same walk now also rejects weak public keys: RSA
+  below `minimumRsaKeyBits` (2048 by default, as the CA/Browser Forum baseline
+  requirements demand), EC on any curve other than P-256, P-384 and P-521, DSA,
+  and keys BoringSSL cannot decode at all such as P-192. Unlike the digest
+  check this includes the trust anchor, whose key signs the certificate below
+  it. Ed25519, ML-DSA and future algorithms are deliberately left alone rather
+  than rejected as unrecognised. Pass `insecurelyAllowWeakKeys: true` to
+  restore the old behaviour.
 - `X509VerificationResult` gained `errorDepth`, the position in the chain at
   which verification failed.
 - `X509Certificate` gained `signatureAlgorithm` (OID) and
