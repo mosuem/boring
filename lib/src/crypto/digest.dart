@@ -99,6 +99,10 @@ abstract final class BoringDigest {
     return ctx.finalize();
   }
 
+  /// Computes the hash of [data] using [algorithm]. Alias for [hash].
+  static Uint8List digest(HashAlgorithm algorithm, Uint8List data) =>
+      hash(algorithm, data);
+
   /// Computes the SHA-256 hash of [data].
   static Uint8List sha256(Uint8List data) => hash(HashAlgorithm.sha256, data);
 
