@@ -5,6 +5,7 @@
 import 'dart:ffi' as ffi;
 import 'package:ffi/ffi.dart';
 import '../bindings/boringssl.g.dart' as bssl;
+import '../ffi/arena.dart';
 import '../ffi/error.dart';
 import 'certificate.dart';
 
@@ -73,10 +74,11 @@ final class X509Verifier implements ffi.Finalizable {
     required X509Certificate leaf,
     List<X509Certificate> intermediates = const [],
     DateTime? checkTime,
-  }) {
-    final ctx = bssl.X509_STORE_CTX_new();
-    checkPointer(ctx, 'X509_STORE_CTX_new');
-    try {
+  }) => withResource(
+    create: bssl.X509_STORE_CTX_new,
+    destroy: bssl.X509_STORE_CTX_free,
+    operation: 'X509_STORE_CTX_new',
+    body: (ctx) {
       ffi.Pointer<bssl.stack_st_X509> chainPtr = ffi.nullptr;
       ffi.Pointer<bssl.OPENSSL_STACK> rawStack = ffi.nullptr;
 
@@ -103,12 +105,12 @@ final class X509Verifier implements ffi.Finalizable {
           bssl.X509_STORE_CTX_set_time_posix(ctx, 0, epochSeconds);
         }
 
-        final verifyRet = bssl.X509_verify_cert(ctx);
-        if (verifyRet == 1) {
+        if (bssl.X509_verify_cert(ctx) == 1) {
           return X509VerificationResult.success;
         }
 
         final errCode = bssl.X509_STORE_CTX_get_error(ctx);
+        // X509_verify_cert_error_string returns a static string; do not free.
         final errStrPtr = bssl.X509_verify_cert_error_string(errCode);
         final message = errStrPtr != ffi.nullptr
             ? errStrPtr.cast<Utf8>().toDartString()
@@ -120,8 +122,6 @@ final class X509Verifier implements ffi.Finalizable {
           bssl.OPENSSL_sk_free(rawStack);
         }
       }
-    } finally {
-      bssl.X509_STORE_CTX_free(ctx);
-    }
-  }
+    },
+  );
 }

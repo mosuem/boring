@@ -9,6 +9,7 @@ import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 
 import '../bindings/boringssl.g.dart' as bssl;
+import '../ffi/arena.dart';
 import '../ffi/error.dart';
 
 /// Thrown when ASN.1 DER data is malformed or cannot be decoded.
@@ -146,15 +147,16 @@ final class Asn1Value {
   /// alternative rather than the string type, so the underlying type is assumed
   /// to be `UTF8String` unless [stringType] is given. Pass one of the
   /// [Asn1Tag] string constants to override it.
-  String asString({int? stringType}) => using((arena) {
+  String asString({int? stringType}) => withResource(
     // ASN1_STRING_to_UTF8 dispatches on the ASN1_STRING's type field, which
     // uses the same numbering as universal ASN.1 tags.
-    final type =
-        stringType ??
-        (tagClass == Asn1Class.universal ? tagNumber : Asn1Tag.utf8String);
-    final str = bssl.ASN1_STRING_type_new(type);
-    checkPointer(str, 'ASN1_STRING_type_new');
-    try {
+    create: () => bssl.ASN1_STRING_type_new(
+      stringType ??
+          (tagClass == Asn1Class.universal ? tagNumber : Asn1Tag.utf8String),
+    ),
+    destroy: bssl.ASN1_STRING_free,
+    operation: 'ASN1_STRING_type_new',
+    body: (str) => using((arena) {
       final buf = arena<ffi.Uint8>(contents.length);
       buf.asTypedList(contents.length).setAll(0, contents);
       if (bssl.ASN1_STRING_set(str.cast(), buf.cast(), contents.length) != 1) {
@@ -171,10 +173,8 @@ final class Asn1Value {
       } finally {
         bssl.OPENSSL_free(out.value.cast());
       }
-    } finally {
-      bssl.ASN1_STRING_free(str.cast());
-    }
-  });
+    }),
+  );
 
   /// Decodes [contents] as a signed big-endian `INTEGER`.
   ///
@@ -185,22 +185,19 @@ final class Asn1Value {
     if (bssl.CBS_is_valid_asn1_integer(cbs, isNegative) != 1) {
       throw const Asn1Exception('Value is not a valid ASN.1 INTEGER');
     }
-    final bn = bssl.BN_bin2bn(cbs.ref.data, cbs.ref.len, ffi.nullptr);
-    checkPointer(bn, 'BN_bin2bn');
-    try {
-      final text = bssl.BN_bn2dec(bn);
-      checkPointer(text, 'BN_bn2dec');
-      try {
-        final magnitude = BigInt.parse(text.cast<Utf8>().toDartString());
+    return withResource(
+      create: () => bssl.BN_bin2bn(cbs.ref.data, cbs.ref.len, ffi.nullptr),
+      destroy: bssl.BN_free,
+      operation: 'BN_bin2bn',
+      body: (bn) {
+        final magnitude = BigInt.parse(
+          takeOwnedString(bssl.BN_bn2dec(bn), 'BN_bn2dec'),
+        );
         if (isNegative.value == 0) return magnitude;
         // DER encodes negatives in two's complement over the same width.
         return magnitude - (BigInt.one << (contents.length * 8));
-      } finally {
-        bssl.OPENSSL_free(text.cast());
-      }
-    } finally {
-      bssl.BN_free(bn);
-    }
+      },
+    );
   });
 
   /// Decodes [contents] as a `BOOLEAN`.
@@ -220,19 +217,14 @@ final class Asn1Value {
 
   /// Decodes [contents] as a dotted-decimal `OBJECT IDENTIFIER` string.
   String asObjectIdentifier() => using((arena) {
-    final cbs = _cbsFor(contents, arena);
-    final text = bssl.CBS_asn1_oid_to_text(cbs);
+    final text = bssl.CBS_asn1_oid_to_text(_cbsFor(contents, arena));
     if (text == ffi.nullptr) {
       drainErrorQueue();
       throw const Asn1Exception(
         'Value is not a valid ASN.1 OBJECT IDENTIFIER',
       );
     }
-    try {
-      return text.cast<Utf8>().toDartString();
-    } finally {
-      bssl.OPENSSL_free(text.cast());
-    }
+    return takeOwnedString(text, 'CBS_asn1_oid_to_text');
   });
 
   /// Parses [contents] as a sequence of nested DER elements.

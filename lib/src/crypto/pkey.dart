@@ -36,21 +36,6 @@ enum KeyType {
   };
 }
 
-String _readBioString(ffi.Pointer<bssl.BIO> bio) {
-  final buffer = calloc<ffi.Uint8>(1024);
-  try {
-    final sb = StringBuffer();
-    while (true) {
-      final read = bssl.BIO_read(bio, buffer.cast(), 1024);
-      if (read <= 0) break;
-      sb.write(utf8.decode(buffer.asTypedList(read)));
-    }
-    return sb.toString();
-  } finally {
-    calloc.free(buffer);
-  }
-}
-
 /// Public asymmetric cryptographic key (RSA, ECDSA, Ed25519).
 final class BoringPublicKey implements ffi.Finalizable {
   static final _finalizer = ffi.NativeFinalizer(
@@ -93,56 +78,36 @@ final class BoringPublicKey implements ffi.Finalizable {
   }
 
   /// Parses a PEM-encoded SubjectPublicKeyInfo (`-----BEGIN PUBLIC KEY-----`).
-  factory BoringPublicKey.fromPem(String pem) {
-    final pemBytes = utf8.encode(pem);
-    return using((arena) {
-      final buffer = copyBytesToNative(Uint8List.fromList(pemBytes), arena);
-      final bio = bssl.BIO_new_mem_buf(buffer.cast(), pemBytes.length);
-      checkPointer(bio, 'BIO_new_mem_buf');
-      try {
-        final pkey = bssl.PEM_read_bio_PUBKEY(
-          bio,
-          ffi.nullptr,
-          ffi.nullptr,
-          ffi.nullptr,
-        );
-        checkPointer(pkey, 'PEM_read_bio_PUBKEY');
-        return BoringPublicKey._(pkey);
-      } finally {
-        bssl.BIO_free(bio);
-      }
-    });
-  }
+  factory BoringPublicKey.fromPem(String pem) => withMemBufBio(
+    Uint8List.fromList(utf8.encode(pem)),
+    (bio) {
+      final pkey = bssl.PEM_read_bio_PUBKEY(
+        bio,
+        ffi.nullptr,
+        ffi.nullptr,
+        ffi.nullptr,
+      );
+      checkPointer(pkey, 'PEM_read_bio_PUBKEY');
+      return BoringPublicKey._(pkey);
+    },
+  );
 
   /// Exports this public key as DER-encoded SubjectPublicKeyInfo.
-  Uint8List toDer() {
+  Uint8List toDer() => using((arena) {
     final len = bssl.i2d_PUBKEY(_pkey, ffi.nullptr);
-    if (len <= 0) {
-      checkBssl(0, 'i2d_PUBKEY');
-    }
-    return using((arena) {
-      final buffer = arena<ffi.Uint8>(len);
-      final outPtr = arena<ffi.Pointer<ffi.Uint8>>();
-      outPtr.value = buffer;
-      final written = bssl.i2d_PUBKEY(_pkey, outPtr);
-      checkBssl(written > 0 ? 1 : 0, 'i2d_PUBKEY');
-      return Uint8List.fromList(buffer.asTypedList(written));
-    });
-  }
+    checkBssl(len > 0 ? 1 : 0, 'i2d_PUBKEY');
+    final buffer = arena<ffi.Uint8>(len);
+    final outPtr = arena<ffi.Pointer<ffi.Uint8>>()..value = buffer;
+    final written = bssl.i2d_PUBKEY(_pkey, outPtr);
+    checkBssl(written > 0 ? 1 : 0, 'i2d_PUBKEY');
+    return Uint8List.fromList(buffer.asTypedList(written));
+  });
 
   /// Exports this public key as PEM-encoded SubjectPublicKeyInfo.
-  String toPem() {
-    final memMethod = bssl.BIO_s_mem();
-    final bio = bssl.BIO_new(memMethod);
-    checkPointer(bio, 'BIO_new');
-    try {
-      final ret = bssl.PEM_write_bio_PUBKEY(bio, _pkey);
-      checkBssl(ret, 'PEM_write_bio_PUBKEY');
-      return _readBioString(bio);
-    } finally {
-      bssl.BIO_free(bio);
-    }
-  }
+  String toPem() => withMemBioString(
+    'PEM_write_bio_PUBKEY',
+    (bio) => bssl.PEM_write_bio_PUBKEY(bio, _pkey),
+  );
 
   /// Verifies a digital [signature] over [data].
   ///
@@ -153,38 +118,33 @@ final class BoringPublicKey implements ffi.Finalizable {
     HashAlgorithm? algorithm,
     required Uint8List data,
     required Uint8List signature,
-  }) {
-    final ctx = bssl.EVP_MD_CTX_new();
-    checkPointer(ctx, 'EVP_MD_CTX_new');
-    try {
-      final md = algorithm?.evpMd ?? ffi.nullptr;
-      final initRet = bssl.EVP_DigestVerifyInit(
-        ctx,
-        ffi.nullptr,
-        md,
-        ffi.nullptr,
-        _pkey,
+  }) => withResource(
+    create: bssl.EVP_MD_CTX_new,
+    destroy: bssl.EVP_MD_CTX_free,
+    operation: 'EVP_MD_CTX_new',
+    body: (ctx) {
+      checkBssl(
+        bssl.EVP_DigestVerifyInit(
+          ctx,
+          ffi.nullptr,
+          algorithm?.evpMd ?? ffi.nullptr,
+          ffi.nullptr,
+          _pkey,
+        ),
+        'EVP_DigestVerifyInit',
       );
-      checkBssl(initRet, 'EVP_DigestVerifyInit');
-
       return using((arena) {
-        final sigPtr = copyBytesToNative(signature, arena);
-        final dataPtr = data.isNotEmpty
-            ? copyBytesToNative(data, arena)
-            : ffi.nullptr;
         final verifyRet = bssl.EVP_DigestVerify(
           ctx,
-          sigPtr,
+          copyBytesToNative(signature, arena),
           signature.length,
-          dataPtr,
+          copyBytesOrNull(data, arena),
           data.length,
         );
         return verifyRet == 1;
       });
-    } finally {
-      bssl.EVP_MD_CTX_free(ctx);
-    }
-  }
+    },
+  );
 }
 
 /// Private asymmetric cryptographic key (RSA, ECDSA, Ed25519).
@@ -257,65 +217,45 @@ final class BoringPrivateKey implements ffi.Finalizable {
 
   /// Parses a PEM-encoded private key (`-----BEGIN PRIVATE KEY-----` or
   /// `-----BEGIN RSA PRIVATE KEY-----` or `-----BEGIN EC PRIVATE KEY-----`).
-  factory BoringPrivateKey.fromPem(String pem) {
-    final pemBytes = utf8.encode(pem);
-    return using((arena) {
-      final buffer = copyBytesToNative(Uint8List.fromList(pemBytes), arena);
-      final bio = bssl.BIO_new_mem_buf(buffer.cast(), pemBytes.length);
-      checkPointer(bio, 'BIO_new_mem_buf');
-      try {
-        final pkey = bssl.PEM_read_bio_PrivateKey(
-          bio,
-          ffi.nullptr,
-          ffi.nullptr,
-          ffi.nullptr,
-        );
-        checkPointer(pkey, 'PEM_read_bio_PrivateKey');
-        return BoringPrivateKey._(pkey);
-      } finally {
-        bssl.BIO_free(bio);
-      }
-    });
-  }
-
-  /// Exports this private key as DER-encoded PKCS#8 or type-specific format.
-  Uint8List toDer() {
-    final len = bssl.i2d_PrivateKey(_pkey, ffi.nullptr);
-    if (len <= 0) {
-      checkBssl(0, 'i2d_PrivateKey');
-    }
-    return using((arena) {
-      final buffer = arena<ffi.Uint8>(len);
-      final outPtr = arena<ffi.Pointer<ffi.Uint8>>();
-      outPtr.value = buffer;
-      final written = bssl.i2d_PrivateKey(_pkey, outPtr);
-      checkBssl(written > 0 ? 1 : 0, 'i2d_PrivateKey');
-      return Uint8List.fromList(buffer.asTypedList(written));
-    });
-  }
-
-  /// Exports this private key as PEM-encoded PKCS#8
-  /// (`-----BEGIN PRIVATE KEY-----`).
-  String toPem() {
-    final memMethod = bssl.BIO_s_mem();
-    final bio = bssl.BIO_new(memMethod);
-    checkPointer(bio, 'BIO_new');
-    try {
-      final ret = bssl.PEM_write_bio_PKCS8PrivateKey(
+  factory BoringPrivateKey.fromPem(String pem) => withMemBufBio(
+    Uint8List.fromList(utf8.encode(pem)),
+    (bio) {
+      final pkey = bssl.PEM_read_bio_PrivateKey(
         bio,
-        _pkey,
         ffi.nullptr,
-        ffi.nullptr,
-        0,
         ffi.nullptr,
         ffi.nullptr,
       );
-      checkBssl(ret, 'PEM_write_bio_PKCS8PrivateKey');
-      return _readBioString(bio);
-    } finally {
-      bssl.BIO_free(bio);
-    }
-  }
+      checkPointer(pkey, 'PEM_read_bio_PrivateKey');
+      return BoringPrivateKey._(pkey);
+    },
+  );
+
+  /// Exports this private key as DER-encoded PKCS#8 or type-specific format.
+  Uint8List toDer() => using((arena) {
+    final len = bssl.i2d_PrivateKey(_pkey, ffi.nullptr);
+    checkBssl(len > 0 ? 1 : 0, 'i2d_PrivateKey');
+    final buffer = arena<ffi.Uint8>(len);
+    final outPtr = arena<ffi.Pointer<ffi.Uint8>>()..value = buffer;
+    final written = bssl.i2d_PrivateKey(_pkey, outPtr);
+    checkBssl(written > 0 ? 1 : 0, 'i2d_PrivateKey');
+    return Uint8List.fromList(buffer.asTypedList(written));
+  });
+
+  /// Exports this private key as PEM-encoded PKCS#8
+  /// (`-----BEGIN PRIVATE KEY-----`).
+  String toPem() => withMemBioString(
+    'PEM_write_bio_PKCS8PrivateKey',
+    (bio) => bssl.PEM_write_bio_PKCS8PrivateKey(
+      bio,
+      _pkey,
+      ffi.nullptr,
+      ffi.nullptr,
+      0,
+      ffi.nullptr,
+      ffi.nullptr,
+    ),
+  );
 
   /// Generates a digital signature over [data].
   ///
@@ -324,51 +264,29 @@ final class BoringPrivateKey implements ffi.Finalizable {
   Uint8List sign({
     HashAlgorithm? algorithm,
     required Uint8List data,
-  }) {
-    final ctx = bssl.EVP_MD_CTX_new();
-    checkPointer(ctx, 'EVP_MD_CTX_new');
-    try {
-      final md = algorithm?.evpMd ?? ffi.nullptr;
-      final initRet = bssl.EVP_DigestSignInit(
-        ctx,
-        ffi.nullptr,
-        md,
-        ffi.nullptr,
-        _pkey,
-      );
-      checkBssl(initRet, 'EVP_DigestSignInit');
-
-      return using((arena) {
-        final sigLenPtr = arena<ffi.Size>();
-        final dataPtr = data.isNotEmpty
-            ? copyBytesToNative(data, arena)
-            : ffi.nullptr;
-
-        // Query maximum signature length
-        final sizeRet = bssl.EVP_DigestSign(
+  }) => withResource(
+    create: bssl.EVP_MD_CTX_new,
+    destroy: bssl.EVP_MD_CTX_free,
+    operation: 'EVP_MD_CTX_new',
+    body: (ctx) {
+      checkBssl(
+        bssl.EVP_DigestSignInit(
           ctx,
           ffi.nullptr,
-          sigLenPtr,
-          dataPtr,
-          data.length,
+          algorithm?.evpMd ?? ffi.nullptr,
+          ffi.nullptr,
+          _pkey,
+        ),
+        'EVP_DigestSignInit',
+      );
+      return using((arena) {
+        final dataPtr = copyBytesOrNull(data, arena);
+        return withOutputBuffer(
+          'EVP_DigestSign',
+          (out, len) =>
+              bssl.EVP_DigestSign(ctx, out, len, dataPtr, data.length),
         );
-        checkBssl(sizeRet, 'EVP_DigestSign size query');
-
-        final maxSigLen = sigLenPtr.value;
-        final sigBuf = arena<ffi.Uint8>(maxSigLen);
-
-        final signRet = bssl.EVP_DigestSign(
-          ctx,
-          sigBuf,
-          sigLenPtr,
-          dataPtr,
-          data.length,
-        );
-        checkBssl(signRet, 'EVP_DigestSign');
-        return Uint8List.fromList(sigBuf.asTypedList(sigLenPtr.value));
       });
-    } finally {
-      bssl.EVP_MD_CTX_free(ctx);
-    }
-  }
+    },
+  );
 }

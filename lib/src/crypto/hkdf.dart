@@ -4,7 +4,6 @@
 
 import 'dart:ffi' as ffi;
 import 'dart:typed_data';
-import 'package:ffi/ffi.dart';
 import '../bindings/boringssl.g.dart' as bssl;
 import '../ffi/arena.dart';
 import '../ffi/error.dart';
@@ -38,29 +37,22 @@ abstract final class BoringHkdf {
       return Uint8List(0);
     }
 
-    return using((arena) {
-      final outBuffer = arena<ffi.Uint8>(length);
-      final ikmPtr = copyBytesToNative(ikm, arena);
-      final saltPtr = salt != null && salt.isNotEmpty
-          ? copyBytesToNative(salt, arena)
-          : ffi.nullptr;
-      final infoPtr = info != null && info.isNotEmpty
-          ? copyBytesToNative(info, arena)
-          : ffi.nullptr;
-
-      final ret = bssl.HKDF(
-        outBuffer,
-        length,
-        algorithm.evpMd,
-        ikmPtr,
-        ikm.length,
-        saltPtr,
-        salt?.length ?? 0,
-        infoPtr,
-        info?.length ?? 0,
+    return withSizedOutput(length, (out, arena) {
+      checkBssl(
+        bssl.HKDF(
+          out,
+          length,
+          algorithm.evpMd,
+          copyBytesToNative(ikm, arena),
+          ikm.length,
+          copyBytesOrNull(salt, arena),
+          salt?.length ?? 0,
+          copyBytesOrNull(info, arena),
+          info?.length ?? 0,
+        ),
+        'HKDF',
       );
-      checkBssl(ret, 'HKDF');
-      return Uint8List.fromList(outBuffer.asTypedList(length));
+      return length;
     });
   }
 
@@ -69,28 +61,22 @@ abstract final class BoringHkdf {
     required HashAlgorithm algorithm,
     required Uint8List ikm,
     Uint8List? salt,
-  }) {
-    return using((arena) {
-      final outBuffer = arena<ffi.Uint8>(algorithm.digestLength);
-      final outLenPtr = arena<ffi.Size>();
-      final ikmPtr = copyBytesToNative(ikm, arena);
-      final saltPtr = salt != null && salt.isNotEmpty
-          ? copyBytesToNative(salt, arena)
-          : ffi.nullptr;
-
-      final ret = bssl.HKDF_extract(
-        outBuffer,
-        outLenPtr,
+  }) => withSizedOutput(algorithm.digestLength, (out, arena) {
+    final outLen = arena<ffi.Size>();
+    checkBssl(
+      bssl.HKDF_extract(
+        out,
+        outLen,
         algorithm.evpMd,
-        ikmPtr,
+        copyBytesToNative(ikm, arena),
         ikm.length,
-        saltPtr,
+        copyBytesOrNull(salt, arena),
         salt?.length ?? 0,
-      );
-      checkBssl(ret, 'HKDF_extract');
-      return Uint8List.fromList(outBuffer.asTypedList(outLenPtr.value));
-    });
-  }
+      ),
+      'HKDF_extract',
+    );
+    return outLen.value;
+  });
 
   /// Expands a pseudorandom key [prk] into [length] bytes of key material.
   static Uint8List expand({
@@ -110,24 +96,20 @@ abstract final class BoringHkdf {
       return Uint8List(0);
     }
 
-    return using((arena) {
-      final outBuffer = arena<ffi.Uint8>(length);
-      final prkPtr = copyBytesToNative(prk, arena);
-      final infoPtr = info != null && info.isNotEmpty
-          ? copyBytesToNative(info, arena)
-          : ffi.nullptr;
-
-      final ret = bssl.HKDF_expand(
-        outBuffer,
-        length,
-        algorithm.evpMd,
-        prkPtr,
-        prk.length,
-        infoPtr,
-        info?.length ?? 0,
+    return withSizedOutput(length, (out, arena) {
+      checkBssl(
+        bssl.HKDF_expand(
+          out,
+          length,
+          algorithm.evpMd,
+          copyBytesToNative(prk, arena),
+          prk.length,
+          copyBytesOrNull(info, arena),
+          info?.length ?? 0,
+        ),
+        'HKDF_expand',
       );
-      checkBssl(ret, 'HKDF_expand');
-      return Uint8List.fromList(outBuffer.asTypedList(length));
+      return length;
     });
   }
 }

@@ -26,6 +26,13 @@ wrapper rather than a reimplementation.
   slicing the `GeneralizedTime` string in Dart.
 - Fixed `X509Extension.stringValue` mangling non-ASCII values in the raw
   (non-DER) fallback path, which decoded UTF-8 bytes as UTF-16 code units.
+- Internal: the repeated FFI marshalling patterns are now shared combinators
+  (`withResource`, `withOutputBuffer`, `withSizedOutput`, `takeOwnedString`,
+  `withMemBioString`, `withMemBufBio`), removing every hand-written
+  `try`/`finally` around a BoringSSL `X_new` / `X_free` pair and the
+  duplicated BIO-to-string reader. This also fixes a latent bug in that reader,
+  which decoded UTF-8 in fixed 1 KiB chunks and could split a multi-byte
+  sequence across a chunk boundary.
 
 ## 0.2.0
 

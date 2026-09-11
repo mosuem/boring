@@ -6,6 +6,7 @@ import 'dart:ffi' as ffi;
 import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 import '../bindings/boringssl.g.dart' as bssl;
+import '../ffi/arena.dart';
 import '../ffi/error.dart';
 
 /// Supported message digest algorithms.
@@ -78,20 +79,14 @@ final class DigestContext implements ffi.Finalizable {
       throw StateError('DigestContext already finalized.');
     }
     _isFinalized = true;
-    final outLen = algorithm.digestLength;
-    final result = Uint8List(outLen);
-    using((arena) {
-      final outBuffer = arena<ffi.Uint8>(outLen);
-      final outLenPtr = arena<ffi.UnsignedInt>();
-      final ret = bssl.EVP_DigestFinal_ex(
-        _ctx,
-        outBuffer,
-        outLenPtr,
+    return withSizedOutput(algorithm.digestLength, (out, arena) {
+      final outLen = arena<ffi.UnsignedInt>();
+      checkBssl(
+        bssl.EVP_DigestFinal_ex(_ctx, out, outLen),
+        'EVP_DigestFinal_ex',
       );
-      checkBssl(ret, 'EVP_DigestFinal_ex');
-      result.setAll(0, outBuffer.asTypedList(outLenPtr.value));
+      return outLen.value;
     });
-    return result;
   }
 }
 

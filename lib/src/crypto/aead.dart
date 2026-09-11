@@ -75,41 +75,26 @@ final class BoringAead implements ffi.Finalizable {
     required Uint8List plaintext,
     Uint8List? additionalData,
   }) {
-    if (nonce.length != algorithm.nonceLength) {
-      throw ArgumentError.value(
-        nonce.length,
-        'nonce',
-        'Nonce length must be ${algorithm.nonceLength} bytes for '
-            '${algorithm.name}',
-      );
-    }
-
+    _checkNonce(nonce);
     final maxOutLen = plaintext.length + algorithm.maxOverhead;
-    return using((arena) {
-      final outBuffer = arena<ffi.Uint8>(maxOutLen);
-      final outLenPtr = arena<ffi.Size>();
-      final noncePtr = copyBytesToNative(nonce, arena);
-      final inPtr = plaintext.isNotEmpty
-          ? copyBytesToNative(plaintext, arena)
-          : ffi.nullptr;
-      final adPtr = additionalData != null && additionalData.isNotEmpty
-          ? copyBytesToNative(additionalData, arena)
-          : ffi.nullptr;
-
-      final ret = bssl.EVP_AEAD_CTX_seal(
-        _ctx,
-        outBuffer,
-        outLenPtr,
-        maxOutLen,
-        noncePtr,
-        nonce.length,
-        inPtr,
-        plaintext.length,
-        adPtr,
-        additionalData?.length ?? 0,
+    return withSizedOutput(maxOutLen, (out, arena) {
+      final outLen = arena<ffi.Size>();
+      checkBssl(
+        bssl.EVP_AEAD_CTX_seal(
+          _ctx,
+          out,
+          outLen,
+          maxOutLen,
+          copyBytesToNative(nonce, arena),
+          nonce.length,
+          copyBytesOrNull(plaintext, arena),
+          plaintext.length,
+          copyBytesOrNull(additionalData, arena),
+          additionalData?.length ?? 0,
+        ),
+        'EVP_AEAD_CTX_seal',
       );
-      checkBssl(ret, 'EVP_AEAD_CTX_seal');
-      return Uint8List.fromList(outBuffer.asTypedList(outLenPtr.value));
+      return outLen.value;
     });
   }
 
@@ -122,6 +107,29 @@ final class BoringAead implements ffi.Finalizable {
     required Uint8List ciphertext,
     Uint8List? additionalData,
   }) {
+    _checkNonce(nonce);
+    return withSizedOutput(ciphertext.length, (out, arena) {
+      final outLen = arena<ffi.Size>();
+      checkBssl(
+        bssl.EVP_AEAD_CTX_open(
+          _ctx,
+          out,
+          outLen,
+          ciphertext.length,
+          copyBytesToNative(nonce, arena),
+          nonce.length,
+          copyBytesOrNull(ciphertext, arena),
+          ciphertext.length,
+          copyBytesOrNull(additionalData, arena),
+          additionalData?.length ?? 0,
+        ),
+        'EVP_AEAD_CTX_open',
+      );
+      return outLen.value;
+    });
+  }
+
+  void _checkNonce(Uint8List nonce) {
     if (nonce.length != algorithm.nonceLength) {
       throw ArgumentError.value(
         nonce.length,
@@ -130,33 +138,5 @@ final class BoringAead implements ffi.Finalizable {
             '${algorithm.name}',
       );
     }
-
-    final maxOutLen = ciphertext.length;
-    return using((arena) {
-      final outBuffer = arena<ffi.Uint8>(maxOutLen);
-      final outLenPtr = arena<ffi.Size>();
-      final noncePtr = copyBytesToNative(nonce, arena);
-      final inPtr = ciphertext.isNotEmpty
-          ? copyBytesToNative(ciphertext, arena)
-          : ffi.nullptr;
-      final adPtr = additionalData != null && additionalData.isNotEmpty
-          ? copyBytesToNative(additionalData, arena)
-          : ffi.nullptr;
-
-      final ret = bssl.EVP_AEAD_CTX_open(
-        _ctx,
-        outBuffer,
-        outLenPtr,
-        maxOutLen,
-        noncePtr,
-        nonce.length,
-        inPtr,
-        ciphertext.length,
-        adPtr,
-        additionalData?.length ?? 0,
-      );
-      checkBssl(ret, 'EVP_AEAD_CTX_open');
-      return Uint8List.fromList(outBuffer.asTypedList(outLenPtr.value));
-    });
   }
 }

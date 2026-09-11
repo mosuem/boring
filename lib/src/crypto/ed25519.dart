@@ -79,20 +79,17 @@ abstract final class BoringEd25519 {
         'Private key must be $ed25519PrivateKeyLength bytes',
       );
     }
-    return using((arena) {
-      final privPtr = copyBytesToNative(privateKey, arena);
-      final msgPtr = message.isNotEmpty
-          ? copyBytesToNative(message, arena)
-          : ffi.nullptr;
-      final sigPtr = arena<ffi.Uint8>(ed25519SignatureLength);
-      final ret = bssl.ED25519_sign(
-        sigPtr,
-        msgPtr,
-        message.length,
-        privPtr,
+    return withSizedOutput(ed25519SignatureLength, (out, arena) {
+      checkBssl(
+        bssl.ED25519_sign(
+          out,
+          copyBytesOrNull(message, arena),
+          message.length,
+          copyBytesToNative(privateKey, arena),
+        ),
+        'ED25519_sign',
       );
-      checkBssl(ret, 'ED25519_sign');
-      return Uint8List.fromList(sigPtr.asTypedList(ed25519SignatureLength));
+      return ed25519SignatureLength;
     });
   }
 
@@ -107,16 +104,11 @@ abstract final class BoringEd25519 {
       return false;
     }
     return using((arena) {
-      final pubPtr = copyBytesToNative(publicKey, arena);
-      final msgPtr = message.isNotEmpty
-          ? copyBytesToNative(message, arena)
-          : ffi.nullptr;
-      final sigPtr = copyBytesToNative(signature, arena);
       final ret = bssl.ED25519_verify(
-        msgPtr,
+        copyBytesOrNull(message, arena),
         message.length,
-        sigPtr,
-        pubPtr,
+        copyBytesToNative(signature, arena),
+        copyBytesToNative(publicKey, arena),
       );
       return ret == 1;
     });

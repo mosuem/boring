@@ -58,16 +58,11 @@ final class HmacContext implements ffi.Finalizable {
       throw StateError('HmacContext already finalized.');
     }
     _isFinalized = true;
-    final outLen = algorithm.digestLength;
-    final result = Uint8List(outLen);
-    using((arena) {
-      final outBuffer = arena<ffi.Uint8>(outLen);
-      final outLenPtr = arena<ffi.UnsignedInt>();
-      final ret = bssl.HMAC_Final(_ctx, outBuffer, outLenPtr);
-      checkBssl(ret, 'HMAC_Final');
-      result.setAll(0, outBuffer.asTypedList(outLenPtr.value));
+    return withSizedOutput(algorithm.digestLength, (out, arena) {
+      final outLen = arena<ffi.UnsignedInt>();
+      checkBssl(bssl.HMAC_Final(_ctx, out, outLen), 'HMAC_Final');
+      return outLen.value;
     });
-    return result;
   }
 }
 
