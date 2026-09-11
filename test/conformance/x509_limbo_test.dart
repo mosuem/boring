@@ -164,11 +164,23 @@ const _accepted = '<accepted>';
       purpose: testcase.purpose,
       maxIntermediates: testcase.maxChainDepth,
     );
-    return (result.isValid, result.errorMessage ?? _accepted);
+    return (result.isValid, _canonicalReason(result.errorMessage ?? _accepted));
   } on Exception catch (e) {
     return (false, 'the input could not be parsed: $e');
   }
 }
+
+/// The grouping key for [X509Verifier]'s weak signature digest rejection.
+const _weakDigestReason = 'signed with a weak signature digest';
+
+/// Collapses a reason into the key used to group and explain it.
+///
+/// The weak digest rejection names the offending algorithm, which would
+/// otherwise split one explanation across a group per algorithm.
+String _canonicalReason(String reason) =>
+    reason.startsWith('certificate signed with the weak algorithm')
+    ? _weakDigestReason
+    : reason;
 
 /// Why BoringSSL diverges from the suite, keyed by the reason it reports.
 ///
@@ -194,16 +206,13 @@ const _divergenceNotes = <String, String>{
       'character-for-character copy of a SAN entry, forbidding '
       'anyExtendedKeyUsage, forbidding a critical extKeyUsage, requiring an '
       'authorityKeyIdentifier on every certificate, and rejecting key usage '
-      'bits that a given key type cannot honour. Separately, the '
-      'bettertls::pathbuilding cases in this group chain through an '
-      'intermediate signed with ecdsa-with-SHA1: X509_verify_cert applies no '
-      'signature algorithm policy at all, so weak algorithms are the '
-      "caller's responsibility.",
+      'bits that a given key type cannot honour.',
   'unable to get local issuer certificate': _noBacktrackingNote,
   'unable to get issuer certificate': _noBacktrackingNote,
   'invalid CA certificate': _noBacktrackingNote,
   'permitted subtree violation': _noBacktrackingNote,
   'excluded subtree violation': _noBacktrackingNote,
+  _weakDigestReason: _noBacktrackingNote,
   'unsupported certificate purpose':
       "The leaf's key usage or extended key usage does not satisfy the "
       'requested purpose. This harness maps the testcase validation_kind onto '
@@ -233,8 +242,11 @@ const _noBacktrackingNote =
     'issued by "A" with CA:FALSE. BoringSSL picks the CA:FALSE certificate '
     'and stops, even though the other branch chains to the trust root. The '
     'same limitation produces the cross-signed cycle failure in '
-    'cve::cve-2024-0567, and the name constraint violations here are reported '
-    'against a branch the suite does not expect a validator to choose.';
+    'cve::cve-2024-0567, the name constraint violations here are reported '
+    'against a branch the suite does not expect a validator to choose, and '
+    'the weak signature digest rejections here are on branches where an '
+    'ecdsa-with-SHA1 cross-signature exists alongside an ecdsa-with-SHA256 '
+    'one.';
 
 /// Fallback used if a new reason appears before someone documents it.
 const _undocumentedNote =

@@ -162,6 +162,17 @@ final class X509VerificationResult {
 /// The default peer name matching options.
 const _defaultHostnameFlags = {X509HostnameFlag.neverCheckSubject};
 
+/// Signature digests with practical collision attacks.
+///
+/// BoringSSL's [bssl.X509_verify_cert] happily validates chains signed with
+/// these, so [X509Verifier.verify] rejects them itself.
+const _weakSignatureDigests = {
+  bssl.NID_md4,
+  bssl.NID_md5,
+  bssl.NID_md5_sha1,
+  bssl.NID_sha1,
+};
+
 /// Verifies X.509 certificate chains against trusted root certificates.
 final class X509Verifier implements ffi.Finalizable {
   static final _finalizer = ffi.NativeFinalizer(
@@ -205,6 +216,9 @@ final class X509Verifier implements ffi.Finalizable {
   ///   checked and validating them is the caller's responsibility.
   /// - [maxIntermediates]: If non-null, limits the chain to this many
   ///   intermediate certificates, excluding both [leaf] and the trust anchor.
+  /// - [insecurelyAllowWeakSignatureDigests]: If true, accepts chains signed
+  ///   with MD4, MD5 or SHA-1. These digests have practical collision attacks
+  ///   and are rejected by default.
   ///
   /// Throws [ArgumentError] if [peerNames] contains more than one IP address or
   /// more than one email address, or if [maxIntermediates] is negative.
@@ -216,6 +230,7 @@ final class X509Verifier implements ffi.Finalizable {
     Set<X509HostnameFlag> hostnameFlags = _defaultHostnameFlags,
     X509Purpose? purpose,
     int? maxIntermediates,
+    bool insecurelyAllowWeakSignatureDigests = false,
   }) {
     if (maxIntermediates != null && maxIntermediates < 0) {
       throw ArgumentError.value(
@@ -276,7 +291,9 @@ final class X509Verifier implements ffi.Finalizable {
           }
 
           if (bssl.X509_verify_cert(ctx) == 1) {
-            return X509VerificationResult.success;
+            return insecurelyAllowWeakSignatureDigests
+                ? X509VerificationResult.success
+                : _checkSignatureDigests(ctx);
           }
 
           final errCode = bssl.X509_STORE_CTX_get_error(ctx);
@@ -299,6 +316,50 @@ final class X509Verifier implements ffi.Finalizable {
       },
     );
   }
+
+  /// Rejects a verified chain if any certificate in it was signed with a
+  /// digest that has a practical collision attack.
+  ///
+  /// BoringSSL's `X509_verify_cert` has no signature algorithm policy at all —
+  /// it has neither OpenSSL's `X509_VERIFY_PARAM_set_auth_level` nor its
+  /// `set1_sigalgs` — so this check has to happen here.
+  static X509VerificationResult _checkSignatureDigests(
+    ffi.Pointer<bssl.X509_STORE_CTX> ctx,
+  ) => using((arena) {
+    final chain = checkPointer(
+      bssl.X509_STORE_CTX_get0_chain(ctx),
+      'X509_STORE_CTX_get0_chain',
+    ).cast<bssl.OPENSSL_STACK>();
+    final digestNid = arena<ffi.Int>();
+
+    // The chain runs from the leaf to the trust anchor. The anchor's own
+    // signature is never verified — it is trusted by virtue of being in the
+    // store, not by virtue of its self-signature — so its digest is
+    // irrelevant and the last element is skipped.
+    final length = bssl.OPENSSL_sk_num(chain);
+    for (var depth = 0; depth < length - 1; depth++) {
+      final cert = bssl.OPENSSL_sk_value(chain, depth).cast<bssl.X509>();
+      final signatureNid = bssl.X509_get_signature_nid(cert);
+      // Signature algorithms without a separate digest, such as Ed25519, have
+      // no cross-reference entry. Those are never weak, so leave them be.
+      if (bssl.OBJ_find_sigid_algs(signatureNid, digestNid, ffi.nullptr) != 1) {
+        continue;
+      }
+      if (!_weakSignatureDigests.contains(digestNid.value)) continue;
+
+      final namePtr = bssl.OBJ_nid2sn(signatureNid);
+      final name = namePtr != ffi.nullptr
+          ? namePtr.cast<Utf8>().toDartString()
+          : 'NID $signatureNid';
+      return X509VerificationResult.failure(
+        bssl.X509_V_ERR_APPLICATION_VERIFICATION,
+        'certificate signed with the weak algorithm $name; pass '
+        'insecurelyAllowWeakSignatureDigests to accept it anyway',
+        errorDepth: depth,
+      );
+    }
+    return X509VerificationResult.success;
+  });
 
   /// Configures the expected peer names on [param].
   static void _applyPeerNames(

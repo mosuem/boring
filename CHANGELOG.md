@@ -4,8 +4,7 @@
 package is validated against the [x509-limbo](https://x509-limbo.com) path
 validation suite.
 
-- `X509Verifier.verify` gained four options, all backed by
-  `X509_VERIFY_PARAM`:
+- `X509Verifier.verify` gained five options:
   - `peerNames`: names the leaf must assert, as `X509PeerName.dnsName`,
     `X509PeerName.ipAddress` or `X509PeerName.emailAddress`. Several DNS names
     are matched with OR semantics.
@@ -15,12 +14,19 @@ validation suite.
   - `purpose`: an `X509Purpose` enabling key usage and extended key usage
     checks, e.g. `X509Purpose.tlsServer`.
   - `maxIntermediates`: a chain length limit, excluding leaf and trust anchor.
+  - `insecurelyAllowWeakSignatureDigests`: opts out of the weak digest
+    rejection described below.
+- **Behaviour change:** `X509Verifier.verify` now rejects a chain containing a
+  certificate signed with MD4, MD5 or SHA-1. `X509_verify_cert` applies no
+  signature algorithm policy of its own — BoringSSL has neither OpenSSL's
+  `X509_VERIFY_PARAM_set_auth_level` nor its `set1_sigalgs` — so the verified
+  chain is walked afterwards. The trust anchor is exempt, since its
+  self-signature is never verified. Pass
+  `insecurelyAllowWeakSignatureDigests: true` to restore the old behaviour.
 - `X509VerificationResult` gained `errorDepth`, the position in the chain at
   which verification failed.
 - `X509Certificate` gained `signatureAlgorithm` (OID) and
-  `signatureAlgorithmName`. Chain verification applies no signature algorithm
-  policy — BoringSSL will accept a SHA-1 signed chain — so callers that care
-  must check this themselves.
+  `signatureAlgorithmName`.
 - Added the x509-limbo conformance suite (`./tool/run_x509_limbo_tests.sh`),
   covering 9,770 chain building and validation testcases. 94.5% agree with the
   suite; the remainder are listed with an explanation in

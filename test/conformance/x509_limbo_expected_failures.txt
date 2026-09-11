@@ -479,8 +479,8 @@ rfc5280::nc::permitted-ipv4-match  # The root contains a NameConstraints extensi
 rfc5280::nc::permitted-ipv6-match  # The root contains a NameConstraints extension with a permitted iPAddress of `::1/128`, which matc...
 
 # ===========================================================================
-# 53 testcase(s):
-#   53 x accepted, but the suite expects rejection
+# 50 testcase(s):
+#   50 x accepted, but the suite expects rejection
 # ---------------------------------------------------------------------------
 # BoringSSL accepted a chain the suite expects to be rejected. Most of these
 # encode CA/Browser Forum baseline requirements, or deliberately pedantic
@@ -489,15 +489,8 @@ rfc5280::nc::permitted-ipv6-match  # The root contains a NameConstraints extensi
 # requiring the subject common name to be a character-for-character copy of
 # a SAN entry, forbidding anyExtendedKeyUsage, forbidding a critical
 # extKeyUsage, requiring an authorityKeyIdentifier on every certificate, and
-# rejecting key usage bits that a given key type cannot honour. Separately,
-# the bettertls::pathbuilding cases in this group chain through an
-# intermediate signed with ecdsa-with-SHA1: X509_verify_cert applies no
-# signature algorithm policy at all, so weak algorithms are the caller's
-# responsibility.
+# rejecting key usage bits that a given key type cannot honour.
 
-bettertls::pathbuilding::tc15
-bettertls::pathbuilding::tc41
-bettertls::pathbuilding::tc8
 rfc5280::aki::critical-aki  # The root cert has an AKI extension marked as critical, which is disallowed under RFC 5280 4.2.1.1...
 rfc5280::aki::intermediate-missing-aki  # The intermediate is signed by the root but missing the AKI extension, which is forbidden under RF...
 rfc5280::aki::leaf-missing-aki  # The EE cert is signed by the root but missing the AKI extension, which is forbidden under RFC 528...
@@ -550,10 +543,11 @@ webpki::san::public-suffix-private-namespace-wildcard-san  # Produces a chain wi
 webpki::san::san-critical-with-nonempty-subject  # The EE cert includes a critical subjectAlternativeName extension, which is forbidden under CABF w...
 
 # ===========================================================================
-# 27 testcase(s):
+# 29 testcase(s):
 #   18 x rejected with "unable to get local issuer certificate"
 #   4 x rejected with "invalid CA certificate"
 #   2 x rejected with "permitted subtree violation"
+#   2 x rejected with "signed with a weak signature digest"
 #   2 x rejected with "unable to get issuer certificate"
 #   1 x rejected with "excluded subtree violation"
 # ---------------------------------------------------------------------------
@@ -564,9 +558,11 @@ webpki::san::san-critical-with-nonempty-subject  # The EE cert includes a critic
 # "B" appears twice, once issued by "C" with CA:TRUE and once issued by "A"
 # with CA:FALSE. BoringSSL picks the CA:FALSE certificate and stops, even
 # though the other branch chains to the trust root. The same limitation
-# produces the cross-signed cycle failure in cve::cve-2024-0567, and the
-# name constraint violations here are reported against a branch the suite
-# does not expect a validator to choose.
+# produces the cross-signed cycle failure in cve::cve-2024-0567, the name
+# constraint violations here are reported against a branch the suite does
+# not expect a validator to choose, and the weak signature digest rejections
+# here are on branches where an ecdsa-with-SHA1 cross-signature exists
+# alongside an ecdsa-with-SHA256 one.
 
 bettertls::pathbuilding::tc2  # unable to get local issuer certificate
 bettertls::pathbuilding::tc23  # unable to get local issuer certificate
@@ -579,9 +575,11 @@ bettertls::pathbuilding::tc35  # unable to get local issuer certificate
 bettertls::pathbuilding::tc50  # permitted subtree violation
 bettertls::pathbuilding::tc52  # invalid CA certificate
 bettertls::pathbuilding::tc53  # invalid CA certificate
+bettertls::pathbuilding::tc54  # signed with a weak signature digest
 bettertls::pathbuilding::tc56  # permitted subtree violation
 bettertls::pathbuilding::tc58  # invalid CA certificate
 bettertls::pathbuilding::tc59  # invalid CA certificate
+bettertls::pathbuilding::tc60  # signed with a weak signature digest
 bettertls::pathbuilding::tc61  # unable to get local issuer certificate
 bettertls::pathbuilding::tc62  # unable to get local issuer certificate
 bettertls::pathbuilding::tc63  # unable to get local issuer certificate

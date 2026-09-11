@@ -206,6 +206,13 @@ so the leaf need only assert one of them. Name matching defaults to
 fallback to the subject common name; pass `hostnameFlags` to change that or to
 disable wildcards.
 
+Chains containing a certificate signed with MD4, MD5 or SHA-1 are rejected.
+`X509_verify_cert` itself applies no signature algorithm policy — BoringSSL has
+neither OpenSSL's `X509_VERIFY_PARAM_set_auth_level` nor its `set1_sigalgs` — so
+`X509Verifier` walks the verified chain and enforces this itself. The trust
+anchor is exempt, since its self-signature is never verified. Pass
+`insecurelyAllowWeakSignatureDigests: true` if you must validate legacy chains.
+
 ### 9. X.509 Extensions, Subject Alternative Names, and Custom OIDs
 
 ```dart
@@ -315,20 +322,20 @@ This tests:
 ./tool/run_x509_limbo_tests.sh
 ```
 
-9,770 of the suite's 9,793 testcases run against `X509Verifier`, and **9,232 (94.5%) agree**. The remainder are enumerated in [`test/conformance/x509_limbo_expected_failures.txt`](test/conformance/x509_limbo_expected_failures.txt); the suite fails if a testcase diverges that is not on that list, and also if a listed testcase starts agreeing, so the list cannot go stale.
+9,770 of the suite's 9,793 testcases run against `X509Verifier`, and **9,233 (94.5%) agree**. The remainder are enumerated in [`test/conformance/x509_limbo_expected_failures.txt`](test/conformance/x509_limbo_expected_failures.txt); the suite fails if a testcase diverges that is not on that list, and also if a listed testcase starts agreeing, so the list cannot go stale.
 
 The divergences are not bugs in this package: they are places where BoringSSL's scope differs from the suite's expectations. Grouped by root cause:
 
 | Count | Cause |
 |------:|-------|
 | 452 | **Unsupported name constraint types.** BoringSSL checks name constraints for `directoryName`, `dNSName`, `rfc822Name` and `uniformResourceIdentifier` only, and rejects any other type outright. The BetterTLS name constraints suite is built almost entirely on `iPAddress` constraints. |
-| 53 | **Chain accepted where the suite expects rejection.** Mostly CA/Browser Forum policy that BoringSSL, an RFC 5280 validator, does not enforce — CN must be a character-for-character copy of a SAN entry, `anyExtendedKeyUsage` is forbidden, `extKeyUsage` must not be critical. Also includes three chains signed with SHA-1 (see below). |
-| 27 | **No backtracking during chain building.** When a subject has several candidate issuer certificates, BoringSSL commits to the first and reports whatever goes wrong down that branch. `bettertls::pathbuilding::tc52` is the clearest case: intermediate `B` appears twice, once `CA:TRUE` and once `CA:FALSE`, and BoringSSL picks the `CA:FALSE` one. Also causes `cve::cve-2024-0567`. |
+| 50 | **Chain accepted where the suite expects rejection.** CA/Browser Forum policy that BoringSSL, an RFC 5280 validator, does not enforce — CN must be a character-for-character copy of a SAN entry, `anyExtendedKeyUsage` is forbidden, `extKeyUsage` must not be critical. |
+| 29 | **No backtracking during chain building.** When a subject has several candidate issuer certificates, BoringSSL commits to the first and reports whatever goes wrong down that branch. `bettertls::pathbuilding::tc52` is the clearest case: intermediate `B` appears twice, once `CA:TRUE` and once `CA:FALSE`, and BoringSSL picks the `CA:FALSE` one. Two others pick an `ecdsa-with-SHA1` cross-signature over the `ecdsa-with-SHA256` one next to it. Also causes `cve::cve-2024-0567`. |
 | 4 | **Purpose checked against a leaf that is not a TLS end entity.** Two put a CA certificate in the leaf position, which RFC 5280 permits but which asserts `keyCertSign` rather than a TLS key usage; the other two are the backtracking issue above, surfacing as a purpose failure. |
 | 2 | **`notAfter` treated as exclusive.** `X509_cmp_time_posix` reports expiry when `certificate time - comparison time <= 0`, so validating at exactly `notAfter` fails; RFC 5280 4.1.2.5 defines it as inclusive. |
 
-> [!CAUTION]
-> `X509_verify_cert` applies **no signature algorithm policy**, so `X509Verifier` will accept a chain signed with SHA-1. That is what the three `bettertls::pathbuilding` entries in the second row are. If it matters for your threat model, check `X509Certificate.signatureAlgorithm` on every certificate in the chain yourself.
+> [!NOTE]
+> Every divergence above is a false *rejection* or a missing CABF profile check. None of them cause a chain to be accepted on an unverified signature.
 
 23 testcases are skipped outright: 14 need network access, 8 need CRL revocation checking, and 1 asserts two expected email addresses, which an `X509_VERIFY_PARAM` cannot express.
 

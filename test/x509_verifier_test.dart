@@ -58,6 +58,57 @@ vLBatdRQJrZT3MJEa8K8R6JI9v66DHtWbq0v3A==
 -----END CERTIFICATE-----
 ''';
 
+/// Self-signed P-256 root signed with `ecdsa-with-SHA1`,
+/// `CN=Boring SHA1 Root CA`.
+const sha1RootPem = '''
+-----BEGIN CERTIFICATE-----
+MIIBxjCCAWygAwIBAgIUKxP5KkPIULCvP/UHqUjSjEUT+aEwCQYHKoZIzj0EATAx
+MRwwGgYDVQQDDBNCb3JpbmcgU0hBMSBSb290IENBMREwDwYDVQQKDAhUZXN0IE9y
+ZzAeFw0yNjA5MTExMTUzNTVaFw00NjA5MDYxMTUzNTVaMDExHDAaBgNVBAMME0Jv
+cmluZyBTSEExIFJvb3QgQ0ExETAPBgNVBAoMCFRlc3QgT3JnMFkwEwYHKoZIzj0C
+AQYIKoZIzj0DAQcDQgAEYpjWi1r1wBTl91bnDGSAOU7kbJIB9qqayXJyYbdrVBs7
+2GsVR+QMChohU84Qdx5IBp3s/jspPqd0Lm3lddnghaNjMGEwHQYDVR0OBBYEFHH7
+rTmDCXc1CveoZE0I6ZIc/Y6DMB8GA1UdIwQYMBaAFHH7rTmDCXc1CveoZE0I6ZIc
+/Y6DMA8GA1UdEwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgEGMAkGByqGSM49BAED
+SQAwRgIhAMCO32SYRZmRsroUh6x7A9tCh+aZKTmNyx1Gia7PmLXOAiEA+uwfQ4yn
+3qBwZOxoIFXt3n9tWTpdKk+IqS8PBuHb15k=
+-----END CERTIFICATE-----
+''';
+
+/// End-entity certificate signed by [sha1RootPem] with `ecdsa-with-SHA1`.
+const sha1LeafPem = '''
+-----BEGIN CERTIFICATE-----
+MIIBzTCCAXSgAwIBAgIBAjAJBgcqhkjOPQQBMDExHDAaBgNVBAMME0JvcmluZyBT
+SEExIFJvb3QgQ0ExETAPBgNVBAoMCFRlc3QgT3JnMB4XDTI2MDkxMTExNTM1NVoX
+DTQ2MDkwNjExNTM1NVowGzEZMBcGA1UEAwwQbGVhZi5leGFtcGxlLmNvbTBZMBMG
+ByqGSM49AgEGCCqGSM49AwEHA0IABJt1EwjknCYa/bWDm9Hpz6Jh/Sm5kWJXwxkY
+vmZbyCz1J9JpRf+fmBEUybmo3AP0SBhHvAgWMs1bc/DtIrIztPOjgZMwgZAwDAYD
+VR0TAQH/BAIwADAOBgNVHQ8BAf8EBAMCB4AwEwYDVR0lBAwwCgYIKwYBBQUHAwEw
+GwYDVR0RBBQwEoIQbGVhZi5leGFtcGxlLmNvbTAdBgNVHQ4EFgQUOR3253bSc8CX
+ZF4eCtjaP4dWxEUwHwYDVR0jBBgwFoAUcfutOYMJdzUK96hkTQjpkhz9joMwCQYH
+KoZIzj0EAQNIADBFAiEAu2lSN/dZp6rB4YCvotwP0zbQE3V15GpZcfUFFM/typIC
+ICrhQxRhkH/v7aM7IpYmLBxnY8QZkqe4/56xM3rJ/JNI
+-----END CERTIFICATE-----
+''';
+
+/// End-entity certificate signed by [sha1RootPem] with `ecdsa-with-SHA256`.
+///
+/// Used to check that the trust anchor's own weak self-signature is exempt.
+const sha256LeafOfSha1RootPem = '''
+-----BEGIN CERTIFICATE-----
+MIIBzjCCAXWgAwIBAgIBAzAKBggqhkjOPQQDAjAxMRwwGgYDVQQDDBNCb3Jpbmcg
+U0hBMSBSb290IENBMREwDwYDVQQKDAhUZXN0IE9yZzAeFw0yNjA5MTExMTUzNTVa
+Fw00NjA5MDYxMTUzNTVaMBsxGTAXBgNVBAMMEGxlYWYuZXhhbXBsZS5jb20wWTAT
+BgcqhkjOPQIBBggqhkjOPQMBBwNCAASbdRMI5JwmGv21g5vR6c+iYf0puZFiV8MZ
+GL5mW8gs9SfSaUX/n5gRFMm5qNwD9EgYR7wIFjLNW3Pw7SKyM7Tzo4GTMIGQMAwG
+A1UdEwEB/wQCMAAwDgYDVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoGCCsGAQUFBwMB
+MBsGA1UdEQQUMBKCEGxlYWYuZXhhbXBsZS5jb20wHQYDVR0OBBYEFDkd9ud20nPA
+l2ReHgrY2j+HVsRFMB8GA1UdIwQYMBaAFHH7rTmDCXc1CveoZE0I6ZIc/Y6DMAoG
+CCqGSM49BAMCA0cAMEQCIEydh5Fb7GAcdyiTWr1ErHFP3adqYPxq4YHyiWZuVsnK
+AiBn4k6/QhB2xgYO1xdXJRlxWYkBB+f0u0YQZ/q//xWYGw==
+-----END CERTIFICATE-----
+''';
+
 void main() {
   late X509Certificate root;
   late X509Certificate intermediate;
@@ -243,6 +294,44 @@ void main() {
         () => verify(maxIntermediates: -1),
         throwsA(isA<ArgumentError>()),
       );
+    });
+  });
+
+  group('X509Verifier weak signature digests', () {
+    late X509Certificate sha1Root;
+    late X509Verifier sha1Verifier;
+
+    setUp(() {
+      sha1Root = X509Certificate.fromPem(sha1RootPem);
+      sha1Verifier = X509Verifier()..addTrustedCertificate(sha1Root);
+    });
+
+    test('rejects a SHA-1 signed leaf by default', () {
+      final result = sha1Verifier.verify(
+        leaf: X509Certificate.fromPem(sha1LeafPem),
+      );
+      expect(result.isValid, isFalse);
+      expect(result.errorMessage, contains('ecdsa-with-SHA1'));
+      expect(result.errorDepth, equals(0));
+    });
+
+    test('accepts a SHA-1 signed leaf when explicitly allowed', () {
+      final result = sha1Verifier.verify(
+        leaf: X509Certificate.fromPem(sha1LeafPem),
+        insecurelyAllowWeakSignatureDigests: true,
+      );
+      expect(result.isValid, isTrue);
+    });
+
+    test('exempts the trust anchor\'s own weak self-signature', () {
+      final result = sha1Verifier.verify(
+        leaf: X509Certificate.fromPem(sha256LeafOfSha1RootPem),
+      );
+      expect(result.isValid, isTrue);
+    });
+
+    test('accepts a SHA-256 chain', () {
+      expect(verify().isValid, isTrue);
     });
   });
 
