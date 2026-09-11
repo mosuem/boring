@@ -183,6 +183,68 @@ final class BoringPublicKey implements ffi.Finalizable {
     }),
   );
 
+  /// Verifies a digital [signature] over a precomputed [digest].
+  ///
+  /// For Ed25519, precomputed digests are not supported (Ed25519 signs raw data).
+  /// For RSA and ECDSA, specify the [HashAlgorithm] that was used to compute [digest].
+  ///
+  /// For RSA keys, [rsaPadding] specifies the signature padding mode (defaults
+  /// to [RsaSignaturePadding.pkcs1]). If [rsaPadding] is
+  /// [RsaSignaturePadding.pss], [pssSaltLength] optionally specifies the salt
+  /// length in bytes (defaults to matching the digest length).
+  bool verifyDigest({
+    required HashAlgorithm algorithm,
+    required Uint8List digest,
+    required Uint8List signature,
+    RsaSignaturePadding rsaPadding = RsaSignaturePadding.pkcs1,
+    int? pssSaltLength,
+  }) {
+    if (keyType == KeyType.ed25519) {
+      throw UnsupportedError('Ed25519 does not support precomputed digests.');
+    }
+    return withResource(
+      create: () => bssl.EVP_PKEY_CTX_new(_pkey, ffi.nullptr),
+      destroy: bssl.EVP_PKEY_CTX_free,
+      operation: 'EVP_PKEY_CTX_new',
+      body: (ctx) => using((arena) {
+        checkBssl(bssl.EVP_PKEY_verify_init(ctx), 'EVP_PKEY_verify_init');
+        checkBssl(
+          bssl.EVP_PKEY_CTX_set_signature_md(ctx, algorithm.evpMd),
+          'EVP_PKEY_CTX_set_signature_md',
+        );
+        if (keyType == KeyType.rsa) {
+          checkBssl(
+            bssl.EVP_PKEY_CTX_set_rsa_padding(
+              ctx,
+              rsaPadding.nativeValue,
+            ),
+            'EVP_PKEY_CTX_set_rsa_padding',
+          );
+          if (rsaPadding == RsaSignaturePadding.pss) {
+            checkBssl(
+              bssl.EVP_PKEY_CTX_set_rsa_pss_saltlen(
+                ctx,
+                pssSaltLength ?? bssl.RSA_PSS_SALTLEN_DIGEST,
+              ),
+              'EVP_PKEY_CTX_set_rsa_pss_saltlen',
+            );
+          }
+        }
+        final sigPtr = copyBytesToNative(signature, arena);
+        final digPtr = copyBytesToNative(digest, arena);
+        final verifyRet = bssl.EVP_PKEY_verify(
+          ctx,
+          sigPtr,
+          signature.length,
+          digPtr,
+          digest.length,
+        );
+        drainErrorQueue();
+        return verifyRet == 1;
+      }),
+    );
+  }
+
   /// Verifies a digital [signature] over streaming [data].
   ///
   /// For Ed25519, the stream is buffered before verification.
@@ -554,6 +616,62 @@ final class BoringPrivateKey implements ffi.Finalizable {
       );
     }),
   );
+
+  /// Generates a digital signature over a precomputed [digest].
+  ///
+  /// For Ed25519, precomputed digests are not supported.
+  /// For RSA and ECDSA, specify the [HashAlgorithm] used to compute [digest].
+  Uint8List signDigest({
+    required HashAlgorithm algorithm,
+    required Uint8List digest,
+    RsaSignaturePadding rsaPadding = RsaSignaturePadding.pkcs1,
+    int? pssSaltLength,
+  }) {
+    if (keyType == KeyType.ed25519) {
+      throw UnsupportedError('Ed25519 does not support precomputed digests.');
+    }
+    return withResource(
+      create: () => bssl.EVP_PKEY_CTX_new(_pkey, ffi.nullptr),
+      destroy: bssl.EVP_PKEY_CTX_free,
+      operation: 'EVP_PKEY_CTX_new',
+      body: (ctx) => using((arena) {
+        checkBssl(bssl.EVP_PKEY_sign_init(ctx), 'EVP_PKEY_sign_init');
+        checkBssl(
+          bssl.EVP_PKEY_CTX_set_signature_md(ctx, algorithm.evpMd),
+          'EVP_PKEY_CTX_set_signature_md',
+        );
+        if (keyType == KeyType.rsa) {
+          checkBssl(
+            bssl.EVP_PKEY_CTX_set_rsa_padding(
+              ctx,
+              rsaPadding.nativeValue,
+            ),
+            'EVP_PKEY_CTX_set_rsa_padding',
+          );
+          if (rsaPadding == RsaSignaturePadding.pss) {
+            checkBssl(
+              bssl.EVP_PKEY_CTX_set_rsa_pss_saltlen(
+                ctx,
+                pssSaltLength ?? bssl.RSA_PSS_SALTLEN_DIGEST,
+              ),
+              'EVP_PKEY_CTX_set_rsa_pss_saltlen',
+            );
+          }
+        }
+        final digPtr = copyBytesToNative(digest, arena);
+        return withOutputBuffer(
+          'EVP_PKEY_sign',
+          (out, len) => bssl.EVP_PKEY_sign(
+            ctx,
+            out,
+            len,
+            digPtr,
+            digest.length,
+          ),
+        );
+      }),
+    );
+  }
 
   /// Generates a digital signature over streaming [data].
   ///
