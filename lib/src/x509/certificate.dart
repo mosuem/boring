@@ -6,10 +6,12 @@ import 'dart:convert';
 import 'dart:ffi' as ffi;
 import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
+import '../asn1/asn1.dart';
 import '../bindings/boringssl.g.dart' as bssl;
 import '../crypto/pkey.dart';
 import '../ffi/arena.dart';
 import '../ffi/error.dart';
+import 'extension.dart';
 
 DateTime _parseAsn1Time(ffi.Pointer<bssl.ASN1_TIME> timePtr) {
   if (timePtr == ffi.nullptr) {
@@ -225,5 +227,275 @@ final class X509Certificate implements ffi.Finalizable {
   bool verifySignature(BoringPublicKey issuerPublicKey) {
     final ret = bssl.X509_verify(_x509, issuerPublicKey.handle);
     return ret == 1;
+  }
+
+  /// All X.509 v3 extensions present on this certificate, in encoding order.
+  List<X509Extension> get extensions {
+    final count = bssl.X509_get_ext_count(_x509);
+    final result = <X509Extension>[];
+    for (var i = 0; i < count; i++) {
+      final ext = bssl.X509_get_ext(_x509, i);
+      if (ext == ffi.nullptr) continue;
+      result.add(_toExtension(ext));
+    }
+    return result;
+  }
+
+  /// Returns the extension identified by the dotted-decimal [oid], or `null`
+  /// if this certificate does not carry it.
+  ///
+  /// ```dart
+  /// final issuer = cert.getExtension(X509Oid.fulcioIssuerV1);
+  /// print(issuer?.stringValue); // https://token.actions.githubusercontent.com
+  /// ```
+  X509Extension? getExtension(String oid) {
+    return using((arena) {
+      final oidPtr = oid.toNativeUtf8(allocator: arena);
+      final obj = bssl.OBJ_txt2obj(oidPtr.cast(), 1);
+      if (obj == ffi.nullptr) {
+        bssl.ERR_clear_error();
+        return null;
+      }
+      try {
+        final index = bssl.X509_get_ext_by_OBJ(_x509, obj, -1);
+        if (index < 0) return null;
+        final ext = bssl.X509_get_ext(_x509, index);
+        if (ext == ffi.nullptr) return null;
+        return _toExtension(ext);
+      } finally {
+        bssl.ASN1_OBJECT_free(obj);
+      }
+    });
+  }
+
+  /// Returns the decoded string contents of the extension identified by [oid],
+  /// or `null` if the extension is absent or is not a string.
+  ///
+  /// This handles both DER-wrapped ASN.1 strings and raw UTF-8 payloads. See
+  /// [X509Extension.stringValue].
+  String? getExtensionString(String oid) => getExtension(oid)?.stringValue;
+
+  /// The certificate's `subjectAltName` entries (RFC 5280, Section 4.2.1.6).
+  ///
+  /// Returns an empty list if the certificate has no `subjectAltName`
+  /// extension. Sigstore certificates carry the signer identity here, either
+  /// as an email address ([GeneralNameType.rfc822Name]) or as a workflow URI
+  /// ([GeneralNameType.uniformResourceIdentifier]).
+  List<GeneralName> get subjectAlternativeNames =>
+      _readGeneralNames(bssl.NID_subject_alt_name);
+
+  /// The certificate's `issuerAltName` entries (RFC 5280, Section 4.2.1.7).
+  List<GeneralName> get issuerAlternativeNames =>
+      _readGeneralNames(bssl.NID_issuer_alt_name);
+
+  /// The email addresses listed in `subjectAltName`.
+  List<String> get emailAddresses => [
+    for (final name in subjectAlternativeNames)
+      if (name.type == GeneralNameType.rfc822Name) name.value,
+  ];
+
+  /// The DNS names listed in `subjectAltName`.
+  List<String> get dnsNames => [
+    for (final name in subjectAlternativeNames)
+      if (name.type == GeneralNameType.dnsName) name.value,
+  ];
+
+  /// The URIs listed in `subjectAltName`.
+  List<String> get uris => [
+    for (final name in subjectAlternativeNames)
+      if (name.type == GeneralNameType.uniformResourceIdentifier) name.value,
+  ];
+
+  /// A bitmask of [KeyUsage] values permitted by the `keyUsage` extension.
+  ///
+  /// If the certificate has no `keyUsage` extension, all usages are permitted
+  /// and every bit is set.
+  int get keyUsage => bssl.X509_get_key_usage(_x509);
+
+  /// The dotted-decimal OIDs listed in the `extKeyUsage` extension.
+  ///
+  /// Returns an empty list if the extension is absent, meaning the certificate
+  /// is not restricted to particular purposes. Sigstore leaf certificates
+  /// carry `1.3.6.1.5.5.7.3.3` (`codeSigning`).
+  List<String> get extendedKeyUsage {
+    final ext = getExtension(X509Oid.extendedKeyUsage);
+    if (ext == null) return const [];
+    final parsed = ext.asn1;
+    if (parsed == null || !parsed.isConstructed) return const [];
+    return [
+      for (final child in parsed.children)
+        if (child.hasUniversalTag(Asn1Tag.objectIdentifier))
+          child.asObjectIdentifier(),
+    ];
+  }
+
+  /// Whether this certificate may act as a certificate authority, according to
+  /// its `basicConstraints` and `keyUsage` extensions.
+  bool get isCertificateAuthority => bssl.X509_check_ca(_x509) != 0;
+
+  /// The raw bytes of the `subjectKeyIdentifier` extension, or `null` if the
+  /// certificate does not carry one.
+  Uint8List? get subjectKeyIdentifier {
+    final ext = getExtension(X509Oid.subjectKeyIdentifier);
+    if (ext == null) return null;
+    final parsed = ext.asn1;
+    if (parsed != null && parsed.hasUniversalTag(Asn1Tag.octetString)) {
+      return Uint8List.fromList(parsed.contents);
+    }
+    return ext.value;
+  }
+
+  X509Extension _toExtension(ffi.Pointer<bssl.X509_EXTENSION> ext) {
+    final obj = bssl.X509_EXTENSION_get_object(ext);
+    checkPointer(obj, 'X509_EXTENSION_get_object');
+    final data = bssl.X509_EXTENSION_get_data(ext);
+    checkPointer(data, 'X509_EXTENSION_get_data');
+
+    final length = bssl.ASN1_STRING_length(data);
+    final bytes = bssl.ASN1_STRING_get0_data(data);
+    final value = length > 0
+        ? Uint8List.fromList(bytes.cast<ffi.Uint8>().asTypedList(length))
+        : Uint8List(0);
+
+    return X509Extension(
+      oid: _objectToText(obj, alwaysNumeric: true),
+      shortName: _objectToText(obj, alwaysNumeric: false),
+      isCritical: bssl.X509_EXTENSION_get_critical(ext) == 1,
+      value: value,
+    );
+  }
+
+  String _objectToText(
+    ffi.Pointer<bssl.ASN1_OBJECT> obj, {
+    required bool alwaysNumeric,
+  }) {
+    return using((arena) {
+      const bufferLength = 256;
+      final buffer = arena<ffi.Char>(bufferLength);
+      final written = bssl.OBJ_obj2txt(
+        buffer,
+        bufferLength,
+        obj,
+        alwaysNumeric ? 1 : 0,
+      );
+      if (written <= 0) {
+        bssl.ERR_clear_error();
+        return '';
+      }
+      return buffer.cast<Utf8>().toDartString();
+    });
+  }
+
+  List<GeneralName> _readGeneralNames(int nid) {
+    final raw = bssl.X509_get_ext_d2i(_x509, nid, ffi.nullptr, ffi.nullptr);
+    if (raw == ffi.nullptr) {
+      bssl.ERR_clear_error();
+      return const [];
+    }
+
+    final names = raw.cast<bssl.GENERAL_NAMES>();
+    try {
+      final stack = names.cast<bssl.OPENSSL_STACK>();
+      final count = bssl.OPENSSL_sk_num(stack);
+      final result = <GeneralName>[];
+      for (var i = 0; i < count; i++) {
+        final entry = bssl.OPENSSL_sk_value(stack, i);
+        if (entry == ffi.nullptr) continue;
+        final name = _decodeGeneralName(entry.cast<bssl.GENERAL_NAME>());
+        if (name != null) result.add(name);
+      }
+      return result;
+    } finally {
+      bssl.GENERAL_NAMES_free(names);
+    }
+  }
+
+  GeneralName? _decodeGeneralName(ffi.Pointer<bssl.GENERAL_NAME> namePtr) {
+    final type = GeneralNameType.fromTag(namePtr.ref.type);
+    if (type == null) return null;
+
+    Uint8List readAsn1String(ffi.Pointer<bssl.ASN1_STRING> str) {
+      if (str == ffi.nullptr) return Uint8List(0);
+      final length = bssl.ASN1_STRING_length(str);
+      if (length <= 0) return Uint8List(0);
+      final data = bssl.ASN1_STRING_get0_data(str);
+      return Uint8List.fromList(data.cast<ffi.Uint8>().asTypedList(length));
+    }
+
+    switch (type) {
+      case GeneralNameType.rfc822Name:
+      case GeneralNameType.dnsName:
+      case GeneralNameType.uniformResourceIdentifier:
+        final raw = readAsn1String(namePtr.ref.d.ia5);
+        return GeneralName(
+          type: type,
+          value: utf8.decode(raw, allowMalformed: true),
+          rawValue: raw,
+        );
+
+      case GeneralNameType.ipAddress:
+        final raw = readAsn1String(namePtr.ref.d.iPAddress);
+        return GeneralName(
+          type: type,
+          value: _formatIpAddress(raw),
+          rawValue: raw,
+        );
+
+      case GeneralNameType.directoryName:
+        final dirName = namePtr.ref.d.directoryName;
+        if (dirName == ffi.nullptr) return null;
+        final strPtr = bssl.X509_NAME_oneline(dirName, ffi.nullptr, 0);
+        if (strPtr == ffi.nullptr) {
+          bssl.ERR_clear_error();
+          return null;
+        }
+        try {
+          final text = strPtr.cast<Utf8>().toDartString();
+          return GeneralName(
+            type: type,
+            value: text,
+            rawValue: Uint8List.fromList(utf8.encode(text)),
+          );
+        } finally {
+          bssl.OPENSSL_free(strPtr.cast());
+        }
+
+      case GeneralNameType.registeredId:
+        final rid = namePtr.ref.d.registeredID;
+        if (rid == ffi.nullptr) return null;
+        final text = _objectToText(rid, alwaysNumeric: true);
+        return GeneralName(
+          type: type,
+          value: text,
+          rawValue: Uint8List.fromList(utf8.encode(text)),
+        );
+
+      case GeneralNameType.otherName:
+      case GeneralNameType.x400Address:
+      case GeneralNameType.ediPartyName:
+        // These forms have no canonical textual rendering; expose them by type
+        // only so that callers can still enumerate every SAN entry.
+        return GeneralName(
+          type: type,
+          value: '',
+          rawValue: Uint8List(0),
+        );
+    }
+  }
+
+  static String _formatIpAddress(Uint8List bytes) {
+    if (bytes.length == 4) {
+      return bytes.join('.');
+    }
+    if (bytes.length == 16) {
+      final groups = <String>[];
+      for (var i = 0; i < 16; i += 2) {
+        groups.add(
+          ((bytes[i] << 8) | bytes[i + 1]).toRadixString(16),
+        );
+      }
+      return groups.join(':');
+    }
+    return bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
   }
 }

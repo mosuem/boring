@@ -15,6 +15,7 @@ High-performance cryptography and PKI powered by **BoringSSL** with **Dart Nativ
 - **Dart Native Assets**: Bundles and dynamically loads native code seamlessly via `package:code_assets` and `package:hooks`.
 - **Pure BoringSSL PKI**: Full X.509 certificate parsing (DER/PEM) and cryptographic chain verification without external platform dependencies.
 - **Modern Cryptography**: Fast, constant-time implementations of AEAD (AES-GCM, ChaCha20-Poly1305), Ed25519, ECDSA (P-256, P-384, P-521), RSA (PSS / PKCS#1), HKDF, and HMAC.
+- **X.509 Extensions & ASN.1**: Typed access to Subject Alternative Names, key usage, and arbitrary custom OID extensions, plus a DER reader for decoding their payloads.
 
 ---
 
@@ -24,7 +25,7 @@ Add `boring` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  boring: ^0.1.0
+  boring: ^0.2.0
 ```
 
 ---
@@ -183,6 +184,64 @@ if (result.isValid) {
   print('Certificate chain verified successfully.');
 } else {
   print('Verification failed: ${result.errorMessage}');
+}
+```
+
+### 9. X.509 Extensions, Subject Alternative Names, and Custom OIDs
+
+```dart
+import 'package:boring/x509.dart';
+
+final cert = X509Certificate.fromPem(pemString);
+
+// Subject Alternative Names, decoded into typed GeneralName entries.
+for (final name in cert.subjectAlternativeNames) {
+  print('${name.type.name}: ${name.value}');
+}
+
+// Convenience accessors.
+print(cert.emailAddresses); // [alice@example.com]
+print(cert.dnsNames);       // [example.com, www.example.com]
+print(cert.uris);           // [https://github.com/org/repo/...]
+
+// Key usage and CA status.
+final canSign = cert.keyUsage & KeyUsage.digitalSignature != 0;
+print(cert.extendedKeyUsage);      // [1.3.6.1.5.5.7.3.3] (codeSigning)
+print(cert.isCertificateAuthority); // false
+
+// Enumerate every extension.
+for (final ext in cert.extensions) {
+  print('${ext.oid} (${ext.shortName}) critical=${ext.isCritical}');
+}
+
+// Look up a custom OID. Sigstore Fulcio embeds the OIDC issuer here.
+print(cert.getExtensionString(X509Oid.fulcioIssuerV1));
+// https://token.actions.githubusercontent.com
+```
+
+### 10. ASN.1 DER Decoding
+
+Certificates and signatures are decoded natively by BoringSSL, but the payload
+of an X.509 extension is application-specific. `package:boring/asn1.dart`
+provides a minimal DER reader for those payloads.
+
+```dart
+import 'package:boring/asn1.dart';
+import 'package:boring/x509.dart';
+
+final ext = cert.getExtension('1.3.6.1.4.1.57264.1.11')!;
+
+final value = Asn1Reader.parse(ext.value);
+if (value.hasUniversalTag(Asn1Tag.utf8String)) {
+  print(value.asString()); // github-hosted
+}
+
+// Nested structures, integers, and OIDs are supported too.
+final seq = Asn1Reader.parse(derBytes);
+for (final child in seq.children) {
+  if (child.hasUniversalTag(Asn1Tag.objectIdentifier)) {
+    print(child.asObjectIdentifier());
+  }
 }
 ```
 
