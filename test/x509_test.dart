@@ -68,6 +68,12 @@ void main() {
       expect(leaf.notAfter, equals(DateTime.utc(2027, 1, 1, 0, 0, 0)));
     });
 
+    test('exposes the signature algorithm', () {
+      final root = X509Certificate.fromPem(rootPem);
+      expect(root.signatureAlgorithm, equals('1.2.840.113549.1.1.11'));
+      expect(root.signatureAlgorithmName, equals('sha256WithRSAEncryption'));
+    });
+
     test('verifies signature using issuer public key', () {
       final root = X509Certificate.fromPem(rootPem);
       final leaf = X509Certificate.fromPem(leafPem);

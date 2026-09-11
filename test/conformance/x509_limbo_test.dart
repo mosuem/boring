@@ -138,32 +138,223 @@ final class _Testcase {
   }
 }
 
-/// Runs [testcase] and returns whether the chain validated.
+/// The reason recorded for a chain that verified when the suite expected it to
+/// be rejected.
+const _accepted = '<accepted>';
+
+/// Runs [testcase], returning whether the chain validated and, when it did
+/// not, the reason BoringSSL gave.
 ///
 /// A testcase whose inputs cannot even be parsed counts as a validation
 /// failure, which is what limbo expects for malformed-certificate cases.
-bool _runTestcase(_Testcase testcase) {
+(bool valid, String reason) _runTestcase(_Testcase testcase) {
   try {
     final verifier = X509Verifier();
     for (final pem in testcase.trustedCerts) {
       verifier.addTrustedCertificate(X509Certificate.fromPem(pem));
     }
-    return verifier
-        .verify(
-          leaf: X509Certificate.fromPem(testcase.peerCertificate),
-          intermediates: [
-            for (final pem in testcase.untrustedIntermediates)
-              X509Certificate.fromPem(pem),
-          ],
-          checkTime: testcase.validationTime,
-          peerNames: testcase.peerNames,
-          purpose: testcase.purpose,
-          maxIntermediates: testcase.maxChainDepth,
-        )
-        .isValid;
-  } on Exception {
-    return false;
+    final result = verifier.verify(
+      leaf: X509Certificate.fromPem(testcase.peerCertificate),
+      intermediates: [
+        for (final pem in testcase.untrustedIntermediates)
+          X509Certificate.fromPem(pem),
+      ],
+      checkTime: testcase.validationTime,
+      peerNames: testcase.peerNames,
+      purpose: testcase.purpose,
+      maxIntermediates: testcase.maxChainDepth,
+    );
+    return (result.isValid, result.errorMessage ?? _accepted);
+  } on Exception catch (e) {
+    return (false, 'the input could not be parsed: $e');
   }
+}
+
+/// Why BoringSSL diverges from the suite, keyed by the reason it reports.
+///
+/// These are written by hand, from reading BoringSSL's sources and the
+/// testcases themselves, and are emitted into the generated expected-failures
+/// list so it explains itself. Add an entry here when a new reason appears.
+const _divergenceNotes = <String, String>{
+  'unsupported name constraint type':
+      "BoringSSL's NAME_CONSTRAINTS_check (crypto/x509/v3_ncons.cc) handles "
+      'only directoryName, dNSName, rfc822Name and uniformResourceIdentifier '
+      'constraints, and returns X509_V_ERR_UNSUPPORTED_CONSTRAINT_TYPE for '
+      'every other GeneralName type. The BetterTLS name constraints suite is '
+      'built almost entirely on iPAddress constraints, so it trips this on '
+      'both the permitted and the excluded path. Supporting these would mean '
+      'reimplementing name constraint checking in Dart, which is out of scope '
+      'for a thin wrapper.',
+  _accepted:
+      'BoringSSL accepted a chain the suite expects to be rejected. Most of '
+      'these encode CA/Browser Forum baseline requirements, or deliberately '
+      'pedantic readings of RFC 5280, that BoringSSL does not enforce: it is '
+      'an RFC 5280 path validator and leaves CABF profile checks to the '
+      'caller. Examples: requiring the subject common name to be a '
+      'character-for-character copy of a SAN entry, forbidding '
+      'anyExtendedKeyUsage, forbidding a critical extKeyUsage, requiring an '
+      'authorityKeyIdentifier on every certificate, and rejecting key usage '
+      'bits that a given key type cannot honour. Separately, the '
+      'bettertls::pathbuilding cases in this group chain through an '
+      'intermediate signed with ecdsa-with-SHA1: X509_verify_cert applies no '
+      'signature algorithm policy at all, so weak algorithms are the '
+      "caller's responsibility.",
+  'unable to get local issuer certificate': _noBacktrackingNote,
+  'unable to get issuer certificate': _noBacktrackingNote,
+  'invalid CA certificate': _noBacktrackingNote,
+  'permitted subtree violation': _noBacktrackingNote,
+  'excluded subtree violation': _noBacktrackingNote,
+  'unsupported certificate purpose':
+      "The leaf's key usage or extended key usage does not satisfy the "
+      'requested purpose. This harness maps the testcase validation_kind onto '
+      'X509Purpose.tlsServer or X509Purpose.tlsClient, so BoringSSL applies '
+      'the TLS key usage check to the leaf. Two of these put a CA certificate '
+      'in the leaf position, which RFC 5280 permits but which then asserts '
+      'keyCertSign rather than a TLS key usage. The two '
+      'bettertls::pathbuilding cases are instead the chain building '
+      'limitation described in another group: the purpose check fails on a '
+      'branch a backtracking validator would not have chosen.',
+  'certificate has expired':
+      'BoringSSL treats notAfter as exclusive. X509_cmp_time_posix '
+      '(crypto/x509/x509_vfy.cc) reports expiry when the certificate time '
+      'minus the comparison time is <= 0, so validating at exactly notAfter '
+      'fails. RFC 5280 4.1.2.5 defines notAfter as inclusive. The second case '
+      'validates five milliseconds past notAfter, which X509Verifier '
+      'truncates to whole seconds, producing the same comparison.',
+};
+
+/// Shared explanation for the whole family of chain building divergences.
+const _noBacktrackingNote =
+    'BoringSSL does not backtrack when a subject has more than one candidate '
+    'issuer certificate. It commits to the first candidate it finds and '
+    'reports whatever goes wrong down that branch, instead of retrying the '
+    'alternative. bettertls::pathbuilding::tc52 is the clearest example: the '
+    'intermediate "B" appears twice, once issued by "C" with CA:TRUE and once '
+    'issued by "A" with CA:FALSE. BoringSSL picks the CA:FALSE certificate '
+    'and stops, even though the other branch chains to the trust root. The '
+    'same limitation produces the cross-signed cycle failure in '
+    'cve::cve-2024-0567, and the name constraint violations here are reported '
+    'against a branch the suite does not expect a validator to choose.';
+
+/// Fallback used if a new reason appears before someone documents it.
+const _undocumentedNote =
+    'No explanation has been written for this reason yet. Investigate before '
+    'accepting these entries: add a note to _divergenceNotes in '
+    'test/conformance/x509_limbo_test.dart.';
+
+const _expectedFailuresHeader = '''
+# Testcases from https://x509-limbo.com where BoringSSL, as exposed by
+# package:boring, disagrees with the suite's expected result.
+#
+# Every entry is a difference in scope between BoringSSL and the suite, not a
+# known bug in this package. Entries are grouped below by explanation, since
+# one underlying limitation can surface as several different errors. Each
+# group lists the errors BoringSSL reported and why they are expected.
+#
+# The suite fails both on a divergence that is not listed here and on a listed
+# testcase that starts agreeing, so this list cannot silently go stale.
+#
+# Generated. Regenerate with:
+#   X509_LIMBO_REGENERATE=1 ./tool/run_x509_limbo_tests.sh
+''';
+
+/// Greedily wraps [text] to [width] columns.
+List<String> _wrap(String text, int width) {
+  final lines = <String>[];
+  var line = StringBuffer();
+  for (final word in text.split(' ')) {
+    if (line.isNotEmpty && line.length + 1 + word.length > width) {
+      lines.add(line.toString());
+      line = StringBuffer();
+    }
+    if (line.isNotEmpty) line.write(' ');
+    line.write(word);
+  }
+  if (line.isNotEmpty) lines.add(line.toString());
+  return lines;
+}
+
+/// Condenses a limbo description into a one-line trailing comment.
+///
+/// Returns null when the description carries no information, which is the case
+/// for the BetterTLS testcases: they are all "Testcase `N` from the BetterTLS
+/// `<suite>` suite."
+String? _summarize(String description) {
+  var text = description
+      // Descriptions embed a fenced ASCII diagram of the chain.
+      .replaceAll(RegExp('```.*?```', dotAll: true), '')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      // '#' would start a comment, and descriptions use it for headings.
+      .replaceAll('#', '')
+      .trim()
+      // Every description opens by introducing the diagram removed above.
+      .replaceFirst(RegExp(r'^Produces the following [^:]*:\s*'), '');
+  if (text.startsWith('Testcase ')) return null;
+  final end = text.indexOf(RegExp(r'\.(\s|$)'));
+  if (end > 0) text = text.substring(0, end + 1);
+  if (text.length > 100) text = '${text.substring(0, 97)}...';
+  return text.isEmpty ? null : text;
+}
+
+/// Renders the expected-failures list, grouped and annotated.
+///
+/// Grouping is by explanation rather than by BoringSSL's error string: one
+/// underlying limitation can surface as several different errors, and the
+/// explanation is worth reading once rather than five times.
+String _renderExpectedFailures(
+  List<(String id, String reason)> diverged,
+  Map<String, String> descriptions,
+) {
+  final byNote = <String, List<(String id, String reason)>>{};
+  for (final entry in diverged) {
+    byNote
+        .putIfAbsent(_divergenceNotes[entry.$2] ?? _undocumentedNote, () => [])
+        .add(entry);
+  }
+  // Largest groups first, so the dominant cause is the first thing read.
+  final notes = byNote.keys.toList()
+    ..sort((a, b) {
+      final byCount = byNote[b]!.length.compareTo(byNote[a]!.length);
+      return byCount != 0 ? byCount : a.compareTo(b);
+    });
+
+  final out = StringBuffer(_expectedFailuresHeader);
+  for (final note in notes) {
+    final entries = byNote[note]!..sort((a, b) => a.$1.compareTo(b.$1));
+    final counts = <String, int>{};
+    for (final (_, reason) in entries) {
+      counts[reason] = (counts[reason] ?? 0) + 1;
+    }
+    final reasons = counts.keys.toList()
+      ..sort((a, b) => counts[b]!.compareTo(counts[a]!));
+
+    out
+      ..writeln()
+      ..writeln('# ${'=' * 75}')
+      ..writeln('# ${entries.length} testcase(s):');
+    for (final reason in reasons) {
+      final what = reason == _accepted
+          ? 'accepted, but the suite expects rejection'
+          : 'rejected with "$reason"';
+      out.writeln('#   ${counts[reason]} x $what');
+    }
+    out.writeln('# ${'-' * 75}');
+    for (final line in _wrap(note, 74)) {
+      out.writeln('# $line');
+    }
+    out.writeln();
+
+    // Only worth tagging each entry when the group spans several errors.
+    final tagReason = reasons.length > 1;
+    for (final (id, reason) in entries) {
+      final parts = <String>[
+        if (tagReason && reason != _accepted) reason,
+        ?_summarize(descriptions[id] ?? ''),
+      ];
+      out.writeln(parts.isEmpty ? id : '$id  # ${parts.join('; ')}');
+    }
+  }
+  return out.toString();
 }
 
 void main() {
@@ -194,7 +385,7 @@ void main() {
     final expectedFailuresFile = _expectedFailuresFile();
     final expectedFailures = _readExpectedFailures(expectedFailuresFile);
     final regenerate = Platform.environment['X509_LIMBO_REGENERATE'] == '1';
-    final diverged = <String>[];
+    final diverged = <(String id, String reason)>[];
     var ran = 0;
 
     for (final namespace in byNamespace.keys.toList()..sort()) {
@@ -206,8 +397,9 @@ void main() {
         for (final testcase in namespaceCases) {
           if (testcase.isSkipped) continue;
           ran++;
-          final agrees = _runTestcase(testcase) == testcase.expectSuccess;
-          if (!agrees) diverged.add(testcase.id);
+          final (valid, reason) = _runTestcase(testcase);
+          final agrees = valid == testcase.expectSuccess;
+          if (!agrees) diverged.add((testcase.id, reason));
 
           if (regenerate) continue;
           if (!agrees && !expectedFailures.contains(testcase.id)) {
@@ -248,20 +440,11 @@ void main() {
         '${testcases.length - ran} skipped as unsupported.',
       );
       if (!regenerate) return;
-      diverged.sort();
       expectedFailuresFile.writeAsStringSync(
-        '# Testcases from https://x509-limbo.com where BoringSSL, as exposed\n'
-        '# by package:boring, disagrees with the suite\'s expected result.\n'
-        '#\n'
-        '# These are almost all cases where the suite encodes a CA/Browser\n'
-        '# Forum baseline requirement, or a "pedantic" reading of RFC 5280,\n'
-        '# that BoringSSL deliberately does not enforce, plus chain building\n'
-        '# and name constraint types BoringSSL does not support.\n'
-        '#\n'
-        '# Regenerate with:\n'
-        '#   X509_LIMBO_REGENERATE=1 ./tool/run_x509_limbo_tests.sh\n'
-        '\n'
-        '${diverged.join('\n')}\n',
+        _renderExpectedFailures(diverged, {
+          for (final testcase in testcases)
+            testcase.id: testcase.json['description'] as String,
+        }),
       );
       // ignore: avoid_print
       print(

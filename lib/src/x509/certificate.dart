@@ -272,6 +272,32 @@ final class X509Certificate implements ffi.Finalizable {
   /// its `basicConstraints` and `keyUsage` extensions.
   bool get isCertificateAuthority => bssl.X509_check_ca(_x509) != 0;
 
+  /// The OID of the algorithm this certificate's signature was produced with,
+  /// for example `1.2.840.10045.4.3.2` for `ecdsa-with-SHA256`.
+  ///
+  /// Chain verification applies no signature algorithm policy: BoringSSL's
+  /// `X509_verify_cert` will accept a chain signed with, say, SHA-1. Inspect
+  /// this on every certificate in a chain if you need to reject weak
+  /// algorithms.
+  String get signatureAlgorithm =>
+      _objectToText(_signatureAlgorithmObject, alwaysNumeric: true);
+
+  /// The short name of [signatureAlgorithm], for example `ecdsa-with-SHA256`.
+  ///
+  /// Falls back to the OID when BoringSSL does not recognise the algorithm.
+  String get signatureAlgorithmName =>
+      _objectToText(_signatureAlgorithmObject, alwaysNumeric: false);
+
+  ffi.Pointer<bssl.ASN1_OBJECT> get _signatureAlgorithmObject {
+    final algorithm = bssl.X509_get0_tbs_sigalg(_x509);
+    checkPointer(algorithm, 'X509_get0_tbs_sigalg');
+    return using((arena) {
+      final out = arena<ffi.Pointer<bssl.ASN1_OBJECT>>();
+      bssl.X509_ALGOR_get0(out, ffi.nullptr, ffi.nullptr, algorithm);
+      return checkPointer(out.value, 'X509_ALGOR_get0');
+    });
+  }
+
   /// The raw bytes of the `subjectKeyIdentifier` extension, or `null` if the
   /// certificate does not carry one.
   Uint8List? get subjectKeyIdentifier {

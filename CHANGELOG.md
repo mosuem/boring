@@ -17,6 +17,10 @@ validation suite.
   - `maxIntermediates`: a chain length limit, excluding leaf and trust anchor.
 - `X509VerificationResult` gained `errorDepth`, the position in the chain at
   which verification failed.
+- `X509Certificate` gained `signatureAlgorithm` (OID) and
+  `signatureAlgorithmName`. Chain verification applies no signature algorithm
+  policy — BoringSSL will accept a SHA-1 signed chain — so callers that care
+  must check this themselves.
 - Added the x509-limbo conformance suite (`./tool/run_x509_limbo_tests.sh`),
   covering 9,770 chain building and validation testcases. 94.5% agree with the
   suite; the remainder are listed with an explanation in
