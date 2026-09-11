@@ -177,15 +177,34 @@ verifier.addTrustedCertificate(rootCert);
 final result = verifier.verify(
   leaf: leafCert,
   intermediates: [intermediateCert], // optional
-  checkTime: DateTime.now(),        // optional
+  checkTime: DateTime.now(),         // optional
 );
 
 if (result.isValid) {
   print('Certificate chain verified successfully.');
 } else {
-  print('Verification failed: ${result.errorMessage}');
+  print('Verification failed: ${result.errorMessage} '
+      'at depth ${result.errorDepth}');
 }
+
+// Full TLS-style verification: check the peer's identity, its key usage and
+// extended key usage, and cap the chain length. All of these are performed by
+// BoringSSL as part of chain building.
+final tlsResult = verifier.verify(
+  leaf: leafCert,
+  intermediates: [intermediateCert],
+  peerNames: [const X509PeerName.dnsName('example.com')],
+  purpose: X509Purpose.tlsServer,
+  maxIntermediates: 4,
+);
 ```
+
+`peerNames` also accepts `X509PeerName.ipAddress` and
+`X509PeerName.emailAddress`. Several DNS names are matched with OR semantics,
+so the leaf need only assert one of them. Name matching defaults to
+`X509HostnameFlag.neverCheckSubject`, which suppresses BoringSSL's legacy
+fallback to the subject common name; pass `hostnameFlags` to change that or to
+disable wildcards.
 
 ### 9. X.509 Extensions, Subject Alternative Names, and Custom OIDs
 
@@ -273,9 +292,11 @@ hooks:
 
 ## Conformance Testing
 
-`package:boring` validates its cryptographic primitives and PKI implementations against [**Project Wycheproof**](https://github.com/google/wycheproof) — Google's suite of known attacks, edge cases, and RFC conformance test vectors.
+`package:boring` is validated against two external conformance suites.
 
-Run the test suite locally:
+### Project Wycheproof
+
+[**Project Wycheproof**](https://github.com/google/wycheproof) is Google's suite of known attacks, edge cases, and RFC conformance test vectors for cryptographic primitives.
 
 ```bash
 ./tool/run_conformance_tests.sh
@@ -285,6 +306,27 @@ This tests:
 - **AEAD**: AES-GCM (128 and 256-bit), ChaCha20-Poly1305, and XChaCha20-Poly1305.
 - **Signatures**: Ed25519, ECDSA (P-256, P-384, P-521), RSA PKCS#1 v1.5 (2048, 3072, 4096-bit).
 - **Key Derivation & MAC**: HKDF (SHA-256, SHA-384, SHA-512) and HMAC (SHA-256, SHA-384, SHA-512).
+
+### x509-limbo
+
+[**x509-limbo**](https://x509-limbo.com) is C2SP's corpus of X.509 path building and validation testcases, covering RFC 5280, the CA/Browser Forum baseline requirements, the BetterTLS name constraints and path building suites, and several CVEs.
+
+```bash
+./tool/run_x509_limbo_tests.sh
+```
+
+9,770 of the suite's 9,793 testcases run against `X509Verifier`, and **9,232 (94.5%) agree**. The remainder are enumerated in [`test/conformance/x509_limbo_expected_failures.txt`](test/conformance/x509_limbo_expected_failures.txt); the suite fails if a testcase diverges that is not on that list, and also if a listed testcase starts agreeing, so the list cannot go stale.
+
+The divergences are not bugs in this package: they are places where BoringSSL's scope differs from the suite's expectations. Grouped by the reason BoringSSL gives:
+
+| Count | Reason |
+|------:|--------|
+| 452 | `unsupported name constraint type`. BoringSSL implements name constraints for `directoryName`, `dNSName`, `rfc822Name` and `uniformResourceIdentifier` only, and rejects any other type outright. The BetterTLS name constraints suite is built almost entirely on `iPAddress` constraints. |
+| 53 | Chain accepted where the suite expects rejection. These are CA/Browser Forum policy rules that BoringSSL, an RFC 5280 validator, does not enforce — for example requiring the subject common name to be a character-for-character copy of a SAN entry, forbidding `anyExtendedKeyUsage`, or forbidding a critical `extKeyUsage`. |
+| 20 | `unable to get (local) issuer certificate`. Chain building through cross-signed cycles and other graphs that BoringSSL's path builder does not explore, including `cve::cve-2024-0567`. |
+| 13 | Assorted: `unsupported certificate purpose`, `invalid CA certificate`, `certificate has expired`, and permitted/excluded subtree violations. |
+
+23 testcases are skipped outright: 14 need network access, 8 need CRL revocation checking, and 1 asserts two expected email addresses, which an `X509_VERIFY_PARAM` cannot express.
 
 ---
 

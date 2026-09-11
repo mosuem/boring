@@ -12,4 +12,11 @@ export 'src/ffi/error.dart' show BoringSslException;
 export 'src/x509/certificate.dart' show X509Certificate;
 export 'src/x509/extension.dart'
     show GeneralName, GeneralNameType, KeyUsage, X509Extension, X509Oid;
-export 'src/x509/verifier.dart' show X509VerificationResult, X509Verifier;
+export 'src/x509/verifier.dart'
+    show
+        X509HostnameFlag,
+        X509PeerName,
+        X509PeerNameKind,
+        X509Purpose,
+        X509VerificationResult,
+        X509Verifier;

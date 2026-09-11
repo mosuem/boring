@@ -1,6 +1,28 @@
 ## 0.3.0
 
-This release removes hand-written parsing logic from the Dart layer. Every
+`X509Verifier` can now check peer identity, key usage and chain length, and the
+package is validated against the [x509-limbo](https://x509-limbo.com) path
+validation suite.
+
+- `X509Verifier.verify` gained four options, all backed by
+  `X509_VERIFY_PARAM`:
+  - `peerNames`: names the leaf must assert, as `X509PeerName.dnsName`,
+    `X509PeerName.ipAddress` or `X509PeerName.emailAddress`. Several DNS names
+    are matched with OR semantics.
+  - `hostnameFlags`: `X509HostnameFlag.neverCheckSubject` (the default, which
+    suppresses BoringSSL's legacy subject common name fallback) and
+    `X509HostnameFlag.noWildcards`.
+  - `purpose`: an `X509Purpose` enabling key usage and extended key usage
+    checks, e.g. `X509Purpose.tlsServer`.
+  - `maxIntermediates`: a chain length limit, excluding leaf and trust anchor.
+- `X509VerificationResult` gained `errorDepth`, the position in the chain at
+  which verification failed.
+- Added the x509-limbo conformance suite (`./tool/run_x509_limbo_tests.sh`),
+  covering 9,770 chain building and validation testcases. 94.5% agree with the
+  suite; the remainder are listed with an explanation in
+  `test/conformance/x509_limbo_expected_failures.txt`.
+
+This release also removes hand-written parsing logic from the Dart layer. Every
 ASN.1 operation is now delegated to BoringSSL, keeping `package:boring` a thin
 wrapper rather than a reimplementation.
 

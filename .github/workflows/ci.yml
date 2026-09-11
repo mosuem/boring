@@ -51,3 +51,29 @@ jobs:
 
       - name: Run Conformance Test Suite
         run: ./tool/run_conformance_tests.sh
+
+  x509-limbo:
+    name: x509-limbo Path Validation Conformance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install Dependencies
+        run: dart pub get
+
+      # limbo.json is ~40 MB, and the revision is pinned in the runner script.
+      - name: Cache x509-limbo Testcases
+        uses: actions/cache@v4
+        with:
+          path: build/x509-limbo
+          key: x509-limbo-${{ hashFiles('tool/run_x509_limbo_tests.sh') }}
+
+      - name: Run x509-limbo Test Suite
+        run: ./tool/run_x509_limbo_tests.sh
