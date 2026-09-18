@@ -69,5 +69,116 @@ void main() {
         isTrue,
       );
     });
+
+    test('X25519 key agreement via BoringX25519 and BoringPrivateKey', () {
+      final alice = BoringX25519.generateKeyPair();
+      final bob = BoringX25519.generateKeyPair();
+      expect(
+        BoringX25519.publicKeyFromPrivate(alice.privateKey),
+        equals(alice.publicKey),
+      );
+
+      final s1 = BoringX25519.computeSharedSecret(
+        privateKey: alice.privateKey,
+        peerPublicKey: bob.publicKey,
+      );
+      final s2 = BoringX25519.computeSharedSecret(
+        privateKey: bob.privateKey,
+        peerPublicKey: alice.publicKey,
+      );
+      expect(s1, equals(s2));
+
+      final pkeyAlice = BoringPrivateKey.fromRawKey(
+        KeyType.x25519,
+        alice.privateKey,
+      );
+      final pkeyBobPub = BoringPublicKey.fromRawKey(
+        KeyType.x25519,
+        bob.publicKey,
+      );
+      expect(pkeyAlice.toRawBytes(), equals(alice.privateKey));
+      expect(pkeyAlice.publicKey.toRawBytes(), equals(alice.publicKey));
+      expect(pkeyAlice.deriveSharedSecret(pkeyBobPub), equals(s1));
+    });
+
+    test('Ed25519 seed signing, generateEd25519, and raw key round-trip', () {
+      final kp = BoringEd25519.generateKeyPair();
+      final msg = Uint8List.fromList(utf8.encode('test message'));
+      final sigFromSeed = BoringEd25519.sign(
+        privateKey: kp.seed,
+        data: msg,
+      );
+      final sigFromPriv = BoringEd25519.sign(
+        privateKey: kp.privateKey,
+        message: msg,
+      );
+      expect(sigFromSeed, equals(sigFromPriv));
+      expect(
+        BoringEd25519.verify(
+          publicKey: kp.publicKey,
+          data: msg,
+          signature: sigFromSeed,
+        ),
+        isTrue,
+      );
+
+      final edPkey = BoringPrivateKey.generateEd25519();
+      expect(edPkey.keyType, KeyType.ed25519);
+      expect(edPkey.toRawBytes(), hasLength(32));
+      expect(
+        () => edPkey.sign(algorithm: HashAlgorithm.sha256, data: msg),
+        throwsArgumentError,
+      );
+      final pkeySig = edPkey.sign(data: msg);
+      expect(edPkey.publicKey.verify(data: msg, signature: pkeySig), isTrue);
+    });
+
+    test('Encrypted PKCS#8 PEM round-trip', () {
+      final ecKey = BoringPrivateKey.generateEc(EcCurve.p256);
+      final encryptedPem = ecKey.toPem(password: 'correct-horse-battery');
+      expect(encryptedPem, contains('ENCRYPTED PRIVATE KEY'));
+
+      final restored = BoringPrivateKey.fromPem(
+        encryptedPem,
+        password: 'correct-horse-battery',
+      );
+      expect(restored.toDer(), equals(ecKey.toDer()));
+      expect(
+        () => BoringPrivateKey.fromPem(encryptedPem, password: 'wrong'),
+        throwsA(isA<BoringSslException>()),
+      );
+    });
+
+    test('timingSafeEqual and BoringHmac.verify', () {
+      final key = BoringRand.secureRandom(32);
+      final data = Uint8List.fromList([1, 2, 3, 4]);
+      final mac = BoringHmac.sha256(key: key, data: data);
+      expect(
+        BoringCrypto.timingSafeEqual(mac, Uint8List.fromList(mac)),
+        isTrue,
+      );
+      expect(BoringCrypto.timingSafeEqual(mac, Uint8List(31)), isFalse);
+      expect(
+        BoringHmac.verify(
+          algorithm: HashAlgorithm.sha256,
+          key: key,
+          data: data,
+          expectedMac: mac,
+        ),
+        isTrue,
+      );
+    });
+
+    test('dispose() is idempotent and prevents use-after-free', () {
+      final key = BoringPrivateKey.generateEd25519();
+      key.dispose();
+      key.dispose(); // idempotent
+      expect(key.toDer, throwsStateError);
+
+      final ctx = DigestContext(HashAlgorithm.sha256);
+      ctx.dispose();
+      ctx.dispose();
+      expect(() => ctx.update(Uint8List(1)), throwsStateError);
+    });
   });
 }

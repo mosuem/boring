@@ -202,6 +202,9 @@ final class Asn1Value {
 
   /// Decodes [contents] as a `BOOLEAN`.
   bool asBoolean() => using((arena) {
+    if (contents.length != 1) {
+      throw const Asn1Exception('Value is not a valid ASN.1 BOOLEAN');
+    }
     // CBS_get_asn1_bool parses a full TLV, so re-wrap the contents.
     final der = Uint8List(2 + contents.length)
       ..[0] = Asn1Tag.boolean

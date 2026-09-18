@@ -27,4 +27,11 @@ export 'src/crypto/pkey.dart'
         KeyType,
         RsaSignaturePadding;
 export 'src/crypto/rand.dart' show BoringRand;
+export 'src/crypto/x25519.dart'
+    show
+        BoringCrypto,
+        BoringX25519,
+        x25519PrivateKeyLength,
+        x25519PublicKeyLength,
+        x25519SharedKeyLength;
 export 'src/ffi/error.dart' show BoringSslException;

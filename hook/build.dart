@@ -1,12 +1,12 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:io';
 
 import 'package:boring/src/hook_helpers/hashes.dart' show fileHashes, version;
+import 'package:boring/src/hook_helpers/sha256.dart' show sha256Hex;
+import 'package:boring/src/hook_helpers/targets.dart' show targetTripleFor;
 import 'package:code_assets/code_assets.dart';
-import 'package:crypto/crypto.dart' show sha256;
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_cmake/native_toolchain_cmake.dart';
 
@@ -67,9 +67,10 @@ Future<void> _fetchPrebuiltBinary(
 ) async {
   final targetOS = input.config.code.targetOS;
   final targetArch = input.config.code.targetArchitecture;
+  final iosSdk = targetOS == OS.iOS ? input.config.code.iOS.targetSdk : null;
   final dylibFileName = targetOS.dylibFileName('bssl_dart');
 
-  final targetTriple = '${targetOS.name}-${targetArch.name}';
+  final targetTriple = targetTripleFor(targetOS, targetArch, iosSdk: iosSdk);
   final expectedHash = fileHashes[targetTriple];
 
   if (expectedHash == null || expectedHash.isEmpty) {
@@ -103,7 +104,7 @@ Future<void> _fetchPrebuiltBinary(
     }
 
     final bytes = await response.fold<List<int>>([], (a, b) => a..addAll(b));
-    final actualHash = sha256.convert(bytes).toString();
+    final actualHash = sha256Hex(bytes);
 
     if (actualHash != expectedHash) {
       throw BuildError(

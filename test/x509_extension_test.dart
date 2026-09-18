@@ -134,9 +134,11 @@ void main() {
     });
 
     test('reports key usage as digital signature only', () {
-      expect(cert.keyUsage & KeyUsage.digitalSignature, isNonZero);
-      expect(cert.keyUsage & KeyUsage.keyCertSign, isZero);
-      expect(cert.keyUsage & KeyUsage.crlSign, isZero);
+      final usage = cert.keyUsage;
+      expect(usage, isNotNull);
+      expect(usage! & KeyUsage.digitalSignature, isNonZero);
+      expect(usage & KeyUsage.keyCertSign, isZero);
+      expect(usage & KeyUsage.crlSign, isZero);
     });
 
     test('reports code signing extended key usage', () {
@@ -157,6 +159,17 @@ void main() {
         skid!.map((b) => b.toRadixString(16).padLeft(2, '0')).join(),
         '16fd520b388428ddab472ae3795945 6d22e0d7f4'.replaceAll(' ', ''),
       );
+    });
+
+    test('exposes the authority key identifier and sha256Fingerprint', () {
+      final akid = cert.authorityKeyIdentifier;
+      expect(akid, isNotNull);
+      expect(akid, hasLength(20));
+      expect(
+        akid!.map((b) => b.toRadixString(16).padLeft(2, '0')).join(),
+        'dfd3e9cf56241196f9a8d8e92855a2c62e18643f',
+      );
+      expect(cert.sha256Fingerprint, hasLength(32));
     });
 
     test('exposes raw extension bytes for unparsed extensions', () {

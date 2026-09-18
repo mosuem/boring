@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:ffi' as ffi;
 import 'dart:typed_data';
@@ -23,27 +22,29 @@ const ed25519SignatureLength = 64;
 
 /// Ed25519 high-speed digital signatures (RFC 8032).
 abstract final class BoringEd25519 {
-  /// Generates a new random Ed25519 key pair.
-  static ({Uint8List publicKey, Uint8List privateKey}) generateKeyPair() {
+  /// Generates a new random Ed25519 key pair (including the 32-byte `seed`).
+  static ({Uint8List publicKey, Uint8List privateKey, Uint8List seed})
+  generateKeyPair() {
     return using((arena) {
       final pubKeyPtr = arena<ffi.Uint8>(ed25519PublicKeyLength);
-      final privKeyPtr = arena<ffi.Uint8>(ed25519PrivateKeyLength);
+      final privKeyPtr = allocateSecretBytes(ed25519PrivateKeyLength, arena);
       bssl.ED25519_keypair(pubKeyPtr, privKeyPtr);
+      final privateKey = Uint8List.fromList(
+        privKeyPtr.asTypedList(ed25519PrivateKeyLength),
+      );
       return (
         publicKey: Uint8List.fromList(
           pubKeyPtr.asTypedList(ed25519PublicKeyLength),
         ),
-        privateKey: Uint8List.fromList(
-          privKeyPtr.asTypedList(ed25519PrivateKeyLength),
-        ),
+        privateKey: privateKey,
+        seed: Uint8List.sublistView(privateKey, 0, ed25519SeedLength),
       );
     });
   }
 
   /// Derives an Ed25519 key pair from a 32-byte [seed].
-  static ({Uint8List publicKey, Uint8List privateKey}) keyPairFromSeed(
-    Uint8List seed,
-  ) {
+  static ({Uint8List publicKey, Uint8List privateKey, Uint8List seed})
+  keyPairFromSeed(Uint8List seed) {
     if (seed.length != ed25519SeedLength) {
       throw ArgumentError.value(
         seed.length,
@@ -52,40 +53,52 @@ abstract final class BoringEd25519 {
       );
     }
     return using((arena) {
-      final seedPtr = copyBytesToNative(seed, arena);
+      final seedPtr = copySecretBytesToNative(seed, arena);
       final pubKeyPtr = arena<ffi.Uint8>(ed25519PublicKeyLength);
-      final privKeyPtr = arena<ffi.Uint8>(ed25519PrivateKeyLength);
+      final privKeyPtr = allocateSecretBytes(ed25519PrivateKeyLength, arena);
       bssl.ED25519_keypair_from_seed(pubKeyPtr, privKeyPtr, seedPtr);
+      final privateKey = Uint8List.fromList(
+        privKeyPtr.asTypedList(ed25519PrivateKeyLength),
+      );
       return (
         publicKey: Uint8List.fromList(
           pubKeyPtr.asTypedList(ed25519PublicKeyLength),
         ),
-        privateKey: Uint8List.fromList(
-          privKeyPtr.asTypedList(ed25519PrivateKeyLength),
-        ),
+        privateKey: privateKey,
+        seed: Uint8List.sublistView(privateKey, 0, ed25519SeedLength),
       );
     });
   }
 
-  /// Signs [message] using [privateKey] (64 bytes).
+  /// Signs [message] (or [data]) using [privateKey] (64-byte private key or
+  /// 32-byte seed).
   static Uint8List sign({
     required Uint8List privateKey,
-    required Uint8List message,
+    Uint8List? message,
+    Uint8List? data,
   }) {
-    if (privateKey.length != ed25519PrivateKeyLength) {
+    final payload = message ?? data;
+    if (payload == null) {
+      throw ArgumentError('Either message or data must be provided.');
+    }
+    final fullPrivKey = privateKey.length == ed25519SeedLength
+        ? keyPairFromSeed(privateKey).privateKey
+        : privateKey;
+    if (fullPrivKey.length != ed25519PrivateKeyLength) {
       throw ArgumentError.value(
         privateKey.length,
         'privateKey',
-        'Private key must be $ed25519PrivateKeyLength bytes',
+        'Private key must be $ed25519PrivateKeyLength bytes '
+            '(or a $ed25519SeedLength-byte seed)',
       );
     }
     return withSizedOutput(ed25519SignatureLength, (out, arena) {
       checkBssl(
         bssl.ED25519_sign(
           out,
-          copyBytesOrNull(message, arena),
-          message.length,
-          copyBytesToNative(privateKey, arena),
+          copyBytesOrNull(payload, arena),
+          payload.length,
+          copySecretBytesToNative(fullPrivKey, arena),
         ),
         'ED25519_sign',
       );
@@ -93,20 +106,26 @@ abstract final class BoringEd25519 {
     });
   }
 
-  /// Verifies that [signature] is valid for [message] using [publicKey].
+  /// Verifies that [signature] is valid for [message] (or [data]) using
+  /// [publicKey].
   static bool verify({
     required Uint8List publicKey,
-    required Uint8List message,
+    Uint8List? message,
+    Uint8List? data,
     required Uint8List signature,
   }) {
+    final payload = message ?? data;
+    if (payload == null) {
+      throw ArgumentError('Either message or data must be provided.');
+    }
     if (publicKey.length != ed25519PublicKeyLength ||
         signature.length != ed25519SignatureLength) {
       return false;
     }
     return using((arena) {
       final ret = bssl.ED25519_verify(
-        copyBytesOrNull(message, arena),
-        message.length,
+        copyBytesOrNull(payload, arena),
+        payload.length,
         copyBytesToNative(signature, arena),
         copyBytesToNative(publicKey, arena),
       );

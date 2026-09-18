@@ -79,7 +79,7 @@ void main() {
   }
 
   print('\n=== Usage constraints ===');
-  final canSign = cert.keyUsage & KeyUsage.digitalSignature != 0;
+  final canSign = (cert.keyUsage ?? 0) & KeyUsage.digitalSignature != 0;
   print('Digital signature: $canSign');
   print('Extended key usage: ${cert.extendedKeyUsage}');
 

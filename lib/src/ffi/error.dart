@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -8,9 +7,13 @@ import '../bindings/boringssl.g.dart' as bssl;
 
 /// Exception thrown when a BoringSSL operation fails.
 class BoringSslException implements Exception {
+  /// High-level description of the BoringSSL operation that failed.
   final String message;
+
+  /// Detailed error messages drained from BoringSSL's thread-local error queue.
   final List<String> errorQueue;
 
+  /// Creates a [BoringSslException] with [message] and optional [errorQueue].
   BoringSslException(this.message, [this.errorQueue = const []]);
 
   @override

@@ -166,5 +166,13 @@ void main() {
       );
       expect(value.asString(stringType: Asn1Tag.bmpString), 'hi');
     });
+
+    test('asBoolean rejects empty or multi-byte BOOLEAN payloads', () {
+      final emptyBool = Asn1Reader.parse(bytes([0x01, 0x00]));
+      expect(emptyBool.asBoolean, throwsA(isA<Asn1Exception>()));
+
+      final multiByteBool = Asn1Reader.parse(bytes([0x01, 0x02, 0xFF, 0x00]));
+      expect(multiByteBool.asBoolean, throwsA(isA<Asn1Exception>()));
+    });
   });
 }

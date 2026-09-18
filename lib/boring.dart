@@ -6,5 +6,6 @@
 /// Dart Native Assets.
 library;
 
+export 'asn1.dart';
 export 'crypto.dart';
 export 'x509.dart';

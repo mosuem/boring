@@ -1,0 +1,75 @@
+name: Release Prebuilt Binaries
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  precompile:
+    name: Precompile (${{ matrix.os }} / ${{ matrix.target-os }}-${{ matrix.target-arch }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target-os: linux
+            target-arch: x64
+          - os: ubuntu-24.04-arm
+            target-os: linux
+            target-arch: arm64
+          - os: macos-14
+            target-os: macos
+            target-arch: arm64
+          - os: macos-13
+            target-os: macos
+            target-arch: x64
+          - os: windows-latest
+            target-os: windows
+            target-arch: x64
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install Dependencies
+        run: dart pub get
+
+      - name: Precompile Native Library
+        run: dart run tool/precompile_binaries.dart --target-os=${{ matrix.target-os }} --target-arch=${{ matrix.target-arch }}
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.target-os }}-${{ matrix.target-arch }}
+          path: bin/*
+
+  publish-release:
+    name: Attach Binaries to GitHub Release
+    needs: precompile
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download All Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Upload to GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1 || \
+            gh release create "${GITHUB_REF_NAME}" --title "${GITHUB_REF_NAME}" --generate-notes
+          gh release upload "${GITHUB_REF_NAME}" release-assets/* --clobber

@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 /// Helpers that wrap the repetitive parts of calling BoringSSL over FFI:
 /// copying bytes across the Dart/native boundary, scoping native resource
@@ -34,6 +33,35 @@ void cleanseAndFree(
     bssl.OPENSSL_cleanse(ptr.cast<Void>(), length);
   }
   allocator.free(ptr);
+}
+
+/// Copies secret [bytes] into newly allocated native memory and registers an
+/// [arena] cleanup callback that wipes the buffer with `OPENSSL_cleanse` before
+/// freeing it.
+Pointer<Uint8> copySecretBytesToNative(Uint8List bytes, Arena arena) {
+  final allocLen = bytes.isEmpty ? 1 : bytes.length;
+  final ptr = calloc<Uint8>(allocLen);
+  if (bytes.isNotEmpty) {
+    ptr.asTypedList(bytes.length).setAll(0, bytes);
+  }
+  arena.using(ptr, (p) => cleanseAndFree(p, allocLen));
+  return ptr;
+}
+
+/// Copies secret [bytes] into [arena] with automatic `OPENSSL_cleanse` cleanup,
+/// returning `nullptr` when [bytes] is null or empty.
+Pointer<Uint8> copySecretBytesOrNull(Uint8List? bytes, Arena arena) =>
+    (bytes == null || bytes.isEmpty)
+    ? nullptr
+    : copySecretBytesToNative(bytes, arena);
+
+/// Allocates a temporary native buffer of [length] bytes in [arena] that is
+/// wiped with `OPENSSL_cleanse` when [arena] exits.
+Pointer<Uint8> allocateSecretBytes(int length, Arena arena) {
+  final allocLen = length <= 0 ? 1 : length;
+  final ptr = calloc<Uint8>(allocLen);
+  arena.using(ptr, (p) => cleanseAndFree(p, allocLen));
+  return ptr;
 }
 
 /// Copies [bytes] into [arena], returning `nullptr` when [bytes] is empty.
@@ -121,6 +149,19 @@ Uint8List withOutputBuffer(
   return Uint8List.fromList(out.asTypedList(length.value));
 });
 
+/// Runs BoringSSL's two-pass output idiom for secret outputs, wiping the
+/// temporary native buffer with `OPENSSL_cleanse` before freeing it.
+Uint8List withSecretOutputBuffer(
+  String operation,
+  int Function(Pointer<Uint8> out, Pointer<Size> length) call,
+) => using((arena) {
+  final length = arena<Size>();
+  checkBssl(call(nullptr, length), '$operation (size query)');
+  final out = allocateSecretBytes(length.value, arena);
+  checkBssl(call(out, length), operation);
+  return Uint8List.fromList(out.asTypedList(length.value));
+});
+
 /// Allocates an output buffer of [maxLength], runs [call], and returns the
 /// bytes actually written.
 ///
@@ -132,6 +173,18 @@ Uint8List withSizedOutput(
   int Function(Pointer<Uint8> out, Arena arena) call,
 ) => using((arena) {
   final out = arena<Uint8>(maxLength);
+  final written = call(out, arena);
+  return Uint8List.fromList(out.asTypedList(written));
+});
+
+/// Allocates a secret output buffer of [maxLength] that is wiped with
+/// `OPENSSL_cleanse` when the arena exits, runs [call], and returns the bytes
+/// actually written.
+Uint8List withSecretSizedOutput(
+  int maxLength,
+  int Function(Pointer<Uint8> out, Arena arena) call,
+) => using((arena) {
+  final out = allocateSecretBytes(maxLength, arena);
   final written = call(out, arena);
   return Uint8List.fromList(out.asTypedList(written));
 });

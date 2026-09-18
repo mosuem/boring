@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'package:code_assets/code_assets.dart';
 
@@ -24,3 +23,13 @@ const supportedTargets = [
   (OS.windows, Architecture.ia32, null),
   (OS.windows, Architecture.x64, null),
 ];
+
+/// Formats a canonical target identifier, including [iosSdk] when targeting iOS
+/// so device (`iphoneos`) and simulator (`iphonesimulator`) binaries do not
+/// collide on `ios-arm64`.
+String targetTripleFor(OS os, Architecture arch, {IOSSdk? iosSdk}) {
+  if (os == OS.iOS && iosSdk != null) {
+    return '${os.name}-${arch.name}-${iosSdk.type}';
+  }
+  return '${os.name}-${arch.name}';
+}
