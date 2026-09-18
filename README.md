@@ -14,8 +14,9 @@ High-performance cryptography and PKI powered by **BoringSSL** with **Dart Nativ
 - **100% Symbol Isolation (`bssl_dart`)**: Compiled with `-DBORINGSSL_PREFIX=bssl_dart`, completely eliminating dynamic linker collisions or symbol conflicts with Flutter, the Dart VM, or system OpenSSL libraries.
 - **Dart Native Assets**: Bundles and dynamically loads native code seamlessly via `package:code_assets` and `package:hooks`.
 - **Pure BoringSSL PKI**: Full X.509 certificate parsing (DER/PEM) and cryptographic chain verification without external platform dependencies.
-- **Modern Cryptography**: Fast, constant-time implementations of AEAD (AES-GCM, ChaCha20-Poly1305), Ed25519, ECDSA (P-256, P-384, P-521), RSA (PSS / PKCS#1), HKDF, and HMAC.
+- **Modern Cryptography**: Fast, constant-time implementations of AEAD (AES-GCM, ChaCha20-Poly1305, XChaCha20-Poly1305), Ed25519, X25519, ECDSA/ECDH (P-256, P-384, P-521), RSA (PSS / PKCS#1 / OAEP), BLAKE2b-256, HKDF, PBKDF2, and HMAC.
 - **X.509 Extensions & ASN.1**: Typed access to Subject Alternative Names, key usage, and arbitrary custom OID extensions, plus a DER reader for decoding their payloads.
+- **Native Memory Hygiene**: Ephemeral secret buffers in FFI arenas are scrubbed with `OPENSSL_cleanse` before deallocation, and native handles support explicit `.dispose()` alongside `NativeFinalizer`.
 
 ---
 
@@ -52,6 +53,7 @@ final data = Uint8List.fromList(utf8.encode('Hello World'));
 // One-shot hashing
 final sha256Hash = BoringDigest.sha256(data);
 final sha512Hash = BoringDigest.sha512(data);
+final blake2bHash = BoringDigest.blake2b256(data);
 
 // Streaming digest
 final ctx = DigestContext(HashAlgorithm.sha256);
@@ -60,13 +62,22 @@ ctx.update(Uint8List.fromList(utf8.encode('chunk 2')));
 final hash = ctx.finalize();
 ```
 
-### 3. HMAC
+### 3. HMAC & Constant-Time Verification
 
 ```dart
 import 'package:boring/crypto.dart';
 
 final key = BoringRand.secureRandom(32);
 final mac = BoringHmac.sha256(key: key, data: data);
+final isValidMac = BoringHmac.verify(
+  algorithm: HashAlgorithm.sha256,
+  key: key,
+  data: data,
+  expectedMac: mac,
+);
+
+// Constant-time byte comparison (`CRYPTO_memcmp`)
+final equal = BoringCrypto.timingSafeEqual(mac, expectedMac);
 ```
 
 ### 4. Key Derivation (HKDF & PBKDF2)
@@ -85,7 +96,7 @@ final hkdfKey = BoringHkdf.deriveBits(
 
 // PBKDF2 (RFC 2898 / PKCS #5 v2.0)
 final pbkdf2Key = BoringPbkdf2.deriveBits(
-  hash: HashAlgorithm.sha256,
+  algorithm: HashAlgorithm.sha256,
   password: passwordBytes,
   salt: saltBytes,
   iterations: 100000,
@@ -97,7 +108,7 @@ final pbkdf2Key = BoringPbkdf2.deriveBits(
 
 #### Authenticated Encryption (AEAD)
 
-Supported: `AeadAlgorithm.aes128Gcm`, `AeadAlgorithm.aes256Gcm`, `AeadAlgorithm.chacha20Poly1305`, `AeadAlgorithm.xchacha20Poly1305`.
+Supported: `AeadAlgorithm.aes128Gcm`, `AeadAlgorithm.aes192Gcm`, `AeadAlgorithm.aes256Gcm`, `AeadAlgorithm.chacha20Poly1305`, `AeadAlgorithm.xchacha20Poly1305`.
 
 ```dart
 import 'package:boring/crypto.dart';
@@ -121,7 +132,7 @@ final decrypted = aead.open(
 
 #### Block & Stream Ciphers (AES-CBC & AES-CTR)
 
-Supported: `CipherAlgorithm.aes128Cbc`, `aes256Cbc`, `aes128Ctr`, `aes256Ctr`.
+Supported: `CipherAlgorithm.aes128Cbc`, `aes192Cbc`, `aes256Cbc`, `aes128Ctr`, `aes192Ctr`, `aes256Ctr`.
 
 ```dart
 import 'package:boring/crypto.dart';
@@ -141,36 +152,42 @@ final wrappedKey = BoringAesKeyWrap.wrap(key: kek, data: targetKey);
 final unwrappedKey = BoringAesKeyWrap.unwrap(key: kek, data: wrappedKey);
 ```
 
-### 6. Ed25519 Signatures (RFC 8032)
+### 6. Ed25519 Signatures & X25519 Key Agreement
 
 ```dart
 import 'package:boring/crypto.dart';
 
-// Generate key pair
+// Ed25519 Signatures (RFC 8032)
 final keyPair = BoringEd25519.generateKeyPair();
-
-// Sign
 final signature = BoringEd25519.sign(
-  privateKey: keyPair.privateKey,
+  privateKey: keyPair.privateKey, // accepts 64-byte privateKey or 32-byte seed
   message: message,
 );
-
-// Verify
 final isValid = BoringEd25519.verify(
   publicKey: keyPair.publicKey,
   message: message,
   signature: signature,
 );
+
+// X25519 Diffie-Hellman (RFC 7748)
+final alice = BoringX25519.generateKeyPair();
+final bob = BoringX25519.generateKeyPair();
+final sharedSecret = BoringX25519.computeSharedSecret(
+  privateKey: alice.privateKey,
+  peerPublicKey: bob.publicKey,
+);
 ```
 
-### 7. Asymmetric Keys (RSA & ECDSA)
+### 7. Asymmetric Keys (`BoringPrivateKey` & `BoringPublicKey`)
 
 ```dart
 import 'package:boring/crypto.dart';
 
-// Generate RSA or EC keys
+// Generate RSA, EC, Ed25519, or X25519 keys
 final rsaKey = BoringPrivateKey.generateRsa(bits: 2048);
 final ecKey = BoringPrivateKey.generateEc(EcCurve.p256);
+final edKey = BoringPrivateKey.generateEd25519();
+final x25519Key = BoringPrivateKey.generateX25519();
 
 // Sign & Verify: PKCS#1 v1.5 or RSA-PSS
 final sigPkcs1 = rsaKey.sign(algorithm: HashAlgorithm.sha256, data: data);
@@ -190,7 +207,7 @@ final validPss = rsaKey.publicKey.verify(
 final ciphertext = rsaKey.publicKey.encryptOaep(plaintext: secretBytes);
 final decrypted = rsaKey.decryptOaep(ciphertext: ciphertext);
 
-// ECDH Key Agreement (RFC 5903)
+// ECDH / X25519 Key Agreement
 final peerEcKey = BoringPrivateKey.generateEc(EcCurve.p256);
 final sharedSecret = ecKey.deriveSharedSecret(peerEcKey.publicKey);
 
@@ -205,10 +222,13 @@ final streamValid = await rsaKey.publicKey.verifyStream(
   signature: streamSig,
 );
 
-// Export / Import (PEM / DER)
+// Export / Import (PEM / DER / Encrypted PKCS#8 / Raw 32-byte keys)
 final pubPem = rsaKey.publicKey.toPem();
-final privPem = rsaKey.toPem();
-final importedKey = BoringPublicKey.fromPem(pubPem);
+final privPem = rsaKey.toPem(password: 'optional-passphrase');
+final importedKey = BoringPrivateKey.fromPem(
+  privPem,
+  password: 'optional-passphrase',
+);
 ```
 
 ### 8. X.509 Certificate Parsing and Chain Verification
@@ -293,10 +313,12 @@ print(cert.emailAddresses); // [alice@example.com]
 print(cert.dnsNames);       // [example.com, www.example.com]
 print(cert.uris);           // [https://github.com/org/repo/...]
 
-// Key usage and CA status.
-final canSign = cert.keyUsage & KeyUsage.digitalSignature != 0;
+// Key usage (null if extension is absent) and CA status.
+final canSign = (cert.keyUsage ?? 0) & KeyUsage.digitalSignature != 0;
 print(cert.extendedKeyUsage);      // [1.3.6.1.5.5.7.3.3] (codeSigning)
 print(cert.isCertificateAuthority); // false
+print(cert.sha256Fingerprint);      // 32-byte SHA-256 DER fingerprint
+print(cert.authorityKeyIdentifier); // Raw keyIdentifier bytes or null
 
 // Enumerate every extension.
 for (final ext in cert.extensions) {

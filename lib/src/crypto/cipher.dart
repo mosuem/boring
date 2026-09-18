@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:ffi' as ffi;
 import 'dart:typed_data';
@@ -55,8 +54,10 @@ enum CipherAlgorithm {
 /// For authenticated encryption, prefer [BoringAead] (AES-GCM,
 /// ChaCha20-Poly1305).
 final class BoringCipher {
+  /// The symmetric cipher algorithm used by this instance.
   final CipherAlgorithm algorithm;
   final Uint8List _key;
+  bool _isDisposed = false;
 
   /// Initializes a cipher for [algorithm] with the given [key].
   BoringCipher(this.algorithm, Uint8List key) : _key = Uint8List.fromList(key) {
@@ -69,6 +70,19 @@ final class BoringCipher {
     }
   }
 
+  /// Zeros the in-memory key buffer and marks this cipher instance as disposed.
+  void dispose() {
+    if (_isDisposed) return;
+    _isDisposed = true;
+    _key.fillRange(0, _key.length, 0);
+  }
+
+  void _checkNotDisposed() {
+    if (_isDisposed) {
+      throw StateError('BoringCipher has been disposed.');
+    }
+  }
+
   /// Encrypts [plaintext] using the specified [iv].
   ///
   /// For CBC mode, PKCS#7 padding is applied.
@@ -78,6 +92,7 @@ final class BoringCipher {
     required Uint8List iv,
     required Uint8List plaintext,
   }) {
+    _checkNotDisposed();
     if (iv.length != algorithm.ivLength) {
       throw ArgumentError.value(
         iv.length,
@@ -89,9 +104,9 @@ final class BoringCipher {
       final ctx = bssl.EVP_CIPHER_CTX_new();
       checkPointer(ctx, 'EVP_CIPHER_CTX_new');
       try {
-        final keyPtr = copyBytesToNative(_key, arena);
+        final keyPtr = copySecretBytesToNative(_key, arena);
         final ivPtr = copyBytesToNative(iv, arena);
-        final inPtr = copyBytesToNative(plaintext, arena);
+        final inPtr = copySecretBytesToNative(plaintext, arena);
 
         checkBssl(
           bssl.EVP_EncryptInit_ex(
@@ -146,6 +161,7 @@ final class BoringCipher {
     required Uint8List iv,
     required Uint8List ciphertext,
   }) {
+    _checkNotDisposed();
     if (iv.length != algorithm.ivLength) {
       throw ArgumentError.value(
         iv.length,
@@ -157,7 +173,7 @@ final class BoringCipher {
       final ctx = bssl.EVP_CIPHER_CTX_new();
       checkPointer(ctx, 'EVP_CIPHER_CTX_new');
       try {
-        final keyPtr = copyBytesToNative(_key, arena);
+        final keyPtr = copySecretBytesToNative(_key, arena);
         final ivPtr = copyBytesToNative(iv, arena);
         final inPtr = copyBytesToNative(ciphertext, arena);
 
@@ -173,7 +189,7 @@ final class BoringCipher {
         );
 
         final maxOut = ciphertext.length + algorithm.blockSize;
-        final out = arena<ffi.Uint8>(maxOut);
+        final out = allocateSecretBytes(maxOut, arena);
         final outLen = arena<ffi.Int>();
 
         checkBssl(
@@ -232,13 +248,17 @@ abstract final class BoringAesKeyWrap {
     }
     return using((arena) {
       final aesKey = arena<bssl.AES_KEY>();
-      final keyPtr = copyBytesToNative(key, arena);
+      arena.using(
+        aesKey,
+        (p) => bssl.OPENSSL_cleanse(p.cast(), ffi.sizeOf<bssl.AES_KEY>()),
+      );
+      final keyPtr = copySecretBytesToNative(key, arena);
       final setRet = bssl.AES_set_encrypt_key(keyPtr, key.length * 8, aesKey);
       checkBssl(setRet == 0 ? 1 : 0, 'AES_set_encrypt_key');
 
       final outLen = data.length + 8;
       final out = arena<ffi.Uint8>(outLen);
-      final inPtr = copyBytesToNative(data, arena);
+      final inPtr = copySecretBytesToNative(data, arena);
       final written = bssl.AES_wrap_key(
         aesKey,
         ffi.nullptr,
@@ -276,12 +296,16 @@ abstract final class BoringAesKeyWrap {
     }
     return using((arena) {
       final aesKey = arena<bssl.AES_KEY>();
-      final keyPtr = copyBytesToNative(key, arena);
+      arena.using(
+        aesKey,
+        (p) => bssl.OPENSSL_cleanse(p.cast(), ffi.sizeOf<bssl.AES_KEY>()),
+      );
+      final keyPtr = copySecretBytesToNative(key, arena);
       final setRet = bssl.AES_set_decrypt_key(keyPtr, key.length * 8, aesKey);
       checkBssl(setRet == 0 ? 1 : 0, 'AES_set_decrypt_key');
 
       final outLen = data.length - 8;
-      final out = arena<ffi.Uint8>(outLen);
+      final out = allocateSecretBytes(outLen, arena);
       final inPtr = copyBytesToNative(data, arena);
       final written = bssl.AES_unwrap_key(
         aesKey,

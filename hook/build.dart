@@ -1,12 +1,12 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:io';
 
 import 'package:boring/src/hook_helpers/hashes.dart' show fileHashes, version;
+import 'package:boring/src/hook_helpers/sha256.dart' show sha256Hex;
+import 'package:boring/src/hook_helpers/targets.dart' show targetTripleFor;
 import 'package:code_assets/code_assets.dart';
-import 'package:crypto/crypto.dart' show sha256;
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_cmake/native_toolchain_cmake.dart';
 
@@ -57,7 +57,11 @@ Future<void> main(List<String> args) async {
       case BuildModeEnum.local:
         await _useLocalBinary(input, output, buildOptions.localPath);
     }
-    output.dependencies.add(input.packageRoot.resolve('pubspec.yaml'));
+    output.dependencies.addAll([
+      input.packageRoot.resolve('pubspec.yaml'),
+      input.packageRoot.resolve('hook/build.dart'),
+      input.packageRoot.resolve('lib/src/hook_helpers/hashes.dart'),
+    ]);
   });
 }
 
@@ -67,9 +71,10 @@ Future<void> _fetchPrebuiltBinary(
 ) async {
   final targetOS = input.config.code.targetOS;
   final targetArch = input.config.code.targetArchitecture;
+  final iosSdk = targetOS == OS.iOS ? input.config.code.iOS.targetSdk : null;
   final dylibFileName = targetOS.dylibFileName('bssl_dart');
 
-  final targetTriple = '${targetOS.name}-${targetArch.name}';
+  final targetTriple = targetTripleFor(targetOS, targetArch, iosSdk: iosSdk);
   final expectedHash = fileHashes[targetTriple];
 
   if (expectedHash == null || expectedHash.isEmpty) {
@@ -89,6 +94,7 @@ Future<void> _fetchPrebuiltBinary(
   stdout.writeln('boring: fetching prebuilt binary from $binaryUrl...');
 
   final client = HttpClient();
+  final List<int> bytes;
   try {
     final request = await client.getUrl(binaryUrl);
     final response = await request.close();
@@ -101,40 +107,47 @@ Future<void> _fetchPrebuiltBinary(
       await _buildLocalCMake(input, output);
       return;
     }
-
-    final bytes = await response.fold<List<int>>([], (a, b) => a..addAll(b));
-    final actualHash = sha256.convert(bytes).toString();
-
-    if (actualHash != expectedHash) {
-      throw BuildError(
-        message:
-            'SHA256 hash mismatch for prebuilt binary $assetRemoteName.\n'
-            'Expected: $expectedHash\n'
-            'Actual:   $actualHash\n'
-            'To build boring locally from source instead, set '
-            '`buildMode: checkout` in your pubspec.yaml under '
-            '`hooks.user_defines.boring`.',
-      );
-    }
-
-    stdout.writeln('boring: verified SHA256 checksum ($actualHash).');
-
-    final libraryFile = File.fromUri(
-      input.outputDirectory.resolve(dylibFileName),
+    bytes = await response.fold<List<int>>([], (a, b) => a..addAll(b));
+  } on IOException catch (e) {
+    stdout.writeln(
+      'boring: network error downloading prebuilt binary ($e), '
+      'falling back to building from local source.',
     );
-    await libraryFile.writeAsBytes(bytes);
-
-    output.assets.code.add(
-      CodeAsset(
-        package: input.packageName,
-        name: _assetName,
-        linkMode: DynamicLoadingBundled(),
-        file: libraryFile.uri,
-      ),
-    );
+    await _buildLocalCMake(input, output);
+    return;
   } finally {
     client.close();
   }
+
+  final actualHash = sha256Hex(bytes);
+
+  if (actualHash != expectedHash) {
+    throw BuildError(
+      message:
+          'SHA256 hash mismatch for prebuilt binary $assetRemoteName.\n'
+          'Expected: $expectedHash\n'
+          'Actual:   $actualHash\n'
+          'To build boring locally from source instead, set '
+          '`buildMode: checkout` in your pubspec.yaml under '
+          '`hooks.user_defines.boring`.',
+    );
+  }
+
+  stdout.writeln('boring: verified SHA256 checksum ($actualHash).');
+
+  final libraryFile = File.fromUri(
+    input.outputDirectory.resolve(dylibFileName),
+  );
+  await libraryFile.writeAsBytes(bytes);
+
+  output.assets.code.add(
+    CodeAsset(
+      package: input.packageName,
+      name: _assetName,
+      linkMode: DynamicLoadingBundled(),
+      file: libraryFile.uri,
+    ),
+  );
 }
 
 Future<void> _useLocalBinary(

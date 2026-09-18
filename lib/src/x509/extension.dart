@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -80,6 +79,24 @@ final class GeneralName {
   });
 
   @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! GeneralName ||
+        other.type != type ||
+        other.value != value ||
+        other.rawValue.length != rawValue.length) {
+      return false;
+    }
+    for (var i = 0; i < rawValue.length; i++) {
+      if (other.rawValue[i] != rawValue[i]) return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode => Object.hash(type, value, Object.hashAll(rawValue));
+
+  @override
   String toString() => '${type.name}:$value';
 }
 
@@ -136,7 +153,11 @@ final class X509Extension {
         Asn1Tag.octetString,
       };
       if (stringTags.any(parsed.hasUniversalTag)) {
-        return parsed.asString();
+        try {
+          return parsed.asString();
+        } on Asn1Exception {
+          return null;
+        }
       }
     }
     try {
@@ -145,6 +166,26 @@ final class X509Extension {
       return null;
     }
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! X509Extension ||
+        other.oid != oid ||
+        other.shortName != shortName ||
+        other.isCritical != isCritical ||
+        other.value.length != value.length) {
+      return false;
+    }
+    for (var i = 0; i < value.length; i++) {
+      if (other.value[i] != value[i]) return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(oid, shortName, isCritical, Object.hashAll(value));
 
   @override
   String toString() =>

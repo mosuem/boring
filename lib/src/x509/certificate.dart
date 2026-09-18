@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:convert';
 import 'dart:ffi' as ffi;
@@ -8,6 +7,7 @@ import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 import '../asn1/asn1.dart';
 import '../bindings/boringssl.g.dart' as bssl;
+import '../crypto/digest.dart';
 import '../crypto/pkey.dart';
 import '../ffi/arena.dart';
 import '../ffi/error.dart';
@@ -37,13 +37,33 @@ final class X509Certificate implements ffi.Finalizable {
   );
 
   final ffi.Pointer<bssl.X509> _x509;
+  bool _disposed = false;
 
   X509Certificate._(this._x509) {
     _finalizer.attach(this, _x509.cast(), externalSize: 1024);
   }
 
+  void _checkNotDisposed() {
+    if (_disposed) {
+      throw StateError('X509Certificate has already been disposed');
+    }
+  }
+
+  /// Deterministically frees the underlying native `X509` handle.
+  ///
+  /// Safe to call multiple times; subsequent calls are no-ops.
+  void dispose() {
+    if (_disposed) return;
+    _disposed = true;
+    _finalizer.detach(this);
+    bssl.X509_free(_x509);
+  }
+
   /// Internal handle for verifier operations.
-  ffi.Pointer<bssl.X509> get handle => _x509;
+  ffi.Pointer<bssl.X509> get handle {
+    _checkNotDisposed();
+    return _x509;
+  }
 
   /// Parses a DER-encoded X.509 certificate.
   factory X509Certificate.fromDer(Uint8List der) {
@@ -95,27 +115,40 @@ final class X509Certificate implements ffi.Finalizable {
   );
 
   /// Exports this certificate as DER bytes.
-  Uint8List toDer() => using((arena) {
-    final len = bssl.i2d_X509(_x509, ffi.nullptr);
-    checkBssl(len > 0 ? 1 : 0, 'i2d_X509');
-    final buffer = arena<ffi.Uint8>(len);
-    final outPtr = arena<ffi.Pointer<ffi.Uint8>>()..value = buffer;
-    final written = bssl.i2d_X509(_x509, outPtr);
-    checkBssl(written > 0 ? 1 : 0, 'i2d_X509');
-    return Uint8List.fromList(buffer.asTypedList(written));
-  });
+  Uint8List toDer() {
+    _checkNotDisposed();
+    return using((arena) {
+      final len = bssl.i2d_X509(_x509, ffi.nullptr);
+      checkBssl(len > 0 ? 1 : 0, 'i2d_X509');
+      final buffer = arena<ffi.Uint8>(len);
+      final outPtr = arena<ffi.Pointer<ffi.Uint8>>()..value = buffer;
+      final written = bssl.i2d_X509(_x509, outPtr);
+      checkBssl(written > 0 ? 1 : 0, 'i2d_X509');
+      return Uint8List.fromList(buffer.asTypedList(written));
+    });
+  }
 
   /// Exports this certificate as PEM string (`-----BEGIN CERTIFICATE-----`).
-  String toPem() => withMemBioString(
-    'PEM_write_bio_X509',
-    (bio) => bssl.PEM_write_bio_X509(bio, _x509),
-  );
+  String toPem() {
+    _checkNotDisposed();
+    return withMemBioString(
+      'PEM_write_bio_X509',
+      (bio) => bssl.PEM_write_bio_X509(bio, _x509),
+    );
+  }
+
+  /// The 32-byte SHA-256 fingerprint over this certificate's DER encoding.
+  Uint8List get sha256Fingerprint => BoringDigest.sha256(toDer());
 
   /// Certificate version (1, 2, or 3).
-  int get version => bssl.X509_get_version(_x509) + 1;
+  int get version {
+    _checkNotDisposed();
+    return bssl.X509_get_version(_x509) + 1;
+  }
 
   /// Certificate serial number.
   BigInt get serialNumber {
+    _checkNotDisposed();
     final serialAsn1 = bssl.X509_get0_serialNumber(_x509);
     checkPointer(serialAsn1, 'X509_get0_serialNumber');
     return withResource(
@@ -131,6 +164,7 @@ final class X509Certificate implements ffi.Finalizable {
 
   /// Subject distinguished name in one-line format.
   String get subject {
+    _checkNotDisposed();
     final name = bssl.X509_get_subject_name(_x509);
     checkPointer(name, 'X509_get_subject_name');
     return takeOwnedString(
@@ -141,6 +175,7 @@ final class X509Certificate implements ffi.Finalizable {
 
   /// Issuer distinguished name in one-line format.
   String get issuer {
+    _checkNotDisposed();
     final name = bssl.X509_get_issuer_name(_x509);
     checkPointer(name, 'X509_get_issuer_name');
     return takeOwnedString(
@@ -150,13 +185,20 @@ final class X509Certificate implements ffi.Finalizable {
   }
 
   /// Not Before validity timestamp (UTC).
-  DateTime get notBefore => _parseAsn1Time(bssl.X509_get0_notBefore(_x509));
+  DateTime get notBefore {
+    _checkNotDisposed();
+    return _parseAsn1Time(bssl.X509_get0_notBefore(_x509));
+  }
 
   /// Not After validity timestamp (UTC).
-  DateTime get notAfter => _parseAsn1Time(bssl.X509_get0_notAfter(_x509));
+  DateTime get notAfter {
+    _checkNotDisposed();
+    return _parseAsn1Time(bssl.X509_get0_notAfter(_x509));
+  }
 
   /// Extracts the certificate's public key.
   BoringPublicKey get publicKey {
+    _checkNotDisposed();
     final pkey = bssl.X509_get_pubkey(_x509);
     checkPointer(pkey, 'X509_get_pubkey');
     return BoringPublicKey.fromHandle(pkey);
@@ -164,12 +206,18 @@ final class X509Certificate implements ffi.Finalizable {
 
   /// Verifies that this certificate was signed by [issuerPublicKey].
   bool verifySignature(BoringPublicKey issuerPublicKey) {
+    _checkNotDisposed();
     final ret = bssl.X509_verify(_x509, issuerPublicKey.handle);
-    return ret == 1;
+    if (ret != 1) {
+      drainErrorQueue();
+      return false;
+    }
+    return true;
   }
 
   /// All X.509 v3 extensions present on this certificate, in encoding order.
   List<X509Extension> get extensions {
+    _checkNotDisposed();
     final count = bssl.X509_get_ext_count(_x509);
     final result = <X509Extension>[];
     for (var i = 0; i < count; i++) {
@@ -188,6 +236,7 @@ final class X509Certificate implements ffi.Finalizable {
   /// print(issuer?.stringValue); // https://token.actions.githubusercontent.com
   /// ```
   X509Extension? getExtension(String oid) {
+    _checkNotDisposed();
     return using((arena) {
       final oidPtr = oid.toNativeUtf8(allocator: arena);
       final obj = bssl.OBJ_txt2obj(oidPtr.cast(), 1);
@@ -220,12 +269,16 @@ final class X509Certificate implements ffi.Finalizable {
   /// extension. Sigstore certificates carry the signer identity here, either
   /// as an email address ([GeneralNameType.rfc822Name]) or as a workflow URI
   /// ([GeneralNameType.uniformResourceIdentifier]).
-  List<GeneralName> get subjectAlternativeNames =>
-      _readGeneralNames(bssl.NID_subject_alt_name);
+  List<GeneralName> get subjectAlternativeNames {
+    _checkNotDisposed();
+    return _readGeneralNames(bssl.NID_subject_alt_name);
+  }
 
   /// The certificate's `issuerAltName` entries (RFC 5280, Section 4.2.1.7).
-  List<GeneralName> get issuerAlternativeNames =>
-      _readGeneralNames(bssl.NID_issuer_alt_name);
+  List<GeneralName> get issuerAlternativeNames {
+    _checkNotDisposed();
+    return _readGeneralNames(bssl.NID_issuer_alt_name);
+  }
 
   /// The email addresses listed in `subjectAltName`.
   List<String> get emailAddresses => [
@@ -245,11 +298,13 @@ final class X509Certificate implements ffi.Finalizable {
       if (name.type == GeneralNameType.uniformResourceIdentifier) name.value,
   ];
 
-  /// A bitmask of [KeyUsage] values permitted by the `keyUsage` extension.
-  ///
-  /// If the certificate has no `keyUsage` extension, all usages are permitted
-  /// and every bit is set.
-  int get keyUsage => bssl.X509_get_key_usage(_x509);
+  /// A bitmask of [KeyUsage] values permitted by the `keyUsage` extension,
+  /// or `null` if this certificate does not carry a `keyUsage` extension.
+  int? get keyUsage {
+    _checkNotDisposed();
+    if (getExtension(X509Oid.keyUsage) == null) return null;
+    return bssl.X509_get_key_usage(_x509);
+  }
 
   /// The dotted-decimal OIDs listed in the `extKeyUsage` extension.
   ///
@@ -270,7 +325,10 @@ final class X509Certificate implements ffi.Finalizable {
 
   /// Whether this certificate may act as a certificate authority, according to
   /// its `basicConstraints` and `keyUsage` extensions.
-  bool get isCertificateAuthority => bssl.X509_check_ca(_x509) != 0;
+  bool get isCertificateAuthority {
+    _checkNotDisposed();
+    return bssl.X509_check_ca(_x509) != 0;
+  }
 
   /// The OID of the algorithm this certificate's signature was produced with,
   /// for example `1.2.840.10045.4.3.2` for `ecdsa-with-SHA256`.
@@ -289,6 +347,7 @@ final class X509Certificate implements ffi.Finalizable {
       _objectToText(_signatureAlgorithmObject, alwaysNumeric: false);
 
   ffi.Pointer<bssl.ASN1_OBJECT> get _signatureAlgorithmObject {
+    _checkNotDisposed();
     final algorithm = bssl.X509_get0_tbs_sigalg(_x509);
     checkPointer(algorithm, 'X509_get0_tbs_sigalg');
     return using((arena) {
@@ -308,6 +367,22 @@ final class X509Certificate implements ffi.Finalizable {
       return Uint8List.fromList(parsed.contents);
     }
     return ext.value;
+  }
+
+  /// The raw `keyIdentifier` bytes of the `authorityKeyIdentifier` extension
+  /// (RFC 5280, Section 4.2.1.1), or `null` if the certificate does not carry
+  /// one or omits the `keyIdentifier` field.
+  Uint8List? get authorityKeyIdentifier {
+    final ext = getExtension(X509Oid.authorityKeyIdentifier);
+    if (ext == null) return null;
+    final parsed = ext.asn1;
+    if (parsed == null || !parsed.isConstructed) return null;
+    for (final child in parsed.children) {
+      if (child.tagClass == Asn1Class.contextSpecific && child.tagNumber == 0) {
+        return Uint8List.fromList(child.contents);
+      }
+    }
+    return null;
   }
 
   X509Extension _toExtension(ffi.Pointer<bssl.X509_EXTENSION> ext) {

@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:ffi' as ffi;
 import 'dart:typed_data';
@@ -41,12 +40,16 @@ final class DigestContext implements ffi.Finalizable {
   );
 
   final ffi.Pointer<bssl.EVP_MD_CTX> _ctx;
+
+  /// The hash algorithm computed by this digest context.
   final HashAlgorithm algorithm;
   bool _isFinalized = false;
+  bool _isDisposed = false;
 
+  /// Creates a new incremental digest context for [algorithm].
   DigestContext(this.algorithm) : _ctx = bssl.EVP_MD_CTX_new() {
     checkPointer(_ctx, 'EVP_MD_CTX_new');
-    _finalizer.attach(this, _ctx.cast(), externalSize: 128);
+    _finalizer.attach(this, _ctx.cast(), detach: this, externalSize: 128);
     final ret = bssl.EVP_DigestInit_ex(
       _ctx,
       algorithm.evpMd,
@@ -55,8 +58,20 @@ final class DigestContext implements ffi.Finalizable {
     checkBssl(ret, 'EVP_DigestInit_ex');
   }
 
+  /// Releases the underlying native digest context immediately.
+  void dispose() {
+    if (_isDisposed) return;
+    _isDisposed = true;
+    _isFinalized = true;
+    _finalizer.detach(this);
+    bssl.EVP_MD_CTX_free(_ctx);
+  }
+
   /// Feeds [chunk] of bytes into the digest.
   void update(Uint8List chunk) {
+    if (_isDisposed) {
+      throw StateError('DigestContext has been disposed.');
+    }
     if (_isFinalized) {
       throw StateError('Cannot update a finalized DigestContext.');
     }
@@ -75,6 +90,9 @@ final class DigestContext implements ffi.Finalizable {
 
   /// Finalizes the digest and returns the computed hash.
   Uint8List finalize() {
+    if (_isDisposed) {
+      throw StateError('DigestContext has been disposed.');
+    }
     if (_isFinalized) {
       throw StateError('DigestContext already finalized.');
     }
@@ -95,8 +113,12 @@ abstract final class BoringDigest {
   /// Computes the hash of [data] using [algorithm].
   static Uint8List hash(HashAlgorithm algorithm, Uint8List data) {
     final ctx = DigestContext(algorithm);
-    ctx.update(data);
-    return ctx.finalize();
+    try {
+      ctx.update(data);
+      return ctx.finalize();
+    } finally {
+      ctx.dispose();
+    }
   }
 
   /// Computes the hash of [data] using [algorithm]. Alias for [hash].
@@ -128,12 +150,24 @@ abstract final class BoringDigest {
     Stream<List<int>> stream,
   ) async {
     final ctx = DigestContext(algorithm);
-    await for (final chunk in stream) {
-      if (chunk.isEmpty) continue;
-      ctx.update(chunk is Uint8List ? chunk : Uint8List.fromList(chunk));
+    try {
+      await for (final chunk in stream) {
+        if (chunk.isEmpty) continue;
+        ctx.update(chunk is Uint8List ? chunk : Uint8List.fromList(chunk));
+      }
+      return ctx.finalize();
+    } finally {
+      ctx.dispose();
     }
-    return ctx.finalize();
   }
+
+  /// Computes the SHA-1 hash of [stream].
+  static Future<Uint8List> sha1Stream(Stream<List<int>> stream) =>
+      hashStream(HashAlgorithm.sha1, stream);
+
+  /// Computes the SHA-224 hash of [stream].
+  static Future<Uint8List> sha224Stream(Stream<List<int>> stream) =>
+      hashStream(HashAlgorithm.sha224, stream);
 
   /// Computes the SHA-256 hash of [stream].
   static Future<Uint8List> sha256Stream(Stream<List<int>> stream) =>
@@ -146,4 +180,8 @@ abstract final class BoringDigest {
   /// Computes the SHA-512 hash of [stream].
   static Future<Uint8List> sha512Stream(Stream<List<int>> stream) =>
       hashStream(HashAlgorithm.sha512, stream);
+
+  /// Computes the BLAKE2b-256 hash of [stream].
+  static Future<Uint8List> blake2b256Stream(Stream<List<int>> stream) =>
+      hashStream(HashAlgorithm.blake2b256, stream);
 }
