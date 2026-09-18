@@ -5,15 +5,15 @@
 import 'dart:io';
 import 'package:ffigen/ffigen.dart';
 
-void main() {
+Future<void> main() async {
   final packageRoot = Platform.script.resolve('../');
 
   print('Generating Dart FFI bindings for BoringSSL (bssl_dart)...');
 
-  FfiGenerator(
+  await FfiGenerator(
     output: Output(
-      dartFile: packageRoot.resolve(
-        'lib/src/bindings/boringssl.g.dart',
+      dart: DartOutput(
+        path: packageRoot.resolve('lib/src/bindings/boringssl.g.dart'),
       ),
       style: const NativeExternalBindings(
         assetId: 'package:boring/boring.dart',
@@ -33,50 +33,50 @@ void main() {
 // ignore_for_file: unused_field
 ''',
     ),
-    headers: Headers(
+    input: Input(
       entryPoints: [
         packageRoot.resolve('src/wrapper.h'),
       ],
-      compilerOptions: [
+      compilerOptions: const [
         '-Ithird_party/boringssl/src/include',
         '-DBORINGSSL_PREFIX=bssl_dart',
         '-U__PRAGMA_REDEFINE_EXTNAME',
       ],
     ),
-    functions: Functions(
-      include: (decl) => decl.originalName.startsWith('bssl_dart_'),
-      rename: (decl) {
-        final name = decl.originalName;
-        if (name.startsWith('bssl_dart_')) {
-          return name.substring('bssl_dart_'.length);
-        }
-        return name;
-      },
-    ),
-    structs: const Structs(
-      include: Declarations.includeAll,
-      dependencies: CompoundDependencies.opaque,
-    ),
-    typedefs: Typedefs.includeAll,
-    macros: Macros(
-      include: (decl) =>
-          decl.originalName.startsWith('bssl_dart_') ||
-          decl.originalName.startsWith('EVP_') ||
-          decl.originalName.startsWith('NID_') ||
-          decl.originalName.startsWith('RSA_') ||
-          decl.originalName.startsWith('X509_') ||
-          decl.originalName.startsWith('V_ASN1_') ||
-          decl.originalName.startsWith('CBS_ASN1_') ||
-          decl.originalName.startsWith('MBSTRING_') ||
-          decl.originalName.startsWith('AES_'),
-      rename: (decl) {
-        final name = decl.originalName;
-        if (name.startsWith('bssl_dart_')) {
-          return name.substring('bssl_dart_'.length);
-        }
-        return name;
-      },
-    ),
+    visitors: [
+      Visitor(
+        func: (node) {
+          final name = node.originalName;
+          node.isIncluded = name.startsWith('bssl_dart_');
+          if (name.startsWith('bssl_dart_')) {
+            node.name = name.substring('bssl_dart_'.length);
+          }
+        },
+        struct: (node) {
+          node.isIncluded = true;
+          node.dependencies = CompoundDependencies.opaque;
+        },
+        typealias: (node) {
+          node.isIncluded = TypealiasInclude.always;
+        },
+        macroConstant: (node) {
+          final name = node.originalName;
+          node.isIncluded =
+              name.startsWith('bssl_dart_') ||
+              name.startsWith('EVP_') ||
+              name.startsWith('NID_') ||
+              name.startsWith('RSA_') ||
+              name.startsWith('X509_') ||
+              name.startsWith('V_ASN1_') ||
+              name.startsWith('CBS_ASN1_') ||
+              name.startsWith('MBSTRING_') ||
+              name.startsWith('AES_');
+          if (name.startsWith('bssl_dart_')) {
+            node.name = name.substring('bssl_dart_'.length);
+          }
+        },
+      ),
+    ],
   ).generate();
 
   print('BoringSSL FFI bindings generated successfully.');
