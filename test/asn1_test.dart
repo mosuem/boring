@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -174,5 +173,41 @@ void main() {
       final multiByteBool = Asn1Reader.parse(bytes([0x01, 0x02, 0xFF, 0x00]));
       expect(multiByteBool.asBoolean, throwsA(isA<Asn1Exception>()));
     });
+
+    test('asBitString decodes valid BIT STRING and rejects invalid ones', () {
+      final bitStr = Asn1Reader.parse(bytes([0x03, 0x02, 0x07, 0x80]));
+      final decoded = bitStr.asBitString();
+      expect(decoded.unusedBits, 7);
+      expect(decoded.bytes, equals(bytes([0x80])));
+
+      // Non-zero unused trailing bit is invalid in DER.
+      final badBits = Asn1Reader.parse(bytes([0x03, 0x02, 0x07, 0x81]));
+      expect(badBits.asBitString, throwsA(isA<Asn1Exception>()));
+    });
+
+    test(
+      'rejects constructed encodings for primitive types and validates offset',
+      () {
+        final seq = Asn1Reader.parse(bytes([0x30, 0x01, 0xFF]));
+        expect(seq.asInteger, throwsA(isA<Asn1Exception>()));
+        expect(seq.asBoolean, throwsA(isA<Asn1Exception>()));
+        expect(seq.asObjectIdentifier, throwsA(isA<Asn1Exception>()));
+        expect(seq.asString, throwsA(isA<Asn1Exception>()));
+
+        expect(
+          () => Asn1Reader(bytes([0x05, 0x00]), offset: -1),
+          throwsRangeError,
+        );
+        expect(
+          () => Asn1Reader(bytes([0x05, 0x00]), offset: 3),
+          throwsRangeError,
+        );
+
+        final v1 = Asn1Reader.parse(bytes([0x02, 0x01, 0x05]));
+        final v2 = Asn1Reader.parse(bytes([0x02, 0x01, 0x05]));
+        expect(v1, equals(v2));
+        expect(v1.hashCode, equals(v2.hashCode));
+      },
+    );
   });
 }

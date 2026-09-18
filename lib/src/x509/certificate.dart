@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:convert';
 import 'dart:ffi' as ffi;
@@ -209,7 +208,11 @@ final class X509Certificate implements ffi.Finalizable {
   bool verifySignature(BoringPublicKey issuerPublicKey) {
     _checkNotDisposed();
     final ret = bssl.X509_verify(_x509, issuerPublicKey.handle);
-    return ret == 1;
+    if (ret != 1) {
+      drainErrorQueue();
+      return false;
+    }
+    return true;
   }
 
   /// All X.509 v3 extensions present on this certificate, in encoding order.

@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 // coverage:ignore-file
 
@@ -70,18 +69,22 @@ void main(List<String> args) async {
   );
   await buildDir.create(recursive: true);
 
+  final osxArch = targetArch == Architecture.x64 ? 'x86_64' : 'arm64';
+  final cmakeArgs = [
+    '-S',
+    File.fromUri(packageRoot.resolve('src/')).path,
+    '-B',
+    buildDir.path,
+    '-G',
+    'Ninja',
+    '-DCMAKE_BUILD_TYPE=Release',
+    if (targetOS == OS.macOS) '-DCMAKE_OSX_ARCHITECTURES=$osxArch',
+  ];
+
   // Configure CMake
   final configureProcess = await Process.start(
     'cmake',
-    [
-      '-S',
-      File.fromUri(packageRoot.resolve('src/')).path,
-      '-B',
-      buildDir.path,
-      '-G',
-      'Ninja',
-      '-DCMAKE_BUILD_TYPE=Release',
-    ],
+    cmakeArgs,
     mode: ProcessStartMode.inheritStdio,
   );
   var exitCode = await configureProcess.exitCode;

@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:io';
 
@@ -179,6 +178,19 @@ void main() {
       expect(sct!.value, isNotEmpty);
       // The SCT list is a DER OCTET STRING wrapping a TLS-encoded structure.
       expect(sct.asn1?.hasUniversalTag(Asn1Tag.octetString), isTrue);
+      // Binary OCTET STRING must return null for stringValue instead of
+      // throwing.
+      expect(sct.stringValue, isNull);
+      expect(
+        cert.getExtensionString(X509Oid.signedCertificateTimestamps),
+        isNull,
+      );
+
+      // Adding the same certificate twice to X509Verifier is idempotent.
+      final verifier = X509Verifier();
+      verifier.addTrustedCertificate(cert);
+      verifier.addTrustedCertificate(cert);
+      verifier.dispose();
     });
 
     test('extension payloads can be decoded with the ASN.1 reader', () {

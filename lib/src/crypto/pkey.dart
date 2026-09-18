@@ -200,6 +200,27 @@ final class BoringPublicKey implements ffi.Finalizable {
     );
   }
 
+  void _validateVerifyParameters(HashAlgorithm? algorithm) {
+    _checkNotDisposed();
+    if (keyType == KeyType.x25519) {
+      throw UnsupportedError(
+        'X25519 keys only support key agreement (deriveSharedSecret), '
+        'not signature verification.',
+      );
+    }
+    if (keyType == KeyType.ed25519 && algorithm != null) {
+      throw ArgumentError.value(
+        algorithm,
+        'algorithm',
+        'Ed25519 does not take a separate HashAlgorithm; omit algorithm.',
+      );
+    }
+    if ((keyType == KeyType.rsa || keyType == KeyType.ec) &&
+        algorithm == null) {
+      throw ArgumentError.notNull('algorithm');
+    }
+  }
+
   /// Verifies a digital [signature] over [data].
   ///
   /// For Ed25519, [algorithm] must be omitted (`null`). For RSA and ECDSA,
@@ -217,18 +238,7 @@ final class BoringPublicKey implements ffi.Finalizable {
     RsaSignaturePadding rsaPadding = RsaSignaturePadding.pkcs1,
     int? pssSaltLength,
   }) {
-    _checkNotDisposed();
-    if (keyType == KeyType.ed25519 && algorithm != null) {
-      throw ArgumentError.value(
-        algorithm,
-        'algorithm',
-        'Ed25519 does not take a separate HashAlgorithm; omit algorithm.',
-      );
-    }
-    if ((keyType == KeyType.rsa || keyType == KeyType.ec) &&
-        algorithm == null) {
-      throw ArgumentError.notNull('algorithm');
-    }
+    _validateVerifyParameters(algorithm);
     return withResource(
       create: bssl.EVP_MD_CTX_new,
       destroy: bssl.EVP_MD_CTX_free,
@@ -294,8 +304,10 @@ final class BoringPublicKey implements ffi.Finalizable {
     int? pssSaltLength,
   }) {
     _checkNotDisposed();
-    if (keyType == KeyType.ed25519) {
-      throw UnsupportedError('Ed25519 does not support precomputed digests.');
+    if (keyType == KeyType.ed25519 || keyType == KeyType.x25519) {
+      throw UnsupportedError(
+        '$keyType does not support precomputed digest verification.',
+      );
     }
     return withResource(
       create: () => bssl.EVP_PKEY_CTX_new(_pkey, ffi.nullptr),
@@ -351,7 +363,7 @@ final class BoringPublicKey implements ffi.Finalizable {
     RsaSignaturePadding rsaPadding = RsaSignaturePadding.pkcs1,
     int? pssSaltLength,
   }) async {
-    _checkNotDisposed();
+    _validateVerifyParameters(algorithm);
     if (keyType == KeyType.ed25519) {
       final bb = BytesBuilder();
       await for (final chunk in data) {
@@ -801,6 +813,27 @@ final class BoringPrivateKey implements ffi.Finalizable {
     return Uint8List.sublistView(secret, 0, length);
   }
 
+  void _validateSignParameters(HashAlgorithm? algorithm) {
+    _checkNotDisposed();
+    if (keyType == KeyType.x25519) {
+      throw UnsupportedError(
+        'X25519 keys only support key agreement (deriveSharedSecret), '
+        'not signing.',
+      );
+    }
+    if (keyType == KeyType.ed25519 && algorithm != null) {
+      throw ArgumentError.value(
+        algorithm,
+        'algorithm',
+        'Ed25519 does not take a separate HashAlgorithm; omit algorithm.',
+      );
+    }
+    if ((keyType == KeyType.rsa || keyType == KeyType.ec) &&
+        algorithm == null) {
+      throw ArgumentError.notNull('algorithm');
+    }
+  }
+
   /// Generates a digital signature over [data].
   ///
   /// For Ed25519, [algorithm] must be omitted (`null`). For RSA and ECDSA,
@@ -816,18 +849,7 @@ final class BoringPrivateKey implements ffi.Finalizable {
     RsaSignaturePadding rsaPadding = RsaSignaturePadding.pkcs1,
     int? pssSaltLength,
   }) {
-    _checkNotDisposed();
-    if (keyType == KeyType.ed25519 && algorithm != null) {
-      throw ArgumentError.value(
-        algorithm,
-        'algorithm',
-        'Ed25519 does not take a separate HashAlgorithm; omit algorithm.',
-      );
-    }
-    if ((keyType == KeyType.rsa || keyType == KeyType.ec) &&
-        algorithm == null) {
-      throw ArgumentError.notNull('algorithm');
-    }
+    _validateSignParameters(algorithm);
     return withResource(
       create: bssl.EVP_MD_CTX_new,
       destroy: bssl.EVP_MD_CTX_free,
@@ -883,8 +905,10 @@ final class BoringPrivateKey implements ffi.Finalizable {
     int? pssSaltLength,
   }) {
     _checkNotDisposed();
-    if (keyType == KeyType.ed25519) {
-      throw UnsupportedError('Ed25519 does not support precomputed digests.');
+    if (keyType == KeyType.ed25519 || keyType == KeyType.x25519) {
+      throw UnsupportedError(
+        '$keyType does not support precomputed digest signing.',
+      );
     }
     return withResource(
       create: () => bssl.EVP_PKEY_CTX_new(_pkey, ffi.nullptr),
@@ -939,7 +963,7 @@ final class BoringPrivateKey implements ffi.Finalizable {
     RsaSignaturePadding rsaPadding = RsaSignaturePadding.pkcs1,
     int? pssSaltLength,
   }) async {
-    _checkNotDisposed();
+    _validateSignParameters(algorithm);
     if (keyType == KeyType.ed25519) {
       final bb = BytesBuilder();
       await for (final chunk in data) {

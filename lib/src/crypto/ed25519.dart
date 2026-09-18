@@ -81,10 +81,8 @@ abstract final class BoringEd25519 {
     if (payload == null) {
       throw ArgumentError('Either message or data must be provided.');
     }
-    final fullPrivKey = privateKey.length == ed25519SeedLength
-        ? keyPairFromSeed(privateKey).privateKey
-        : privateKey;
-    if (fullPrivKey.length != ed25519PrivateKeyLength) {
+    if (privateKey.length != ed25519PrivateKeyLength &&
+        privateKey.length != ed25519SeedLength) {
       throw ArgumentError.value(
         privateKey.length,
         'privateKey',
@@ -93,12 +91,21 @@ abstract final class BoringEd25519 {
       );
     }
     return withSizedOutput(ed25519SignatureLength, (out, arena) {
+      final ffi.Pointer<ffi.Uint8> privKeyPtr;
+      if (privateKey.length == ed25519SeedLength) {
+        final seedPtr = copySecretBytesToNative(privateKey, arena);
+        final pubKeyPtr = arena<ffi.Uint8>(ed25519PublicKeyLength);
+        privKeyPtr = allocateSecretBytes(ed25519PrivateKeyLength, arena);
+        bssl.ED25519_keypair_from_seed(pubKeyPtr, privKeyPtr, seedPtr);
+      } else {
+        privKeyPtr = copySecretBytesToNative(privateKey, arena);
+      }
       checkBssl(
         bssl.ED25519_sign(
           out,
           copyBytesOrNull(payload, arena),
           payload.length,
-          copySecretBytesToNative(fullPrivKey, arena),
+          privKeyPtr,
         ),
         'ED25519_sign',
       );
@@ -129,7 +136,11 @@ abstract final class BoringEd25519 {
         copyBytesToNative(signature, arena),
         copyBytesToNative(publicKey, arena),
       );
-      return ret == 1;
+      if (ret != 1) {
+        drainErrorQueue();
+        return false;
+      }
+      return true;
     });
   }
 }

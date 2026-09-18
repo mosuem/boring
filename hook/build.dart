@@ -57,7 +57,11 @@ Future<void> main(List<String> args) async {
       case BuildModeEnum.local:
         await _useLocalBinary(input, output, buildOptions.localPath);
     }
-    output.dependencies.add(input.packageRoot.resolve('pubspec.yaml'));
+    output.dependencies.addAll([
+      input.packageRoot.resolve('pubspec.yaml'),
+      input.packageRoot.resolve('hook/build.dart'),
+      input.packageRoot.resolve('lib/src/hook_helpers/hashes.dart'),
+    ]);
   });
 }
 
@@ -90,6 +94,7 @@ Future<void> _fetchPrebuiltBinary(
   stdout.writeln('boring: fetching prebuilt binary from $binaryUrl...');
 
   final client = HttpClient();
+  final List<int> bytes;
   try {
     final request = await client.getUrl(binaryUrl);
     final response = await request.close();
@@ -102,40 +107,47 @@ Future<void> _fetchPrebuiltBinary(
       await _buildLocalCMake(input, output);
       return;
     }
-
-    final bytes = await response.fold<List<int>>([], (a, b) => a..addAll(b));
-    final actualHash = sha256Hex(bytes);
-
-    if (actualHash != expectedHash) {
-      throw BuildError(
-        message:
-            'SHA256 hash mismatch for prebuilt binary $assetRemoteName.\n'
-            'Expected: $expectedHash\n'
-            'Actual:   $actualHash\n'
-            'To build boring locally from source instead, set '
-            '`buildMode: checkout` in your pubspec.yaml under '
-            '`hooks.user_defines.boring`.',
-      );
-    }
-
-    stdout.writeln('boring: verified SHA256 checksum ($actualHash).');
-
-    final libraryFile = File.fromUri(
-      input.outputDirectory.resolve(dylibFileName),
+    bytes = await response.fold<List<int>>([], (a, b) => a..addAll(b));
+  } on IOException catch (e) {
+    stdout.writeln(
+      'boring: network error downloading prebuilt binary ($e), '
+      'falling back to building from local source.',
     );
-    await libraryFile.writeAsBytes(bytes);
-
-    output.assets.code.add(
-      CodeAsset(
-        package: input.packageName,
-        name: _assetName,
-        linkMode: DynamicLoadingBundled(),
-        file: libraryFile.uri,
-      ),
-    );
+    await _buildLocalCMake(input, output);
+    return;
   } finally {
     client.close();
   }
+
+  final actualHash = sha256Hex(bytes);
+
+  if (actualHash != expectedHash) {
+    throw BuildError(
+      message:
+          'SHA256 hash mismatch for prebuilt binary $assetRemoteName.\n'
+          'Expected: $expectedHash\n'
+          'Actual:   $actualHash\n'
+          'To build boring locally from source instead, set '
+          '`buildMode: checkout` in your pubspec.yaml under '
+          '`hooks.user_defines.boring`.',
+    );
+  }
+
+  stdout.writeln('boring: verified SHA256 checksum ($actualHash).');
+
+  final libraryFile = File.fromUri(
+    input.outputDirectory.resolve(dylibFileName),
+  );
+  await libraryFile.writeAsBytes(bytes);
+
+  output.assets.code.add(
+    CodeAsset(
+      package: input.packageName,
+      name: _assetName,
+      linkMode: DynamicLoadingBundled(),
+      file: libraryFile.uri,
+    ),
+  );
 }
 
 Future<void> _useLocalBinary(

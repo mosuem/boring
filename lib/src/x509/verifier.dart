@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:ffi' as ffi;
 import 'package:ffi/ffi.dart';
@@ -232,10 +231,19 @@ final class X509Verifier implements ffi.Finalizable {
   }
 
   /// Adds a trusted root certificate to this verifier.
+  ///
+  /// Safe to call with a certificate that is already present in the store.
   void addTrustedCertificate(X509Certificate certificate) {
     _checkNotDisposed();
     final ret = bssl.X509_STORE_add_cert(_store, certificate.handle);
-    checkBssl(ret, 'X509_STORE_add_cert');
+    if (ret != 1) {
+      final err = bssl.ERR_peek_last_error();
+      if ((err & 0xfff) == bssl.X509_R_CERT_ALREADY_IN_HASH_TABLE) {
+        bssl.ERR_clear_error();
+        return;
+      }
+      checkBssl(ret, 'X509_STORE_add_cert');
+    }
   }
 
   /// Adds multiple trusted root [certificates] to this verifier.
@@ -401,6 +409,7 @@ final class X509Verifier implements ffi.Finalizable {
             errorDepth: bssl.X509_STORE_CTX_get_error_depth(ctx),
           );
         } finally {
+          bssl.ERR_clear_error();
           if (rawStack != ffi.nullptr) {
             bssl.OPENSSL_sk_free(rawStack);
           }

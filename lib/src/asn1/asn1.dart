@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:convert';
 import 'dart:ffi' as ffi;
@@ -147,39 +146,51 @@ final class Asn1Value {
   /// alternative rather than the string type, so the underlying type is assumed
   /// to be `UTF8String` unless [stringType] is given. Pass one of the
   /// [Asn1Tag] string constants to override it.
-  String asString({int? stringType}) => withResource(
-    // ASN1_STRING_to_UTF8 dispatches on the ASN1_STRING's type field, which
-    // uses the same numbering as universal ASN.1 tags.
-    create: () => bssl.ASN1_STRING_type_new(
-      stringType ??
-          (tagClass == Asn1Class.universal ? tagNumber : Asn1Tag.utf8String),
-    ),
-    destroy: bssl.ASN1_STRING_free,
-    operation: 'ASN1_STRING_type_new',
-    body: (str) => using((arena) {
-      final buf = arena<ffi.Uint8>(contents.length);
-      buf.asTypedList(contents.length).setAll(0, contents);
-      if (bssl.ASN1_STRING_set(str.cast(), buf.cast(), contents.length) != 1) {
-        throw const Asn1Exception('Failed to load ASN.1 string contents');
-      }
-      final out = arena<ffi.Pointer<ffi.UnsignedChar>>();
-      final length = bssl.ASN1_STRING_to_UTF8(out, str);
-      if (length < 0) {
-        drainErrorQueue();
-        throw const Asn1Exception('Value is not a decodable ASN.1 string');
-      }
-      try {
-        return utf8.decode(out.value.cast<ffi.Uint8>().asTypedList(length));
-      } finally {
-        bssl.OPENSSL_free(out.value.cast());
-      }
-    }),
-  );
+  String asString({int? stringType}) {
+    if (isConstructed) {
+      throw const Asn1Exception('Constructed element is not a valid string');
+    }
+    return withResource(
+      // ASN1_STRING_to_UTF8 dispatches on the ASN1_STRING's type field, which
+      // uses the same numbering as universal ASN.1 tags.
+      create: () => bssl.ASN1_STRING_type_new(
+        stringType ??
+            (tagClass == Asn1Class.universal ? tagNumber : Asn1Tag.utf8String),
+      ),
+      destroy: bssl.ASN1_STRING_free,
+      operation: 'ASN1_STRING_type_new',
+      body: (str) => using((arena) {
+        final buf = arena<ffi.Uint8>(contents.isEmpty ? 1 : contents.length);
+        buf.asTypedList(contents.length).setAll(0, contents);
+        if (bssl.ASN1_STRING_set(str.cast(), buf.cast(), contents.length) !=
+            1) {
+          drainErrorQueue();
+          throw const Asn1Exception('Failed to load ASN.1 string contents');
+        }
+        final out = arena<ffi.Pointer<ffi.UnsignedChar>>();
+        final length = bssl.ASN1_STRING_to_UTF8(out, str);
+        if (length < 0) {
+          drainErrorQueue();
+          throw const Asn1Exception('Value is not a decodable ASN.1 string');
+        }
+        try {
+          return utf8.decode(out.value.cast<ffi.Uint8>().asTypedList(length));
+        } on FormatException {
+          throw const Asn1Exception('Value is not valid UTF-8');
+        } finally {
+          bssl.OPENSSL_free(out.value.cast());
+        }
+      }),
+    );
+  }
 
   /// Decodes [contents] as a signed big-endian `INTEGER`.
   ///
   /// Validation and sign handling are performed by BoringSSL.
   BigInt asInteger() => using((arena) {
+    if (isConstructed) {
+      throw const Asn1Exception('Value is not a valid ASN.1 INTEGER');
+    }
     final cbs = _cbsFor(contents, arena);
     final isNegative = arena<ffi.Int>();
     if (bssl.CBS_is_valid_asn1_integer(cbs, isNegative) != 1) {
@@ -202,7 +213,7 @@ final class Asn1Value {
 
   /// Decodes [contents] as a `BOOLEAN`.
   bool asBoolean() => using((arena) {
-    if (contents.length != 1) {
+    if (isConstructed || contents.length != 1) {
       throw const Asn1Exception('Value is not a valid ASN.1 BOOLEAN');
     }
     // CBS_get_asn1_bool parses a full TLV, so re-wrap the contents.
@@ -220,6 +231,11 @@ final class Asn1Value {
 
   /// Decodes [contents] as a dotted-decimal `OBJECT IDENTIFIER` string.
   String asObjectIdentifier() => using((arena) {
+    if (isConstructed) {
+      throw const Asn1Exception(
+        'Value is not a valid ASN.1 OBJECT IDENTIFIER',
+      );
+    }
     final text = bssl.CBS_asn1_oid_to_text(_cbsFor(contents, arena));
     if (text == ffi.nullptr) {
       drainErrorQueue();
@@ -228,6 +244,22 @@ final class Asn1Value {
       );
     }
     return takeOwnedString(text, 'CBS_asn1_oid_to_text');
+  });
+
+  /// Decodes [contents] as a DER `BIT STRING`, returning the payload `bytes`
+  /// and the count of trailing `unusedBits` (`0..7`) in the last byte.
+  ({Uint8List bytes, int unusedBits}) asBitString() => using((arena) {
+    if (isConstructed || contents.isEmpty) {
+      throw const Asn1Exception('Value is not a valid ASN.1 BIT STRING');
+    }
+    final cbs = _cbsFor(contents, arena);
+    if (bssl.CBS_is_valid_asn1_bitstring(cbs) != 1) {
+      throw const Asn1Exception('Value is not a valid ASN.1 BIT STRING');
+    }
+    return (
+      bytes: Uint8List.fromList(Uint8List.sublistView(contents, 1)),
+      unusedBits: contents[0],
+    );
   });
 
   /// Parses [contents] as a sequence of nested DER elements.
@@ -239,6 +271,23 @@ final class Asn1Value {
     }
     return Asn1Reader(contents).readAll();
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! Asn1Value ||
+        other.tag != tag ||
+        other.contents.length != contents.length) {
+      return false;
+    }
+    for (var i = 0; i < contents.length; i++) {
+      if (other.contents[i] != contents[i]) return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode => Object.hash(tag, Object.hashAll(contents));
 
   @override
   String toString() =>
@@ -266,7 +315,12 @@ final class Asn1Reader {
   /// Creates a reader over [bytes], optionally starting at [offset].
   Asn1Reader(Uint8List bytes, {int offset = 0})
     : _bytes = bytes,
-      _offset = offset;
+      _offset = RangeError.checkValueInInterval(
+        offset,
+        0,
+        bytes.length,
+        'offset',
+      );
 
   /// The current read position within the underlying bytes.
   int get offset => _offset;
