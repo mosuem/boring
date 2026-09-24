@@ -358,6 +358,8 @@ hooks:
 - **`checkout`**: Always compiles BoringSSL locally from bundled sources via CMake and Ninja.
 - **`local`**: Uses a custom prebuilt dynamic library at `localPath`.
 
+For details on how first-party Dart SDK tools (such as `dart pub`) and `package:boring` can reuse the `//third_party/boringssl` library already bundled with the Dart SDK, see [`doc/reusing_dart_sdk_boringssl.md`](doc/reusing_dart_sdk_boringssl.md).
+
 ---
 
 ## Conformance Testing
