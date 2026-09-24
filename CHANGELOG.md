@@ -3,6 +3,18 @@
 Expanded cryptographic primitives to match modern native application and
 `package:webcrypto` capabilities:
 
+- **X25519 Key Agreement**: Added `BoringX25519` (`generateKeyPair`,
+  `publicKeyFromPrivate`, `computeSharedSecret`), `KeyType.x25519`,
+  `BoringPrivateKey.generateX25519()`, and `deriveSharedSecret` / `deriveBits`
+  support for X25519 keys.
+- **Constant-Time Verification**: Added `BoringCrypto.timingSafeEqual` (wrapping
+  `CRYPTO_memcmp`), `BoringHmac.verify`, and `BoringHmac.verifyStream`.
+- **Key Generation & Raw Key Import/Export**: Added
+  `BoringPrivateKey.generateEd25519()`, `BoringPrivateKey.fromRawKey()`,
+  `BoringPublicKey.fromRawKey()`, and `.toRawBytes()` for 32-byte Ed25519/X25519
+  keys, plus optional `password` support on `BoringPrivateKey.fromPem` and
+  `toPem` for encrypted PKCS#8 PEM keys. Also allowed `BoringEd25519.sign` to
+  accept a 32-byte seed directly.
 - **PBKDF2**: Added `BoringPbkdf2.deriveBits` and `deriveKey` for password-based
   key derivation (RFC 2898 / PKCS #5 v2.0) across all supported hash algorithms.
 - **Symmetric Ciphers (AES-CBC & AES-CTR)**: Added `BoringCipher` and
@@ -20,10 +32,14 @@ Expanded cryptographic primitives to match modern native application and
   `deriveBits` for elliptic-curve Diffie-Hellman key agreement across P-256,
   P-384, and P-521.
 - **Streaming APIs**: Added stream-based operations:
-  - `BoringDigest.hashStream` and `sha256Stream`/`sha384Stream`/`sha512Stream`.
-  - `BoringHmac.computeStream` and `sha256Stream`/`sha384Stream`/`sha512Stream`.
+  - `BoringDigest.hashStream` and `sha1Stream`/`sha224Stream`/`sha256Stream`/`sha384Stream`/`sha512Stream`/`blake2b256Stream`.
+  - `BoringHmac.computeStream`, `verifyStream`, and `sha256Stream`/`sha384Stream`/`sha512Stream`.
   - `BoringPrivateKey.signStream` and `BoringPublicKey.verifyStream` for RSA,
     ECDSA, and Ed25519.
+- **Deterministic Disposal & Memory Cleansing**: Added `.dispose()` to
+  `BoringPrivateKey`, `BoringPublicKey`, `X509Certificate`, `X509Verifier`,
+  `DigestContext`, and `HmacContext`, and ensured ephemeral secret buffers in
+  FFI arenas are scrubbed via `OPENSSL_cleanse` before deallocation.
 - **Wycheproof Conformance**: Added conformance test suites for AES-CBC, AES Key
   Wrap, PBKDF2, RSA-PSS, RSA-OAEP, and ECDH.
 
@@ -31,6 +47,12 @@ Expanded cryptographic primitives to match modern native application and
 package is validated against the [x509-limbo](https://x509-limbo.com) path
 validation suite.
 
+- **Breaking:** `X509Certificate.keyUsage` now returns `int?` (`null` when the
+  certificate does not carry a `keyUsage` extension) instead of `0xFFFFFFFF`.
+- `X509Certificate` gained `sha256Fingerprint`, `authorityKeyIdentifier`,
+  `signatureAlgorithm` (OID), and `signatureAlgorithmName`.
+- `X509Verifier` gained `addTrustedCertificates` and
+  `addTrustedCertificatesPem`.
 - `X509Verifier.verify` gained seven options:
   - `peerNames`: names the leaf must assert, as `X509PeerName.dnsName`,
     `X509PeerName.ipAddress` or `X509PeerName.emailAddress`. Several DNS names
@@ -62,8 +84,6 @@ validation suite.
   restore the old behaviour.
 - `X509VerificationResult` gained `errorDepth`, the position in the chain at
   which verification failed.
-- `X509Certificate` gained `signatureAlgorithm` (OID) and
-  `signatureAlgorithmName`.
 - Added the x509-limbo conformance suite (`./tool/run_x509_limbo_tests.sh`),
   covering 9,770 chain building and validation testcases. 94.5% agree with the
   suite; the remainder are listed with an explanation in

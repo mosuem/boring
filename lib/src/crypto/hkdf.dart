@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:ffi' as ffi;
 import 'dart:typed_data';
@@ -37,13 +36,13 @@ abstract final class BoringHkdf {
       return Uint8List(0);
     }
 
-    return withSizedOutput(length, (out, arena) {
+    return withSecretSizedOutput(length, (out, arena) {
       checkBssl(
         bssl.HKDF(
           out,
           length,
           algorithm.evpMd,
-          copyBytesToNative(ikm, arena),
+          copySecretBytesToNative(ikm, arena),
           ikm.length,
           copyBytesOrNull(salt, arena),
           salt?.length ?? 0,
@@ -61,14 +60,14 @@ abstract final class BoringHkdf {
     required HashAlgorithm algorithm,
     required Uint8List ikm,
     Uint8List? salt,
-  }) => withSizedOutput(algorithm.digestLength, (out, arena) {
+  }) => withSecretSizedOutput(algorithm.digestLength, (out, arena) {
     final outLen = arena<ffi.Size>();
     checkBssl(
       bssl.HKDF_extract(
         out,
         outLen,
         algorithm.evpMd,
-        copyBytesToNative(ikm, arena),
+        copySecretBytesToNative(ikm, arena),
         ikm.length,
         copyBytesOrNull(salt, arena),
         salt?.length ?? 0,
@@ -96,13 +95,13 @@ abstract final class BoringHkdf {
       return Uint8List(0);
     }
 
-    return withSizedOutput(length, (out, arena) {
+    return withSecretSizedOutput(length, (out, arena) {
       checkBssl(
         bssl.HKDF_expand(
           out,
           length,
           algorithm.evpMd,
-          copyBytesToNative(prk, arena),
+          copySecretBytesToNative(prk, arena),
           prk.length,
           copyBytesOrNull(info, arena),
           info?.length ?? 0,

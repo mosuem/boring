@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:io';
 
@@ -134,9 +133,11 @@ void main() {
     });
 
     test('reports key usage as digital signature only', () {
-      expect(cert.keyUsage & KeyUsage.digitalSignature, isNonZero);
-      expect(cert.keyUsage & KeyUsage.keyCertSign, isZero);
-      expect(cert.keyUsage & KeyUsage.crlSign, isZero);
+      final usage = cert.keyUsage;
+      expect(usage, isNotNull);
+      expect(usage! & KeyUsage.digitalSignature, isNonZero);
+      expect(usage & KeyUsage.keyCertSign, isZero);
+      expect(usage & KeyUsage.crlSign, isZero);
     });
 
     test('reports code signing extended key usage', () {
@@ -159,6 +160,17 @@ void main() {
       );
     });
 
+    test('exposes the authority key identifier and sha256Fingerprint', () {
+      final akid = cert.authorityKeyIdentifier;
+      expect(akid, isNotNull);
+      expect(akid, hasLength(20));
+      expect(
+        akid!.map((b) => b.toRadixString(16).padLeft(2, '0')).join(),
+        'dfd3e9cf56241196f9a8d8e92855a2c62e18643f',
+      );
+      expect(cert.sha256Fingerprint, hasLength(32));
+    });
+
     test('exposes raw extension bytes for unparsed extensions', () {
       final sct = cert.getExtension(X509Oid.signedCertificateTimestamps);
 
@@ -166,6 +178,19 @@ void main() {
       expect(sct!.value, isNotEmpty);
       // The SCT list is a DER OCTET STRING wrapping a TLS-encoded structure.
       expect(sct.asn1?.hasUniversalTag(Asn1Tag.octetString), isTrue);
+      // Binary OCTET STRING must return null for stringValue instead of
+      // throwing.
+      expect(sct.stringValue, isNull);
+      expect(
+        cert.getExtensionString(X509Oid.signedCertificateTimestamps),
+        isNull,
+      );
+
+      // Adding the same certificate twice to X509Verifier is idempotent.
+      final verifier = X509Verifier();
+      verifier.addTrustedCertificate(cert);
+      verifier.addTrustedCertificate(cert);
+      verifier.dispose();
     });
 
     test('extension payloads can be decoded with the ASN.1 reader', () {

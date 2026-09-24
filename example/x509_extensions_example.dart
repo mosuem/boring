@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 // Inspects the extensions of a real Sigstore Fulcio code-signing certificate.
 //
@@ -79,7 +78,7 @@ void main() {
   }
 
   print('\n=== Usage constraints ===');
-  final canSign = cert.keyUsage & KeyUsage.digitalSignature != 0;
+  final canSign = (cert.keyUsage ?? 0) & KeyUsage.digitalSignature != 0;
   print('Digital signature: $canSign');
   print('Extended key usage: ${cert.extendedKeyUsage}');
 

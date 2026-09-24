@@ -1,11 +1,9 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
-import 'dart:ffi';
 import 'dart:typed_data';
-import 'package:ffi/ffi.dart';
 import '../bindings/boringssl.g.dart' as bssl;
+import '../ffi/arena.dart';
 import '../ffi/error.dart';
 
 /// Cryptographically secure pseudorandom number generator (CSPRNG).
@@ -18,11 +16,9 @@ abstract final class BoringRand {
     if (count == 0) {
       return Uint8List(0);
     }
-    return using((arena) {
-      final buffer = arena<Uint8>(count);
-      final result = bssl.RAND_bytes(buffer, count);
-      checkBssl(result, 'RAND_bytes');
-      return Uint8List.fromList(buffer.asTypedList(count));
+    return withSecretSizedOutput(count, (buffer, _) {
+      checkBssl(bssl.RAND_bytes(buffer, count), 'RAND_bytes');
+      return count;
     });
   }
 }

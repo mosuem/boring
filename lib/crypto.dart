@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 /// Cryptographic operations powered by BoringSSL.
 library;
@@ -27,4 +26,11 @@ export 'src/crypto/pkey.dart'
         KeyType,
         RsaSignaturePadding;
 export 'src/crypto/rand.dart' show BoringRand;
+export 'src/crypto/x25519.dart'
+    show
+        BoringCrypto,
+        BoringX25519,
+        x25519PrivateKeyLength,
+        x25519PublicKeyLength,
+        x25519SharedKeyLength;
 export 'src/ffi/error.dart' show BoringSslException;

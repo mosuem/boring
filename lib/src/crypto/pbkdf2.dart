@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:typed_data';
 import '../bindings/boringssl.g.dart' as bssl;
@@ -11,21 +10,26 @@ import 'digest.dart';
 /// Password-Based Key Derivation Function 2 (PBKDF2, RFC 2898 / PKCS #5 v2.0).
 abstract final class BoringPbkdf2 {
   /// Derives [length] bytes of key material from [password] and [salt] using
-  /// [hash] and the specified number of [iterations].
+  /// [hash] (or [algorithm]) and the specified number of [iterations].
   ///
-  /// - [hash]: Hash algorithm for the underlying HMAC (e.g.
+  /// - [hash] / [algorithm]: Hash algorithm for the underlying HMAC (e.g.
   ///   [HashAlgorithm.sha256]).
   /// - [password]: Input password or passphrase.
   /// - [salt]: Cryptographic salt.
   /// - [iterations]: Iteration count (must be positive).
   /// - [length]: Desired output length in bytes (must be non-negative).
   static Uint8List deriveBits({
-    required HashAlgorithm hash,
+    HashAlgorithm? hash,
+    HashAlgorithm? algorithm,
     required Uint8List password,
     required Uint8List salt,
     required int iterations,
     required int length,
   }) {
+    final md = hash ?? algorithm;
+    if (md == null) {
+      throw ArgumentError('Either hash or algorithm must be specified.');
+    }
     if (iterations <= 0) {
       throw ArgumentError.value(
         iterations,
@@ -44,8 +48,8 @@ abstract final class BoringPbkdf2 {
       return Uint8List(0);
     }
 
-    return withSizedOutput(length, (out, arena) {
-      final passPtr = copyBytesToNative(password, arena);
+    return withSecretSizedOutput(length, (out, arena) {
+      final passPtr = copySecretBytesToNative(password, arena);
       final saltPtr = copyBytesToNative(salt, arena);
       final ret = bssl.PKCS5_PBKDF2_HMAC(
         passPtr.cast(),
@@ -53,7 +57,7 @@ abstract final class BoringPbkdf2 {
         saltPtr,
         salt.length,
         iterations,
-        hash.evpMd,
+        md.evpMd,
         length,
         out,
       );
@@ -64,13 +68,15 @@ abstract final class BoringPbkdf2 {
 
   /// Convenience wrapper around [deriveBits] to derive key material.
   static Uint8List deriveKey({
-    required HashAlgorithm hash,
+    HashAlgorithm? hash,
+    HashAlgorithm? algorithm,
     required Uint8List password,
     required Uint8List salt,
     required int iterations,
     required int length,
   }) => deriveBits(
     hash: hash,
+    algorithm: algorithm,
     password: password,
     salt: salt,
     iterations: iterations,

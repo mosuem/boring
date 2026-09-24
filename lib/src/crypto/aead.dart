@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:ffi' as ffi;
 import 'dart:typed_data';
@@ -43,7 +42,11 @@ final class BoringAead implements ffi.Finalizable {
   );
 
   final ffi.Pointer<bssl.EVP_AEAD_CTX> _ctx;
+
+  /// The AEAD algorithm used by this cipher instance.
   final AeadAlgorithm algorithm;
+
+  bool _isDisposed = false;
 
   /// Initializes an AEAD cipher for [algorithm] with the given [key].
   BoringAead(this.algorithm, Uint8List key)
@@ -56,7 +59,7 @@ final class BoringAead implements ffi.Finalizable {
                 '${algorithm.name}',
           );
         }
-        final keyPtr = copyBytesToNative(key, arena);
+        final keyPtr = copySecretBytesToNative(key, arena);
         final ctx = bssl.EVP_AEAD_CTX_new(
           algorithm._evpAead,
           keyPtr,
@@ -65,7 +68,21 @@ final class BoringAead implements ffi.Finalizable {
         );
         return checkPointer(ctx, 'EVP_AEAD_CTX_new');
       }) {
-    _finalizer.attach(this, _ctx.cast(), externalSize: 512);
+    _finalizer.attach(this, _ctx.cast(), detach: this, externalSize: 512);
+  }
+
+  void _checkNotDisposed() {
+    if (_isDisposed) {
+      throw StateError('BoringAead has been disposed.');
+    }
+  }
+
+  /// Releases the underlying native AEAD key schedule immediately.
+  void dispose() {
+    if (_isDisposed) return;
+    _isDisposed = true;
+    _finalizer.detach(this);
+    bssl.EVP_AEAD_CTX_free(_ctx);
   }
 
   /// Encrypts and authenticates [plaintext] with [nonce] and optional
@@ -75,6 +92,7 @@ final class BoringAead implements ffi.Finalizable {
     required Uint8List plaintext,
     Uint8List? additionalData,
   }) {
+    _checkNotDisposed();
     _checkNonce(nonce);
     final maxOutLen = plaintext.length + algorithm.maxOverhead;
     return withSizedOutput(maxOutLen, (out, arena) {
@@ -87,7 +105,7 @@ final class BoringAead implements ffi.Finalizable {
           maxOutLen,
           copyBytesToNative(nonce, arena),
           nonce.length,
-          copyBytesOrNull(plaintext, arena),
+          copySecretBytesOrNull(plaintext, arena),
           plaintext.length,
           copyBytesOrNull(additionalData, arena),
           additionalData?.length ?? 0,
@@ -107,8 +125,9 @@ final class BoringAead implements ffi.Finalizable {
     required Uint8List ciphertext,
     Uint8List? additionalData,
   }) {
+    _checkNotDisposed();
     _checkNonce(nonce);
-    return withSizedOutput(ciphertext.length, (out, arena) {
+    return withSecretSizedOutput(ciphertext.length, (out, arena) {
       final outLen = arena<ffi.Size>();
       checkBssl(
         bssl.EVP_AEAD_CTX_open(

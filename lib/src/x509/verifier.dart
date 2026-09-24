@@ -1,6 +1,5 @@
-// Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+// Version 2.0. See the LICENSE file for details.
 
 import 'dart:ffi' as ffi;
 import 'package:ffi/ffi.dart';
@@ -139,8 +138,11 @@ final class X509VerificationResult {
     this.errorDepth = 0,
   });
 
+  /// A successful verification result.
   static const success = X509VerificationResult._(isValid: true);
 
+  /// Creates a failed verification result with [errorCode], [message], and
+  /// optional [errorDepth].
   factory X509VerificationResult.failure(
     int errorCode,
     String message, {
@@ -204,17 +206,69 @@ final class X509Verifier implements ffi.Finalizable {
   );
 
   final ffi.Pointer<bssl.X509_STORE> _store;
+  bool _disposed = false;
 
   /// Creates a new verifier with an empty trust store.
   X509Verifier() : _store = bssl.X509_STORE_new() {
     checkPointer(_store, 'X509_STORE_new');
-    _finalizer.attach(this, _store.cast(), externalSize: 1024);
+    _finalizer.attach(this, _store.cast(), detach: this, externalSize: 1024);
+  }
+
+  void _checkNotDisposed() {
+    if (_disposed) {
+      throw StateError('X509Verifier has already been disposed');
+    }
+  }
+
+  /// Deterministically frees the underlying native `X509_STORE` handle.
+  ///
+  /// Safe to call multiple times; subsequent calls are no-ops.
+  void dispose() {
+    if (_disposed) return;
+    _disposed = true;
+    _finalizer.detach(this);
+    bssl.X509_STORE_free(_store);
   }
 
   /// Adds a trusted root certificate to this verifier.
+  ///
+  /// Safe to call with a certificate that is already present in the store.
   void addTrustedCertificate(X509Certificate certificate) {
+    _checkNotDisposed();
     final ret = bssl.X509_STORE_add_cert(_store, certificate.handle);
-    checkBssl(ret, 'X509_STORE_add_cert');
+    if (ret != 1) {
+      final err = bssl.ERR_peek_last_error();
+      if ((err & 0xfff) == bssl.X509_R_CERT_ALREADY_IN_HASH_TABLE) {
+        bssl.ERR_clear_error();
+        return;
+      }
+      checkBssl(ret, 'X509_STORE_add_cert');
+    }
+  }
+
+  /// Adds multiple trusted root [certificates] to this verifier.
+  void addTrustedCertificates(Iterable<X509Certificate> certificates) {
+    _checkNotDisposed();
+    for (final cert in certificates) {
+      addTrustedCertificate(cert);
+    }
+  }
+
+  /// Parses all PEM-encoded certificates in [pemBundle] and adds them to this
+  /// verifier as trusted root certificates.
+  ///
+  /// Returns the number of certificates added.
+  int addTrustedCertificatesPem(String pemBundle) {
+    _checkNotDisposed();
+    final certs = X509Certificate.parseChainPem(pemBundle);
+    try {
+      addTrustedCertificates(certs);
+      return certs.length;
+    } finally {
+      for (final cert in certs) {
+        cert.dispose();
+      }
+    }
   }
 
   /// Verifies [leaf] certificate against the trusted roots.
@@ -266,6 +320,7 @@ final class X509Verifier implements ffi.Finalizable {
     bool insecurelyAllowWeakKeys = false,
     int minimumRsaKeyBits = 2048,
   }) {
+    _checkNotDisposed();
     if (maxIntermediates != null && maxIntermediates < 0) {
       throw ArgumentError.value(
         maxIntermediates,
@@ -354,6 +409,7 @@ final class X509Verifier implements ffi.Finalizable {
             errorDepth: bssl.X509_STORE_CTX_get_error_depth(ctx),
           );
         } finally {
+          bssl.ERR_clear_error();
           if (rawStack != ffi.nullptr) {
             bssl.OPENSSL_sk_free(rawStack);
           }
