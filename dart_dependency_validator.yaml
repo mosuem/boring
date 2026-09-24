@@ -1,0 +1,7 @@
+# Copyright 2026 Moritz Sümmermann. Licensed under the Apache License,
+# Version 2.0. See the LICENSE file for details.
+
+ignore:
+  - hooks
+  - meta
+  - native_toolchain_cmake
