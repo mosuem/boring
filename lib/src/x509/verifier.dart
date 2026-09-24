@@ -211,7 +211,7 @@ final class X509Verifier implements ffi.Finalizable {
   /// Creates a new verifier with an empty trust store.
   X509Verifier() : _store = bssl.X509_STORE_new() {
     checkPointer(_store, 'X509_STORE_new');
-    _finalizer.attach(this, _store.cast(), externalSize: 1024);
+    _finalizer.attach(this, _store.cast(), detach: this, externalSize: 1024);
   }
 
   void _checkNotDisposed() {

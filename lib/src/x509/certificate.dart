@@ -40,7 +40,7 @@ final class X509Certificate implements ffi.Finalizable {
   bool _disposed = false;
 
   X509Certificate._(this._x509) {
-    _finalizer.attach(this, _x509.cast(), externalSize: 1024);
+    _finalizer.attach(this, _x509.cast(), detach: this, externalSize: 1024);
   }
 
   void _checkNotDisposed() {

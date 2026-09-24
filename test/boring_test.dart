@@ -170,14 +170,62 @@ void main() {
 
     test('dispose() is idempotent and prevents use-after-free', () {
       final key = BoringPrivateKey.generateEd25519();
+      final pub = key.publicKey;
+      final cert = X509Certificate.fromPem('''
+-----BEGIN CERTIFICATE-----
+MIIC4zCCAcugAwIBAgICA+gwDQYJKoZIhvcNAQELBQAwKjEVMBMGA1UEAwwMVGVz
+dCBSb290IENBMREwDwYDVQQKDAhUZXN0IE9yZzAeFw0yNTAxMDEwMDAwMDBaFw0z
+NTAxMDEwMDAwMDBaMCoxFTATBgNVBAMMDFRlc3QgUm9vdCBDQTERMA8GA1UECgwI
+VGVzdCBPcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC0vCAeZygQ
+R7+4PLmMIWxV787xDqD4/mfi/s4zB/IL7Qd+SNktJ2rVBJa/89xpNbwNsUrlykvL
+jW2zKxFjSHho0hvuC/V+jbAfjP8dZQ2GViWZs/2IG5ZsGyxim1OLdUMBspNujzh3
+G6S2/oXNIdPxhU+Z9EIhOewFlUpuGmVfBdzwBLEId1EZVyq/KL6VANLD6ac0Kun5
+0wQjB/w35tVN/A+SGWQNiP+bs6xIjCO14YBfGKGfW3oAIaZXq5Po7syP6rzqRw+c
+Y7bcwG4HQ7ynL9pUs4eD+TJOd8N6usOxnLTctYYhi3R65S5IbHksjNKyhjeD9QYJ
+YehN83XYkiTvAgMBAAGjEzARMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQEL
+BQADggEBAHD+Qp2ElbfVoMC91wZlCyqkhdMu/xnDI9+nwLb2UPeYILGHCSfZyOX+
+EhOuSyQnQ6sHhT/rzbIx2AxfeoSr0Fwagp442CQOjvFdRDneKdwAXCWtulb3mnMu
+ZqJY3sUmuQV85eUMHTgVbolrjbedqY8BvCHRkmvJJwYh8+dKjnFjiqJoCjSfQTCm
+r7TU9Lbhx20/3zGHuzM4ZLMkj4beJCtAzD/kSYTIe+4LEoY9eyCNxchhilngWANT
+KGRUVLuQS8MCPKvrAXKF97t8hzPv6F9TKxgL+ZUsMeTwxW6iwqy1F5vu7zL4MGP3
+dklX+0BkWvPSHhqkN7wYgbr7mk/aCsY=
+-----END CERTIFICATE-----
+''');
+      final der = cert.toDer();
+
       key.dispose();
       key.dispose(); // idempotent
       expect(key.toDer, throwsStateError);
+
+      pub.dispose();
+      pub.dispose();
+      expect(pub.toDer, throwsStateError);
+
+      cert.dispose();
+      cert.dispose();
+      expect(() => cert.subject, throwsStateError);
+
+      final verifier = X509Verifier();
+      verifier.dispose();
+      verifier.dispose();
+      expect(
+        () => verifier.addTrustedCertificate(X509Certificate.fromDer(der)),
+        throwsStateError,
+      );
 
       final ctx = DigestContext(HashAlgorithm.sha256);
       ctx.dispose();
       ctx.dispose();
       expect(() => ctx.update(Uint8List(1)), throwsStateError);
+
+      // Allocate and dispose in a loop to trigger GC and verify finalizers
+      // were properly detached (preventing double-free on GC).
+      for (var i = 0; i < 2000; i++) {
+        final c = X509Certificate.fromDer(der);
+        final v = X509Verifier()..addTrustedCertificate(c);
+        v.dispose();
+        c.dispose();
+      }
     });
   });
 }
