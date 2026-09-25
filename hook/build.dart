@@ -3,39 +3,15 @@
 
 import 'dart:io';
 
-import 'package:boring/src/hook_helpers/hashes.dart' show fileHashes, version;
-import 'package:boring/src/hook_helpers/sha256.dart' show sha256Hex;
-import 'package:boring/src/hook_helpers/targets.dart'
-    show libraryFileName, releaseAssetName;
+import 'package:boring/src/hook_helpers/build_options.dart'
+    show BuildModeEnum, BuildOptions;
+import 'package:boring/src/hook_helpers/fetch.dart' show fetchPrebuiltLibrary;
+import 'package:boring/src/hook_helpers/targets.dart' show libraryFileName;
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_cmake/native_toolchain_cmake.dart';
 
 const _assetName = 'boring.dart';
-
-enum BuildModeEnum { fetch, build, checkout, local }
-
-class BuildOptions {
-  final BuildModeEnum buildMode;
-  final Uri? localPath;
-
-  BuildOptions({required this.buildMode, this.localPath});
-
-  factory BuildOptions.fromDefines(HookInputUserDefines defines) {
-    final modeString = defines['buildMode'] as String? ?? 'fetch';
-    return BuildOptions(
-      buildMode: BuildModeEnum.values.firstWhere(
-        (element) => element.name == modeString,
-        orElse: () => BuildModeEnum.fetch,
-      ),
-      localPath: defines.path('localPath'),
-    );
-  }
-
-  @override
-  String toString() =>
-      'BuildOptions(buildMode: $buildMode, localPath: $localPath)';
-}
 
 Future<void> main(List<String> args) async {
   await build(args, (input, output) async {
@@ -97,81 +73,15 @@ Future<void> _fetchPrebuiltBinary(
   BuildOutputBuilder output, {
   required bool static,
 }) async {
-  final targetOS = input.config.code.targetOS;
-  final targetArch = input.config.code.targetArchitecture;
-  final iosSdk = targetOS == OS.iOS ? input.config.code.iOS.targetSdk : null;
-
-  final assetRemoteName = releaseAssetName(
-    targetOS,
-    targetArch,
-    iosSdk: iosSdk,
-    static: static,
-  );
-  final expectedHash = fileHashes[assetRemoteName];
-
-  if (expectedHash == null || expectedHash.isEmpty) {
+  final cachedLibrary = await fetchPrebuiltLibrary(input, static: static);
+  if (cachedLibrary == null) {
     stdout.writeln(
-      'boring: no prebuilt binary hash registered for $assetRemoteName, '
-      'falling back to building from local source via CMake.',
+      'boring: falling back to building from local source via CMake.',
     );
     await _buildLocalCMake(input, output, static: static);
     return;
   }
-
-  final binaryUrl = Uri.parse(
-    'https://github.com/mosuem/boring/releases/download/v$version/$assetRemoteName',
-  );
-
-  stdout.writeln('boring: fetching prebuilt binary from $binaryUrl...');
-
-  final client = HttpClient();
-  final List<int> bytes;
-  try {
-    final request = await client.getUrl(binaryUrl);
-    final response = await request.close();
-    if (response.statusCode != 200) {
-      stdout.writeln(
-        'boring: failed to download from $binaryUrl '
-        '(status: ${response.statusCode}), '
-        'falling back to building from local source.',
-      );
-      await _buildLocalCMake(input, output, static: static);
-      return;
-    }
-    bytes = await response.fold<List<int>>([], (a, b) => a..addAll(b));
-  } on IOException catch (e) {
-    stdout.writeln(
-      'boring: network error downloading prebuilt binary ($e), '
-      'falling back to building from local source.',
-    );
-    await _buildLocalCMake(input, output, static: static);
-    return;
-  } finally {
-    client.close();
-  }
-
-  final actualHash = sha256Hex(bytes);
-
-  if (actualHash != expectedHash) {
-    throw BuildError(
-      message:
-          'SHA256 hash mismatch for prebuilt binary $assetRemoteName.\n'
-          'Expected: $expectedHash\n'
-          'Actual:   $actualHash\n'
-          'To build boring locally from source instead, set '
-          '`buildMode: checkout` in your pubspec.yaml under '
-          '`hooks.user_defines.boring`.',
-    );
-  }
-
-  stdout.writeln('boring: verified SHA256 checksum ($actualHash).');
-
-  final libraryFile = File.fromUri(
-    input.outputDirectory.resolve(libraryFileName(targetOS, static: static)),
-  );
-  await libraryFile.writeAsBytes(bytes);
-
-  _addLibrary(input, output, libraryFile.uri, static: static);
+  _addLibrary(input, output, cachedLibrary, static: static);
 }
 
 /// Bundles the dynamic library at [localPath] as is, even when linking is
@@ -211,26 +121,54 @@ Future<void> _buildLocalCMake(
   final packageRoot = input.packageRoot;
   final installDir = input.outputDirectory.resolve('install/');
   final sourceDir = packageRoot.resolve('src/');
+  final targetOS = input.config.code.targetOS;
+  final targetArch = input.config.code.targetArchitecture;
 
   stdout.writeln(
-    'boring: building native asset with CMake for '
-    '${input.config.code.targetOS}-${input.config.code.targetArchitecture}.',
+    'boring: building native asset with CMake for $targetOS-$targetArch.',
   );
+
+  // native_toolchain_cmake's x86_64-linux-gnu.toolchain.cmake uses `gcc`/`g++`
+  // instead of the `x86_64-linux-gnu-gcc` cross-compiler when cross-compiling
+  // to Linux x64 from macOS or Windows.
+  Uri? customToolchain;
+  if (!Platform.isLinux &&
+      targetOS == OS.linux &&
+      targetArch == Architecture.x64) {
+    customToolchain = input.outputDirectory.resolve(
+      'x86_64-linux-gnu.toolchain.cmake',
+    );
+    await File.fromUri(customToolchain).writeAsString('''
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR x86_64)
+set(CMAKE_C_COMPILER "x86_64-linux-gnu-gcc")
+set(CMAKE_CXX_COMPILER "x86_64-linux-gnu-g++")
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+''');
+  }
 
   // Installs both the dynamic and the static library, see src/CMakeLists.txt.
   final builder = CMakeBuilder.create(
     name: 'bssl_dart',
     sourceDir: sourceDir,
+    generator: Platform.isWindows && targetOS != OS.windows
+        ? Generator.ninja
+        : Generator.defaultGenerator,
     defines: {
       'CMAKE_BUILD_TYPE': 'Release',
       'CMAKE_INSTALL_PREFIX': installDir.toFilePath(),
+      if (customToolchain != null)
+        'CMAKE_TOOLCHAIN_FILE': customToolchain.toFilePath(),
     },
     targets: ['install'],
+    parallelUseAllProcessors: true,
   );
 
   await builder.run(input: input, output: output);
 
-  final fileName = libraryFileName(input.config.code.targetOS, static: static);
+  final fileName = libraryFileName(targetOS, static: static);
   final library = installDir.resolve(fileName);
   if (!File.fromUri(library).existsSync()) {
     throw BuildError(

@@ -5,6 +5,10 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:boring/src/bindings/record_use_mapping.g.dart';
+import 'package:boring/src/hook_helpers/build_options.dart'
+    show BuildModeEnum, BuildOptions;
+import 'package:boring/src/hook_helpers/fetch.dart' show fetchPrebuiltLibrary;
+import 'package:boring/src/hook_helpers/hashes.dart' show version;
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
@@ -17,6 +21,9 @@ const _bindings = record_use.Library(
 
 /// Links the static library from hook/build.dart into a dynamic library with
 /// only the BoringSSL functions that the application uses.
+///
+/// If linking fails in the default `fetch` build mode, falls back to the
+/// pre-built dynamic library.
 Future<void> main(List<String> args) async {
   await link(args, (input, output) async {
     final staticLibrary = input.assets.code
@@ -53,22 +60,87 @@ Future<void> main(List<String> args) async {
       linkerOptions = LinkerOptions.treeshake(symbolsToKeep: symbols);
     }
 
-    await CLinker.library(
-      name: 'bssl_dart',
-      packageName: input.packageName,
-      assetName: 'boring.dart',
-      sources: [staticLibraryFile.toFilePath()],
-      frameworks: const [],
-      linkerOptions: linkerOptions,
-      linkModePreference: LinkModePreference.dynamic,
-    ).run(
-      input: input,
-      output: output,
-      logger: Logger('')
-        ..level = Level.ALL
-        ..onRecord.listen((record) => stdout.writeln(record.message)),
-    );
+    try {
+      await CLinker.library(
+        name: 'bssl_dart',
+        packageName: input.packageName,
+        assetName: 'boring.dart',
+        sources: [staticLibraryFile.toFilePath()],
+        frameworks: const [],
+        linkerOptions: linkerOptions,
+        linkModePreference: LinkModePreference.dynamic,
+      ).run(
+        input: input,
+        output: output,
+        logger: Logger('')
+          ..level = Level.ALL
+          ..onRecord.listen((record) => stdout.writeln(record.message)),
+      );
+    } catch (e, s) {
+      // Tree-shaking only makes the library smaller, so a missing or broken C
+      // toolchain should not fail the build if there is an equivalent
+      // pre-built library. This also catches errors, as native_toolchain_c
+      // throws a `ToolError`, which extends `Error` and is not exported, if it
+      // finds no toolchain.
+      stdout.writeln('boring: linking failed: $e\n$s');
+      if (!await _fallBackToPrebuiltLibrary(input, output, e)) rethrow;
+    }
   });
+}
+
+/// Bundles the pre-built, not tree-shaken, dynamic library after linking the
+/// static library failed with [linkError].
+///
+/// Returns `false` if there is no equivalent pre-built library to fall back
+/// to.
+Future<bool> _fallBackToPrebuiltLibrary(
+  LinkInput input,
+  LinkOutputBuilder output,
+  Object linkError,
+) async {
+  final code = input.config.code;
+  final target = '${code.targetOS}_${code.targetArchitecture}';
+  final buildMode = BuildOptions.fromDefines(input.userDefines).buildMode;
+  if (buildMode != BuildModeEnum.fetch) {
+    // The static library was not fetched, but for example built from a local
+    // checkout. Falling back would silently swap in different BoringSSL code.
+    stderr.writeln(
+      'package:boring could not link the static library built in the '
+      '`${buildMode.name}` build mode for $target. Install a C toolchain '
+      '(compiler and linker) for $target. Only the `fetch` build mode falls '
+      'back to the pre-built dynamic library, which could differ from the '
+      'library built in other modes.',
+    );
+    return false;
+  }
+  final library = await fetchPrebuiltLibrary(input, static: false);
+  if (library == null) {
+    return false;
+  }
+  final reason = switch (linkError) {
+    // native_toolchain_c puts the whole linker command, which has an argument
+    // for each used symbol, into the message.
+    ProcessException(:final executable) =>
+      'ProcessException: $executable failed',
+    // The first line only, to keep the warning to one paragraph.
+    _ => linkError.toString().split('\n').first,
+  };
+  stderr.writeln(
+    'Warning: package:boring could not tree-shake its native library for '
+    '$target, so it bundles the pre-built dynamic library of the boring '
+    '$version release instead, which is not tree-shaken and therefore '
+    'larger. To enable tree-shaking, install a C toolchain (compiler and '
+    'linker) for $target. Linking failed with: $reason',
+  );
+  output.assets.code.add(
+    CodeAsset(
+      package: input.packageName,
+      name: 'boring.dart',
+      linkMode: DynamicLoadingBundled(),
+      file: library,
+    ),
+  );
+  return true;
 }
 
 /// The symbols of the bound functions that the application calls, tears off,

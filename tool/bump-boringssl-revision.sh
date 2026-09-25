@@ -370,18 +370,18 @@ write_boringssl_readme() {
     local readme_dst="$ROOT/third_party/boringssl/README.md"
 
     cat > "$readme_dst" <<'EOF'
-# Incorporation of BoringSSL in `package:webcrypto`
+# Incorporation of BoringSSL in `package:boring`
 
 **GENERATED FOLDER DO NOT MODIFY**
 
-This folder contains sources from BoringSSL allowing `package:webcrypto` to
+This folder contains sources from BoringSSL allowing `package:boring` to
 incorporate libcrypto from BoringSSL. Contents of this folder are generated
 using `tool/bump-boringssl-revision.sh`.
 
 Files in this folder are subject to `LICENSE` from the BoringSSL project.
 
 Notice that this folder does NOT contain all source files from the BoringSSL
-project. Only source files required to build `package:webcrypto` have been
+project. Only source files required to build `package:boring` have been
 retained. This is essential to minimize package size. For additional source
 files and information about BoringSSL refer to the [BoringSSL repository][1].
 
@@ -445,13 +445,12 @@ main() {
     fi
 
     check_command git "git is not installed or not in PATH"
-    check_command dart "dart is required to regenerate bindings and run tests"
+    check_command dart "dart is required to regenerate bindings"
     check_command jq "jq is required to parse generated BoringSSL source metadata"
     PYTHON_BIN=$(resolve_python)
 
     section "Cleaning up build artifacts"
-    log_info "Running clean.sh..."
-    bash "$DIR/clean.sh"
+    rm -rf "$ROOT/.dart_tool/hooks_runner" "$ROOT/build"
 
     section "Updating BoringSSL sources"
     update_boringssl_sources "$TARGET_REVISION"
@@ -459,17 +458,18 @@ main() {
     update_revision "$TARGET_REVISION"
 
     section "Getting Dart dependencies"
-    log_info "Running 'dart pub get --no-example'..."
+    log_info "Running 'dart pub get'..."
     cd "$ROOT"
-    dart pub get --no-example
+    dart pub get
 
     section "Updating FFI bindings"
     log_info "Running tool/ffigen.dart..."
     dart run "$DIR/ffigen.dart"
 
-    section "Running tests"
-    log_info "Running test.sh..."
-    bash "$DIR/test.sh"
+    if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
+        echo "revision=$TARGET_REVISION" >> "$GITHUB_OUTPUT"
+        echo "short_revision=${TARGET_REVISION:0:8}" >> "$GITHUB_OUTPUT"
+    fi
 
     log_success "BoringSSL update completed successfully"
     log_info "Updated from $current_revision to $TARGET_REVISION"

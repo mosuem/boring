@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0' # weekly
 
 jobs:
   dart-ci:
@@ -36,8 +38,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # The tree-shaking test runs hook/link.dart, whose linker invocation
-        # differs per OS.
+        # The tree-shaking test runs hook/link.dart (native and cross-compiled),
+        # whose linker invocation differs per OS.
         os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
@@ -52,6 +54,27 @@ jobs:
       - name: Setup NASM
         if: runner.os == 'Windows'
         uses: ilammy/setup-nasm@v1
+
+      - name: Install Linux Cross Toolchain (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
+      - name: Install Linux Cross Toolchain (macOS)
+        if: runner.os == 'macOS'
+        run: brew install messense/macos-cross-toolchains/aarch64-unknown-linux-gnu
+
+      - name: Install Linux Cross Toolchain (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          curl -fSL -o "$RUNNER_TEMP/arm-gnu-toolchain.zip" \
+            "https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-mingw-w64-x86_64-aarch64-none-linux-gnu.zip"
+          7z x "$RUNNER_TEMP/arm-gnu-toolchain.zip" -o"$RUNNER_TEMP/arm-gnu-toolchain" -y >/dev/null
+          BIN_DIR="$(echo "$RUNNER_TEMP"/arm-gnu-toolchain/*/bin)"
+          for f in "$BIN_DIR"/aarch64-none-linux-gnu-*.exe; do
+            cp "$f" "${f/aarch64-none-linux-gnu-/aarch64-linux-gnu-}"
+          done
+          cygpath -w "$BIN_DIR" >> "$GITHUB_PATH"
 
       - name: Install Dependencies
         run: dart pub get
@@ -103,3 +126,59 @@ jobs:
 
       - name: Run x509-limbo Test Suite
         run: ./tool/run_x509_limbo_tests.sh
+
+  # Job to check for new BoringSSL updates
+  refresh-check:
+    name: Refresh BoringSSL
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: dev
+
+      - name: Install Dependencies
+        run: dart pub get
+
+      - name: Run refresh script
+        id: refresh
+        run: ./tool/bump-boringssl-revision.sh
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [ -n "$(git status --porcelain .)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install changelog updater
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          dart install --git-path pkgs/repo_manage https://github.com/dart-lang/ecosystem.git
+          echo "$HOME/.local/state/Dart/install/bin" >> "$GITHUB_PATH"
+
+      - name: Update changelog
+        if: steps.check_changes.outputs.changed == 'true'
+        run: report changelog "Update BoringSSL to ${STEPS_REFRESH_OUTPUTS_SHORT_REVISION}."
+        env:
+          STEPS_REFRESH_OUTPUTS_SHORT_REVISION: ${{ steps.refresh.outputs.short_revision }}
+
+      - name: Create Pull Request
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Update BoringSSL to ${{ steps.refresh.outputs.short_revision }}"
+          branch: "update-boringssl-${{ steps.refresh.outputs.short_revision }}"
+          title: "[bump-boringssl-revision.sh] Update BoringSSL to ${{ steps.refresh.outputs.short_revision }}"
+          body: |
+            Automated update to the latest BoringSSL revision [`${{ steps.refresh.outputs.revision }}`](https://boringssl.googlesource.com/boringssl/+/${{ steps.refresh.outputs.revision }}).
+          delete-branch: true
