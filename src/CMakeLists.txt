@@ -10,6 +10,10 @@ include(../third_party/boringssl/sources.cmake)
 
 # Symbol prefixing: all BoringSSL symbols become bssl_dart_<symbol>
 add_definitions(-DBORINGSSL_PREFIX=bssl_dart)
+# Keep BoringSSL free of C++ runtime symbols (such as operator delete from
+# virtual destructors), since CMake and hook/link.dart (CLinker) link the
+# library with the C compiler driver.
+add_definitions(-DBORINGSSL_TEMPORARY_NO_CXX_RUNTIME)
 
 # Architecture and platform detection.
 #

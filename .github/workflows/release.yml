@@ -85,4 +85,8 @@ jobs:
         run: |
           gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1 || \
             gh release create "${GITHUB_REF_NAME}" --title "${GITHUB_REF_NAME}" --generate-notes
-          gh release upload "${GITHUB_REF_NAME}" release-assets/* --clobber
+          if [ "$(gh release view "${GITHUB_REF_NAME}" --json assets --jq '.assets | length')" -eq 0 ]; then
+            gh release upload "${GITHUB_REF_NAME}" release-assets/*
+          else
+            echo "Release ${GITHUB_REF_NAME} already has assets; skipping upload to preserve recorded SHA-256 hashes."
+          fi
