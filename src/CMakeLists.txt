@@ -12,11 +12,8 @@ include(../third_party/boringssl/sources.cmake)
 add_definitions(-DBORINGSSL_PREFIX=bssl_dart)
 # Keep BoringSSL free of C++ runtime symbols (such as operator delete from
 # virtual destructors), since CMake and hook/link.dart (CLinker) link the
-# library with the C compiler driver. Also clear CMake's implicit C++ link
-# libraries so CMake does not pass -lc++ (e.g. libc++_shared.so on Android) or
-# -lstdc++ when linking CXX object files with LINKER_LANGUAGE C.
+# library with the C compiler driver.
 add_definitions(-DBORINGSSL_TEMPORARY_NO_CXX_RUNTIME)
-set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "")
 
 # Architecture and platform detection.
 #
@@ -89,8 +86,11 @@ if(MSVC)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}>)
 else()
   # BoringSSL doesn't need the C++ runtime (see BORINGSSL_ALLOW_CXX_RUNTIME
-  # upstream), so the libraries don't depend on it.
+  # upstream), so the libraries don't depend on it. Also clear CMake's implicit
+  # C++ link libraries so CMake does not pass -lc++ (e.g. libc++_shared.so on
+  # Android) or -lstdc++ when linking CXX object files with LINKER_LANGUAGE C.
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-rtti")
+  set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "")
   if(NOT APPLE)
     # One section per function and variable, so the link hook can drop the
     # unused ones. Mach-O linkers already do this per symbol.
@@ -140,7 +140,6 @@ add_library(bssl_dart SHARED $<TARGET_OBJECTS:bssl_dart_objects>)
 add_library(bssl_dart_static STATIC $<TARGET_OBJECTS:bssl_dart_objects>)
 
 set_target_properties(
-  bssl_dart_objects
   bssl_dart
   bssl_dart_static
   PROPERTIES
