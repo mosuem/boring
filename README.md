@@ -63,6 +63,14 @@ void main() {
 }
 ```
 
+### Error Handling
+
+BoringSSL signals failure through return values and pushes details onto a per-thread error queue. A Dart isolate may resume on a different OS thread after an `await`, and every package using `package:boring` on a thread shares its queue, so:
+
+- Read errors with `extractBoringSslError()`, which also clears the queue, right after the failing call. Don't leave an `await` in between, and don't defer it to a `finally` that may run after one, such as the release of an `async` `BoringArena.run`.
+- Discard errors you ignore with `ERR_clear_error()`, for example when a failed signature verification just means `false`. Otherwise they are reported for the next, unrelated failure.
+- Call `ERR_clear_error()` before a call whose errors you report, so errors left behind by other code aren't attributed to it.
+
 ---
 
 ## Native Asset Build Modes

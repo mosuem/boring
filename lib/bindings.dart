@@ -148,10 +148,20 @@ extension NativeHandleInvoke5Last<R, A1, A2, A3, A4, P extends ffi.NativeType>
       handle.use((ptr) => this(arg1, arg2, arg3, arg4, ptr));
 }
 
-/// Extracts and formats the latest error on the current thread's BoringSSL
-/// error queue, and clears the error queue before returning.
+/// Formats the least recent (and most specific) error on the current thread's
+/// BoringSSL error queue, and clears the queue before returning.
 ///
 /// Returns `null` if the error queue is empty.
+///
+/// The error queue is thread-local, and an isolate may resume on a different
+/// OS thread after an `await`. Call this right after the failing BoringSSL
+/// call, with no `await` in between, rather than from a `finally` that may run
+/// after one (such as the release of an `async` [BoringArena.run]).
+///
+/// Use `ERR_clear_error()` to discard errors you ignore, for example when a
+/// failed signature verification just means `false`. The queue is shared by
+/// every package using `package:boring` on that thread, so leftover errors
+/// would be reported for the next, unrelated failure.
 String? extractBoringSslError() {
   try {
     final err = bssl.ERR_get_error();
