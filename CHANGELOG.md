@@ -22,6 +22,7 @@
 - Every GitHub Release now has the dynamic and the static library for each
   prebuilt target. The Linux libraries are built on Ubuntu 22.04, and require
   glibc 2.35 instead of 2.38.
+- Update BoringSSL to 8eb25be6.
 
 ## 0.3.0
 
