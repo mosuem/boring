@@ -118,21 +118,21 @@ extension NativeHandleInvoke1<R, P extends ffi.NativeType>
   R invoke(NativeHandle<P> handle) => handle.use(this);
 }
 
-/// Convenience extension to invoke a 2-argument C function `(Pointer<P>, A1)`
-/// with a [NativeHandle].
-extension NativeHandleInvoke2First<R, P extends ffi.NativeType, A1>
-    on R Function(ffi.Pointer<P>, A1) {
+/// Convenience extension to invoke a 2-argument C function
+/// `(Pointer<EVP_PKEY>, A1)` with a [NativeHandle].
+extension EvpPKeyInvoke2First<R, A1>
+    on R Function(ffi.Pointer<bssl.EVP_PKEY>, A1) {
   /// Invokes `this` with the unwrapped pointer from [handle] and [arg1].
-  R invoke(NativeHandle<P> handle, A1 arg1) =>
+  R invoke(NativeHandle<bssl.EVP_PKEY> handle, A1 arg1) =>
       handle.use((ptr) => this(ptr, arg1));
 }
 
-/// Convenience extension to invoke a 2-argument C function `(A1, Pointer<P>)`
-/// with a [NativeHandle].
-extension NativeHandleInvoke2Last<R, A1, P extends ffi.NativeType>
-    on R Function(A1, ffi.Pointer<P>) {
+/// Convenience extension to invoke a 2-argument C function
+/// `(A1, Pointer<EVP_PKEY>)` with a [NativeHandle].
+extension EvpPKeyInvoke2Last<R, A1>
+    on R Function(A1, ffi.Pointer<bssl.EVP_PKEY>) {
   /// Invokes `this` with [arg1] and the unwrapped pointer from [handle].
-  R invoke(A1 arg1, NativeHandle<P> handle) =>
+  R invoke(A1 arg1, NativeHandle<bssl.EVP_PKEY> handle) =>
       handle.use((ptr) => this(arg1, ptr));
 }
 
