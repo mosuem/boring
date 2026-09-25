@@ -51,8 +51,16 @@ Future<void> main() async {
           }
         },
         struct: (node) {
-          node.isIncluded = true;
+          node.isIncluded = !node.originalName.startsWith('_bssl_hidden_');
           node.dependencies = CompoundDependencies.opaque;
+        },
+        enumClass: (node) {
+          node.isIncluded = true;
+          node.style = EnumStyle.intConstants;
+          node.silenceWarning = true;
+        },
+        unnamedEnumConstant: (node) {
+          node.isIncluded = node.originalName.startsWith('ERR_LIB_');
         },
         typealias: (node) {
           node.isIncluded = TypealiasInclude.always;
@@ -64,6 +72,8 @@ Future<void> main() async {
               name.startsWith('EVP_') ||
               name.startsWith('NID_') ||
               name.startsWith('RSA_') ||
+              name.startsWith('EC_') ||
+              name.startsWith('HKDF_') ||
               name.startsWith('X509_') ||
               name.startsWith('V_ASN1_') ||
               name.startsWith('CBS_ASN1_') ||

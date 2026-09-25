@@ -12,7 +12,36 @@
 #include <openssl/aead.h>
 #include <openssl/aes.h>
 #include <openssl/bn.h>
+#define cbb_buffer_st _bssl_hidden_cbb_buffer_st
+#define cbb_child_st _bssl_hidden_cbb_child_st
+#define cbb_st _bssl_hidden_cbb_st
 #include <openssl/bytestring.h>
+#undef cbb_st
+#undef cbb_child_st
+#undef cbb_buffer_st
+
+struct cbb_buffer_st {
+  uint8_t *buf;
+  size_t len;
+  size_t cap;
+  unsigned flags;
+};
+
+struct cbb_child_st {
+  struct cbb_buffer_st *base;
+  size_t offset;
+  uint8_t pending_len_len;
+  uint8_t pending_is_asn1;
+};
+
+struct cbb_st {
+  CBB *child;
+  char is_child;
+  union {
+    struct cbb_buffer_st base;
+    struct cbb_child_st child;
+  } u;
+};
 #include <openssl/cipher.h>
 #include <openssl/ec.h>
 #include <openssl/ec_key.h>

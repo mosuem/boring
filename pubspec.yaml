@@ -1,5 +1,5 @@
 name: boring
-description: High-performance cryptography and PKI powered by BoringSSL with Dart Native Assets.
+description: Raw FFI bindings to BoringSSL with Dart Native Assets and OPENSSL_cleanse-backed native allocation.
 version: 0.3.0
 repository: https://github.com/mosuem/boring
 
@@ -8,14 +8,13 @@ environment:
 
 dependencies:
   code_assets: ^2.1.0
-  ffi: ^2.2.0
   hooks: ^2.2.0
-  meta: ^1.19.0
   native_toolchain_cmake: ^0.3.2
 
 dev_dependencies:
   args: ^2.7.0
   dart_flutter_team_lints: ^3.5.2
+  ffi: ^2.2.0
   ffigen: ^22.0.0
   test: ^1.32.0
 
@@ -26,4 +25,5 @@ hooks:
 
 topics:
   - crypto
+  - ffi
   - security

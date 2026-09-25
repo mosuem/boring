@@ -2,69 +2,34 @@
 // Version 2.0. See the LICENSE file for details.
 
 import 'dart:convert';
+import 'dart:ffi' as ffi;
 import 'dart:typed_data';
-import 'package:boring/boring.dart';
+
+import 'package:boring/bindings.dart' as ssl;
+import 'package:ffi/ffi.dart' show using;
 
 void main() {
-  print('=== BoringSSL with Dart Native Assets ===\n');
+  using((arena) {
+    final input = utf8.encode('hello world');
+    final dataPtr = arena<ffi.Uint8>(input.length);
+    dataPtr.asTypedList(input.length).setAll(0, input);
 
-  // 1. Cryptographically secure random bytes
-  final salt = BoringRand.secureRandom(16);
-  print('Generated 16 random bytes: ${_toHex(salt)}');
+    final md = ssl.EVP_sha256();
+    final mdLen = ssl.EVP_MD_size(md);
+    final outPtr = arena<ffi.Uint8>(mdLen);
+    final outLenPtr = arena<ffi.UnsignedInt>();
 
-  // 2. Message Digest (Hashing)
-  final message = Uint8List.fromList(utf8.encode('Hello BoringSSL!'));
-  final hash = BoringDigest.sha256(message);
-  print('SHA-256: ${_toHex(hash)}');
+    final ctx = ssl.EVP_MD_CTX_new();
+    try {
+      ssl.EVP_DigestInit(ctx, md);
+      ssl.EVP_DigestUpdate(ctx, dataPtr.cast(), input.length);
+      ssl.EVP_DigestFinal(ctx, outPtr, outLenPtr);
+    } finally {
+      ssl.EVP_MD_CTX_free(ctx);
+    }
 
-  // 3. HMAC
-  final hmacKey = BoringRand.secureRandom(32);
-  final mac = BoringHmac.sha256(key: hmacKey, data: message);
-  print('HMAC-SHA256: ${_toHex(mac)}');
-
-  // 4. HKDF Key Derivation
-  final derivedKey = BoringHkdf.deriveBits(
-    algorithm: HashAlgorithm.sha256,
-    ikm: mac,
-    length: 32,
-    salt: salt,
-    info: Uint8List.fromList(utf8.encode('app-sub-key')),
-  );
-  print('Derived 32-byte key: ${_toHex(derivedKey)}');
-
-  // 5. Authenticated Encryption (AEAD)
-  final cipher = BoringAead(AeadAlgorithm.aes256Gcm, derivedKey);
-  final nonce = BoringRand.secureRandom(12);
-  final plaintext = Uint8List.fromList(utf8.encode('Secret communication'));
-  final ad = Uint8List.fromList(utf8.encode('user:alice'));
-
-  final ciphertext = cipher.seal(
-    nonce: nonce,
-    plaintext: plaintext,
-    additionalData: ad,
-  );
-  print('Encrypted (AES-256-GCM): ${_toHex(ciphertext)}');
-
-  final decrypted = cipher.open(
-    nonce: nonce,
-    ciphertext: ciphertext,
-    additionalData: ad,
-  );
-  print('Decrypted: ${utf8.decode(decrypted)}');
-
-  // 6. Digital Signatures (Ed25519)
-  final keyPair = BoringEd25519.generateKeyPair();
-  final signature = BoringEd25519.sign(
-    privateKey: keyPair.privateKey,
-    message: plaintext,
-  );
-  final isValid = BoringEd25519.verify(
-    publicKey: keyPair.publicKey,
-    message: plaintext,
-    signature: signature,
-  );
-  print('Ed25519 signature valid: $isValid\n');
+    final digest = Uint8List.fromList(outPtr.asTypedList(outLenPtr.value));
+    final hex = digest.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
+    print('SHA-256("hello world"): $hex');
+  }, ssl.opensslAllocator);
 }
-
-String _toHex(Uint8List bytes) =>
-    bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();

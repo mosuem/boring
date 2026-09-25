@@ -8845,20 +8845,10 @@ external int EC_GROUP_set_generator(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EC_GROUP>, ffi.UnsignedInt)>(
   symbol: 'bssl_dart_EC_GROUP_set_point_conversion_form',
 )
-external void _EC_GROUP_set_point_conversion_form(
+external void EC_GROUP_set_point_conversion_form(
   ffi.Pointer<EC_GROUP> group,
   int form,
 );
-
-void EC_GROUP_set_point_conversion_form(
-  ffi.Pointer<EC_GROUP> group,
-  point_conversion_form_t form,
-) {
-  return _EC_GROUP_set_point_conversion_form(
-    group,
-    form.value,
-  );
-}
 
 /// EC_KEY_check_fips performs both a signing pairwise consistency test
 /// (FIPS 140-2 4.9.2) and the consistency test from SP 800-56Ar3 section
@@ -8971,19 +8961,9 @@ external ffi.Pointer<EC_POINT> EC_KEY_get0_public_key(
 @ffi.Native<ffi.UnsignedInt Function(ffi.Pointer<EC_KEY>)>(
   symbol: 'bssl_dart_EC_KEY_get_conv_form',
 )
-external int _EC_KEY_get_conv_form(
+external int EC_KEY_get_conv_form(
   ffi.Pointer<EC_KEY> key,
 );
-
-point_conversion_form_t EC_KEY_get_conv_form(
-  ffi.Pointer<EC_KEY> key,
-) {
-  return point_conversion_form_t.fromValue(
-    _EC_KEY_get_conv_form(
-      key,
-    ),
-  );
-}
 
 /// EC_KEY_get_enc_flags returns the encoding flags for |key|, which is a
 /// bitwise-OR of |EC_PKEY_*| values.
@@ -9041,26 +9021,12 @@ external int EC_KEY_is_opaque(
     ffi.Pointer<BN_CTX>,
   )
 >(symbol: 'bssl_dart_EC_KEY_key2buf')
-external int _EC_KEY_key2buf(
+external int EC_KEY_key2buf(
   ffi.Pointer<EC_KEY> key,
   int form,
   ffi.Pointer<ffi.Pointer<ffi.Uint8>> out_buf,
   ffi.Pointer<BN_CTX> ctx,
 );
-
-int EC_KEY_key2buf(
-  ffi.Pointer<EC_KEY> key,
-  point_conversion_form_t form,
-  ffi.Pointer<ffi.Pointer<ffi.Uint8>> out_buf,
-  ffi.Pointer<BN_CTX> ctx,
-) {
-  return _EC_KEY_key2buf(
-    key,
-    form.value,
-    out_buf,
-    ctx,
-  );
-}
 
 /// EC_KEY_marshal_curve_name marshals |group| as a DER-encoded OBJECT IDENTIFIER
 /// and appends the result to |cbb|. It returns one on success and zero on
@@ -9227,20 +9193,10 @@ external void EC_KEY_set_asn1_flag(
 @ffi.Native<ffi.Void Function(ffi.Pointer<EC_KEY>, ffi.UnsignedInt)>(
   symbol: 'bssl_dart_EC_KEY_set_conv_form',
 )
-external void _EC_KEY_set_conv_form(
+external void EC_KEY_set_conv_form(
   ffi.Pointer<EC_KEY> key,
   int cform,
 );
-
-void EC_KEY_set_conv_form(
-  ffi.Pointer<EC_KEY> key,
-  point_conversion_form_t cform,
-) {
-  return _EC_KEY_set_conv_form(
-    key,
-    cform.value,
-  );
-}
 
 /// EC_KEY_set_enc_flags sets the encoding flags for |key|, which is a
 /// bitwise-OR of |EC_PKEY_*| values.
@@ -9564,29 +9520,13 @@ external int EC_POINT_oct2point(
     ffi.Pointer<BN_CTX>,
   )
 >(symbol: 'bssl_dart_EC_POINT_point2buf')
-external int _EC_POINT_point2buf(
+external int EC_POINT_point2buf(
   ffi.Pointer<EC_GROUP> group,
   ffi.Pointer<EC_POINT> point,
   int form,
   ffi.Pointer<ffi.Pointer<ffi.Uint8>> out_buf,
   ffi.Pointer<BN_CTX> ctx,
 );
-
-int EC_POINT_point2buf(
-  ffi.Pointer<EC_GROUP> group,
-  ffi.Pointer<EC_POINT> point,
-  point_conversion_form_t form,
-  ffi.Pointer<ffi.Pointer<ffi.Uint8>> out_buf,
-  ffi.Pointer<BN_CTX> ctx,
-) {
-  return _EC_POINT_point2buf(
-    group,
-    point,
-    form.value,
-    out_buf,
-    ctx,
-  );
-}
 
 /// EC_POINT_point2cbb behaves like |EC_POINT_point2oct| but appends the
 /// serialised point to |cbb|. It returns one on success and zero on error. |ctx|
@@ -9600,29 +9540,13 @@ int EC_POINT_point2buf(
     ffi.Pointer<BN_CTX>,
   )
 >(symbol: 'bssl_dart_EC_POINT_point2cbb')
-external int _EC_POINT_point2cbb(
+external int EC_POINT_point2cbb(
   ffi.Pointer<CBB> out,
   ffi.Pointer<EC_GROUP> group,
   ffi.Pointer<EC_POINT> point,
   int form,
   ffi.Pointer<BN_CTX> ctx,
 );
-
-int EC_POINT_point2cbb(
-  ffi.Pointer<CBB> out,
-  ffi.Pointer<EC_GROUP> group,
-  ffi.Pointer<EC_POINT> point,
-  point_conversion_form_t form,
-  ffi.Pointer<BN_CTX> ctx,
-) {
-  return _EC_POINT_point2cbb(
-    out,
-    group,
-    point,
-    form.value,
-    ctx,
-  );
-}
 
 /// EC_POINT_point2oct serialises |point| into the X9.62 form given by |form|
 /// into, at most, |max_out| bytes at |buf|. It returns the number of bytes
@@ -9638,7 +9562,7 @@ int EC_POINT_point2cbb(
     ffi.Pointer<BN_CTX>,
   )
 >(symbol: 'bssl_dart_EC_POINT_point2oct')
-external int _EC_POINT_point2oct(
+external int EC_POINT_point2oct(
   ffi.Pointer<EC_GROUP> group,
   ffi.Pointer<EC_POINT> point,
   int form,
@@ -9646,24 +9570,6 @@ external int _EC_POINT_point2oct(
   int max_out,
   ffi.Pointer<BN_CTX> ctx,
 );
-
-int EC_POINT_point2oct(
-  ffi.Pointer<EC_GROUP> group,
-  ffi.Pointer<EC_POINT> point,
-  point_conversion_form_t form,
-  ffi.Pointer<ffi.Uint8> buf,
-  int max_out,
-  ffi.Pointer<BN_CTX> ctx,
-) {
-  return _EC_POINT_point2oct(
-    group,
-    point,
-    form.value,
-    buf,
-    max_out,
-    ctx,
-  );
-}
 
 /// EC_POINT_set_affine_coordinates is an alias of
 /// |EC_POINT_set_affine_coordinates_GFp|.
@@ -10468,7 +10374,7 @@ external int EVP_AEAD_CTX_init(
     ffi.UnsignedInt,
   )
 >(symbol: 'bssl_dart_EVP_AEAD_CTX_init_with_direction')
-external int _EVP_AEAD_CTX_init_with_direction(
+external int EVP_AEAD_CTX_init_with_direction(
   ffi.Pointer<EVP_AEAD_CTX> ctx,
   ffi.Pointer<EVP_AEAD> aead,
   ffi.Pointer<ffi.Uint8> key,
@@ -10476,24 +10382,6 @@ external int _EVP_AEAD_CTX_init_with_direction(
   int tag_len,
   int dir,
 );
-
-int EVP_AEAD_CTX_init_with_direction(
-  ffi.Pointer<EVP_AEAD_CTX> ctx,
-  ffi.Pointer<EVP_AEAD> aead,
-  ffi.Pointer<ffi.Uint8> key,
-  int key_len,
-  int tag_len,
-  evp_aead_direction_t dir,
-) {
-  return _EVP_AEAD_CTX_init_with_direction(
-    ctx,
-    aead,
-    key,
-    key_len,
-    tag_len,
-    dir.value,
-  );
-}
 
 /// EVP_AEAD_CTX_new allocates an |EVP_AEAD_CTX|, calls |EVP_AEAD_CTX_init| and
 /// returns the |EVP_AEAD_CTX|, or NULL on error.
@@ -15248,17 +15136,9 @@ external int FIPS_query_algorithm_status(
 @ffi.Native<ffi.Size Function(ffi.UnsignedInt)>(
   symbol: 'bssl_dart_FIPS_read_counter',
 )
-external int _FIPS_read_counter(
+external int FIPS_read_counter(
   int counter,
 );
-
-int FIPS_read_counter(
-  fips_counter_t counter,
-) {
-  return _FIPS_read_counter(
-    counter.value,
-  );
-}
 
 /// FIPS_version returns the version of the FIPS module, or zero if the build
 /// isn't exactly at a verified version. The version, expressed in base 10, will
@@ -20185,29 +20065,13 @@ external void SPAKE2_CTX_free(
     ffi.Size,
   )
 >(symbol: 'bssl_dart_SPAKE2_CTX_new')
-external ffi.Pointer<SPAKE2_CTX> _SPAKE2_CTX_new(
+external ffi.Pointer<SPAKE2_CTX> SPAKE2_CTX_new(
   int my_role,
   ffi.Pointer<ffi.Uint8> my_name,
   int my_name_len,
   ffi.Pointer<ffi.Uint8> their_name,
   int their_name_len,
 );
-
-ffi.Pointer<SPAKE2_CTX> SPAKE2_CTX_new(
-  spake2_role_t my_role,
-  ffi.Pointer<ffi.Uint8> my_name,
-  int my_name_len,
-  ffi.Pointer<ffi.Uint8> their_name,
-  int their_name_len,
-) {
-  return _SPAKE2_CTX_new(
-    my_role.value,
-    my_name,
-    my_name_len,
-    their_name,
-    their_name_len,
-  );
-}
 
 /// SPAKE2_generate_msg generates a SPAKE2 message given |password|, writes
 /// it to |out| and sets |*out_len| to the number of bytes written.
@@ -29463,7 +29327,7 @@ final class DIST_POINT_NAME_st extends ffi.Struct {
   @ffi.Int()
   external int type;
 
-  external UnnamedUnion$3 name;
+  external UnnamedUnion$4 name;
 
   /// If relativename then this contains the full distribution point name
   external ffi.Pointer<X509_NAME> dpname;
@@ -29512,7 +29376,80 @@ typedef ECDSA_SIG = ecdsa_sig_st;
 typedef EC_GROUP = ec_group_st;
 typedef EC_KEY = ec_key_st;
 typedef EC_METHOD = ec_method_st;
+
+const int EC_PKEY_NO_PARAMETERS = 1;
+
+const int EC_PKEY_NO_PUBKEY = 2;
+
 typedef EC_POINT = ec_point_st;
+
+const int EC_R_BIGNUM_OUT_OF_RANGE = 126;
+
+const int EC_R_BUFFER_TOO_SMALL = 100;
+
+const int EC_R_COORDINATES_OUT_OF_RANGE = 101;
+
+const int EC_R_D2I_ECPKPARAMETERS_FAILURE = 102;
+
+const int EC_R_DECODE_ERROR = 128;
+
+const int EC_R_EC_GROUP_NEW_BY_NAME_FAILURE = 103;
+
+const int EC_R_ENCODE_ERROR = 129;
+
+const int EC_R_GROUP2PKPARAMETERS_FAILURE = 104;
+
+const int EC_R_GROUP_MISMATCH = 130;
+
+const int EC_R_I2D_ECPKPARAMETERS_FAILURE = 105;
+
+const int EC_R_INCOMPATIBLE_OBJECTS = 106;
+
+const int EC_R_INVALID_COFACTOR = 131;
+
+const int EC_R_INVALID_COMPRESSED_POINT = 107;
+
+const int EC_R_INVALID_COMPRESSION_BIT = 108;
+
+const int EC_R_INVALID_ENCODING = 109;
+
+const int EC_R_INVALID_FIELD = 110;
+
+const int EC_R_INVALID_FORM = 111;
+
+const int EC_R_INVALID_GROUP_ORDER = 112;
+
+const int EC_R_INVALID_PRIVATE_KEY = 113;
+
+const int EC_R_INVALID_SCALAR = 133;
+
+const int EC_R_MISSING_PARAMETERS = 114;
+
+const int EC_R_MISSING_PRIVATE_KEY = 115;
+
+const int EC_R_NON_NAMED_CURVE = 116;
+
+const int EC_R_NOT_INITIALIZED = 117;
+
+const int EC_R_PKPARAMETERS2GROUP_FAILURE = 118;
+
+const int EC_R_POINT_AT_INFINITY = 119;
+
+const int EC_R_POINT_IS_NOT_ON_CURVE = 120;
+
+const int EC_R_PUBLIC_KEY_VALIDATION_FAILED = 132;
+
+const int EC_R_SLOT_FULL = 121;
+
+const int EC_R_UNDEFINED_GENERATOR = 122;
+
+const int EC_R_UNKNOWN_GROUP = 123;
+
+const int EC_R_UNKNOWN_ORDER = 124;
+
+const int EC_R_WRONG_CURVE_PARAMETERS = 127;
+
+const int EC_R_WRONG_ORDER = 125;
 
 /// EC_builtin_curve describes a supported elliptic curve.
 final class EC_builtin_curve extends ffi.Struct {
@@ -29548,6 +29485,74 @@ final class EDIPartyName_st extends ffi.Struct {
 
 typedef ENGINE = engine_st;
 typedef ERR_FNS = st_ERR_FNS;
+
+const int ERR_LIB_ASN1 = 12;
+
+const int ERR_LIB_BIO = 17;
+
+const int ERR_LIB_BN = 3;
+
+const int ERR_LIB_BUF = 7;
+
+const int ERR_LIB_CIPHER = 30;
+
+const int ERR_LIB_CMS = 33;
+
+const int ERR_LIB_COMP = 25;
+
+const int ERR_LIB_CONF = 13;
+
+const int ERR_LIB_CRYPTO = 14;
+
+const int ERR_LIB_DH = 5;
+
+const int ERR_LIB_DIGEST = 29;
+
+const int ERR_LIB_DSA = 10;
+
+const int ERR_LIB_EC = 15;
+
+const int ERR_LIB_ECDH = 27;
+
+const int ERR_LIB_ECDSA = 26;
+
+const int ERR_LIB_ENGINE = 22;
+
+const int ERR_LIB_EVP = 6;
+
+const int ERR_LIB_HKDF = 31;
+
+const int ERR_LIB_HMAC = 28;
+
+const int ERR_LIB_NONE = 1;
+
+const int ERR_LIB_OBJ = 8;
+
+const int ERR_LIB_OCSP = 23;
+
+const int ERR_LIB_PEM = 9;
+
+const int ERR_LIB_PKCS7 = 18;
+
+const int ERR_LIB_PKCS8 = 19;
+
+const int ERR_LIB_RAND = 21;
+
+const int ERR_LIB_RSA = 4;
+
+const int ERR_LIB_SSL = 16;
+
+const int ERR_LIB_SYS = 2;
+
+const int ERR_LIB_TRUST_TOKEN = 32;
+
+const int ERR_LIB_UI = 24;
+
+const int ERR_LIB_USER = 34;
+
+const int ERR_LIB_X509 = 11;
+
+const int ERR_LIB_X509V3 = 20;
 
 /// ERR_print_errors_callback_t is the type of a function used by
 /// |ERR_print_errors_cb|. It takes a pointer to a human readable string (and
@@ -29877,6 +29882,8 @@ final class GENERAL_SUBTREE_st extends ffi.Struct {
     ..ref.minimum = minimum
     ..ref.maximum = maximum;
 }
+
+const int HKDF_R_OUTPUT_TOO_LARGE = 100;
 
 typedef HMAC_CTX = hmac_ctx_st;
 typedef ISSUING_DIST_POINT = ISSUING_DIST_POINT_st;
@@ -32042,7 +32049,7 @@ final class PKCS7 extends ffi.Struct {
   /// object is parsed and ignored in serialization.
   external ffi.Pointer<ASN1_OBJECT> type;
 
-  external UnnamedUnion$4 d;
+  external UnnamedUnion$5 d;
 }
 
 typedef PKCS7_DIGEST = ffi.Void;
@@ -32119,7 +32126,7 @@ typedef POLICYQUALINFO = POLICYQUALINFO_st;
 final class POLICYQUALINFO_st extends ffi.Struct {
   external ffi.Pointer<ASN1_OBJECT> pqualid;
 
-  external UnnamedUnion$5 d;
+  external UnnamedUnion$6 d;
 }
 
 typedef POLICY_CONSTRAINTS = POLICY_CONSTRAINTS_st;
@@ -32470,12 +32477,18 @@ final class UnnamedUnion$2 extends ffi.Union {
 }
 
 final class UnnamedUnion$3 extends ffi.Union {
+  external cbb_buffer_st base;
+
+  external cbb_child_st child;
+}
+
+final class UnnamedUnion$4 extends ffi.Union {
   external ffi.Pointer<GENERAL_NAMES> fullname;
 
   external ffi.Pointer<stack_st_X509_NAME_ENTRY> relativename;
 }
 
-final class UnnamedUnion$4 extends ffi.Union {
+final class UnnamedUnion$5 extends ffi.Union {
   external ffi.Pointer<ffi.Char> ptr;
 
   external ffi.Pointer<ASN1_OCTET_STRING> data;
@@ -32493,7 +32506,7 @@ final class UnnamedUnion$4 extends ffi.Union {
   external ffi.Pointer<ASN1_TYPE> other;
 }
 
-final class UnnamedUnion$5 extends ffi.Union {
+final class UnnamedUnion$6 extends ffi.Union {
   external ffi.Pointer<ASN1_IA5STRING> cpsuri;
 
   external ffi.Pointer<USERNOTICE> usernotice;
@@ -32504,14 +32517,14 @@ final class UnnamedUnion$5 extends ffi.Union {
 /// wpa_supplicant accesses |h0|..|h4| so we must support those names for
 /// compatibility with it until it can be updated. Anonymous unions are only
 /// standard in C11, so disable this workaround in C++.
-final class UnnamedUnion$6 extends ffi.Union {
+final class UnnamedUnion$7 extends ffi.Union {
   @ffi.Array.multi([5])
   external ffi.Array<ffi.Uint32> h;
 
   external UnnamedStruct unnamed;
 }
 
-final class UnnamedUnion$7 extends ffi.Union {
+final class UnnamedUnion$8 extends ffi.Union {
   @ffi.UnsignedInt()
   external int __wch;
 
@@ -33282,7 +33295,7 @@ final class __mbstate_t extends ffi.Struct {
   @ffi.Int()
   external int __count;
 
-  external UnnamedUnion$7 __value;
+  external UnnamedUnion$8 __value;
 }
 
 typedef __mode_t = ffi.UnsignedInt;
@@ -33733,20 +33746,10 @@ final class bn_gencb_st extends ffi.Struct {
 final class bn_mont_ctx_st extends ffi.Opaque {}
 
 /// bn_primality_result_t enumerates the outcomes of primality-testing.
-enum bn_primality_result_t {
-  bn_probably_prime(0),
-  bn_composite(1),
-  bn_non_prime_power_composite(2);
-
-  final int value;
-  const bn_primality_result_t(this.value);
-
-  static bn_primality_result_t fromValue(int value) => switch (value) {
-    0 => bn_probably_prime,
-    1 => bn_composite,
-    2 => bn_non_prime_power_composite,
-    _ => throw ArgumentError('Unknown value for bn_primality_result_t: $value'),
-  };
+sealed class bn_primality_result_t {
+  static const bn_probably_prime = 0;
+  static const bn_composite = 1;
+  static const bn_non_prime_power_composite = 2;
 }
 
 /// buf_mem_st (aka |BUF_MEM|) is a generic buffer object used by OpenSSL.
@@ -33774,25 +33777,64 @@ final class buf_mem_st extends ffi.Struct {
 
 typedef caddr_t = __caddr_t;
 
-/// CRYPTO ByteBuilder.
-///
-/// |CBB| objects allow one to build length-prefixed serialisations. A |CBB|
-/// object is associated with a buffer and new buffers are created with
-/// |CBB_init|. Several |CBB| objects can point at the same buffer when a
-/// length-prefix is pending, however only a single |CBB| can be 'current' at
-/// any one time. For example, if one calls |CBB_add_u8_length_prefixed| then
-/// the new |CBB| points at the same buffer as the original. But if the original
-/// |CBB| is used then the length prefix is written out and the new |CBB| must
-/// not be used again.
-///
-/// If one needs to force a length prefix to be written out because a |CBB| is
-/// going out of scope, use |CBB_flush|. If an operation on a |CBB| fails, it is
-/// in an undefined state and must not be used except to call |CBB_cleanup|.
-final class cbb_buffer_st extends ffi.Opaque {}
+final class cbb_buffer_st extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> buf;
 
-final class cbb_child_st extends ffi.Opaque {}
+  @ffi.Size()
+  external int len;
 
-final class cbb_st extends ffi.Opaque {}
+  @ffi.Size()
+  external int cap;
+
+  @ffi.UnsignedInt()
+  external int flags;
+
+  static ffi.Pointer<cbb_buffer_st> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Uint8> buf,
+    required int len,
+    required int cap,
+    required int flags,
+  }) => $allocator<cbb_buffer_st>()
+    ..ref.buf = buf
+    ..ref.len = len
+    ..ref.cap = cap
+    ..ref.flags = flags;
+}
+
+final class cbb_child_st extends ffi.Struct {
+  external ffi.Pointer<cbb_buffer_st> base;
+
+  @ffi.Size()
+  external int offset;
+
+  @ffi.Uint8()
+  external int pending_len_len;
+
+  @ffi.Uint8()
+  external int pending_is_asn1;
+
+  static ffi.Pointer<cbb_child_st> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<cbb_buffer_st> base,
+    required int offset,
+    required int pending_len_len,
+    required int pending_is_asn1,
+  }) => $allocator<cbb_child_st>()
+    ..ref.base = base
+    ..ref.offset = offset
+    ..ref.pending_len_len = pending_len_len
+    ..ref.pending_is_asn1 = pending_is_asn1;
+}
+
+final class cbb_st extends ffi.Struct {
+  external ffi.Pointer<CBB> child;
+
+  @ffi.Char()
+  external int is_child;
+
+  external UnnamedUnion$3 u;
+}
 
 /// CRYPTO ByteString
 final class cbs_st extends ffi.Struct {
@@ -34088,18 +34130,9 @@ final class evp_aead_ctx_st_state extends ffi.Union {
 }
 
 /// evp_aead_direction_t denotes the direction of an AEAD operation.
-enum evp_aead_direction_t {
-  evp_aead_open(0),
-  evp_aead_seal(1);
-
-  final int value;
-  const evp_aead_direction_t(this.value);
-
-  static evp_aead_direction_t fromValue(int value) => switch (value) {
-    0 => evp_aead_open,
-    1 => evp_aead_seal,
-    _ => throw ArgumentError('Unknown value for evp_aead_direction_t: $value'),
-  };
+sealed class evp_aead_direction_t {
+  static const evp_aead_open = 0;
+  static const evp_aead_seal = 1;
 }
 
 final class evp_aead_st extends ffi.Opaque {}
@@ -34224,31 +34257,12 @@ final class fd_set extends ffi.Struct {
 /// fips_counter_t denotes specific APIs/algorithms. A counter is maintained for
 /// each in FIPS mode so that tests can be written to assert that the expected,
 /// FIPS functions are being called by a certain piece of code.
-enum fips_counter_t {
-  fips_counter_evp_aes_128_gcm(0),
-  fips_counter_evp_aes_256_gcm(1),
-  fips_counter_evp_aes_128_ctr(2),
-  fips_counter_evp_aes_256_ctr(3);
-
-  static const fips_counter_max = fips_counter_evp_aes_256_ctr;
-
-  final int value;
-  const fips_counter_t(this.value);
-
-  static fips_counter_t fromValue(int value) => switch (value) {
-    0 => fips_counter_evp_aes_128_gcm,
-    1 => fips_counter_evp_aes_256_gcm,
-    2 => fips_counter_evp_aes_128_ctr,
-    3 => fips_counter_evp_aes_256_ctr,
-    _ => throw ArgumentError('Unknown value for fips_counter_t: $value'),
-  };
-
-  @override
-  String toString() {
-    if (this == fips_counter_evp_aes_256_ctr)
-      return "fips_counter_t.fips_counter_evp_aes_256_ctr, fips_counter_t.fips_counter_max";
-    return super.toString();
-  }
+sealed class fips_counter_t {
+  static const fips_counter_evp_aes_128_gcm = 0;
+  static const fips_counter_evp_aes_256_gcm = 1;
+  static const fips_counter_evp_aes_128_ctr = 2;
+  static const fips_counter_evp_aes_256_ctr = 3;
+  static const fips_counter_max = 3;
 }
 
 typedef fpos_t = __fpos_t;
@@ -34464,34 +34478,22 @@ final class pkcs8_priv_key_info_st extends ffi.Opaque {}
 
 /// point_conversion_form_t enumerates forms, as defined in X9.62 (ECDSA), for
 /// the encoding of a elliptic curve point (x,y)
-enum point_conversion_form_t {
+sealed class point_conversion_form_t {
   /// POINT_CONVERSION_COMPRESSED indicates that the point is encoded as z||x,
   /// where the octet z specifies which solution of the quadratic equation y
   /// is.
-  POINT_CONVERSION_COMPRESSED(2),
+  static const POINT_CONVERSION_COMPRESSED = 2;
 
   /// POINT_CONVERSION_UNCOMPRESSED indicates that the point is encoded as
   /// z||x||y, where z is the octet 0x04.
-  POINT_CONVERSION_UNCOMPRESSED(4),
+  static const POINT_CONVERSION_UNCOMPRESSED = 4;
 
   /// POINT_CONVERSION_HYBRID indicates that the point is encoded as z||x||y,
   /// where z specifies which solution of the quadratic equation y is. This is
   /// not supported by the code and has never been observed in use.
   ///
   /// TODO(agl): remove once node.js no longer references this.
-  POINT_CONVERSION_HYBRID(6);
-
-  final int value;
-  const point_conversion_form_t(this.value);
-
-  static point_conversion_form_t fromValue(int value) => switch (value) {
-    2 => POINT_CONVERSION_COMPRESSED,
-    4 => POINT_CONVERSION_UNCOMPRESSED,
-    6 => POINT_CONVERSION_HYBRID,
-    _ => throw ArgumentError(
-      'Unknown value for point_conversion_form_t: $value',
-    ),
-  };
+  static const POINT_CONVERSION_HYBRID = 6;
 }
 
 /// X.509 information.
@@ -34803,7 +34805,7 @@ final class sha512_state_st extends ffi.Struct {
 }
 
 final class sha_state_st extends ffi.Struct {
-  external UnnamedUnion$6 unnamed;
+  external UnnamedUnion$7 unnamed;
 
   @ffi.Uint32()
   external int Nl;
@@ -35572,18 +35574,9 @@ final class spake2_ctx_st extends ffi.Opaque {}
 /// spake2_role_t enumerates the different “roles” in SPAKE2. The protocol
 /// requires that the symmetry of the two parties be broken so one participant
 /// must be “Alice” and the other be “Bob”.
-enum spake2_role_t {
-  spake2_role_alice(0),
-  spake2_role_bob(1);
-
-  final int value;
-  const spake2_role_t(this.value);
-
-  static spake2_role_t fromValue(int value) => switch (value) {
-    0 => spake2_role_alice,
-    1 => spake2_role_bob,
-    _ => throw ArgumentError('Unknown value for spake2_role_t: $value'),
-  };
+sealed class spake2_role_t {
+  static const spake2_role_alice = 0;
+  static const spake2_role_bob = 1;
 }
 
 final class srtp_protection_profile_st extends ffi.Opaque {}

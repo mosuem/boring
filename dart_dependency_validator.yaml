@@ -3,5 +3,4 @@
 
 ignore:
   - hooks
-  - meta
   - native_toolchain_cmake
