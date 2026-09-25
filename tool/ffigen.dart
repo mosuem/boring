@@ -47,7 +47,12 @@ Future<void> main() async {
           final name = node.originalName;
           node.isIncluded = name.startsWith('bssl_dart_');
           if (name.startsWith('bssl_dart_')) {
-            node.name = name.substring('bssl_dart_'.length);
+            final unprefixed = name.substring('bssl_dart_'.length);
+            node.name = unprefixed;
+            if (unprefixed.endsWith('_free') ||
+                unprefixed.endsWith('_cleanup')) {
+              node.exposeSymbolAddress = true;
+            }
           }
         },
         struct: (node) {

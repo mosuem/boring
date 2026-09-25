@@ -16,6 +16,7 @@
 library;
 
 import 'dart:ffi' as ffi;
+import '' as self;
 
 /// ACCESS_DESCRIPTION_free releases memory associated with |desc|.
 @ffi.Native<ffi.Void Function(ffi.Pointer<ACCESS_DESCRIPTION>)>(
@@ -29024,6 +29025,366 @@ external ffi.Pointer<ffi.Void> sk_value(
   ffi.Pointer<OPENSSL_STACK> sk,
   int i,
 );
+
+const addresses = _SymbolAddresses();
+
+class _SymbolAddresses {
+  const _SymbolAddresses();
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ACCESS_DESCRIPTION>)>
+  >
+  get ACCESS_DESCRIPTION_free =>
+      ffi.Native.addressOf(self.ACCESS_DESCRIPTION_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_BIT_STRING>)>
+  >
+  get ASN1_BIT_STRING_free => ffi.Native.addressOf(self.ASN1_BIT_STRING_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_BMPSTRING>)>
+  >
+  get ASN1_BMPSTRING_free => ffi.Native.addressOf(self.ASN1_BMPSTRING_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_ENUMERATED>)>
+  >
+  get ASN1_ENUMERATED_free => ffi.Native.addressOf(self.ASN1_ENUMERATED_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_GENERALIZEDTIME>)>
+  >
+  get ASN1_GENERALIZEDTIME_free =>
+      ffi.Native.addressOf(self.ASN1_GENERALIZEDTIME_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_GENERALSTRING>)>
+  >
+  get ASN1_GENERALSTRING_free =>
+      ffi.Native.addressOf(self.ASN1_GENERALSTRING_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_IA5STRING>)>
+  >
+  get ASN1_IA5STRING_free => ffi.Native.addressOf(self.ASN1_IA5STRING_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_INTEGER>)>>
+  get ASN1_INTEGER_free => ffi.Native.addressOf(self.ASN1_INTEGER_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_NULL>)>>
+  get ASN1_NULL_free => ffi.Native.addressOf(self.ASN1_NULL_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_OBJECT>)>>
+  get ASN1_OBJECT_free => ffi.Native.addressOf(self.ASN1_OBJECT_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_OCTET_STRING>)>
+  >
+  get ASN1_OCTET_STRING_free =>
+      ffi.Native.addressOf(self.ASN1_OCTET_STRING_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_PRINTABLESTRING>)>
+  >
+  get ASN1_PRINTABLESTRING_free =>
+      ffi.Native.addressOf(self.ASN1_PRINTABLESTRING_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get ASN1_STRING_TABLE_cleanup =>
+      ffi.Native.addressOf(self.ASN1_STRING_TABLE_cleanup);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_STRING>)>>
+  get ASN1_STRING_free => ffi.Native.addressOf(self.ASN1_STRING_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_T61STRING>)>
+  >
+  get ASN1_T61STRING_free => ffi.Native.addressOf(self.ASN1_T61STRING_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_TIME>)>>
+  get ASN1_TIME_free => ffi.Native.addressOf(self.ASN1_TIME_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_TYPE>)>>
+  get ASN1_TYPE_free => ffi.Native.addressOf(self.ASN1_TYPE_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_UNIVERSALSTRING>)>
+  >
+  get ASN1_UNIVERSALSTRING_free =>
+      ffi.Native.addressOf(self.ASN1_UNIVERSALSTRING_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_UTCTIME>)>>
+  get ASN1_UTCTIME_free => ffi.Native.addressOf(self.ASN1_UTCTIME_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_UTF8STRING>)>
+  >
+  get ASN1_UTF8STRING_free => ffi.Native.addressOf(self.ASN1_UTF8STRING_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_VISIBLESTRING>)>
+  >
+  get ASN1_VISIBLESTRING_free =>
+      ffi.Native.addressOf(self.ASN1_VISIBLESTRING_free);
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ASN1_VALUE>, ffi.Pointer<ASN1_ITEM>)
+    >
+  >
+  get ASN1_item_free => ffi.Native.addressOf(self.ASN1_item_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<AUTHORITY_INFO_ACCESS>)>
+  >
+  get AUTHORITY_INFO_ACCESS_free =>
+      ffi.Native.addressOf(self.AUTHORITY_INFO_ACCESS_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<AUTHORITY_KEYID>)>
+  >
+  get AUTHORITY_KEYID_free => ffi.Native.addressOf(self.AUTHORITY_KEYID_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BASIC_CONSTRAINTS>)>
+  >
+  get BASIC_CONSTRAINTS_free =>
+      ffi.Native.addressOf(self.BASIC_CONSTRAINTS_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_free => ffi.Native.addressOf(self.BIO_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO_METHOD>)>>
+  get BIO_meth_free => ffi.Native.addressOf(self.BIO_meth_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BN_CTX>)>>
+  get BN_CTX_free => ffi.Native.addressOf(self.BN_CTX_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BN_GENCB>)>>
+  get BN_GENCB_free => ffi.Native.addressOf(self.BN_GENCB_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BN_MONT_CTX>)>>
+  get BN_MONT_CTX_free => ffi.Native.addressOf(self.BN_MONT_CTX_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIGNUM>)>>
+  get BN_clear_free => ffi.Native.addressOf(self.BN_clear_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIGNUM>)>>
+  get BN_free => ffi.Native.addressOf(self.BN_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BUF_MEM>)>>
+  get BUF_MEM_free => ffi.Native.addressOf(self.BUF_MEM_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CBB>)>>
+  get CBB_cleanup => ffi.Native.addressOf(self.CBB_cleanup);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CERTIFICATEPOLICIES>)>
+  >
+  get CERTIFICATEPOLICIES_free =>
+      ffi.Native.addressOf(self.CERTIFICATEPOLICIES_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get CONF_modules_free =>
+      ffi.Native.addressOf(self.CONF_modules_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CRL_DIST_POINTS>)>
+  >
+  get CRL_DIST_POINTS_free => ffi.Native.addressOf(self.CRL_DIST_POINTS_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CRYPTO_BUFFER_POOL>)>
+  >
+  get CRYPTO_BUFFER_POOL_free =>
+      ffi.Native.addressOf(self.CRYPTO_BUFFER_POOL_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CRYPTO_BUFFER>)>>
+  get CRYPTO_BUFFER_free => ffi.Native.addressOf(self.CRYPTO_BUFFER_free);
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>, ffi.Int)
+    >
+  >
+  get CRYPTO_free => ffi.Native.addressOf(self.CRYPTO_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<DH>)>>
+  get DH_free => ffi.Native.addressOf(self.DH_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_STRING>)>>
+  get DIRECTORYSTRING_free => ffi.Native.addressOf(self.DIRECTORYSTRING_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_STRING>)>>
+  get DISPLAYTEXT_free => ffi.Native.addressOf(self.DISPLAYTEXT_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<DIST_POINT_NAME>)>
+  >
+  get DIST_POINT_NAME_free => ffi.Native.addressOf(self.DIST_POINT_NAME_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<DIST_POINT>)>>
+  get DIST_POINT_free => ffi.Native.addressOf(self.DIST_POINT_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<DSA_SIG>)>>
+  get DSA_SIG_free => ffi.Native.addressOf(self.DSA_SIG_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<DSA>)>>
+  get DSA_free => ffi.Native.addressOf(self.DSA_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ECDSA_SIG>)>>
+  get ECDSA_SIG_free => ffi.Native.addressOf(self.ECDSA_SIG_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_GROUP>)>>
+  get EC_GROUP_free => ffi.Native.addressOf(self.EC_GROUP_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_KEY>)>>
+  get EC_KEY_free => ffi.Native.addressOf(self.EC_KEY_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_POINT>)>>
+  get EC_POINT_clear_free => ffi.Native.addressOf(self.EC_POINT_clear_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_POINT>)>>
+  get EC_POINT_free => ffi.Native.addressOf(self.EC_POINT_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EDIPARTYNAME>)>>
+  get EDIPARTYNAME_free => ffi.Native.addressOf(self.EDIPARTYNAME_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get ENGINE_cleanup =>
+      ffi.Native.addressOf(self.ENGINE_cleanup);
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ENGINE>)>>
+  get ENGINE_free => ffi.Native.addressOf(self.ENGINE_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_AEAD_CTX>)>>
+  get EVP_AEAD_CTX_cleanup => ffi.Native.addressOf(self.EVP_AEAD_CTX_cleanup);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_AEAD_CTX>)>>
+  get EVP_AEAD_CTX_free => ffi.Native.addressOf(self.EVP_AEAD_CTX_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>)>>
+  get EVP_CIPHER_CTX_cleanup =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_cleanup);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_CIPHER_CTX>)>
+  >
+  get EVP_CIPHER_CTX_free => ffi.Native.addressOf(self.EVP_CIPHER_CTX_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_ENCODE_CTX>)>
+  >
+  get EVP_ENCODE_CTX_free => ffi.Native.addressOf(self.EVP_ENCODE_CTX_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_MD_CTX>)>>
+  get EVP_MD_CTX_cleanup => ffi.Native.addressOf(self.EVP_MD_CTX_cleanup);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_MD_CTX>)>>
+  get EVP_MD_CTX_free => ffi.Native.addressOf(self.EVP_MD_CTX_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_MD>)>>
+  get EVP_MD_free => ffi.Native.addressOf(self.EVP_MD_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_PKEY_CTX>)>>
+  get EVP_PKEY_CTX_free => ffi.Native.addressOf(self.EVP_PKEY_CTX_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_free => ffi.Native.addressOf(self.EVP_PKEY_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get EVP_cleanup =>
+      ffi.Native.addressOf(self.EVP_cleanup);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EXTENDED_KEY_USAGE>)>
+  >
+  get EXTENDED_KEY_USAGE_free =>
+      ffi.Native.addressOf(self.EXTENDED_KEY_USAGE_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<GENERAL_NAMES>)>>
+  get GENERAL_NAMES_free => ffi.Native.addressOf(self.GENERAL_NAMES_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<GENERAL_NAME>)>>
+  get GENERAL_NAME_free => ffi.Native.addressOf(self.GENERAL_NAME_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<GENERAL_SUBTREE>)>
+  >
+  get GENERAL_SUBTREE_free => ffi.Native.addressOf(self.GENERAL_SUBTREE_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>>
+  get HMAC_CTX_cleanup => ffi.Native.addressOf(self.HMAC_CTX_cleanup);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>>
+  get HMAC_CTX_free => ffi.Native.addressOf(self.HMAC_CTX_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ISSUING_DIST_POINT>)>
+  >
+  get ISSUING_DIST_POINT_free =>
+      ffi.Native.addressOf(self.ISSUING_DIST_POINT_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<NAME_CONSTRAINTS>)>
+  >
+  get NAME_CONSTRAINTS_free => ffi.Native.addressOf(self.NAME_CONSTRAINTS_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CONF>)>>
+  get NCONF_free => ffi.Native.addressOf(self.NCONF_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<NETSCAPE_SPKAC>)>
+  >
+  get NETSCAPE_SPKAC_free => ffi.Native.addressOf(self.NETSCAPE_SPKAC_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<NETSCAPE_SPKI>)>>
+  get NETSCAPE_SPKI_free => ffi.Native.addressOf(self.NETSCAPE_SPKI_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<NOTICEREF>)>>
+  get NOTICEREF_free => ffi.Native.addressOf(self.NOTICEREF_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get OBJ_cleanup =>
+      ffi.Native.addressOf(self.OBJ_cleanup);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get OPENSSL_cleanup =>
+      ffi.Native.addressOf(self.OPENSSL_cleanup);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Size)>
+  >
+  get OPENSSL_clear_free => ffi.Native.addressOf(self.OPENSSL_clear_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+  get OPENSSL_free => ffi.Native.addressOf(self.OPENSSL_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Size)>
+  >
+  get OPENSSL_secure_clear_free =>
+      ffi.Native.addressOf(self.OPENSSL_secure_clear_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<OPENSSL_STACK>)>>
+  get OPENSSL_sk_free => ffi.Native.addressOf(self.OPENSSL_sk_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<OTHERNAME>)>>
+  get OTHERNAME_free => ffi.Native.addressOf(self.OTHERNAME_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<PKCS7>)>>
+  get PKCS7_free => ffi.Native.addressOf(self.PKCS7_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<PKCS8_PRIV_KEY_INFO>)>
+  >
+  get PKCS8_PRIV_KEY_INFO_free =>
+      ffi.Native.addressOf(self.PKCS8_PRIV_KEY_INFO_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<POLICYINFO>)>>
+  get POLICYINFO_free => ffi.Native.addressOf(self.POLICYINFO_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<POLICYQUALINFO>)>
+  >
+  get POLICYQUALINFO_free => ffi.Native.addressOf(self.POLICYQUALINFO_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<POLICY_CONSTRAINTS>)>
+  >
+  get POLICY_CONSTRAINTS_free =>
+      ffi.Native.addressOf(self.POLICY_CONSTRAINTS_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<POLICY_MAPPING>)>
+  >
+  get POLICY_MAPPING_free => ffi.Native.addressOf(self.POLICY_MAPPING_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get RAND_cleanup =>
+      ffi.Native.addressOf(self.RAND_cleanup);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<RSA_PSS_PARAMS>)>
+  >
+  get RSA_PSS_PARAMS_free => ffi.Native.addressOf(self.RSA_PSS_PARAMS_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<RSA>)>>
+  get RSA_free => ffi.Native.addressOf(self.RSA_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<SPAKE2_CTX>)>>
+  get SPAKE2_CTX_free => ffi.Native.addressOf(self.SPAKE2_CTX_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<USERNOTICE>)>>
+  get USERNOTICE_free => ffi.Native.addressOf(self.USERNOTICE_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Pointer<ffi.Void>)>
+  >
+  get X509V3_EXT_free => ffi.Native.addressOf(self.X509V3_EXT_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CONF_VALUE>)>>
+  get X509V3_conf_free => ffi.Native.addressOf(self.X509V3_conf_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_ALGOR>)>>
+  get X509_ALGOR_free => ffi.Native.addressOf(self.X509_ALGOR_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_ATTRIBUTE>)>
+  >
+  get X509_ATTRIBUTE_free => ffi.Native.addressOf(self.X509_ATTRIBUTE_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_CRL>)>>
+  get X509_CRL_free => ffi.Native.addressOf(self.X509_CRL_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_EXTENSION>)>
+  >
+  get X509_EXTENSION_free => ffi.Native.addressOf(self.X509_EXTENSION_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_INFO>)>>
+  get X509_INFO_free => ffi.Native.addressOf(self.X509_INFO_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_LOOKUP>)>>
+  get X509_LOOKUP_free => ffi.Native.addressOf(self.X509_LOOKUP_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_NAME_ENTRY>)>
+  >
+  get X509_NAME_ENTRY_free => ffi.Native.addressOf(self.X509_NAME_ENTRY_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_NAME>)>>
+  get X509_NAME_free => ffi.Native.addressOf(self.X509_NAME_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_OBJECT>)>>
+  get X509_OBJECT_free => ffi.Native.addressOf(self.X509_OBJECT_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_PUBKEY>)>>
+  get X509_PUBKEY_free => ffi.Native.addressOf(self.X509_PUBKEY_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_REQ>)>>
+  get X509_REQ_free => ffi.Native.addressOf(self.X509_REQ_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_REVOKED>)>>
+  get X509_REVOKED_free => ffi.Native.addressOf(self.X509_REVOKED_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_SIG>)>>
+  get X509_SIG_free => ffi.Native.addressOf(self.X509_SIG_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_STORE_CTX>)>
+  >
+  get X509_STORE_CTX_cleanup =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_cleanup);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_STORE_CTX>)>
+  >
+  get X509_STORE_CTX_free => ffi.Native.addressOf(self.X509_STORE_CTX_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_STORE>)>>
+  get X509_STORE_free => ffi.Native.addressOf(self.X509_STORE_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_VERIFY_PARAM>)>
+  >
+  get X509_VERIFY_PARAM_free =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_free);
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<stack_st_OPENSSL_STRING>)>
+  >
+  get X509_email_free => ffi.Native.addressOf(self.X509_email_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509>)>>
+  get X509_free => ffi.Native.addressOf(self.X509_free);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<OPENSSL_STACK>)>>
+  get sk_free => ffi.Native.addressOf(self.sk_free);
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<OPENSSL_STACK>, OPENSSL_sk_free_func)
+    >
+  >
+  get sk_pop_free => ffi.Native.addressOf(self.sk_pop_free);
+}
 
 typedef ACCESS_DESCRIPTION = ACCESS_DESCRIPTION_st;
 

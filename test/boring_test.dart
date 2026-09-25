@@ -16,14 +16,37 @@ void main() {
       expect(ssl.BORINGSSL_self_test(), equals(1));
     });
 
-    test('opensslAllocator allocates and frees via OPENSSL_malloc/free', () {
+    test('opensslAllocator allocates, frees, and exposes nativeFree', () {
       using((arena) {
         final buf = arena<ffi.Uint8>(32);
         expect(ssl.RAND_bytes(buf, 32), equals(1));
         final bytes = Uint8List.fromList(buf.asTypedList(32));
         expect(bytes.any((b) => b != 0), isTrue);
       }, opensslAllocator);
+
+      final raw = opensslAllocator<ffi.Uint8>(16);
+      expect(ssl.RAND_bytes(raw, 16), equals(1));
+      final view = raw.asTypedList(16, finalizer: opensslAllocator.nativeFree);
+      expect(view.length, equals(16));
     });
+
+    test(
+      'NativeHandle wraps BoringSSL pointers with finalizer and dispose',
+      () {
+        final pkey = NativeHandle(
+          ssl.EVP_PKEY_new(),
+          ssl.addresses.EVP_PKEY_free,
+        );
+        expect(pkey.isDisposed, isFalse);
+        expect(ssl.EVP_PKEY_id.invoke(pkey), equals(ssl.EVP_PKEY_NONE));
+
+        pkey.dispose();
+        expect(pkey.isDisposed, isTrue);
+        // Idempotent second dispose does not double-free:
+        pkey.dispose();
+        expect(() => ssl.EVP_PKEY_id.invoke(pkey), throwsStateError);
+      },
+    );
 
     test('EVP_sha256 computes expected digest', () {
       final digest = using((arena) {
@@ -84,7 +107,10 @@ void main() {
       }, opensslAllocator);
     });
 
-    test('exposes WebCrypto required macro and enum constants', () {
+    test('extractBoringSslError and error macro helpers work', () {
+      ssl.ERR_clear_error();
+      expect(extractBoringSslError(), isNull);
+
       expect(EC_PKEY_NO_PUBKEY, isNonZero);
       expect(HKDF_R_OUTPUT_TOO_LARGE, isNonZero);
       expect(ERR_LIB_HKDF, isNonZero);
