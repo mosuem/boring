@@ -82,6 +82,15 @@ hooks:
 
 ---
 
+## Conformance Testing
+
+CI checks the bundled BoringSSL and the generated bindings against two external suites, calling BoringSSL directly through the bindings (see [`test/conformance/`](test/conformance/)):
+
+- [**Project Wycheproof**](https://github.com/C2SP/wycheproof) (`./tool/run_conformance_tests.sh`): AES-GCM, ChaCha20-Poly1305, XChaCha20-Poly1305, AES-CBC, AES Key Wrap, Ed25519, ECDSA (P-256, P-384, P-521), RSA PKCS#1 v1.5 and RSA-PSS signatures, RSA-OAEP, ECDH, HKDF, HMAC, and PBKDF2.
+- [**x509-limbo**](https://x509-limbo.com) (`./tool/run_x509_limbo_tests.sh`): 9,770 of the 9,793 path validation testcases run against `X509_verify_cert`, and 9,237 (94.5%) agree. The divergences, mostly name constraint types BoringSSL does not support and CA/Browser Forum profile checks it leaves to the caller, are listed and explained in [`test/conformance/x509_limbo_expected_failures.txt`](test/conformance/x509_limbo_expected_failures.txt).
+
+---
+
 ## License
 
 Apache License, Version 2.0. See [LICENSE](LICENSE) for details. BoringSSL is licensed under Apache 2.0 and BSD-style licenses.
