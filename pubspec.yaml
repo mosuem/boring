@@ -1,6 +1,6 @@
 name: boring
 description: Raw FFI bindings to BoringSSL with Dart Native Assets and OPENSSL_cleanse-backed native allocation.
-version: 0.4.0-wip
+version: 0.4.0
 repository: https://github.com/mosuem/boring
 
 environment:

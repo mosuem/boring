@@ -1,4 +1,4 @@
-## 0.4.0-wip
+## 0.4.0
 
 - **Breaking**: `package:boring` now only exposes the raw `ffigen` BoringSSL
   bindings (`package:boring/bindings.dart`) plus a minimal FFI toolkit. The
