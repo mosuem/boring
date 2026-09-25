@@ -2,17 +2,61 @@
 // Version 2.0. See the LICENSE file for details.
 
 import 'dart:io';
+
 import 'package:ffigen/ffigen.dart';
+
+/// Functions declared in the BoringSSL headers, but implemented in sources
+/// that `src/CMakeLists.txt` does not compile (such as `decrepit/` and the
+/// FIPS integrity check).
+///
+/// Bindings to them would fail to resolve at runtime, and the link hook could
+/// not export them.
+const _notCompiled = {
+  'BIO_f_base64',
+  'BORINGSSL_integrity_test',
+  'DH_generate_parameters',
+  'DSA_generate_parameters',
+  'EVP_CIPHER_do_all_sorted',
+  'EVP_MD_do_all',
+  'EVP_MD_do_all_provided',
+  'EVP_MD_do_all_sorted',
+  'EVP_aes_128_cfb',
+  'EVP_aes_128_cfb128',
+  'EVP_aes_192_cfb',
+  'EVP_aes_192_cfb128',
+  'EVP_aes_256_cfb',
+  'EVP_aes_256_cfb128',
+  'EVP_aes_256_xts',
+  'EVP_bf_cbc',
+  'EVP_bf_cfb',
+  'EVP_bf_ecb',
+  'EVP_cast5_cbc',
+  'EVP_cast5_ecb',
+  'EVP_dss1',
+  'FIPS_module_hash',
+  'OBJ_NAME_do_all',
+  'OBJ_NAME_do_all_sorted',
+  'RSA_generate_key',
+  'RSA_padding_add_PKCS1_OAEP',
+  'RSA_padding_add_PKCS1_PSS',
+  'RSA_verify_PKCS1_PSS',
+  'X509V3_EXT_conf_nid',
+};
 
 Future<void> main() async {
   final packageRoot = Platform.script.resolve('../');
+  final bindings = packageRoot.resolve('lib/src/bindings/boringssl.g.dart');
 
   print('Generating Dart FFI bindings for BoringSSL (bssl_dart)...');
 
   await FfiGenerator(
     output: Output(
-      dart: DartOutput(
-        path: packageRoot.resolve('lib/src/bindings/boringssl.g.dart'),
+      dart: DartOutput(path: bindings),
+      // Maps the Dart names of the functions to their symbols, for the link
+      // hook.
+      // ignore: experimental_member_use
+      recordUseMapping: packageRoot.resolve(
+        'lib/src/bindings/record_use_mapping.g.dart',
       ),
       style: const NativeExternalBindings(
         assetId: 'package:boring/boring.dart',
@@ -45,14 +89,17 @@ Future<void> main() async {
       Visitor(
         func: (node) {
           final name = node.originalName;
-          node.isIncluded = name.startsWith('bssl_dart_');
-          if (name.startsWith('bssl_dart_')) {
-            final unprefixed = name.substring('bssl_dart_'.length);
-            node.name = unprefixed;
-            if (unprefixed.endsWith('_free') ||
-                unprefixed.endsWith('_cleanup')) {
-              node.exposeSymbolAddress = true;
-            }
+          if (!name.startsWith('bssl_dart_')) {
+            node.isIncluded = false;
+            return;
+          }
+          final unprefixed = name.substring('bssl_dart_'.length);
+          node.isIncluded = !_notCompiled.contains(unprefixed);
+          node.name = unprefixed;
+          // Lets the link hook keep only the functions an application uses.
+          node.recordUse = true;
+          if (unprefixed.endsWith('_free') || unprefixed.endsWith('_cleanup')) {
+            node.exposeSymbolAddress = true;
           }
         },
         struct: (node) {
@@ -92,5 +139,70 @@ Future<void> main() async {
     ],
   ).generate();
 
+  await _recordAddressUses(File.fromUri(bindings));
+
   print('BoringSSL FFI bindings generated successfully.');
+}
+
+/// Moves the `addresses` getters into an extension and annotates them with
+/// `@RecordUse()`, so that the link hook keeps the functions whose addresses
+/// are used.
+///
+/// `Native.addressOf` is not recorded as a use of the function, and ffigen
+/// does not annotate the getters, which it generates as instance members of a
+/// class. Instance members can't be recorded, but extension members can.
+Future<void> _recordAddressUses(File bindings) async {
+  const classHeader =
+      'class _SymbolAddresses {\n'
+      '  const _SymbolAddresses();\n';
+  final source = bindings.readAsStringSync();
+  final start = source.indexOf(classHeader);
+  final end = source.indexOf('\n}\n', start);
+  if (start < 0 || end < 0) {
+    throw StateError('Could not find _SymbolAddresses in ${bindings.path}.');
+  }
+
+  final getters = source.substring(start + classHeader.length, end + 1);
+  final annotated = getters.replaceAll(
+    RegExp(r'^  (?=ffi\.Pointer<)', multiLine: true),
+    '  @meta.RecordUse()\n  ',
+  );
+  final getterCount = RegExp(r'\bget \w+ =>').allMatches(getters).length;
+  final annotationCount = RegExp(
+    '@meta.RecordUse',
+  ).allMatches(annotated).length;
+  if (getterCount == 0 || getterCount != annotationCount) {
+    throw StateError(
+      'Annotated $annotationCount of $getterCount address getters.',
+    );
+  }
+
+  bindings.writeAsStringSync(
+    '${source.substring(0, start)}'
+    'final class _SymbolAddresses {\n'
+    '  const _SymbolAddresses();\n'
+    '}\n'
+    '\n'
+    '/// The addresses of the functions releasing BoringSSL objects, for\n'
+    '/// `NativeFinalizer`s.\n'
+    '///\n'
+    '/// Use these instead of `Native.addressOf`, which is not recorded as a\n'
+    '/// use of the function, so the link hook would drop it.\n'
+    'extension SymbolAddresses on _SymbolAddresses {\n'
+    '$annotated'
+    '${source.substring(end + 1)}',
+  );
+
+  final format = await Process.run(Platform.resolvedExecutable, [
+    'format',
+    bindings.path,
+  ]);
+  if (format.exitCode != 0) {
+    throw ProcessException(
+      'dart',
+      ['format', bindings.path],
+      '${format.stdout}\n${format.stderr}',
+      format.exitCode,
+    );
+  }
 }

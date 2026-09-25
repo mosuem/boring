@@ -285,10 +285,16 @@ set(crypto_sources_apple_aarch64
 
 set(crypto_sources_apple_x86
   ${BORINGSSL_ROOT}gen/bcm/aesni-x86-apple.S
+  ${BORINGSSL_ROOT}gen/bcm/bn-586-apple.S
+  ${BORINGSSL_ROOT}gen/bcm/co-586-apple.S
   ${BORINGSSL_ROOT}gen/bcm/ghash-ssse3-x86-apple.S
   ${BORINGSSL_ROOT}gen/bcm/ghash-x86-apple.S
+  ${BORINGSSL_ROOT}gen/bcm/sha1-586-apple.S
+  ${BORINGSSL_ROOT}gen/bcm/sha256-586-apple.S
+  ${BORINGSSL_ROOT}gen/bcm/sha512-586-apple.S
   ${BORINGSSL_ROOT}gen/bcm/vpaes-x86-apple.S
   ${BORINGSSL_ROOT}gen/crypto/chacha-x86-apple.S
+  ${BORINGSSL_ROOT}gen/crypto/md5-586-apple.S
   ${BORINGSSL_ROOT}gen/test_support/trampoline-x86-apple.S
 )
 
@@ -297,19 +303,14 @@ set(crypto_sources_apple_x86_64
   ${BORINGSSL_ROOT}gen/bcm/aes-gcm-avx512-x86_64-apple.S
   ${BORINGSSL_ROOT}gen/bcm/aesni-gcm-x86_64-apple.S
   ${BORINGSSL_ROOT}gen/bcm/aesni-x86_64-apple.S
-  ${BORINGSSL_ROOT}gen/bcm/bn-586-apple.S
-  ${BORINGSSL_ROOT}gen/bcm/co-586-apple.S
   ${BORINGSSL_ROOT}gen/bcm/ghash-ssse3-x86_64-apple.S
   ${BORINGSSL_ROOT}gen/bcm/ghash-x86_64-apple.S
   ${BORINGSSL_ROOT}gen/bcm/p256-x86_64-asm-apple.S
   ${BORINGSSL_ROOT}gen/bcm/p256_beeu-x86_64-asm-apple.S
   ${BORINGSSL_ROOT}gen/bcm/rdrand-x86_64-apple.S
   ${BORINGSSL_ROOT}gen/bcm/rsaz-avx2-apple.S
-  ${BORINGSSL_ROOT}gen/bcm/sha1-586-apple.S
   ${BORINGSSL_ROOT}gen/bcm/sha1-x86_64-apple.S
-  ${BORINGSSL_ROOT}gen/bcm/sha256-586-apple.S
   ${BORINGSSL_ROOT}gen/bcm/sha256-x86_64-apple.S
-  ${BORINGSSL_ROOT}gen/bcm/sha512-586-apple.S
   ${BORINGSSL_ROOT}gen/bcm/sha512-x86_64-apple.S
   ${BORINGSSL_ROOT}gen/bcm/vpaes-x86_64-apple.S
   ${BORINGSSL_ROOT}gen/bcm/x86-mont-apple.S
@@ -318,9 +319,12 @@ set(crypto_sources_apple_x86_64
   ${BORINGSSL_ROOT}gen/crypto/aes128gcmsiv-x86_64-apple.S
   ${BORINGSSL_ROOT}gen/crypto/chacha-x86_64-apple.S
   ${BORINGSSL_ROOT}gen/crypto/chacha20_poly1305_x86_64-apple.S
-  ${BORINGSSL_ROOT}gen/crypto/md5-586-apple.S
   ${BORINGSSL_ROOT}gen/crypto/md5-x86_64-apple.S
   ${BORINGSSL_ROOT}gen/test_support/trampoline-x86_64-apple.S
+  ${BORINGSSL_ROOT}third_party/fiat/asm/fiat_curve25519_adx_mul.S
+  ${BORINGSSL_ROOT}third_party/fiat/asm/fiat_curve25519_adx_square.S
+  ${BORINGSSL_ROOT}third_party/fiat/asm/fiat_p256_adx_mul.S
+  ${BORINGSSL_ROOT}third_party/fiat/asm/fiat_p256_adx_sqr.S
 )
 
 set(crypto_sources_linux_aarch64

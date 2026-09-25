@@ -9,8 +9,9 @@ import 'dart:typed_data';
 import 'package:boring/src/hook_helpers/sha256.dart';
 import 'package:boring/src/hook_helpers/targets.dart';
 import 'package:boring/src/hook_helpers/version.dart';
-import 'package:code_assets/code_assets.dart';
 
+/// Writes the SHA-256 hashes of the release assets built by
+/// tool/precompile_binaries.dart to lib/src/hook_helpers/hashes.dart.
 Future<void> main(List<String> args) async {
   final version = args.isNotEmpty ? args[0] : releaseVersion;
   final httpClient = HttpClient();
@@ -19,29 +20,34 @@ Future<void> main(List<String> args) async {
   final fileHashes = <String, String>{};
 
   for (final (os, arch, iosSdk) in supportedTargets) {
-    final targetTriple = targetTripleFor(os, arch, iosSdk: iosSdk);
-    final dylibFileName = os.dylibFileName('bssl_dart');
-    final assetRemoteName = 'boring-$targetTriple-$dylibFileName';
-    final uri = Uri.parse(
-      'https://github.com/mosuem/boring/releases/download/v$version/$assetRemoteName',
-    );
+    for (final static in [false, true]) {
+      final assetName = releaseAssetName(
+        os,
+        arch,
+        iosSdk: iosSdk,
+        static: static,
+      );
+      final uri = Uri.parse(
+        'https://github.com/mosuem/boring/releases/download/v$version/$assetName',
+      );
 
-    stdout.writeln('Fetching from $uri...');
-    try {
-      final request = await httpClient.getUrl(uri);
-      final response = await request.close();
-      if (response.statusCode != 200) {
-        stdout.writeln('  Skipping: status ${response.statusCode}');
-        continue;
+      stdout.writeln('Fetching from $uri...');
+      try {
+        final request = await httpClient.getUrl(uri);
+        final response = await request.close();
+        if (response.statusCode != 200) {
+          stdout.writeln('  Skipping: status ${response.statusCode}');
+          await response.drain<void>();
+          continue;
+        }
+        final builder = BytesBuilder(copy: false);
+        await response.forEach(builder.add);
+        final fileHash = sha256Hex(builder.takeBytes());
+        fileHashes[assetName] = fileHash;
+        stdout.writeln('  $assetName: $fileHash');
+      } catch (e) {
+        stdout.writeln('  Error fetching $uri: $e');
       }
-      final builder = BytesBuilder(copy: false);
-      await response.forEach(builder.add);
-      final bytes = builder.takeBytes();
-      final fileHash = sha256Hex(bytes);
-      fileHashes[targetTriple] = fileHash;
-      stdout.writeln('  Target $targetTriple: $fileHash');
-    } catch (e) {
-      stdout.writeln('  Error fetching $uri: $e');
     }
   }
   httpClient.close(force: true);
@@ -57,7 +63,8 @@ Future<void> main(List<String> args) async {
     ..writeln()
     ..writeln("const version = '$version';")
     ..writeln()
-    ..writeln('/// Mapping from target triple string to SHA-256 hash.')
+    ..writeln('/// Mapping from release asset name (see `releaseAssetName`) to')
+    ..writeln('/// SHA-256 hash.')
     ..writeln('const fileHashes = <String, String>{');
 
   for (final entry in fileHashes.entries) {

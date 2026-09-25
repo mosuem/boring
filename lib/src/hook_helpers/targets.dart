@@ -33,3 +33,22 @@ String targetTripleFor(OS os, Architecture arch, {IOSSdk? iosSdk}) {
   }
   return '${os.name}-${arch.name}';
 }
+
+/// The file name of the library built by `src/CMakeLists.txt` for [os].
+///
+/// The static library is linked into a dynamic library by `hook/link.dart`,
+/// and the dynamic library is bundled as is when linking is disabled.
+String libraryFileName(OS os, {required bool static}) => static
+    ? os.staticlibFileName('bssl_dart_static')
+    : os.dylibFileName('bssl_dart');
+
+/// The name of the GitHub release asset with the prebuilt library for [os] and
+/// [arch].
+String releaseAssetName(
+  OS os,
+  Architecture arch, {
+  IOSSdk? iosSdk,
+  required bool static,
+}) =>
+    'boring-${targetTripleFor(os, arch, iosSdk: iosSdk)}-'
+    '${libraryFileName(os, static: static)}';

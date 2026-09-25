@@ -9,7 +9,7 @@ on:
 
 jobs:
   dart-ci:
-    name: Dart Lint & Unit Tests
+    name: Dart Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +29,32 @@ jobs:
 
       - name: Analyze Code
         run: dart analyze lib test tool hook example --fatal-infos
+
+  test:
+    name: Unit Tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # The tree-shaking test runs hook/link.dart, whose linker invocation
+        # differs per OS.
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Dart SDK
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Setup NASM
+        if: runner.os == 'Windows'
+        uses: ilammy/setup-nasm@v1
+
+      - name: Install Dependencies
+        run: dart pub get
 
       - name: Run Unit Tests
         run: dart test

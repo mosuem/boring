@@ -3,4 +3,7 @@
 
 ignore:
   - hooks
+  - logging
+  - native_toolchain_c
   - native_toolchain_cmake
+  - record_use

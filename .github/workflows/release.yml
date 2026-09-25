@@ -17,10 +17,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          # The oldest available Ubuntu, so the libraries only require glibc
+          # 2.35.
+          - os: ubuntu-22.04
             target-os: linux
             target-arch: x64
-          - os: ubuntu-24.04-arm
+          - os: ubuntu-22.04-arm
             target-os: linux
             target-arch: arm64
           - os: macos-14
@@ -42,17 +44,28 @@ jobs:
         with:
           sdk: stable
 
+      - name: Setup NASM
+        if: matrix.target-os == 'windows'
+        uses: ilammy/setup-nasm@v1
+
       - name: Install Dependencies
         run: dart pub get
 
-      - name: Precompile Native Library
+      # Builds the dynamic library, which is bundled when linking is disabled,
+      # and the static library, which hook/link.dart links into a dynamic
+      # library with only the functions an application uses.
+      - name: Precompile Native Libraries
         run: dart run tool/precompile_binaries.dart --target-os=${{ matrix.target-os }} --target-arch=${{ matrix.target-arch }}
+
+      - name: List Native Libraries
+        run: ls -l bin
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: binary-${{ matrix.target-os }}-${{ matrix.target-arch }}
           path: bin/*
+          if-no-files-found: error
 
   publish-release:
     name: Attach Binaries to GitHub Release

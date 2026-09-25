@@ -8,5 +8,6 @@ import 'version.dart';
 
 const version = releaseVersion;
 
-/// Mapping from target triple string (e.g. 'linux-x64') to SHA-256 hash.
+/// Mapping from release asset name (see `releaseAssetName`) to
+/// SHA-256 hash.
 const fileHashes = <String, String>{};

@@ -11,20 +11,34 @@ include(../third_party/boringssl/sources.cmake)
 # Symbol prefixing: all BoringSSL symbols become bssl_dart_<symbol>
 add_definitions(-DBORINGSSL_PREFIX=bssl_dart)
 
-# Architecture and platform detection
-if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86_64" OR "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "amd64" OR "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "AMD64")
+# Architecture and platform detection.
+#
+# CMAKE_SYSTEM_PROCESSOR is the host's when CMAKE_OSX_ARCHITECTURES selects
+# another architecture on macOS, so use the requested architecture instead.
+set(BSSL_DART_PROCESSOR "${CMAKE_SYSTEM_PROCESSOR}")
+if(APPLE AND CMAKE_OSX_ARCHITECTURES)
+  list(LENGTH CMAKE_OSX_ARCHITECTURES BSSL_DART_ARCHITECTURE_COUNT)
+  if(BSSL_DART_ARCHITECTURE_COUNT EQUAL 1)
+    set(BSSL_DART_PROCESSOR "${CMAKE_OSX_ARCHITECTURES}")
+  else()
+    # The assembly is per architecture, so universal builds use the C code.
+    set(BSSL_DART_PROCESSOR "universal")
+  endif()
+endif()
+
+if("${BSSL_DART_PROCESSOR}" STREQUAL "x86_64" OR "${BSSL_DART_PROCESSOR}" STREQUAL "amd64" OR "${BSSL_DART_PROCESSOR}" STREQUAL "AMD64")
   if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(ARCH "x86_64")
   else()
     set(ARCH "x86")
   endif()
-elseif("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "x86" OR "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "i386" OR "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "i686")
+elseif("${BSSL_DART_PROCESSOR}" STREQUAL "x86" OR "${BSSL_DART_PROCESSOR}" STREQUAL "i386" OR "${BSSL_DART_PROCESSOR}" STREQUAL "i686")
   set(ARCH "x86")
-elseif("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "aarch64" OR "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "arm64" OR "${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "arm64e")
+elseif("${BSSL_DART_PROCESSOR}" STREQUAL "aarch64" OR "${BSSL_DART_PROCESSOR}" STREQUAL "arm64" OR "${BSSL_DART_PROCESSOR}" STREQUAL "arm64e")
   set(ARCH "aarch64")
-elseif("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "^arm*")
+elseif("${BSSL_DART_PROCESSOR}" MATCHES "^arm*")
   set(ARCH "arm")
-elseif("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "ppc64le")
+elseif("${BSSL_DART_PROCESSOR}" STREQUAL "ppc64le")
   set(ARCH "ppc64le")
 else()
   set(ARCH "generic")
@@ -46,9 +60,21 @@ endif()
 if(MSVC)
   set(MSVC_DISABLED_WARNINGS_LIST "C4100" "C4127" "C4132" "C4244" "C4267" "C4706" "C4141" "C4201")
   string(REPLACE "C" " -wd" MSVC_DISABLED_WARNINGS_STR ${MSVC_DISABLED_WARNINGS_LIST})
-  set(CMAKE_C_FLAGS "-utf-8 -W4 -WX ${MSVC_DISABLED_WARNINGS_STR}")
-  set(CMAKE_CXX_FLAGS "-utf-8 -W4 -WX ${MSVC_DISABLED_WARNINGS_STR}")
+  # -Gy and -Gw put each function and variable in its own COMDAT, so the link
+  # hook can drop the unused ones. BoringSSL doesn't use RTTI (-GR-).
+  set(CMAKE_C_FLAGS "-utf-8 -W4 -WX -Gy -Gw ${MSVC_DISABLED_WARNINGS_STR}")
+  set(CMAKE_CXX_FLAGS "-utf-8 -W4 -WX -Gy -Gw -GR- ${MSVC_DISABLED_WARNINGS_STR}")
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}>)
+else()
+  # BoringSSL doesn't need the C++ runtime (see BORINGSSL_ALLOW_CXX_RUNTIME
+  # upstream), so the libraries don't depend on it.
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-rtti")
+  if(NOT APPLE)
+    # One section per function and variable, so the link hook can drop the
+    # unused ones. Mach-O linkers already do this per symbol.
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ffunction-sections -fdata-sections")
+  endif()
 endif()
 
 if(WIN32)
@@ -63,15 +89,20 @@ if(WIN32)
   add_definitions(-DBORINGSSL_UNSAFE_DETERMINISTIC_MODE=0)
 endif()
 
+# The sources are compiled once, and linked into both libraries:
+#  * bssl_dart, a dynamic library with all of BoringSSL, bundled as is when
+#    linking is disabled (for example in `dart run` and `dart test`).
+#  * bssl_dart_static, a static library, from which `hook/link.dart` links a
+#    dynamic library with only the functions the application uses.
 add_library(
-  bssl_dart
-  SHARED
+  bssl_dart_objects
+  OBJECT
   ${crypto_sources}
   ${crypto_sources_${PLATFORM}_${ARCH}}
 )
 
 target_include_directories(
-  bssl_dart
+  bssl_dart_objects
   PUBLIC
   ../third_party/boringssl/src/include/
   PRIVATE
@@ -79,15 +110,31 @@ target_include_directories(
 )
 
 set_target_properties(
-  bssl_dart
+  bssl_dart_objects
   PROPERTIES
+  POSITION_INDEPENDENT_CODE ON
   C_VISIBILITY_PRESET default
   VISIBILITY_INLINES_HIDDEN 0
+)
+
+add_library(bssl_dart SHARED $<TARGET_OBJECTS:bssl_dart_objects>)
+add_library(bssl_dart_static STATIC $<TARGET_OBJECTS:bssl_dart_objects>)
+
+set_target_properties(
+  bssl_dart
+  bssl_dart_static
+  PROPERTIES
+  LINKER_LANGUAGE C
+)
+
+set_target_properties(
+  bssl_dart
+  PROPERTIES
   WINDOWS_EXPORT_ALL_SYMBOLS TRUE
 )
 
 install(
-  TARGETS bssl_dart
+  TARGETS bssl_dart bssl_dart_static
   RUNTIME DESTINATION .
   LIBRARY DESTINATION .
   ARCHIVE DESTINATION .

@@ -6,8 +6,14 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:boring/src/hook_helpers/targets.dart';
 import 'package:code_assets/code_assets.dart';
 
+/// Builds the dynamic and the static library for a release.
+///
+/// hook/build.dart bundles the dynamic library when linking is disabled, and
+/// hook/link.dart links the static library into a dynamic library with only
+/// the functions an application uses when linking is enabled.
 void main(List<String> args) async {
   final parser = ArgParser()
     ..addOption(
@@ -41,11 +47,7 @@ void main(List<String> args) async {
   }
 
   final targetOS = results['target-os'] == 'current'
-      ? (Platform.isLinux
-            ? OS.linux
-            : Platform.isMacOS
-            ? OS.macOS
-            : OS.windows)
+      ? OS.current
       : OS.values.firstWhere((o) => o.name == results['target-os']);
 
   final targetArch = results['target-arch'] == 'current'
@@ -58,66 +60,76 @@ void main(List<String> args) async {
   );
   await outDir.create(recursive: true);
 
-  final targetTriple = '${targetOS.name}-${targetArch.name}';
-  final dylibFileName = targetOS.dylibFileName('bssl_dart');
-  final releaseFileName = 'boring-$targetTriple-$dylibFileName';
-
+  final targetTriple = targetTripleFor(targetOS, targetArch);
   stdout.writeln('==> Building BoringSSL for $targetTriple...');
 
   final buildDir = Directory.fromUri(
     packageRoot.resolve('build/precompile-$targetTriple/'),
   );
+  final installDir = Directory.fromUri(buildDir.uri.resolve('install/'));
   await buildDir.create(recursive: true);
 
-  final osxArch = targetArch == Architecture.x64 ? 'x86_64' : 'arm64';
-  final cmakeArgs = [
+  await _run('cmake', [
     '-S',
-    File.fromUri(packageRoot.resolve('src/')).path,
+    Directory.fromUri(packageRoot.resolve('src/')).path,
     '-B',
     buildDir.path,
-    '-G',
-    'Ninja',
+    // The default generators: Visual Studio's on Windows, like
+    // native_toolchain_cmake, which finds MSVC without a Developer Command
+    // Prompt, and Makefiles elsewhere.
+    if (targetOS == OS.windows) ...['-A', _visualStudioPlatforms[targetArch]!],
+    if (targetOS == OS.macOS)
+      '-DCMAKE_OSX_ARCHITECTURES=${_macOSArchitectures[targetArch]!}',
     '-DCMAKE_BUILD_TYPE=Release',
-    if (targetOS == OS.macOS) '-DCMAKE_OSX_ARCHITECTURES=$osxArch',
-  ];
+    '-DCMAKE_INSTALL_PREFIX=${installDir.path}',
+  ]);
+  // Installs both libraries into installDir, see src/CMakeLists.txt.
+  await _run('cmake', [
+    '--build',
+    buildDir.path,
+    '--config',
+    'Release',
+    '--target',
+    'install',
+    '--parallel',
+    '${Platform.numberOfProcessors}',
+  ]);
 
-  // Configure CMake
-  final configureProcess = await Process.start(
-    'cmake',
-    cmakeArgs,
+  for (final static in [false, true]) {
+    final builtLibrary = File.fromUri(
+      installDir.uri.resolve(libraryFileName(targetOS, static: static)),
+    );
+    final releaseAsset = File.fromUri(
+      outDir.uri.resolve(
+        releaseAssetName(targetOS, targetArch, static: static),
+      ),
+    );
+    await builtLibrary.copy(releaseAsset.path);
+    stdout.writeln('==> Created release binary: ${releaseAsset.path}');
+  }
+}
+
+final _visualStudioPlatforms = {
+  Architecture.arm64: 'ARM64',
+  Architecture.ia32: 'Win32',
+  Architecture.x64: 'x64',
+};
+
+final _macOSArchitectures = {
+  Architecture.arm64: 'arm64',
+  Architecture.x64: 'x86_64',
+};
+
+Future<void> _run(String executable, List<String> arguments) async {
+  stdout.writeln('==> $executable ${arguments.join(' ')}');
+  final process = await Process.start(
+    executable,
+    arguments,
     mode: ProcessStartMode.inheritStdio,
   );
-  var exitCode = await configureProcess.exitCode;
+  final exitCode = await process.exitCode;
   if (exitCode != 0) {
-    stderr.writeln('CMake configure failed with exit code $exitCode');
+    stderr.writeln('$executable failed with exit code $exitCode');
     exit(exitCode);
   }
-
-  // Build
-  final buildProcess = await Process.start(
-    'cmake',
-    [
-      '--build',
-      buildDir.path,
-      '--target',
-      'bssl_dart',
-    ],
-    mode: ProcessStartMode.inheritStdio,
-  );
-  exitCode = await buildProcess.exitCode;
-  if (exitCode != 0) {
-    stderr.writeln('CMake build failed with exit code $exitCode');
-    exit(exitCode);
-  }
-
-  // Locate built library
-  final builtLib = File('${buildDir.path}/$dylibFileName');
-  if (!builtLib.existsSync()) {
-    stderr.writeln('Built library not found at ${builtLib.path}');
-    exit(1);
-  }
-
-  final destFile = File('${outDir.path}/$releaseFileName');
-  await builtLib.copy(destFile.path);
-  stdout.writeln('==> Created release binary: ${destFile.path}');
 }

@@ -11,6 +11,17 @@
   `onReleaseAll`, `move` (for BoringSSL's `set0` ownership transfer),
   Future-aware `BoringArena.run`, and `BoringArena.stream`, plus `copyBytes`,
   `cbs()`, `cbb()`, and `CBB.toBytes()`.
+- Added tree-shaking: the bindings are annotated with `@RecordUse()`, and when
+  linking is enabled (`dart build`, and Flutter profile and release builds),
+  `hook/link.dart` links a dynamic library with only the functions the
+  application uses. `addresses.*` are now getters of the `SymbolAddresses`
+  extension, so their uses are recorded too.
+- **Breaking**: Removed the bindings to 29 functions that BoringSSL declares but
+  that aren't compiled, such as `EVP_bf_cbc` and `RSA_generate_key` from
+  `decrepit/`. They failed to resolve when called.
+- Every GitHub Release now has the dynamic and the static library for each
+  prebuilt target. The Linux libraries are built on Ubuntu 22.04, and require
+  glibc 2.35 instead of 2.38.
 
 ## 0.3.0
 

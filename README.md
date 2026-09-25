@@ -17,6 +17,7 @@ Raw `ffigen` bindings to **BoringSSL** powered by **Dart Native Assets**.
 - **Concrete `CBS` & `CBB` Structs**: Both `CBS` (CRYPTO ByteString) and `CBB` (CRYPTO ByteBuilder) are generated as concrete `ffi.Struct` types, allowing direct stack/arena allocation (`arena<CBS>()`, `arena<CBB>()`) without C wrapper shims.
 - **Scoped Native Memory (`BoringArena`)**: An `ffi.Allocator` and resource tracker backed by `opensslAllocator`. `BoringArena.run` and `BoringArena.stream` release allocations and `X_new` / `X_free` resources (`arena.using(EC_KEY_new(), EC_KEY_free)`) in reverse order once the computation is done, including `async` ones. `move()` supports BoringSSL's `set0` ownership transfer, and `copyBytes`, `cbs()`, `cbb()`, and `CBB.toBytes()` cover byte-string plumbing.
 - **Finalizable Handles (`NativeHandle`)**: A GC-managed wrapper for long-lived BoringSSL objects (`NativeHandle(EVP_PKEY_new(), addresses.EVP_PKEY_free)`) with deterministic `dispose()`, using the `*_free` symbol addresses exposed as `addresses.*`.
+- **Tree-Shaking**: Release builds only bundle the BoringSSL functions the application uses, see [Tree-Shaking](#tree-shaking).
 
 ---
 
@@ -86,7 +87,19 @@ hooks:
 
 - **`fetch`** *(default)*: Downloads prebuilt binaries from GitHub Releases verified against pinned SHA-256 checksums, falling back to local compilation if unavailable.
 - **`checkout`**: Always compiles BoringSSL locally from bundled sources via CMake and Ninja.
-- **`local`**: Uses a custom prebuilt dynamic library at `localPath`.
+- **`local`**: Uses a custom prebuilt dynamic library at `localPath`, which is bundled as is, without [tree-shaking](#tree-shaking).
+
+`fetch` and `checkout` provide a dynamic library with all of BoringSSL when linking is disabled (`dart run`, `dart test`, and Flutter debug builds), and a static library for [tree-shaking](#tree-shaking) when it is enabled. Every GitHub Release has both for each prebuilt target.
+
+---
+
+## Tree-Shaking
+
+When linking is enabled (`dart build`, and Flutter profile and release builds), `hook/link.dart` links a dynamic library with only the functions the application uses from the static library. The bindings are annotated with `@RecordUse()`, so the Dart compiler records which of them the application calls, tears off, or takes the address of with `addresses.*`. For the [example](example/boring_example.dart), the bundled library shrinks from 2.9 MB to 240 KB on Linux x64.
+
+- Use `addresses.X` rather than `Native.addressOf(X)` for the address of a function, for example for a `NativeFinalizer`. `Native.addressOf` isn't recorded, so the function would be missing from the library.
+- Without recorded uses, for example with `flutter config --no-enable-record-use`, all functions are kept.
+- Linking requires a C toolchain (Clang or GCC, Xcode, MSVC, or the Android NDK), even with prebuilt binaries.
 
 ---
 

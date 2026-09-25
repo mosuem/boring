@@ -5,7 +5,8 @@ import 'dart:io';
 
 import 'package:boring/src/hook_helpers/hashes.dart' show fileHashes, version;
 import 'package:boring/src/hook_helpers/sha256.dart' show sha256Hex;
-import 'package:boring/src/hook_helpers/targets.dart' show targetTripleFor;
+import 'package:boring/src/hook_helpers/targets.dart'
+    show libraryFileName, releaseAssetName;
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_cmake/native_toolchain_cmake.dart';
@@ -48,12 +49,17 @@ Future<void> main(List<String> args) async {
     final buildOptions = BuildOptions.fromDefines(input.userDefines);
     stdout.writeln('boring: build options: $buildOptions');
 
+    // When linking is enabled (`dart build`, and Flutter's profile and release
+    // builds), hook/link.dart links a dynamic library with only the functions
+    // the application uses from the static library.
+    final static = input.config.linkingEnabled;
+
     switch (buildOptions.buildMode) {
       case BuildModeEnum.fetch:
-        await _fetchPrebuiltBinary(input, output);
+        await _fetchPrebuiltBinary(input, output, static: static);
       case BuildModeEnum.build:
       case BuildModeEnum.checkout:
-        await _buildLocalCMake(input, output);
+        await _buildLocalCMake(input, output, static: static);
       case BuildModeEnum.local:
         await _useLocalBinary(input, output, buildOptions.localPath);
     }
@@ -65,28 +71,53 @@ Future<void> main(List<String> args) async {
   });
 }
 
-Future<void> _fetchPrebuiltBinary(
+/// Adds [library] as the `package:boring/boring.dart` code asset.
+///
+/// A [static] library is sent to hook/link.dart, which links it into the
+/// dynamic library that is bundled.
+void _addLibrary(
   BuildInput input,
   BuildOutputBuilder output,
-) async {
+  Uri library, {
+  required bool static,
+}) {
+  output.assets.code.add(
+    CodeAsset(
+      package: input.packageName,
+      name: _assetName,
+      linkMode: static ? StaticLinking() : DynamicLoadingBundled(),
+      file: library,
+    ),
+    routing: static ? ToLinkHook(input.packageName) : const ToAppBundle(),
+  );
+}
+
+Future<void> _fetchPrebuiltBinary(
+  BuildInput input,
+  BuildOutputBuilder output, {
+  required bool static,
+}) async {
   final targetOS = input.config.code.targetOS;
   final targetArch = input.config.code.targetArchitecture;
   final iosSdk = targetOS == OS.iOS ? input.config.code.iOS.targetSdk : null;
-  final dylibFileName = targetOS.dylibFileName('bssl_dart');
 
-  final targetTriple = targetTripleFor(targetOS, targetArch, iosSdk: iosSdk);
-  final expectedHash = fileHashes[targetTriple];
+  final assetRemoteName = releaseAssetName(
+    targetOS,
+    targetArch,
+    iosSdk: iosSdk,
+    static: static,
+  );
+  final expectedHash = fileHashes[assetRemoteName];
 
   if (expectedHash == null || expectedHash.isEmpty) {
     stdout.writeln(
-      'boring: no prebuilt binary hash registered for $targetTriple, '
+      'boring: no prebuilt binary hash registered for $assetRemoteName, '
       'falling back to building from local source via CMake.',
     );
-    await _buildLocalCMake(input, output);
+    await _buildLocalCMake(input, output, static: static);
     return;
   }
 
-  final assetRemoteName = 'boring-$targetTriple-$dylibFileName';
   final binaryUrl = Uri.parse(
     'https://github.com/mosuem/boring/releases/download/v$version/$assetRemoteName',
   );
@@ -104,7 +135,7 @@ Future<void> _fetchPrebuiltBinary(
         '(status: ${response.statusCode}), '
         'falling back to building from local source.',
       );
-      await _buildLocalCMake(input, output);
+      await _buildLocalCMake(input, output, static: static);
       return;
     }
     bytes = await response.fold<List<int>>([], (a, b) => a..addAll(b));
@@ -113,7 +144,7 @@ Future<void> _fetchPrebuiltBinary(
       'boring: network error downloading prebuilt binary ($e), '
       'falling back to building from local source.',
     );
-    await _buildLocalCMake(input, output);
+    await _buildLocalCMake(input, output, static: static);
     return;
   } finally {
     client.close();
@@ -136,20 +167,15 @@ Future<void> _fetchPrebuiltBinary(
   stdout.writeln('boring: verified SHA256 checksum ($actualHash).');
 
   final libraryFile = File.fromUri(
-    input.outputDirectory.resolve(dylibFileName),
+    input.outputDirectory.resolve(libraryFileName(targetOS, static: static)),
   );
   await libraryFile.writeAsBytes(bytes);
 
-  output.assets.code.add(
-    CodeAsset(
-      package: input.packageName,
-      name: _assetName,
-      linkMode: DynamicLoadingBundled(),
-      file: libraryFile.uri,
-    ),
-  );
+  _addLibrary(input, output, libraryFile.uri, static: static);
 }
 
+/// Bundles the dynamic library at [localPath] as is, even when linking is
+/// enabled.
 Future<void> _useLocalBinary(
   BuildInput input,
   BuildOutputBuilder output,
@@ -173,21 +199,15 @@ Future<void> _useLocalBinary(
   final destFile = File.fromUri(input.outputDirectory.resolve(dylibFileName));
   await file.copy(destFile.path);
 
-  output.assets.code.add(
-    CodeAsset(
-      package: input.packageName,
-      name: _assetName,
-      linkMode: DynamicLoadingBundled(),
-      file: destFile.uri,
-    ),
-  );
+  _addLibrary(input, output, destFile.uri, static: false);
   output.dependencies.add(localPath);
 }
 
 Future<void> _buildLocalCMake(
   BuildInput input,
-  BuildOutputBuilder output,
-) async {
+  BuildOutputBuilder output, {
+  required bool static,
+}) async {
   final packageRoot = input.packageRoot;
   final installDir = input.outputDirectory.resolve('install/');
   final sourceDir = packageRoot.resolve('src/');
@@ -197,6 +217,7 @@ Future<void> _buildLocalCMake(
     '${input.config.code.targetOS}-${input.config.code.targetArchitecture}.',
   );
 
+  // Installs both the dynamic and the static library, see src/CMakeLists.txt.
   final builder = CMakeBuilder.create(
     name: 'bssl_dart',
     sourceDir: sourceDir,
@@ -209,19 +230,16 @@ Future<void> _buildLocalCMake(
 
   await builder.run(input: input, output: output);
 
-  final assets = await output.findAndAddCodeAssets(
-    input,
-    outDir: installDir,
-    names: {r'(lib)?bssl_dart\.(dll|dylib|so)': _assetName},
-    regExp: true,
-  );
-  if (assets.isEmpty) {
+  final fileName = libraryFileName(input.config.code.targetOS, static: static);
+  final library = installDir.resolve(fileName);
+  if (!File.fromUri(library).existsSync()) {
     throw BuildError(
       message:
-          'Failed to locate built bssl_dart dynamic library in '
+          'Failed to locate the built $fileName in '
           '${installDir.toFilePath()}',
     );
   }
+  _addLibrary(input, output, library, static: static);
 
   output.dependencies.addAll(_buildDependencies(packageRoot));
 }
@@ -234,6 +252,7 @@ final _buildDependencyExtensions = {
   '.cmake',
   '.cpp',
   '.h',
+  'CMakeLists.txt',
 };
 
 Iterable<Uri> _buildDependencies(Uri packageRoot) sync* {

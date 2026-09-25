@@ -175,42 +175,42 @@ def classify_asm(path):
 
     if normalized.endswith(".asm"):
         if "-x86-win.asm" in normalized or "586-win.asm" in normalized:
-            return "win_x86"
-        return "win_x86_64"
+            return ["win_x86"]
+        return ["win_x86_64"]
 
     if normalized.endswith("-win.S"):
-        return "win_aarch64"
+        return ["win_aarch64"]
 
     if normalized.endswith("-apple.S"):
         if "armv7" in normalized or "armv4" in normalized:
-            return "apple_arm"
+            return ["apple_arm"]
         if "armv8" in normalized:
-            return "apple_aarch64"
-        if "-x86-" in normalized or "x86-apple" in normalized:
-            return "apple_x86"
-        return "apple_x86_64"
+            return ["apple_aarch64"]
+        if "-x86-" in normalized or "x86-apple" in normalized or "586-apple" in normalized:
+            return ["apple_x86"]
+        return ["apple_x86_64"]
 
     if normalized.endswith("-linux.S"):
         if "ppc" in normalized:
-            return "linux_ppc64le"
+            return ["linux_ppc64le"]
         if "armv7" in normalized or "armv4" in normalized:
-            return "linux_arm"
+            return ["linux_arm"]
         if "armv8" in normalized:
-            return "linux_aarch64"
+            return ["linux_aarch64"]
         if "-x86-" in normalized or "586-linux" in normalized:
-            return "linux_x86"
-        return "linux_x86_64"
+            return ["linux_x86"]
+        return ["linux_x86_64"]
 
     if normalized == "crypto/curve25519/asm/x25519-asm-arm.S":
-        return "linux_arm"
+        return ["linux_arm"]
     if normalized == "crypto/poly1305/poly1305_arm_asm.S":
-        return "linux_arm"
+        return ["linux_arm"]
     if normalized == "crypto/hrss/asm/poly_rq_mul.S":
-        return "linux_x86_64"
+        return ["linux_x86_64"]
     if normalized.startswith("third_party/fiat/asm/"):
-        return "linux_x86_64"
+        return ["apple_x86_64", "linux_x86_64"]
 
-    return None
+    return []
 
 
 asm_outputs = {
@@ -236,8 +236,7 @@ for file in (
     + test_support.get("asm", [])
     + test_support.get("nasm", [])
 ):
-    key = classify_asm(file)
-    if key is not None:
+    for key in classify_asm(file):
         asm_outputs[key].append(file)
 
 payload = {
