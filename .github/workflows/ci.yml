@@ -70,7 +70,7 @@ jobs:
           curl -fSL -o "$RUNNER_TEMP/arm-gnu-toolchain.zip" \
             "https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-mingw-w64-x86_64-aarch64-none-linux-gnu.zip"
           7z x "$RUNNER_TEMP/arm-gnu-toolchain.zip" -o"$RUNNER_TEMP/arm-gnu-toolchain" -y >/dev/null
-          BIN_DIR="$(echo "$RUNNER_TEMP"/arm-gnu-toolchain/*/bin)"
+          BIN_DIR="$RUNNER_TEMP/arm-gnu-toolchain/bin"
           for f in "$BIN_DIR"/aarch64-none-linux-gnu-*.exe; do
             cp "$f" "${f/aarch64-none-linux-gnu-/aarch64-linux-gnu-}"
           done
