@@ -1,3 +1,8 @@
+## 0.4.1
+
+- Fixed `libbssl_dart.so` dynamically linking `libc++_shared.so` on Android when
+  built from source with CMake (`LINKER_LANGUAGE C`).
+
 ## 0.4.0
 
 - **Breaking**: `package:boring` now only exposes the raw `ffigen` BoringSSL
