@@ -1,3 +1,17 @@
+## 0.4.0-wip
+
+- **Breaking**: `package:boring` now only exposes the raw `ffigen` BoringSSL
+  bindings (`package:boring/bindings.dart`) plus a minimal FFI toolkit. The
+  high-level Dart crypto, X.509, and ASN.1 APIs from 0.3.0 were removed.
+- Added `opensslAllocator` (`OPENSSL_malloc` / `OPENSSL_free`, scrubbed with
+  `OPENSSL_cleanse`) with `nativeFree`, `addresses.*` symbol addresses for all
+  `*_free` / `*_cleanup` functions, `NativeHandle<T>`, and
+  `extractBoringSslError()`.
+- Added `BoringArena`, an `opensslAllocator`-backed arena with `using`,
+  `onReleaseAll`, `move` (for BoringSSL's `set0` ownership transfer),
+  Future-aware `BoringArena.run`, and `BoringArena.stream`, plus `copyBytes`,
+  `cbs()`, `cbb()`, and `CBB.toBytes()`.
+
 ## 0.3.0
 
 Expanded cryptographic primitives to match modern native application and

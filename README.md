@@ -15,6 +15,8 @@ Raw `ffigen` bindings to **BoringSSL** powered by **Dart Native Assets**.
 - **Dart Native Assets**: Bundles and dynamically loads native code automatically via `package:code_assets` and `package:hooks`.
 - **Automatic Memory Scrubbing (`opensslAllocator`)**: Exports `opensslAllocator` (`ffi.Allocator` backed by `OPENSSL_malloc` / `OPENSSL_free`), which stores allocation sizes and unconditionally runs `OPENSSL_cleanse` before freeing native memory.
 - **Concrete `CBS` & `CBB` Structs**: Both `CBS` (CRYPTO ByteString) and `CBB` (CRYPTO ByteBuilder) are generated as concrete `ffi.Struct` types, allowing direct stack/arena allocation (`arena<CBS>()`, `arena<CBB>()`) without C wrapper shims.
+- **Scoped Native Memory (`BoringArena`)**: An `ffi.Allocator` and resource tracker backed by `opensslAllocator`. `BoringArena.run` and `BoringArena.stream` release allocations and `X_new` / `X_free` resources (`arena.using(EC_KEY_new(), EC_KEY_free)`) in reverse order once the computation is done, including `async` ones. `move()` supports BoringSSL's `set0` ownership transfer, and `copyBytes`, `cbs()`, `cbb()`, and `CBB.toBytes()` cover byte-string plumbing.
+- **Finalizable Handles (`NativeHandle`)**: A GC-managed wrapper for long-lived BoringSSL objects (`NativeHandle(EVP_PKEY_new(), addresses.EVP_PKEY_free)`) with deterministic `dispose()`, using the `*_free` symbol addresses exposed as `addresses.*`.
 
 ---
 
@@ -31,7 +33,7 @@ dependencies:
 
 ## Usage
 
-Import `package:boring/bindings.dart` (or `package:boring/boring.dart`) and scope native allocations with `opensslAllocator`:
+Import `package:boring/bindings.dart` (or `package:boring/boring.dart`) and scope native allocations and resources with `BoringArena`:
 
 ```dart
 import 'dart:convert';
@@ -39,32 +41,25 @@ import 'dart:ffi' as ffi;
 import 'dart:typed_data';
 
 import 'package:boring/bindings.dart' as ssl;
-import 'package:ffi/ffi.dart' show using;
 
 void main() {
-  using((arena) {
+  final digest = ssl.BoringArena.run((arena) {
     final input = utf8.encode('hello world');
-    final dataPtr = arena<ffi.Uint8>(input.length);
-    dataPtr.asTypedList(input.length).setAll(0, input);
-
     final md = ssl.EVP_sha256();
-    final mdLen = ssl.EVP_MD_size(md);
-    final outPtr = arena<ffi.Uint8>(mdLen);
-    final outLenPtr = arena<ffi.UnsignedInt>();
+    final out = arena<ffi.Uint8>(ssl.EVP_MD_size(md));
+    final outLen = arena<ffi.UnsignedInt>();
+    final ctx = arena.using(ssl.EVP_MD_CTX_new(), ssl.EVP_MD_CTX_free);
 
-    final ctx = ssl.EVP_MD_CTX_new();
-    try {
-      ssl.EVP_DigestInit(ctx, md);
-      ssl.EVP_DigestUpdate(ctx, dataPtr.cast(), input.length);
-      ssl.EVP_DigestFinal(ctx, outPtr, outLenPtr);
-    } finally {
-      ssl.EVP_MD_CTX_free(ctx);
+    if (ssl.EVP_DigestInit(ctx, md) != 1 ||
+        ssl.EVP_DigestUpdate(ctx, arena.copyBytes(input), input.length) != 1 ||
+        ssl.EVP_DigestFinal(ctx, out, outLen) != 1) {
+      throw StateError(ssl.extractBoringSslError() ?? 'SHA-256 failed');
     }
+    return Uint8List.fromList(out.asTypedList(outLen.value));
+  });
 
-    final digest = Uint8List.fromList(outPtr.asTypedList(outLenPtr.value));
-    final hex = digest.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
-    print('SHA-256("hello world"): $hex');
-  }, ssl.opensslAllocator);
+  final hex = digest.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
+  print('SHA-256("hello world"): $hex');
 }
 ```
 

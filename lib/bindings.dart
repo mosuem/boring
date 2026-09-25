@@ -2,15 +2,17 @@
 // Version 2.0. See the LICENSE file for details.
 
 /// Raw `ffigen`-generated BoringSSL C bindings (`bssl_dart`),
-/// `OPENSSL_cleanse`-backed [opensslAllocator], and [NativeHandle] finalizer
-/// wrapper.
+/// `OPENSSL_cleanse`-backed [opensslAllocator], scoped [BoringArena], and
+/// [NativeHandle] finalizer wrapper.
 library;
 
 import 'dart:convert';
 import 'dart:ffi' as ffi;
 
+import 'src/arena.dart' show BoringArena;
 import 'src/bindings/boringssl.g.dart' as bssl;
 
+export 'src/arena.dart';
 export 'src/bindings/boringssl.g.dart';
 
 /// An [ffi.Allocator] backed by BoringSSL's `OPENSSL_malloc` and
