@@ -1,3 +1,7 @@
+## 0.4.1-wip
+
+- Update BoringSSL to e98a6564.
+
 ## 0.4.1
 
 - Fixed `libbssl_dart.so` dynamically linking `libc++_shared.so` on Android when
