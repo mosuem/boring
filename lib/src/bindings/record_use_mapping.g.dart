@@ -222,6 +222,7 @@ const recordUseMapping = {
   'BIO_meth_set_puts': 'bssl_dart_BIO_meth_set_puts',
   'BIO_meth_set_read': 'bssl_dart_BIO_meth_set_read',
   'BIO_meth_set_write': 'bssl_dart_BIO_meth_set_write',
+  'BIO_meth_set_write_ex': 'bssl_dart_BIO_meth_set_write_ex',
   'BIO_method_type': 'bssl_dart_BIO_method_type',
   'BIO_new': 'bssl_dart_BIO_new',
   'BIO_new_bio_pair': 'bssl_dart_BIO_new_bio_pair',
@@ -284,6 +285,7 @@ const recordUseMapping = {
   'BIO_wpending': 'bssl_dart_BIO_wpending',
   'BIO_write': 'bssl_dart_BIO_write',
   'BIO_write_all': 'bssl_dart_BIO_write_all',
+  'BIO_write_ex': 'bssl_dart_BIO_write_ex',
   'BIO_write_filename': 'bssl_dart_BIO_write_filename',
   'BN_CTX_end': 'bssl_dart_BN_CTX_end',
   'BN_CTX_free': 'bssl_dart_BN_CTX_free',
@@ -441,6 +443,8 @@ const recordUseMapping = {
   'CBB_add_asn1_octet_string': 'bssl_dart_CBB_add_asn1_octet_string',
   'CBB_add_asn1_oid_component': 'bssl_dart_CBB_add_asn1_oid_component',
   'CBB_add_asn1_oid_from_text': 'bssl_dart_CBB_add_asn1_oid_from_text',
+  'CBB_add_asn1_relative_oid_from_der_to_text':
+      'bssl_dart_CBB_add_asn1_relative_oid_from_der_to_text',
   'CBB_add_asn1_relative_oid_from_text':
       'bssl_dart_CBB_add_asn1_relative_oid_from_text',
   'CBB_add_asn1_uint64': 'bssl_dart_CBB_add_asn1_uint64',
@@ -455,6 +459,7 @@ const recordUseMapping = {
   'CBB_add_u24_length_prefixed': 'bssl_dart_CBB_add_u24_length_prefixed',
   'CBB_add_u32': 'bssl_dart_CBB_add_u32',
   'CBB_add_u32le': 'bssl_dart_CBB_add_u32le',
+  'CBB_add_u48': 'bssl_dart_CBB_add_u48',
   'CBB_add_u64': 'bssl_dart_CBB_add_u64',
   'CBB_add_u64le': 'bssl_dart_CBB_add_u64le',
   'CBB_add_u8': 'bssl_dart_CBB_add_u8',
@@ -490,6 +495,7 @@ const recordUseMapping = {
   'CBS_get_asn1_element': 'bssl_dart_CBS_get_asn1_element',
   'CBS_get_asn1_int64': 'bssl_dart_CBS_get_asn1_int64',
   'CBS_get_asn1_int64_with_tag': 'bssl_dart_CBS_get_asn1_int64_with_tag',
+  'CBS_get_asn1_oid_component': 'bssl_dart_CBS_get_asn1_oid_component',
   'CBS_get_asn1_uint64': 'bssl_dart_CBS_get_asn1_uint64',
   'CBS_get_asn1_uint64_with_tag': 'bssl_dart_CBS_get_asn1_uint64_with_tag',
   'CBS_get_bytes': 'bssl_dart_CBS_get_bytes',
@@ -507,6 +513,7 @@ const recordUseMapping = {
   'CBS_get_u24_length_prefixed': 'bssl_dart_CBS_get_u24_length_prefixed',
   'CBS_get_u32': 'bssl_dart_CBS_get_u32',
   'CBS_get_u32le': 'bssl_dart_CBS_get_u32le',
+  'CBS_get_u48': 'bssl_dart_CBS_get_u48',
   'CBS_get_u64': 'bssl_dart_CBS_get_u64',
   'CBS_get_u64_decimal': 'bssl_dart_CBS_get_u64_decimal',
   'CBS_get_u64le': 'bssl_dart_CBS_get_u64le',
@@ -526,6 +533,7 @@ const recordUseMapping = {
   'CBS_mem_equal': 'bssl_dart_CBS_mem_equal',
   'CBS_parse_generalized_time': 'bssl_dart_CBS_parse_generalized_time',
   'CBS_parse_utc_time': 'bssl_dart_CBS_parse_utc_time',
+  'CBS_peek_any_asn1_tag': 'bssl_dart_CBS_peek_any_asn1_tag',
   'CBS_peek_asn1_tag': 'bssl_dart_CBS_peek_asn1_tag',
   'CBS_skip': 'bssl_dart_CBS_skip',
   'CBS_stow': 'bssl_dart_CBS_stow',
@@ -784,10 +792,14 @@ const recordUseMapping = {
       'bssl_dart_EC_hash_to_curve_p256_xmd_sha256_sswu',
   'EC_hash_to_curve_p384_xmd_sha384_sswu':
       'bssl_dart_EC_hash_to_curve_p384_xmd_sha384_sswu',
+  'EC_wpa3_sae_hash_to_curve_p256': 'bssl_dart_EC_wpa3_sae_hash_to_curve_p256',
+  'EC_wpa3_sae_hunt_and_peck_p256': 'bssl_dart_EC_wpa3_sae_hunt_and_peck_p256',
   'ED25519_keypair': 'bssl_dart_ED25519_keypair',
   'ED25519_keypair_from_seed': 'bssl_dart_ED25519_keypair_from_seed',
   'ED25519_sign': 'bssl_dart_ED25519_sign',
+  'ED25519_sign_prehashed': 'bssl_dart_ED25519_sign_prehashed',
   'ED25519_verify': 'bssl_dart_ED25519_verify',
+  'ED25519_verify_prehashed': 'bssl_dart_ED25519_verify_prehashed',
   'EDIPARTYNAME_free': 'bssl_dart_EDIPARTYNAME_free',
   'EDIPARTYNAME_new': 'bssl_dart_EDIPARTYNAME_new',
   'ENGINE_cleanup': 'bssl_dart_ENGINE_cleanup',
@@ -868,6 +880,8 @@ const recordUseMapping = {
   'EVP_CIPHER_CTX_init': 'bssl_dart_EVP_CIPHER_CTX_init',
   'EVP_CIPHER_CTX_iv_length': 'bssl_dart_EVP_CIPHER_CTX_iv_length',
   'EVP_CIPHER_CTX_key_length': 'bssl_dart_EVP_CIPHER_CTX_key_length',
+  'EVP_CIPHER_CTX_max_final': 'bssl_dart_EVP_CIPHER_CTX_max_final',
+  'EVP_CIPHER_CTX_max_next_update': 'bssl_dart_EVP_CIPHER_CTX_max_next_update',
   'EVP_CIPHER_CTX_mode': 'bssl_dart_EVP_CIPHER_CTX_mode',
   'EVP_CIPHER_CTX_new': 'bssl_dart_EVP_CIPHER_CTX_new',
   'EVP_CIPHER_CTX_nid': 'bssl_dart_EVP_CIPHER_CTX_nid',
@@ -936,6 +950,10 @@ const recordUseMapping = {
   'EVP_KEM_ciphertext_len': 'bssl_dart_EVP_KEM_ciphertext_len',
   'EVP_KEM_decap': 'bssl_dart_EVP_KEM_decap',
   'EVP_KEM_encap': 'bssl_dart_EVP_KEM_encap',
+  'EVP_KEM_encap_external_entropy_for_testing':
+      'bssl_dart_EVP_KEM_encap_external_entropy_for_testing',
+  'EVP_KEM_entropy_len_for_testing':
+      'bssl_dart_EVP_KEM_entropy_len_for_testing',
   'EVP_KEM_secret_len': 'bssl_dart_EVP_KEM_secret_len',
   'EVP_MD_CTX_block_size': 'bssl_dart_EVP_MD_CTX_block_size',
   'EVP_MD_CTX_cleanse': 'bssl_dart_EVP_MD_CTX_cleanse',
@@ -1033,10 +1051,18 @@ const recordUseMapping = {
   'EVP_PKEY_encrypt_init': 'bssl_dart_EVP_PKEY_encrypt_init',
   'EVP_PKEY_eq': 'bssl_dart_EVP_PKEY_eq',
   'EVP_PKEY_free': 'bssl_dart_EVP_PKEY_free',
+  'EVP_PKEY_from_ec_compressed_point':
+      'bssl_dart_EVP_PKEY_from_ec_compressed_point',
+  'EVP_PKEY_from_ec_private_scalar':
+      'bssl_dart_EVP_PKEY_from_ec_private_scalar',
+  'EVP_PKEY_from_ec_uncompressed_point':
+      'bssl_dart_EVP_PKEY_from_ec_uncompressed_point',
   'EVP_PKEY_from_private_key_info': 'bssl_dart_EVP_PKEY_from_private_key_info',
   'EVP_PKEY_from_private_seed': 'bssl_dart_EVP_PKEY_from_private_seed',
   'EVP_PKEY_from_raw_private_key': 'bssl_dart_EVP_PKEY_from_raw_private_key',
   'EVP_PKEY_from_raw_public_key': 'bssl_dart_EVP_PKEY_from_raw_public_key',
+  'EVP_PKEY_from_rsa_private_key': 'bssl_dart_EVP_PKEY_from_rsa_private_key',
+  'EVP_PKEY_from_rsa_public_key': 'bssl_dart_EVP_PKEY_from_rsa_public_key',
   'EVP_PKEY_from_subject_public_key_info':
       'bssl_dart_EVP_PKEY_from_subject_public_key_info',
   'EVP_PKEY_generate_from_alg': 'bssl_dart_EVP_PKEY_generate_from_alg',
@@ -1062,6 +1088,16 @@ const recordUseMapping = {
   'EVP_PKEY_is_opaque': 'bssl_dart_EVP_PKEY_is_opaque',
   'EVP_PKEY_keygen': 'bssl_dart_EVP_PKEY_keygen',
   'EVP_PKEY_keygen_init': 'bssl_dart_EVP_PKEY_keygen_init',
+  'EVP_PKEY_marshal_ec_compressed_point':
+      'bssl_dart_EVP_PKEY_marshal_ec_compressed_point',
+  'EVP_PKEY_marshal_ec_private_scalar':
+      'bssl_dart_EVP_PKEY_marshal_ec_private_scalar',
+  'EVP_PKEY_marshal_ec_uncompressed_point':
+      'bssl_dart_EVP_PKEY_marshal_ec_uncompressed_point',
+  'EVP_PKEY_marshal_rsa_private_key':
+      'bssl_dart_EVP_PKEY_marshal_rsa_private_key',
+  'EVP_PKEY_marshal_rsa_public_key':
+      'bssl_dart_EVP_PKEY_marshal_rsa_public_key',
   'EVP_PKEY_missing_parameters': 'bssl_dart_EVP_PKEY_missing_parameters',
   'EVP_PKEY_new': 'bssl_dart_EVP_PKEY_new',
   'EVP_PKEY_new_raw_private_key': 'bssl_dart_EVP_PKEY_new_raw_private_key',
@@ -1324,6 +1360,7 @@ const recordUseMapping = {
   'OPENSSL_sk_free': 'bssl_dart_OPENSSL_sk_free',
   'OPENSSL_sk_insert': 'bssl_dart_OPENSSL_sk_insert',
   'OPENSSL_sk_is_sorted': 'bssl_dart_OPENSSL_sk_is_sorted',
+  'OPENSSL_sk_last': 'bssl_dart_OPENSSL_sk_last',
   'OPENSSL_sk_new': 'bssl_dart_OPENSSL_sk_new',
   'OPENSSL_sk_new_null': 'bssl_dart_OPENSSL_sk_new_null',
   'OPENSSL_sk_num': 'bssl_dart_OPENSSL_sk_num',
@@ -1492,7 +1529,6 @@ const recordUseMapping = {
   'RAND_get_system_entropy_for_custom_prng':
       'bssl_dart_RAND_get_system_entropy_for_custom_prng',
   'RAND_load_file': 'bssl_dart_RAND_load_file',
-  'RAND_maybe_reseed': 'bssl_dart_RAND_maybe_reseed',
   'RAND_poll': 'bssl_dart_RAND_poll',
   'RAND_pseudo_bytes': 'bssl_dart_RAND_pseudo_bytes',
   'RAND_seed': 'bssl_dart_RAND_seed',
@@ -1922,6 +1958,8 @@ const recordUseMapping = {
   'X509_cmp_current_time': 'bssl_dart_X509_cmp_current_time',
   'X509_cmp_time': 'bssl_dart_X509_cmp_time',
   'X509_cmp_time_posix': 'bssl_dart_X509_cmp_time_posix',
+  'X509_cmp_time_posix_nonstandard':
+      'bssl_dart_X509_cmp_time_posix_nonstandard',
   'X509_delete_ext': 'bssl_dart_X509_delete_ext',
   'X509_digest': 'bssl_dart_X509_digest',
   'X509_dup': 'bssl_dart_X509_dup',
