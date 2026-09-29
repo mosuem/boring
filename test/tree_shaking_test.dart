@@ -79,28 +79,33 @@ void main() {
   });
 
   group(
-    'cross-compilation (linux-arm64)',
+    'cross-compilation with toolchain (linux-arm64)',
     () {
       late Uri bundle;
       late File executable;
       late File library;
 
       setUpAll(() async {
+        final appDir = await _createConsumerExamplePackage();
         final output = await Directory.systemTemp.createTemp(
           'boring_example_linux_arm64_',
         );
         addTearDown(() => output.delete(recursive: true));
 
-        final build = await Process.run(Platform.resolvedExecutable, [
-          'build',
-          'cli',
-          '--target',
-          'example/boring_example.dart',
-          '--target-os=linux',
-          '--target-arch=arm64',
-          '--output',
-          output.path,
-        ]);
+        final build = await Process.run(
+          Platform.resolvedExecutable,
+          [
+            'build',
+            'cli',
+            '--target',
+            'bin/boring_example.dart',
+            '--target-os=linux',
+            '--target-arch=arm64',
+            '--output',
+            output.path,
+          ],
+          workingDirectory: appDir.path,
+        );
         expect(build.exitCode, 0, reason: '${build.stdout}\n${build.stderr}');
 
         bundle = output.uri.resolve('bundle/');
@@ -135,6 +140,125 @@ void main() {
         ? 'aarch64-linux-gnu-gcc is not installed'
         : null,
   );
+
+  group('cross-compilation without toolchain', () {
+    // On macOS and Windows, `x86_64-linux-gnu-gcc` is not installed, so
+    // targeting `linux-x64` exercises the linker-less fallback naturally.
+    // On Linux (`x64`), we target `linux-arm64` with a stub on PATH that masks
+    // `aarch64-linux-gnu-gcc` if installed.
+    final targetArch = Platform.isLinux ? 'arm64' : 'x64';
+    // EM_AARCH64 = 183, EM_X86_64 = 62.
+    final expectedElfMachine = Platform.isLinux ? 183 : 62;
+
+    late Uri bundle;
+    late File executable;
+    late File library;
+
+    setUpAll(() async {
+      final appDir = await _createConsumerExamplePackage();
+      final output = await Directory.systemTemp.createTemp(
+        'boring_example_no_linker_',
+      );
+      addTearDown(() => output.delete(recursive: true));
+
+      Map<String, String>? environment;
+      if (Platform.isLinux) {
+        final maskDir = await Directory.systemTemp.createTemp(
+          'boring_no_aarch64_gcc_',
+        );
+        addTearDown(() => maskDir.delete(recursive: true));
+        final fakeGcc = File.fromUri(
+          maskDir.uri.resolve('aarch64-linux-gnu-gcc'),
+        );
+        await fakeGcc.writeAsString('#!/bin/sh\nexit 1\n');
+        await Process.run('chmod', ['+x', fakeGcc.path]);
+        final currentPath = Platform.environment['PATH'] ?? '';
+        environment = {'PATH': '${maskDir.path}:$currentPath'};
+      }
+
+      final build = await Process.run(
+        Platform.resolvedExecutable,
+        [
+          'build',
+          'cli',
+          '--target',
+          'bin/boring_example.dart',
+          '--target-os=linux',
+          '--target-arch=$targetArch',
+          '--output',
+          output.path,
+        ],
+        workingDirectory: appDir.path,
+        environment: environment,
+      );
+      expect(build.exitCode, 0, reason: '${build.stdout}\n${build.stderr}');
+
+      bundle = output.uri.resolve('bundle/');
+      executable = File.fromUri(bundle.resolve('bin/boring_example'));
+      library = File.fromUri(
+        bundle.resolve('lib/${OS.linux.dylibFileName('bssl_dart')}'),
+      );
+    });
+
+    test('builds a linux-$targetArch executable and dynamic library', () {
+      expect(_elfMachine(executable.readAsBytesSync()), expectedElfMachine);
+      expect(_elfMachine(library.readAsBytesSync()), expectedElfMachine);
+    });
+
+    test(
+      'falls back to bundling the pre-built dynamic library without '
+      'tree-shaking',
+      () {
+        final symbols = _elfDefinedDynamicSymbols(library.readAsBytesSync());
+        for (final used in _usedFunctions) {
+          expect(symbols, contains('bssl_dart_$used'), reason: used);
+        }
+        for (final unused in _unusedFunctions) {
+          expect(symbols, contains('bssl_dart_$unused'), reason: unused);
+        }
+        expect(library.lengthSync(), greaterThan(1024 * 1024));
+      },
+    );
+  });
+}
+
+/// Creates a temporary consumer package (using the default `fetch` build mode)
+/// so cross-compilation uses the pre-built release binaries rather than
+/// compiling BoringSSL from source with CMake.
+Future<Directory> _createConsumerExamplePackage() async {
+  final appDir = await Directory.systemTemp.createTemp(
+    'boring_example_cross_app_',
+  );
+  addTearDown(() => appDir.delete(recursive: true));
+
+  final repoRoot = Directory.current.uri;
+  await File.fromUri(appDir.uri.resolve('pubspec.yaml')).writeAsString('''
+name: boring_cross_example
+publish_to: none
+environment:
+  sdk: ^3.10.0
+dependencies:
+  boring:
+    path: ${repoRoot.toFilePath()}
+''');
+
+  final binDir = Directory.fromUri(appDir.uri.resolve('bin/'));
+  await binDir.create(recursive: true);
+  await File(
+    'example/boring_example.dart',
+  ).copy(binDir.uri.resolve('boring_example.dart').toFilePath());
+
+  final pubGet = await Process.run(
+    Platform.resolvedExecutable,
+    ['pub', 'get'],
+    workingDirectory: appDir.path,
+  );
+  expect(
+    pubGet.exitCode,
+    0,
+    reason: '${pubGet.stdout}\n${pubGet.stderr}',
+  );
+  return appDir;
 }
 
 bool _hasAarch64LinuxToolchain() {

@@ -128,39 +128,13 @@ Future<void> _buildLocalCMake(
     'boring: building native asset with CMake for $targetOS-$targetArch.',
   );
 
-  // native_toolchain_cmake's x86_64-linux-gnu.toolchain.cmake uses `gcc`/`g++`
-  // instead of the `x86_64-linux-gnu-gcc` cross-compiler when cross-compiling
-  // to Linux x64 from macOS or Windows.
-  Uri? customToolchain;
-  if (!Platform.isLinux &&
-      targetOS == OS.linux &&
-      targetArch == Architecture.x64) {
-    customToolchain = input.outputDirectory.resolve(
-      'x86_64-linux-gnu.toolchain.cmake',
-    );
-    await File.fromUri(customToolchain).writeAsString('''
-set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_PROCESSOR x86_64)
-set(CMAKE_C_COMPILER "x86_64-linux-gnu-gcc")
-set(CMAKE_CXX_COMPILER "x86_64-linux-gnu-g++")
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
-''');
-  }
-
   // Installs both the dynamic and the static library, see src/CMakeLists.txt.
   final builder = CMakeBuilder.create(
     name: 'bssl_dart',
     sourceDir: sourceDir,
-    generator: Platform.isWindows && targetOS != OS.windows
-        ? Generator.ninja
-        : Generator.defaultGenerator,
     defines: {
       'CMAKE_BUILD_TYPE': 'Release',
       'CMAKE_INSTALL_PREFIX': installDir.toFilePath(),
-      if (customToolchain != null)
-        'CMAKE_TOOLCHAIN_FILE': customToolchain.toFilePath(),
     },
     targets: ['install'],
     parallelUseAllProcessors: true,
