@@ -1,6 +1,7 @@
 ## 0.4.2-wip
 
 - Update BoringSSL to e98a6564.
+- Refactored build and link hooks to use `package:prebuilt_code_assets`.
 
 ## 0.4.1
 
