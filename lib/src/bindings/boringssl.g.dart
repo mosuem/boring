@@ -31663,8 +31663,8 @@ final class _SymbolAddresses {
   const _SymbolAddresses();
 }
 
-/// The addresses of the functions releasing BoringSSL objects, for
-/// `NativeFinalizer`s.
+/// The addresses of the bound BoringSSL functions, for
+/// `NativeFinalizer`s and passing function pointers to native code.
 ///
 /// Use these instead of `Native.addressOf`, which is not recorded as a
 /// use of the function, so the link hook would drop it.
@@ -31676,15 +31676,255 @@ extension SymbolAddresses on _SymbolAddresses {
   get ACCESS_DESCRIPTION_free =>
       ffi.Native.addressOf(self.ACCESS_DESCRIPTION_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ACCESS_DESCRIPTION> Function()>>
+  get ACCESS_DESCRIPTION_new =>
+      ffi.Native.addressOf(self.ACCESS_DESCRIPTION_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<AES_KEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+      )
+    >
+  >
+  get AES_cbc_encrypt => ffi.Native.addressOf(self.AES_cbc_encrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<AES_KEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Int,
+      )
+    >
+  >
+  get AES_cfb128_encrypt => ffi.Native.addressOf(self.AES_cfb128_encrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<AES_KEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get AES_ctr128_encrypt => ffi.Native.addressOf(self.AES_ctr128_encrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<AES_KEY>,
+      )
+    >
+  >
+  get AES_decrypt => ffi.Native.addressOf(self.AES_decrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<AES_KEY>,
+        ffi.Int,
+      )
+    >
+  >
+  get AES_ecb_encrypt => ffi.Native.addressOf(self.AES_ecb_encrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<AES_KEY>,
+      )
+    >
+  >
+  get AES_encrypt => ffi.Native.addressOf(self.AES_encrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<AES_KEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get AES_ofb128_encrypt => ffi.Native.addressOf(self.AES_ofb128_encrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.UnsignedInt,
+        ffi.Pointer<AES_KEY>,
+      )
+    >
+  >
+  get AES_set_decrypt_key => ffi.Native.addressOf(self.AES_set_decrypt_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.UnsignedInt,
+        ffi.Pointer<AES_KEY>,
+      )
+    >
+  >
+  get AES_set_encrypt_key => ffi.Native.addressOf(self.AES_set_encrypt_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<AES_KEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get AES_unwrap_key => ffi.Native.addressOf(self.AES_unwrap_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<AES_KEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get AES_unwrap_key_padded => ffi.Native.addressOf(self.AES_unwrap_key_padded);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<AES_KEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get AES_wrap_key => ffi.Native.addressOf(self.AES_wrap_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<AES_KEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get AES_wrap_key_padded => ffi.Native.addressOf(self.AES_wrap_key_padded);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_BIT_STRING>,
+        ffi.Pointer<ffi.UnsignedChar>,
+        ffi.Int,
+      )
+    >
+  >
+  get ASN1_BIT_STRING_check => ffi.Native.addressOf(self.ASN1_BIT_STRING_check);
+  @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_BIT_STRING>)>
   >
   get ASN1_BIT_STRING_free => ffi.Native.addressOf(self.ASN1_BIT_STRING_free);
   @meta.RecordUse()
   ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_BIT_STRING>, ffi.Int)>
+  >
+  get ASN1_BIT_STRING_get_bit =>
+      ffi.Native.addressOf(self.ASN1_BIT_STRING_get_bit);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_BIT_STRING> Function()>>
+  get ASN1_BIT_STRING_new => ffi.Native.addressOf(self.ASN1_BIT_STRING_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_BIT_STRING>, ffi.Pointer<ffi.Size>)
+    >
+  >
+  get ASN1_BIT_STRING_num_bytes =>
+      ffi.Native.addressOf(self.ASN1_BIT_STRING_num_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_BIT_STRING>,
+        ffi.Pointer<ffi.Uint8>,
+        ossl_ssize_t,
+      )
+    >
+  >
+  get ASN1_BIT_STRING_set => ffi.Native.addressOf(self.ASN1_BIT_STRING_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_BIT_STRING>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Int,
+      )
+    >
+  >
+  get ASN1_BIT_STRING_set1 => ffi.Native.addressOf(self.ASN1_BIT_STRING_set1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_BIT_STRING>, ffi.Int, ffi.Int)
+    >
+  >
+  get ASN1_BIT_STRING_set_bit =>
+      ffi.Native.addressOf(self.ASN1_BIT_STRING_set_bit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ASN1_BIT_STRING>)>
+  >
+  get ASN1_BIT_STRING_unused_bits =>
+      ffi.Native.addressOf(self.ASN1_BIT_STRING_unused_bits);
+  @meta.RecordUse()
+  ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_BMPSTRING>)>
   >
   get ASN1_BMPSTRING_free => ffi.Native.addressOf(self.ASN1_BMPSTRING_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_BMPSTRING> Function()>>
+  get ASN1_BMPSTRING_new => ffi.Native.addressOf(self.ASN1_BMPSTRING_new);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_ENUMERATED>)>
@@ -31692,10 +31932,115 @@ extension SymbolAddresses on _SymbolAddresses {
   get ASN1_ENUMERATED_free => ffi.Native.addressOf(self.ASN1_ENUMERATED_free);
   @meta.RecordUse()
   ffi.Pointer<
+    ffi.NativeFunction<ffi.Long Function(ffi.Pointer<ASN1_ENUMERATED>)>
+  >
+  get ASN1_ENUMERATED_get => ffi.Native.addressOf(self.ASN1_ENUMERATED_get);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Int64>, ffi.Pointer<ASN1_ENUMERATED>)
+    >
+  >
+  get ASN1_ENUMERATED_get_int64 =>
+      ffi.Native.addressOf(self.ASN1_ENUMERATED_get_int64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Uint64>, ffi.Pointer<ASN1_ENUMERATED>)
+    >
+  >
+  get ASN1_ENUMERATED_get_uint64 =>
+      ffi.Native.addressOf(self.ASN1_ENUMERATED_get_uint64);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_ENUMERATED> Function()>>
+  get ASN1_ENUMERATED_new => ffi.Native.addressOf(self.ASN1_ENUMERATED_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_ENUMERATED>, ffi.Long)>
+  >
+  get ASN1_ENUMERATED_set => ffi.Native.addressOf(self.ASN1_ENUMERATED_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_ENUMERATED>, ffi.Int64)
+    >
+  >
+  get ASN1_ENUMERATED_set_int64 =>
+      ffi.Native.addressOf(self.ASN1_ENUMERATED_set_int64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_ENUMERATED>, ffi.Uint64)
+    >
+  >
+  get ASN1_ENUMERATED_set_uint64 =>
+      ffi.Native.addressOf(self.ASN1_ENUMERATED_set_uint64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIGNUM> Function(
+        ffi.Pointer<ASN1_ENUMERATED>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get ASN1_ENUMERATED_to_BN => ffi.Native.addressOf(self.ASN1_ENUMERATED_to_BN);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_GENERALIZEDTIME> Function(
+        ffi.Pointer<ASN1_GENERALIZEDTIME>,
+        ffi.Int64,
+        ffi.Int,
+        ffi.Long,
+      )
+    >
+  >
+  get ASN1_GENERALIZEDTIME_adj =>
+      ffi.Native.addressOf(self.ASN1_GENERALIZEDTIME_adj);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_GENERALIZEDTIME>)>
+  >
+  get ASN1_GENERALIZEDTIME_check =>
+      ffi.Native.addressOf(self.ASN1_GENERALIZEDTIME_check);
+  @meta.RecordUse()
+  ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_GENERALIZEDTIME>)>
   >
   get ASN1_GENERALIZEDTIME_free =>
       ffi.Native.addressOf(self.ASN1_GENERALIZEDTIME_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_GENERALIZEDTIME> Function()>>
+  get ASN1_GENERALIZEDTIME_new =>
+      ffi.Native.addressOf(self.ASN1_GENERALIZEDTIME_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_GENERALIZEDTIME>)
+    >
+  >
+  get ASN1_GENERALIZEDTIME_print =>
+      ffi.Native.addressOf(self.ASN1_GENERALIZEDTIME_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_GENERALIZEDTIME> Function(
+        ffi.Pointer<ASN1_GENERALIZEDTIME>,
+        ffi.Int64,
+      )
+    >
+  >
+  get ASN1_GENERALIZEDTIME_set =>
+      ffi.Native.addressOf(self.ASN1_GENERALIZEDTIME_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_GENERALIZEDTIME>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get ASN1_GENERALIZEDTIME_set_string =>
+      ffi.Native.addressOf(self.ASN1_GENERALIZEDTIME_set_string);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_GENERALSTRING>)>
@@ -31703,19 +32048,122 @@ extension SymbolAddresses on _SymbolAddresses {
   get ASN1_GENERALSTRING_free =>
       ffi.Native.addressOf(self.ASN1_GENERALSTRING_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_GENERALSTRING> Function()>>
+  get ASN1_GENERALSTRING_new =>
+      ffi.Native.addressOf(self.ASN1_GENERALSTRING_new);
+  @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_IA5STRING>)>
   >
   get ASN1_IA5STRING_free => ffi.Native.addressOf(self.ASN1_IA5STRING_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_IA5STRING> Function()>>
+  get ASN1_IA5STRING_new => ffi.Native.addressOf(self.ASN1_IA5STRING_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_INTEGER>, ffi.Pointer<ASN1_INTEGER>)
+    >
+  >
+  get ASN1_INTEGER_cmp => ffi.Native.addressOf(self.ASN1_INTEGER_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_INTEGER> Function(ffi.Pointer<ASN1_INTEGER>)
+    >
+  >
+  get ASN1_INTEGER_dup => ffi.Native.addressOf(self.ASN1_INTEGER_dup);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_INTEGER>)>>
   get ASN1_INTEGER_free => ffi.Native.addressOf(self.ASN1_INTEGER_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Long Function(ffi.Pointer<ASN1_INTEGER>)>>
+  get ASN1_INTEGER_get => ffi.Native.addressOf(self.ASN1_INTEGER_get);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Int64>, ffi.Pointer<ASN1_INTEGER>)
+    >
+  >
+  get ASN1_INTEGER_get_int64 =>
+      ffi.Native.addressOf(self.ASN1_INTEGER_get_int64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Uint64>, ffi.Pointer<ASN1_INTEGER>)
+    >
+  >
+  get ASN1_INTEGER_get_uint64 =>
+      ffi.Native.addressOf(self.ASN1_INTEGER_get_uint64);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_INTEGER> Function()>>
+  get ASN1_INTEGER_new => ffi.Native.addressOf(self.ASN1_INTEGER_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_INTEGER>, ffi.Long)>
+  >
+  get ASN1_INTEGER_set => ffi.Native.addressOf(self.ASN1_INTEGER_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_INTEGER>, ffi.Int64)>
+  >
+  get ASN1_INTEGER_set_int64 =>
+      ffi.Native.addressOf(self.ASN1_INTEGER_set_int64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_INTEGER>, ffi.Uint64)>
+  >
+  get ASN1_INTEGER_set_uint64 =>
+      ffi.Native.addressOf(self.ASN1_INTEGER_set_uint64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIGNUM> Function(
+        ffi.Pointer<ASN1_INTEGER>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get ASN1_INTEGER_to_BN => ffi.Native.addressOf(self.ASN1_INTEGER_to_BN);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_NULL>)>>
   get ASN1_NULL_free => ffi.Native.addressOf(self.ASN1_NULL_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_NULL> Function()>>
+  get ASN1_NULL_new => ffi.Native.addressOf(self.ASN1_NULL_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OBJECT> Function(
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get ASN1_OBJECT_create => ffi.Native.addressOf(self.ASN1_OBJECT_create);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_OBJECT>)>>
   get ASN1_OBJECT_free => ffi.Native.addressOf(self.ASN1_OBJECT_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_OCTET_STRING>,
+        ffi.Pointer<ASN1_OCTET_STRING>,
+      )
+    >
+  >
+  get ASN1_OCTET_STRING_cmp => ffi.Native.addressOf(self.ASN1_OCTET_STRING_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OCTET_STRING> Function(ffi.Pointer<ASN1_OCTET_STRING>)
+    >
+  >
+  get ASN1_OCTET_STRING_dup => ffi.Native.addressOf(self.ASN1_OCTET_STRING_dup);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_OCTET_STRING>)>
@@ -31723,29 +32171,324 @@ extension SymbolAddresses on _SymbolAddresses {
   get ASN1_OCTET_STRING_free =>
       ffi.Native.addressOf(self.ASN1_OCTET_STRING_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_OCTET_STRING> Function()>>
+  get ASN1_OCTET_STRING_new => ffi.Native.addressOf(self.ASN1_OCTET_STRING_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_OCTET_STRING>,
+        ffi.Pointer<ffi.UnsignedChar>,
+        ffi.Int,
+      )
+    >
+  >
+  get ASN1_OCTET_STRING_set => ffi.Native.addressOf(self.ASN1_OCTET_STRING_set);
+  @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_PRINTABLESTRING>)>
   >
   get ASN1_PRINTABLESTRING_free =>
       ffi.Native.addressOf(self.ASN1_PRINTABLESTRING_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_PRINTABLESTRING> Function()>>
+  get ASN1_PRINTABLESTRING_new =>
+      ffi.Native.addressOf(self.ASN1_PRINTABLESTRING_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Int,
+        ffi.Long,
+        ffi.Long,
+        ffi.UnsignedLong,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get ASN1_STRING_TABLE_add => ffi.Native.addressOf(self.ASN1_STRING_TABLE_add);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
   get ASN1_STRING_TABLE_cleanup =>
       ffi.Native.addressOf(self.ASN1_STRING_TABLE_cleanup);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_STRING>, ffi.Pointer<ASN1_STRING>)
+    >
+  >
+  get ASN1_STRING_cmp => ffi.Native.addressOf(self.ASN1_STRING_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_STRING>, ffi.Pointer<ASN1_STRING>)
+    >
+  >
+  get ASN1_STRING_copy => ffi.Native.addressOf(self.ASN1_STRING_copy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.UnsignedChar> Function(ffi.Pointer<ASN1_STRING>)
+    >
+  >
+  get ASN1_STRING_data => ffi.Native.addressOf(self.ASN1_STRING_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_STRING> Function(ffi.Pointer<ASN1_STRING>)
+    >
+  >
+  get ASN1_STRING_dup => ffi.Native.addressOf(self.ASN1_STRING_dup);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_STRING>)>>
   get ASN1_STRING_free => ffi.Native.addressOf(self.ASN1_STRING_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.UnsignedChar> Function(ffi.Pointer<ASN1_STRING>)
+    >
+  >
+  get ASN1_STRING_get0_data => ffi.Native.addressOf(self.ASN1_STRING_get0_data);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function()>>
+  get ASN1_STRING_get_default_mask =>
+      ffi.Native.addressOf(self.ASN1_STRING_get_default_mask);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_STRING>)>>
+  get ASN1_STRING_length => ffi.Native.addressOf(self.ASN1_STRING_length);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_STRING> Function()>>
+  get ASN1_STRING_new => ffi.Native.addressOf(self.ASN1_STRING_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_STRING>)
+    >
+  >
+  get ASN1_STRING_print => ffi.Native.addressOf(self.ASN1_STRING_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ASN1_STRING>,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get ASN1_STRING_print_ex => ffi.Native.addressOf(self.ASN1_STRING_print_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ASN1_STRING>,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get ASN1_STRING_print_ex_fp =>
+      ffi.Native.addressOf(self.ASN1_STRING_print_ex_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_STRING>,
+        ffi.Pointer<ffi.Void>,
+        ossl_ssize_t,
+      )
+    >
+  >
+  get ASN1_STRING_set => ffi.Native.addressOf(self.ASN1_STRING_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ASN1_STRING>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Int,
+      )
+    >
+  >
+  get ASN1_STRING_set0 => ffi.Native.addressOf(self.ASN1_STRING_set0);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_STRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_STRING>>,
+        ffi.Pointer<ffi.UnsignedChar>,
+        ossl_ssize_t,
+        ffi.Int,
+        ffi.Int,
+      )
+    >
+  >
+  get ASN1_STRING_set_by_NID =>
+      ffi.Native.addressOf(self.ASN1_STRING_set_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.UnsignedLong)>>
+  get ASN1_STRING_set_default_mask =>
+      ffi.Native.addressOf(self.ASN1_STRING_set_default_mask);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>>
+  get ASN1_STRING_set_default_mask_asc =>
+      ffi.Native.addressOf(self.ASN1_STRING_set_default_mask_asc);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+        ffi.Pointer<ASN1_STRING>,
+      )
+    >
+  >
+  get ASN1_STRING_to_UTF8 => ffi.Native.addressOf(self.ASN1_STRING_to_UTF8);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_STRING>)>>
+  get ASN1_STRING_type => ffi.Native.addressOf(self.ASN1_STRING_type);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_STRING> Function(ffi.Int)>>
+  get ASN1_STRING_type_new => ffi.Native.addressOf(self.ASN1_STRING_type_new);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_T61STRING>)>
   >
   get ASN1_T61STRING_free => ffi.Native.addressOf(self.ASN1_T61STRING_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_T61STRING> Function()>>
+  get ASN1_T61STRING_new => ffi.Native.addressOf(self.ASN1_T61STRING_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_TIME> Function(
+        ffi.Pointer<ASN1_TIME>,
+        ffi.Int64,
+        ffi.Int,
+        ffi.Long,
+      )
+    >
+  >
+  get ASN1_TIME_adj => ffi.Native.addressOf(self.ASN1_TIME_adj);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_TIME>)>>
+  get ASN1_TIME_check => ffi.Native.addressOf(self.ASN1_TIME_check);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ASN1_TIME>,
+        ffi.Pointer<ASN1_TIME>,
+      )
+    >
+  >
+  get ASN1_TIME_diff => ffi.Native.addressOf(self.ASN1_TIME_diff);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_TIME>)>>
   get ASN1_TIME_free => ffi.Native.addressOf(self.ASN1_TIME_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_TIME> Function()>>
+  get ASN1_TIME_new => ffi.Native.addressOf(self.ASN1_TIME_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_TIME>)
+    >
+  >
+  get ASN1_TIME_print => ffi.Native.addressOf(self.ASN1_TIME_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<ASN1_TIME>, time_t)
+    >
+  >
+  get ASN1_TIME_set => ffi.Native.addressOf(self.ASN1_TIME_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<ASN1_TIME>, ffi.Int64)
+    >
+  >
+  get ASN1_TIME_set_posix => ffi.Native.addressOf(self.ASN1_TIME_set_posix);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_TIME>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get ASN1_TIME_set_string => ffi.Native.addressOf(self.ASN1_TIME_set_string);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_TIME>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get ASN1_TIME_set_string_X509 =>
+      ffi.Native.addressOf(self.ASN1_TIME_set_string_X509);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_GENERALIZEDTIME> Function(
+        ffi.Pointer<ASN1_TIME>,
+        ffi.Pointer<ffi.Pointer<ASN1_GENERALIZEDTIME>>,
+      )
+    >
+  >
+  get ASN1_TIME_to_generalizedtime =>
+      ffi.Native.addressOf(self.ASN1_TIME_to_generalizedtime);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_TIME>, ffi.Pointer<ffi.Int64>)
+    >
+  >
+  get ASN1_TIME_to_posix => ffi.Native.addressOf(self.ASN1_TIME_to_posix);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_TIME>, ffi.Pointer<ffi.Int64>)
+    >
+  >
+  get ASN1_TIME_to_posix_nonstandard =>
+      ffi.Native.addressOf(self.ASN1_TIME_to_posix_nonstandard);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_TIME>, ffi.Pointer<time_t>)
+    >
+  >
+  get ASN1_TIME_to_time_t => ffi.Native.addressOf(self.ASN1_TIME_to_time_t);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_TYPE>, ffi.Pointer<ASN1_TYPE>)
+    >
+  >
+  get ASN1_TYPE_cmp => ffi.Native.addressOf(self.ASN1_TYPE_cmp);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_TYPE>)>>
   get ASN1_TYPE_free => ffi.Native.addressOf(self.ASN1_TYPE_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_TYPE>)>>
+  get ASN1_TYPE_get => ffi.Native.addressOf(self.ASN1_TYPE_get);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_TYPE> Function()>>
+  get ASN1_TYPE_new => ffi.Native.addressOf(self.ASN1_TYPE_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ASN1_TYPE>, ffi.Int, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get ASN1_TYPE_set => ffi.Native.addressOf(self.ASN1_TYPE_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_TYPE>, ffi.Int, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get ASN1_TYPE_set1 => ffi.Native.addressOf(self.ASN1_TYPE_set1);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_UNIVERSALSTRING>)>
@@ -31753,19 +32496,153 @@ extension SymbolAddresses on _SymbolAddresses {
   get ASN1_UNIVERSALSTRING_free =>
       ffi.Native.addressOf(self.ASN1_UNIVERSALSTRING_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_UNIVERSALSTRING> Function()>>
+  get ASN1_UNIVERSALSTRING_new =>
+      ffi.Native.addressOf(self.ASN1_UNIVERSALSTRING_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_UTCTIME> Function(
+        ffi.Pointer<ASN1_UTCTIME>,
+        ffi.Int64,
+        ffi.Int,
+        ffi.Long,
+      )
+    >
+  >
+  get ASN1_UTCTIME_adj => ffi.Native.addressOf(self.ASN1_UTCTIME_adj);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_UTCTIME>)>>
+  get ASN1_UTCTIME_check => ffi.Native.addressOf(self.ASN1_UTCTIME_check);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_UTCTIME>)>>
   get ASN1_UTCTIME_free => ffi.Native.addressOf(self.ASN1_UTCTIME_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_UTCTIME> Function()>>
+  get ASN1_UTCTIME_new => ffi.Native.addressOf(self.ASN1_UTCTIME_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_UTCTIME>)
+    >
+  >
+  get ASN1_UTCTIME_print => ffi.Native.addressOf(self.ASN1_UTCTIME_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_UTCTIME> Function(ffi.Pointer<ASN1_UTCTIME>, ffi.Int64)
+    >
+  >
+  get ASN1_UTCTIME_set => ffi.Native.addressOf(self.ASN1_UTCTIME_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_UTCTIME>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get ASN1_UTCTIME_set_string =>
+      ffi.Native.addressOf(self.ASN1_UTCTIME_set_string);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_UTF8STRING>)>
   >
   get ASN1_UTF8STRING_free => ffi.Native.addressOf(self.ASN1_UTF8STRING_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_UTF8STRING> Function()>>
+  get ASN1_UTF8STRING_new => ffi.Native.addressOf(self.ASN1_UTF8STRING_new);
+  @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_VISIBLESTRING>)>
   >
   get ASN1_VISIBLESTRING_free =>
       ffi.Native.addressOf(self.ASN1_VISIBLESTRING_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_VISIBLESTRING> Function()>>
+  get ASN1_VISIBLESTRING_new =>
+      ffi.Native.addressOf(self.ASN1_VISIBLESTRING_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<i2d_of_void>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.UnsignedChar>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get ASN1_digest => ffi.Native.addressOf(self.ASN1_digest);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+        ffi.Pointer<ffi.Long>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Long,
+      )
+    >
+  >
+  get ASN1_get_object => ffi.Native.addressOf(self.ASN1_get_object);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_VALUE> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_VALUE>>,
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+        ffi.Long,
+        ffi.Pointer<ASN1_ITEM>,
+      )
+    >
+  >
+  get ASN1_item_d2i => ffi.Native.addressOf(self.ASN1_item_d2i);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<ASN1_ITEM>,
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get ASN1_item_d2i_bio => ffi.Native.addressOf(self.ASN1_item_d2i_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<ASN1_ITEM>,
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get ASN1_item_d2i_fp => ffi.Native.addressOf(self.ASN1_item_d2i_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_ITEM>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<ffi.UnsignedChar>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get ASN1_item_digest => ffi.Native.addressOf(self.ASN1_item_digest);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<ASN1_ITEM>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get ASN1_item_dup => ffi.Native.addressOf(self.ASN1_item_dup);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<
@@ -31775,15 +32652,180 @@ extension SymbolAddresses on _SymbolAddresses {
   get ASN1_item_free => ffi.Native.addressOf(self.ASN1_item_free);
   @meta.RecordUse()
   ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_VALUE>,
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+        ffi.Pointer<ASN1_ITEM>,
+      )
+    >
+  >
+  get ASN1_item_i2d => ffi.Native.addressOf(self.ASN1_item_i2d);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_ITEM>,
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get ASN1_item_i2d_bio => ffi.Native.addressOf(self.ASN1_item_i2d_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_ITEM>,
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get ASN1_item_i2d_fp => ffi.Native.addressOf(self.ASN1_item_i2d_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_VALUE> Function(ffi.Pointer<ASN1_ITEM>)>
+  >
+  get ASN1_item_new => ffi.Native.addressOf(self.ASN1_item_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_STRING> Function(
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<ASN1_ITEM>,
+        ffi.Pointer<ffi.Pointer<ASN1_STRING>>,
+      )
+    >
+  >
+  get ASN1_item_pack => ffi.Native.addressOf(self.ASN1_item_pack);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_ITEM>,
+        ffi.Pointer<X509_ALGOR>,
+        ffi.Pointer<X509_ALGOR>,
+        ffi.Pointer<ASN1_BIT_STRING>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<EVP_MD>,
+      )
+    >
+  >
+  get ASN1_item_sign => ffi.Native.addressOf(self.ASN1_item_sign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_ITEM>,
+        ffi.Pointer<X509_ALGOR>,
+        ffi.Pointer<X509_ALGOR>,
+        ffi.Pointer<ASN1_BIT_STRING>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<EVP_MD_CTX>,
+      )
+    >
+  >
+  get ASN1_item_sign_ctx => ffi.Native.addressOf(self.ASN1_item_sign_ctx);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<ASN1_STRING>,
+        ffi.Pointer<ASN1_ITEM>,
+      )
+    >
+  >
+  get ASN1_item_unpack => ffi.Native.addressOf(self.ASN1_item_unpack);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_ITEM>,
+        ffi.Pointer<X509_ALGOR>,
+        ffi.Pointer<ASN1_BIT_STRING>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<EVP_PKEY>,
+      )
+    >
+  >
+  get ASN1_item_verify => ffi.Native.addressOf(self.ASN1_item_verify);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ASN1_STRING>>,
+        ffi.Pointer<ffi.Uint8>,
+        ossl_ssize_t,
+        ffi.Int,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get ASN1_mbstring_copy => ffi.Native.addressOf(self.ASN1_mbstring_copy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ASN1_STRING>>,
+        ffi.Pointer<ffi.Uint8>,
+        ossl_ssize_t,
+        ffi.Int,
+        ffi.UnsignedLong,
+        ossl_ssize_t,
+        ossl_ssize_t,
+      )
+    >
+  >
+  get ASN1_mbstring_ncopy => ffi.Native.addressOf(self.ASN1_mbstring_ncopy);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int, ffi.Int)>>
+  get ASN1_object_size => ffi.Native.addressOf(self.ASN1_object_size);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>)
+    >
+  >
+  get ASN1_put_eoc => ffi.Native.addressOf(self.ASN1_put_eoc);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+        ffi.Int,
+        ffi.Int,
+        ffi.Int,
+        ffi.Int,
+      )
+    >
+  >
+  get ASN1_put_object => ffi.Native.addressOf(self.ASN1_put_object);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function(ffi.Int)>>
+  get ASN1_tag2bit => ffi.Native.addressOf(self.ASN1_tag2bit);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Int)>>
+  get ASN1_tag2str => ffi.Native.addressOf(self.ASN1_tag2str);
+  @meta.RecordUse()
+  ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<AUTHORITY_INFO_ACCESS>)>
   >
   get AUTHORITY_INFO_ACCESS_free =>
       ffi.Native.addressOf(self.AUTHORITY_INFO_ACCESS_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<AUTHORITY_INFO_ACCESS> Function()>>
+  get AUTHORITY_INFO_ACCESS_new =>
+      ffi.Native.addressOf(self.AUTHORITY_INFO_ACCESS_new);
+  @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<AUTHORITY_KEYID>)>
   >
   get AUTHORITY_KEYID_free => ffi.Native.addressOf(self.AUTHORITY_KEYID_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<AUTHORITY_KEYID> Function()>>
+  get AUTHORITY_KEYID_new => ffi.Native.addressOf(self.AUTHORITY_KEYID_new);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BASIC_CONSTRAINTS>)>
@@ -31791,32 +32833,2496 @@ extension SymbolAddresses on _SymbolAddresses {
   get BASIC_CONSTRAINTS_free =>
       ffi.Native.addressOf(self.BASIC_CONSTRAINTS_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BASIC_CONSTRAINTS> Function()>>
+  get BASIC_CONSTRAINTS_new => ffi.Native.addressOf(self.BASIC_CONSTRAINTS_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BIO_append_filename => ffi.Native.addressOf(self.BIO_append_filename);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Long Function(ffi.Pointer<BIO>, ffi.Int, ffi.Pointer<BIO_info_cb>)
+    >
+  >
+  get BIO_callback_ctrl => ffi.Native.addressOf(self.BIO_callback_ctrl);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>, ffi.Int)>>
+  get BIO_clear_flags => ffi.Native.addressOf(self.BIO_clear_flags);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>)>>
+  get BIO_clear_retry_flags => ffi.Native.addressOf(self.BIO_clear_retry_flags);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>)>>
+  get BIO_copy_next_retry => ffi.Native.addressOf(self.BIO_copy_next_retry);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Long Function(
+        ffi.Pointer<BIO>,
+        ffi.Int,
+        ffi.Long,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get BIO_ctrl => ffi.Native.addressOf(self.BIO_ctrl);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<BIO>)>>
+  get BIO_ctrl_get_read_request =>
+      ffi.Native.addressOf(self.BIO_ctrl_get_read_request);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<BIO>)>>
+  get BIO_ctrl_get_write_guarantee =>
+      ffi.Native.addressOf(self.BIO_ctrl_get_write_guarantee);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<BIO>)>>
+  get BIO_ctrl_pending => ffi.Native.addressOf(self.BIO_ctrl_pending);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_do_connect => ffi.Native.addressOf(self.BIO_do_connect);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_eof => ffi.Native.addressOf(self.BIO_eof);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIO> Function(ffi.Pointer<BIO>, ffi.Int)>
+  >
+  get BIO_find_type => ffi.Native.addressOf(self.BIO_find_type);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_flush => ffi.Native.addressOf(self.BIO_flush);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
   get BIO_free => ffi.Native.addressOf(self.BIO_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>)>>
+  get BIO_free_all => ffi.Native.addressOf(self.BIO_free_all);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<BIO>)>
+  >
+  get BIO_get_data => ffi.Native.addressOf(self.BIO_get_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<BIO>, ffi.Int)
+    >
+  >
+  get BIO_get_ex_data => ffi.Native.addressOf(self.BIO_get_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Long,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<CRYPTO_EX_unused>,
+        ffi.Pointer<CRYPTO_EX_dup>,
+        ffi.Pointer<CRYPTO_EX_free>,
+      )
+    >
+  >
+  get BIO_get_ex_new_index => ffi.Native.addressOf(self.BIO_get_ex_new_index);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Int>)>
+  >
+  get BIO_get_fd => ffi.Native.addressOf(self.BIO_get_fd);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Pointer<FILE>>)
+    >
+  >
+  get BIO_get_fp => ffi.Native.addressOf(self.BIO_get_fp);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_get_init => ffi.Native.addressOf(self.BIO_get_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Long Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Pointer<ffi.Char>>)
+    >
+  >
+  get BIO_get_mem_data => ffi.Native.addressOf(self.BIO_get_mem_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Pointer<BUF_MEM>>)
+    >
+  >
+  get BIO_get_mem_ptr => ffi.Native.addressOf(self.BIO_get_mem_ptr);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> get BIO_get_new_index =>
+      ffi.Native.addressOf(self.BIO_get_new_index);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_get_retry_flags => ffi.Native.addressOf(self.BIO_get_retry_flags);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_get_retry_reason => ffi.Native.addressOf(self.BIO_get_retry_reason);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_get_shutdown => ffi.Native.addressOf(self.BIO_get_shutdown);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>, ffi.Int)
+    >
+  >
+  get BIO_gets => ffi.Native.addressOf(self.BIO_gets);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.UnsignedInt,
+      )
+    >
+  >
+  get BIO_hexdump => ffi.Native.addressOf(self.BIO_hexdump);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.UnsignedInt, ffi.UnsignedInt)
+    >
+  >
+  get BIO_indent => ffi.Native.addressOf(self.BIO_indent);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Long Function(ffi.Pointer<BIO>, ffi.Int, ffi.Long, ffi.Int)
+    >
+  >
+  get BIO_int_ctrl => ffi.Native.addressOf(self.BIO_int_ctrl);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get BIO_mem_contents => ffi.Native.addressOf(self.BIO_mem_contents);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO_METHOD>)>>
   get BIO_meth_free => ffi.Native.addressOf(self.BIO_meth_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<
+        ffi.NativeFunction<
+          ffi.Long Function(ffi.Pointer<BIO>, ffi.Int, ffi.Pointer<BIO_info_cb>)
+        >
+      >
+      Function(ffi.Pointer<BIO_METHOD>)
+    >
+  >
+  get BIO_meth_get_callback_ctrl =>
+      ffi.Native.addressOf(self.BIO_meth_get_callback_ctrl);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+      Function(ffi.Pointer<BIO_METHOD>)
+    >
+  >
+  get BIO_meth_get_create => ffi.Native.addressOf(self.BIO_meth_get_create);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<
+        ffi.NativeFunction<
+          ffi.Long Function(
+            ffi.Pointer<BIO>,
+            ffi.Int,
+            ffi.Long,
+            ffi.Pointer<ffi.Void>,
+          )
+        >
+      >
+      Function(ffi.Pointer<BIO_METHOD>)
+    >
+  >
+  get BIO_meth_get_ctrl => ffi.Native.addressOf(self.BIO_meth_get_ctrl);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+      Function(ffi.Pointer<BIO_METHOD>)
+    >
+  >
+  get BIO_meth_get_destroy => ffi.Native.addressOf(self.BIO_meth_get_destroy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<
+        ffi.NativeFunction<
+          ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>, ffi.Int)
+        >
+      >
+      Function(ffi.Pointer<BIO_METHOD>)
+    >
+  >
+  get BIO_meth_get_gets => ffi.Native.addressOf(self.BIO_meth_get_gets);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<
+        ffi.NativeFunction<
+          ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)
+        >
+      >
+      Function(ffi.Pointer<BIO_METHOD>)
+    >
+  >
+  get BIO_meth_get_puts => ffi.Native.addressOf(self.BIO_meth_get_puts);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<
+        ffi.NativeFunction<
+          ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>, ffi.Int)
+        >
+      >
+      Function(ffi.Pointer<BIO_METHOD>)
+    >
+  >
+  get BIO_meth_get_read => ffi.Native.addressOf(self.BIO_meth_get_read);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<
+        ffi.NativeFunction<
+          ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>, ffi.Int)
+        >
+      >
+      Function(ffi.Pointer<BIO_METHOD>)
+    >
+  >
+  get BIO_meth_get_write => ffi.Native.addressOf(self.BIO_meth_get_write);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIO_METHOD> Function(ffi.Int, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BIO_meth_new => ffi.Native.addressOf(self.BIO_meth_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO_METHOD>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Long Function(
+              ffi.Pointer<BIO>,
+              ffi.Int,
+              ffi.Pointer<BIO_info_cb>,
+            )
+          >
+        >,
+      )
+    >
+  >
+  get BIO_meth_set_callback_ctrl =>
+      ffi.Native.addressOf(self.BIO_meth_set_callback_ctrl);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO_METHOD>,
+        ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>,
+      )
+    >
+  >
+  get BIO_meth_set_create => ffi.Native.addressOf(self.BIO_meth_set_create);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO_METHOD>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Long Function(
+              ffi.Pointer<BIO>,
+              ffi.Int,
+              ffi.Long,
+              ffi.Pointer<ffi.Void>,
+            )
+          >
+        >,
+      )
+    >
+  >
+  get BIO_meth_set_ctrl => ffi.Native.addressOf(self.BIO_meth_set_ctrl);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO_METHOD>,
+        ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>,
+      )
+    >
+  >
+  get BIO_meth_set_destroy => ffi.Native.addressOf(self.BIO_meth_set_destroy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO_METHOD>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>, ffi.Int)
+          >
+        >,
+      )
+    >
+  >
+  get BIO_meth_set_gets => ffi.Native.addressOf(self.BIO_meth_set_gets);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO_METHOD>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)
+          >
+        >,
+      )
+    >
+  >
+  get BIO_meth_set_puts => ffi.Native.addressOf(self.BIO_meth_set_puts);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO_METHOD>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>, ffi.Int)
+          >
+        >,
+      )
+    >
+  >
+  get BIO_meth_set_read => ffi.Native.addressOf(self.BIO_meth_set_read);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO_METHOD>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>, ffi.Int)
+          >
+        >,
+      )
+    >
+  >
+  get BIO_meth_set_write => ffi.Native.addressOf(self.BIO_meth_set_write);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO_METHOD>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Int Function(
+              ffi.Pointer<BIO>,
+              ffi.Pointer<ffi.Char>,
+              ffi.Size,
+              ffi.Pointer<ffi.Size>,
+            )
+          >
+        >,
+      )
+    >
+  >
+  get BIO_meth_set_write_ex => ffi.Native.addressOf(self.BIO_meth_set_write_ex);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_method_type => ffi.Native.addressOf(self.BIO_method_type);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIO> Function(ffi.Pointer<BIO_METHOD>)>
+  >
+  get BIO_new => ffi.Native.addressOf(self.BIO_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<BIO>>,
+        ffi.Size,
+        ffi.Pointer<ffi.Pointer<BIO>>,
+        ffi.Size,
+      )
+    >
+  >
+  get BIO_new_bio_pair => ffi.Native.addressOf(self.BIO_new_bio_pair);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIO> Function(ffi.Pointer<ffi.Char>)>
+  >
+  get BIO_new_connect => ffi.Native.addressOf(self.BIO_new_connect);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIO> Function(ffi.Int, ffi.Int)>>
+  get BIO_new_fd => ffi.Native.addressOf(self.BIO_new_fd);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIO> Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BIO_new_file => ffi.Native.addressOf(self.BIO_new_file);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIO> Function(ffi.Pointer<FILE>, ffi.Int)>
+  >
+  get BIO_new_fp => ffi.Native.addressOf(self.BIO_new_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIO> Function(ffi.Pointer<ffi.Void>, ossl_ssize_t)
+    >
+  >
+  get BIO_new_mem_buf => ffi.Native.addressOf(self.BIO_new_mem_buf);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIO> Function(ffi.Int, ffi.Int)>>
+  get BIO_new_socket => ffi.Native.addressOf(self.BIO_new_socket);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIO> Function(ffi.Pointer<BIO>)>>
+  get BIO_next => ffi.Native.addressOf(self.BIO_next);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint64 Function(ffi.Pointer<BIO>)>>
+  get BIO_number_read => ffi.Native.addressOf(self.BIO_number_read);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint64 Function(ffi.Pointer<BIO>)>>
+  get BIO_number_written => ffi.Native.addressOf(self.BIO_number_written);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<BIO>)>>
+  get BIO_pending => ffi.Native.addressOf(self.BIO_pending);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIO> Function(ffi.Pointer<BIO>)>>
+  get BIO_pop => ffi.Native.addressOf(self.BIO_pop);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BIO_printf => ffi.Native.addressOf(self.BIO_printf);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Pointer<BIO>, ffi.Int, ffi.Long)
+    >
+  >
+  get BIO_ptr_ctrl => ffi.Native.addressOf(self.BIO_ptr_ctrl);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIO> Function(ffi.Pointer<BIO>, ffi.Pointer<BIO>)
+    >
+  >
+  get BIO_push => ffi.Native.addressOf(self.BIO_push);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BIO_puts => ffi.Native.addressOf(self.BIO_puts);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Void>, ffi.Int)
+    >
+  >
+  get BIO_read => ffi.Native.addressOf(self.BIO_read);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+      )
+    >
+  >
+  get BIO_read_asn1 => ffi.Native.addressOf(self.BIO_read_asn1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BIO_read_filename => ffi.Native.addressOf(self.BIO_read_filename);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_reset => ffi.Native.addressOf(self.BIO_reset);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BIO_rw_filename => ffi.Native.addressOf(self.BIO_rw_filename);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIO_METHOD> Function()>>
+  get BIO_s_connect => ffi.Native.addressOf(self.BIO_s_connect);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIO_METHOD> Function()>>
+  get BIO_s_fd => ffi.Native.addressOf(self.BIO_s_fd);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIO_METHOD> Function()>>
+  get BIO_s_file => ffi.Native.addressOf(self.BIO_s_file);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIO_METHOD> Function()>>
+  get BIO_s_mem => ffi.Native.addressOf(self.BIO_s_mem);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIO_METHOD> Function()>>
+  get BIO_s_socket => ffi.Native.addressOf(self.BIO_s_socket);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Long Function(ffi.Pointer<BIO>, ffi.Long)>>
+  get BIO_seek => ffi.Native.addressOf(self.BIO_seek);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int)>>
+  get BIO_set_close => ffi.Native.addressOf(self.BIO_set_close);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BIO_set_conn_hostname => ffi.Native.addressOf(self.BIO_set_conn_hostname);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Int>)>
+  >
+  get BIO_set_conn_int_port => ffi.Native.addressOf(self.BIO_set_conn_int_port);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BIO_set_conn_port => ffi.Native.addressOf(self.BIO_set_conn_port);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get BIO_set_data => ffi.Native.addressOf(self.BIO_set_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Int, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get BIO_set_ex_data => ffi.Native.addressOf(self.BIO_set_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int, ffi.Int)>
+  >
+  get BIO_set_fd => ffi.Native.addressOf(self.BIO_set_fd);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>, ffi.Int)>>
+  get BIO_set_flags => ffi.Native.addressOf(self.BIO_set_flags);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<FILE>, ffi.Int)
+    >
+  >
+  get BIO_set_fp => ffi.Native.addressOf(self.BIO_set_fp);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>, ffi.Int)>>
+  get BIO_set_init => ffi.Native.addressOf(self.BIO_set_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<BUF_MEM>, ffi.Int)
+    >
+  >
+  get BIO_set_mem_buf => ffi.Native.addressOf(self.BIO_set_mem_buf);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int)>>
+  get BIO_set_mem_eof_return =>
+      ffi.Native.addressOf(self.BIO_set_mem_eof_return);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int)>>
+  get BIO_set_nbio => ffi.Native.addressOf(self.BIO_set_nbio);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>)>>
+  get BIO_set_retry_read => ffi.Native.addressOf(self.BIO_set_retry_read);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>, ffi.Int)>>
+  get BIO_set_retry_reason => ffi.Native.addressOf(self.BIO_set_retry_reason);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>)>>
+  get BIO_set_retry_special => ffi.Native.addressOf(self.BIO_set_retry_special);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>)>>
+  get BIO_set_retry_write => ffi.Native.addressOf(self.BIO_set_retry_write);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>, ffi.Int)>>
+  get BIO_set_shutdown => ffi.Native.addressOf(self.BIO_set_shutdown);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int)>>
+  get BIO_set_write_buffer_size =>
+      ffi.Native.addressOf(self.BIO_set_write_buffer_size);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_should_io_special => ffi.Native.addressOf(self.BIO_should_io_special);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_should_read => ffi.Native.addressOf(self.BIO_should_read);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_should_retry => ffi.Native.addressOf(self.BIO_should_retry);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_should_write => ffi.Native.addressOf(self.BIO_should_write);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_shutdown_wr => ffi.Native.addressOf(self.BIO_shutdown_wr);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.Size, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BIO_snprintf => ffi.Native.addressOf(self.BIO_snprintf);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Long Function(ffi.Pointer<BIO>)>>
+  get BIO_tell => ffi.Native.addressOf(self.BIO_tell);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Int)>>
+  get BIO_test_flags => ffi.Native.addressOf(self.BIO_test_flags);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>)>>
+  get BIO_up_ref => ffi.Native.addressOf(self.BIO_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>)>>
+  get BIO_vfree => ffi.Native.addressOf(self.BIO_vfree);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Char>,
+        ffi.Size,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<__va_list_tag>,
+      )
+    >
+  >
+  get BIO_vsnprintf => ffi.Native.addressOf(self.BIO_vsnprintf);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<BIO>)>>
+  get BIO_wpending => ffi.Native.addressOf(self.BIO_wpending);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Void>, ffi.Int)
+    >
+  >
+  get BIO_write => ffi.Native.addressOf(self.BIO_write);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get BIO_write_all => ffi.Native.addressOf(self.BIO_write_all);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Size,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get BIO_write_ex => ffi.Native.addressOf(self.BIO_write_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BIO_write_filename => ffi.Native.addressOf(self.BIO_write_filename);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BN_CTX>)>>
+  get BN_CTX_end => ffi.Native.addressOf(self.BN_CTX_end);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BN_CTX>)>>
   get BN_CTX_free => ffi.Native.addressOf(self.BN_CTX_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BN_CTX>)>
+  >
+  get BN_CTX_get => ffi.Native.addressOf(self.BN_CTX_get);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BN_CTX> Function()>>
+  get BN_CTX_new => ffi.Native.addressOf(self.BN_CTX_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BN_CTX>)>>
+  get BN_CTX_start => ffi.Native.addressOf(self.BN_CTX_start);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BN_GENCB>, ffi.Int, ffi.Int)
+    >
+  >
+  get BN_GENCB_call => ffi.Native.addressOf(self.BN_GENCB_call);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BN_GENCB>)>>
   get BN_GENCB_free => ffi.Native.addressOf(self.BN_GENCB_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<BN_GENCB>)>
+  >
+  get BN_GENCB_get_arg => ffi.Native.addressOf(self.BN_GENCB_get_arg);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BN_GENCB> Function()>>
+  get BN_GENCB_new => ffi.Native.addressOf(self.BN_GENCB_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<BN_GENCB>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Int Function(ffi.Int, ffi.Int, ffi.Pointer<BN_GENCB>)
+          >
+        >,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get BN_GENCB_set => ffi.Native.addressOf(self.BN_GENCB_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BN_MONT_CTX> Function(
+        ffi.Pointer<BN_MONT_CTX>,
+        ffi.Pointer<BN_MONT_CTX>,
+      )
+    >
+  >
+  get BN_MONT_CTX_copy => ffi.Native.addressOf(self.BN_MONT_CTX_copy);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BN_MONT_CTX>)>>
   get BN_MONT_CTX_free => ffi.Native.addressOf(self.BN_MONT_CTX_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BN_MONT_CTX> Function()>>
+  get BN_MONT_CTX_new => ffi.Native.addressOf(self.BN_MONT_CTX_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BN_MONT_CTX> Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_MONT_CTX_new_consttime =>
+      ffi.Native.addressOf(self.BN_MONT_CTX_new_consttime);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BN_MONT_CTX> Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_MONT_CTX_new_for_modulus =>
+      ffi.Native.addressOf(self.BN_MONT_CTX_new_for_modulus);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BN_MONT_CTX>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_MONT_CTX_set => ffi.Native.addressOf(self.BN_MONT_CTX_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>
+  >
+  get BN_abs_is_word => ffi.Native.addressOf(self.BN_abs_is_word);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_add => ffi.Native.addressOf(self.BN_add);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>
+  >
+  get BN_add_word => ffi.Native.addressOf(self.BN_add_word);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Pointer<BIGNUM>>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BN_asc2bn => ffi.Native.addressOf(self.BN_asc2bn);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIGNUM> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_bin2bn => ffi.Native.addressOf(self.BN_bin2bn);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(ffi.Pointer<BIGNUM>, ffi.Pointer<ffi.Uint8>)
+    >
+  >
+  get BN_bn2bin => ffi.Native.addressOf(self.BN_bn2bin);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_bn2bin_padded => ffi.Native.addressOf(self.BN_bn2bin_padded);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<ffi.Uint8>, ffi.Int)
+    >
+  >
+  get BN_bn2binpad => ffi.Native.addressOf(self.BN_bn2binpad);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Size, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_bn2cbb_padded => ffi.Native.addressOf(self.BN_bn2cbb_padded);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<BIGNUM>)>
+  >
+  get BN_bn2dec => ffi.Native.addressOf(self.BN_bn2dec);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<BIGNUM>)>
+  >
+  get BN_bn2hex => ffi.Native.addressOf(self.BN_bn2hex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_bn2le_padded => ffi.Native.addressOf(self.BN_bn2le_padded);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<ffi.Uint8>, ffi.Int)
+    >
+  >
+  get BN_bn2lebinpad => ffi.Native.addressOf(self.BN_bn2lebinpad);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(ffi.Pointer<BIGNUM>, ffi.Pointer<ffi.Uint8>)
+    >
+  >
+  get BN_bn2mpi => ffi.Native.addressOf(self.BN_bn2mpi);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIGNUM>)>>
+  get BN_clear => ffi.Native.addressOf(self.BN_clear);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int)>
+  >
+  get BN_clear_bit => ffi.Native.addressOf(self.BN_clear_bit);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIGNUM>)>>
   get BN_clear_free => ffi.Native.addressOf(self.BN_clear_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_cmp => ffi.Native.addressOf(self.BN_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>
+  >
+  get BN_cmp_word => ffi.Native.addressOf(self.BN_cmp_word);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_copy => ffi.Native.addressOf(self.BN_copy);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>)>>
+  get BN_count_low_zero_bits =>
+      ffi.Native.addressOf(self.BN_count_low_zero_bits);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Pointer<BIGNUM>>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BN_dec2bn => ffi.Native.addressOf(self.BN_dec2bn);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_div => ffi.Native.addressOf(self.BN_div);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<BN_ULONG Function(ffi.Pointer<BIGNUM>, BN_ULONG)>
+  >
+  get BN_div_word => ffi.Native.addressOf(self.BN_div_word);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>
+  >
+  get BN_dup => ffi.Native.addressOf(self.BN_dup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.UnsignedInt>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Int,
+        ffi.Pointer<BN_CTX>,
+        ffi.Pointer<BN_GENCB>,
+      )
+    >
+  >
+  get BN_enhanced_miller_rabin_primality_test =>
+      ffi.Native.addressOf(self.BN_enhanced_miller_rabin_primality_test);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_equal_consttime => ffi.Native.addressOf(self.BN_equal_consttime);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_exp => ffi.Native.addressOf(self.BN_exp);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIGNUM>)>>
   get BN_free => ffi.Native.addressOf(self.BN_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_MONT_CTX>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_from_montgomery => ffi.Native.addressOf(self.BN_from_montgomery);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_gcd => ffi.Native.addressOf(self.BN_gcd);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_GENCB>,
+      )
+    >
+  >
+  get BN_generate_prime_ex => ffi.Native.addressOf(self.BN_generate_prime_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>
+  >
+  get BN_get_rfc3526_prime_1536 =>
+      ffi.Native.addressOf(self.BN_get_rfc3526_prime_1536);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>
+  >
+  get BN_get_rfc3526_prime_2048 =>
+      ffi.Native.addressOf(self.BN_get_rfc3526_prime_2048);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>
+  >
+  get BN_get_rfc3526_prime_3072 =>
+      ffi.Native.addressOf(self.BN_get_rfc3526_prime_3072);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>
+  >
+  get BN_get_rfc3526_prime_4096 =>
+      ffi.Native.addressOf(self.BN_get_rfc3526_prime_4096);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>
+  >
+  get BN_get_rfc3526_prime_6144 =>
+      ffi.Native.addressOf(self.BN_get_rfc3526_prime_6144);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<BIGNUM>)>
+  >
+  get BN_get_rfc3526_prime_8192 =>
+      ffi.Native.addressOf(self.BN_get_rfc3526_prime_8192);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<ffi.Uint64>)
+    >
+  >
+  get BN_get_u64 => ffi.Native.addressOf(self.BN_get_u64);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<BN_ULONG Function(ffi.Pointer<BIGNUM>)>>
+  get BN_get_word => ffi.Native.addressOf(self.BN_get_word);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Pointer<BIGNUM>>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get BN_hex2bn => ffi.Native.addressOf(self.BN_hex2bn);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIGNUM>)>>
+  get BN_init => ffi.Native.addressOf(self.BN_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int)>
+  >
+  get BN_is_bit_set => ffi.Native.addressOf(self.BN_is_bit_set);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>)>>
+  get BN_is_negative => ffi.Native.addressOf(self.BN_is_negative);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>)>>
+  get BN_is_odd => ffi.Native.addressOf(self.BN_is_odd);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>)>>
+  get BN_is_one => ffi.Native.addressOf(self.BN_is_one);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>)>>
+  get BN_is_pow2 => ffi.Native.addressOf(self.BN_is_pow2);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Int,
+        ffi.Pointer<BN_CTX>,
+        ffi.Pointer<BN_GENCB>,
+      )
+    >
+  >
+  get BN_is_prime_ex => ffi.Native.addressOf(self.BN_is_prime_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Int,
+        ffi.Pointer<BN_CTX>,
+        ffi.Int,
+        ffi.Pointer<BN_GENCB>,
+      )
+    >
+  >
+  get BN_is_prime_fasttest_ex =>
+      ffi.Native.addressOf(self.BN_is_prime_fasttest_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>
+  >
+  get BN_is_word => ffi.Native.addressOf(self.BN_is_word);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>)>>
+  get BN_is_zero => ffi.Native.addressOf(self.BN_is_zero);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIGNUM> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_le2bn => ffi.Native.addressOf(self.BN_le2bn);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIGNUM> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_lebin2bn => ffi.Native.addressOf(self.BN_lebin2bn);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>, ffi.Int)
+    >
+  >
+  get BN_lshift => ffi.Native.addressOf(self.BN_lshift);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_lshift1 => ffi.Native.addressOf(self.BN_lshift1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<BIGNUM>)>
+  >
+  get BN_marshal_asn1 => ffi.Native.addressOf(self.BN_marshal_asn1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int)>
+  >
+  get BN_mask_bits => ffi.Native.addressOf(self.BN_mask_bits);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_add => ffi.Native.addressOf(self.BN_mod_add);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_mod_add_quick => ffi.Native.addressOf(self.BN_mod_add_quick);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_exp => ffi.Native.addressOf(self.BN_mod_exp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+        ffi.Pointer<BN_MONT_CTX>,
+      )
+    >
+  >
+  get BN_mod_exp2_mont => ffi.Native.addressOf(self.BN_mod_exp2_mont);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+        ffi.Pointer<BN_MONT_CTX>,
+      )
+    >
+  >
+  get BN_mod_exp_mont => ffi.Native.addressOf(self.BN_mod_exp_mont);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+        ffi.Pointer<BN_MONT_CTX>,
+      )
+    >
+  >
+  get BN_mod_exp_mont_consttime =>
+      ffi.Native.addressOf(self.BN_mod_exp_mont_consttime);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        BN_ULONG,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+        ffi.Pointer<BN_MONT_CTX>,
+      )
+    >
+  >
+  get BN_mod_exp_mont_word => ffi.Native.addressOf(self.BN_mod_exp_mont_word);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIGNUM> Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_inverse => ffi.Native.addressOf(self.BN_mod_inverse);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_MONT_CTX>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_inverse_blinded =>
+      ffi.Native.addressOf(self.BN_mod_inverse_blinded);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_inverse_odd => ffi.Native.addressOf(self.BN_mod_inverse_odd);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Int,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_lshift => ffi.Native.addressOf(self.BN_mod_lshift);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_lshift1 => ffi.Native.addressOf(self.BN_mod_lshift1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_mod_lshift1_quick => ffi.Native.addressOf(self.BN_mod_lshift1_quick);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Int,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_mod_lshift_quick => ffi.Native.addressOf(self.BN_mod_lshift_quick);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_mul => ffi.Native.addressOf(self.BN_mod_mul);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_MONT_CTX>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_mul_montgomery => ffi.Native.addressOf(self.BN_mod_mul_montgomery);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>, ffi.Size)
+    >
+  >
+  get BN_mod_pow2 => ffi.Native.addressOf(self.BN_mod_pow2);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_sqr => ffi.Native.addressOf(self.BN_mod_sqr);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIGNUM> Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_sqrt => ffi.Native.addressOf(self.BN_mod_sqrt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mod_sub => ffi.Native.addressOf(self.BN_mod_sub);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_mod_sub_quick => ffi.Native.addressOf(self.BN_mod_sub_quick);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<BN_ULONG Function(ffi.Pointer<BIGNUM>, BN_ULONG)>
+  >
+  get BN_mod_word => ffi.Native.addressOf(self.BN_mod_word);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BIGNUM> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_mpi2bn => ffi.Native.addressOf(self.BN_mpi2bn);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_mul => ffi.Native.addressOf(self.BN_mul);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>
+  >
+  get BN_mul_word => ffi.Native.addressOf(self.BN_mul_word);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIGNUM> Function()>> get BN_new =>
+      ffi.Native.addressOf(self.BN_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_nnmod => ffi.Native.addressOf(self.BN_nnmod);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>, ffi.Size)
+    >
+  >
+  get BN_nnmod_pow2 => ffi.Native.addressOf(self.BN_nnmod_pow2);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<BIGNUM>)>>
+  get BN_num_bits => ffi.Native.addressOf(self.BN_num_bits);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedInt Function(BN_ULONG)>>
+  get BN_num_bits_word => ffi.Native.addressOf(self.BN_num_bits_word);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<BIGNUM>)>>
+  get BN_num_bytes => ffi.Native.addressOf(self.BN_num_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>)>>
+  get BN_one => ffi.Native.addressOf(self.BN_one);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<BIGNUM>)>
+  >
+  get BN_parse_asn1_unsigned =>
+      ffi.Native.addressOf(self.BN_parse_asn1_unsigned);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Int,
+        ffi.Pointer<BN_CTX>,
+        ffi.Int,
+        ffi.Pointer<BN_GENCB>,
+      )
+    >
+  >
+  get BN_primality_test => ffi.Native.addressOf(self.BN_primality_test);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<BIGNUM>)>
+  >
+  get BN_print => ffi.Native.addressOf(self.BN_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<BIGNUM>)>
+  >
+  get BN_print_fp => ffi.Native.addressOf(self.BN_print_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int, ffi.Int, ffi.Int)
+    >
+  >
+  get BN_pseudo_rand => ffi.Native.addressOf(self.BN_pseudo_rand);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_pseudo_rand_range => ffi.Native.addressOf(self.BN_pseudo_rand_range);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int, ffi.Int, ffi.Int)
+    >
+  >
+  get BN_rand => ffi.Native.addressOf(self.BN_rand);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_rand_range => ffi.Native.addressOf(self.BN_rand_range);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_rand_range_ex => ffi.Native.addressOf(self.BN_rand_range_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>, ffi.Int)
+    >
+  >
+  get BN_rshift => ffi.Native.addressOf(self.BN_rshift);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_rshift1 => ffi.Native.addressOf(self.BN_rshift1);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIGNUM> Function()>>
+  get BN_secure_new => ffi.Native.addressOf(self.BN_secure_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Int)>
+  >
+  get BN_set_bit => ffi.Native.addressOf(self.BN_set_bit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIGNUM>, ffi.Int)>
+  >
+  get BN_set_negative => ffi.Native.addressOf(self.BN_set_negative);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Uint64)>
+  >
+  get BN_set_u64 => ffi.Native.addressOf(self.BN_set_u64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>
+  >
+  get BN_set_word => ffi.Native.addressOf(self.BN_set_word);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_sqr => ffi.Native.addressOf(self.BN_sqr);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_sqrt => ffi.Native.addressOf(self.BN_sqrt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_sub => ffi.Native.addressOf(self.BN_sub);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIGNUM>, BN_ULONG)>
+  >
+  get BN_sub_word => ffi.Native.addressOf(self.BN_sub_word);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_ENUMERATED> Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<ASN1_ENUMERATED>,
+      )
+    >
+  >
+  get BN_to_ASN1_ENUMERATED => ffi.Native.addressOf(self.BN_to_ASN1_ENUMERATED);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_INTEGER> Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<ASN1_INTEGER>,
+      )
+    >
+  >
+  get BN_to_ASN1_INTEGER => ffi.Native.addressOf(self.BN_to_ASN1_INTEGER);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_MONT_CTX>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get BN_to_montgomery => ffi.Native.addressOf(self.BN_to_montgomery);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_uadd => ffi.Native.addressOf(self.BN_uadd);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get BN_ucmp => ffi.Native.addressOf(self.BN_ucmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get BN_usub => ffi.Native.addressOf(self.BN_usub);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIGNUM> Function()>>
+  get BN_value_one => ffi.Native.addressOf(self.BN_value_one);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIGNUM>)>>
+  get BN_zero => ffi.Native.addressOf(self.BN_zero);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> get BORINGSSL_self_test =>
+      ffi.Native.addressOf(self.BORINGSSL_self_test);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>>
+  get BORINGSSL_self_test_all =>
+      ffi.Native.addressOf(self.BORINGSSL_self_test_all);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BUF_MEM>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get BUF_MEM_append => ffi.Native.addressOf(self.BUF_MEM_append);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BUF_MEM>)>>
   get BUF_MEM_free => ffi.Native.addressOf(self.BUF_MEM_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Size Function(ffi.Pointer<BUF_MEM>, ffi.Size)>
+  >
+  get BUF_MEM_grow => ffi.Native.addressOf(self.BUF_MEM_grow);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Size Function(ffi.Pointer<BUF_MEM>, ffi.Size)>
+  >
+  get BUF_MEM_grow_clean => ffi.Native.addressOf(self.BUF_MEM_grow_clean);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BUF_MEM> Function()>>
+  get BUF_MEM_new => ffi.Native.addressOf(self.BUF_MEM_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BUF_MEM>, ffi.Size)>
+  >
+  get BUF_MEM_reserve => ffi.Native.addressOf(self.BUF_MEM_reserve);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get BUF_memdup => ffi.Native.addressOf(self.BUF_memdup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>)>
+  >
+  get BUF_strdup => ffi.Native.addressOf(self.BUF_strdup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>, ffi.Size)
+    >
+  >
+  get BUF_strlcat => ffi.Native.addressOf(self.BUF_strlcat);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>, ffi.Size)
+    >
+  >
+  get BUF_strlcpy => ffi.Native.addressOf(self.BUF_strlcpy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>, ffi.Size)
+    >
+  >
+  get BUF_strndup => ffi.Native.addressOf(self.BUF_strndup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Size Function(ffi.Pointer<ffi.Char>, ffi.Size)>
+  >
+  get BUF_strnlen => ffi.Native.addressOf(self.BUF_strnlen);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<CBB>, CBS_ASN1_TAG)
+    >
+  >
+  get CBB_add_asn1 => ffi.Native.addressOf(self.CBB_add_asn1);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Int)>>
+  get CBB_add_asn1_bool => ffi.Native.addressOf(self.CBB_add_asn1_bool);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBB>,
+        CBS_ASN1_TAG,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get CBB_add_asn1_element => ffi.Native.addressOf(self.CBB_add_asn1_element);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Int64)>>
+  get CBB_add_asn1_int64 => ffi.Native.addressOf(self.CBB_add_asn1_int64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Int64, CBS_ASN1_TAG)
+    >
+  >
+  get CBB_add_asn1_int64_with_tag =>
+      ffi.Native.addressOf(self.CBB_add_asn1_int64_with_tag);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get CBB_add_asn1_octet_string =>
+      ffi.Native.addressOf(self.CBB_add_asn1_octet_string);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint64)>
+  >
+  get CBB_add_asn1_oid_component =>
+      ffi.Native.addressOf(self.CBB_add_asn1_oid_component);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<ffi.Char>, ffi.Size)
+    >
+  >
+  get CBB_add_asn1_oid_from_text =>
+      ffi.Native.addressOf(self.CBB_add_asn1_oid_from_text);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get CBB_add_asn1_relative_oid_from_der_to_text =>
+      ffi.Native.addressOf(self.CBB_add_asn1_relative_oid_from_der_to_text);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<ffi.Char>, ffi.Size)
+    >
+  >
+  get CBB_add_asn1_relative_oid_from_text =>
+      ffi.Native.addressOf(self.CBB_add_asn1_relative_oid_from_text);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint64)>
+  >
+  get CBB_add_asn1_uint64 => ffi.Native.addressOf(self.CBB_add_asn1_uint64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint64, CBS_ASN1_TAG)
+    >
+  >
+  get CBB_add_asn1_uint64_with_tag =>
+      ffi.Native.addressOf(self.CBB_add_asn1_uint64_with_tag);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get CBB_add_bytes => ffi.Native.addressOf(self.CBB_add_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>
+  >
+  get CBB_add_latin1 => ffi.Native.addressOf(self.CBB_add_latin1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBB>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Size,
+      )
+    >
+  >
+  get CBB_add_space => ffi.Native.addressOf(self.CBB_add_space);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint16)>
+  >
+  get CBB_add_u16 => ffi.Native.addressOf(self.CBB_add_u16);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<CBB>)>
+  >
+  get CBB_add_u16_length_prefixed =>
+      ffi.Native.addressOf(self.CBB_add_u16_length_prefixed);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint16)>
+  >
+  get CBB_add_u16le => ffi.Native.addressOf(self.CBB_add_u16le);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>
+  >
+  get CBB_add_u24 => ffi.Native.addressOf(self.CBB_add_u24);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<CBB>)>
+  >
+  get CBB_add_u24_length_prefixed =>
+      ffi.Native.addressOf(self.CBB_add_u24_length_prefixed);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>
+  >
+  get CBB_add_u32 => ffi.Native.addressOf(self.CBB_add_u32);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>
+  >
+  get CBB_add_u32le => ffi.Native.addressOf(self.CBB_add_u32le);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint64)>
+  >
+  get CBB_add_u48 => ffi.Native.addressOf(self.CBB_add_u48);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint64)>
+  >
+  get CBB_add_u64 => ffi.Native.addressOf(self.CBB_add_u64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint64)>
+  >
+  get CBB_add_u64le => ffi.Native.addressOf(self.CBB_add_u64le);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint8)>>
+  get CBB_add_u8 => ffi.Native.addressOf(self.CBB_add_u8);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<CBB>)>
+  >
+  get CBB_add_u8_length_prefixed =>
+      ffi.Native.addressOf(self.CBB_add_u8_length_prefixed);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>
+  >
+  get CBB_add_ucs2_be => ffi.Native.addressOf(self.CBB_add_ucs2_be);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>
+  >
+  get CBB_add_utf32_be => ffi.Native.addressOf(self.CBB_add_utf32_be);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Uint32)>
+  >
+  get CBB_add_utf8 => ffi.Native.addressOf(self.CBB_add_utf8);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Size)>>
+  get CBB_add_zeros => ffi.Native.addressOf(self.CBB_add_zeros);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CBB>)>>
   get CBB_cleanup => ffi.Native.addressOf(self.CBB_cleanup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ffi.Uint8> Function(ffi.Pointer<CBB>)>
+  >
+  get CBB_data => ffi.Native.addressOf(self.CBB_data);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Size)>>
+  get CBB_did_write => ffi.Native.addressOf(self.CBB_did_write);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CBB>, ffi.Size)>>
+  get CBB_discard => ffi.Native.addressOf(self.CBB_discard);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CBB>)>>
+  get CBB_discard_child => ffi.Native.addressOf(self.CBB_discard_child);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBB>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get CBB_finish => ffi.Native.addressOf(self.CBB_finish);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>)>>
+  get CBB_flush => ffi.Native.addressOf(self.CBB_flush);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>)>>
+  get CBB_flush_asn1_set_of => ffi.Native.addressOf(self.CBB_flush_asn1_set_of);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Uint32)>>
+  get CBB_get_utf8_len => ffi.Native.addressOf(self.CBB_get_utf8_len);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Size)>>
+  get CBB_init => ffi.Native.addressOf(self.CBB_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get CBB_init_fixed => ffi.Native.addressOf(self.CBB_init_fixed);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<CBB>)>>
+  get CBB_len => ffi.Native.addressOf(self.CBB_len);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBB>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Size,
+      )
+    >
+  >
+  get CBB_reserve => ffi.Native.addressOf(self.CBB_reserve);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CBB>)>>
+  get CBB_zero => ffi.Native.addressOf(self.CBB_zero);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>, ffi.UnsignedInt)>
+  >
+  get CBS_asn1_bitstring_has_bit =>
+      ffi.Native.addressOf(self.CBS_asn1_bitstring_has_bit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<CBS>)>
+  >
+  get CBS_asn1_oid_to_text => ffi.Native.addressOf(self.CBS_asn1_oid_to_text);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<CBS>)>
+  >
+  get CBS_asn1_relative_oid_to_text =>
+      ffi.Native.addressOf(self.CBS_asn1_relative_oid_to_text);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>)>>
+  get CBS_contains_zero_byte =>
+      ffi.Native.addressOf(self.CBS_contains_zero_byte);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get CBS_copy_bytes => ffi.Native.addressOf(self.CBS_copy_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CBS_ASN1_TAG>,
+      )
+    >
+  >
+  get CBS_get_any_asn1 => ffi.Native.addressOf(self.CBS_get_any_asn1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CBS_ASN1_TAG>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get CBS_get_any_asn1_element =>
+      ffi.Native.addressOf(self.CBS_get_any_asn1_element);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CBS_ASN1_TAG>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get CBS_get_any_ber_asn1_element =>
+      ffi.Native.addressOf(self.CBS_get_any_ber_asn1_element);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<CBS>, CBS_ASN1_TAG)
+    >
+  >
+  get CBS_get_asn1 => ffi.Native.addressOf(self.CBS_get_asn1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Int>)>
+  >
+  get CBS_get_asn1_bool => ffi.Native.addressOf(self.CBS_get_asn1_bool);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<CBS>, CBS_ASN1_TAG)
+    >
+  >
+  get CBS_get_asn1_element => ffi.Native.addressOf(self.CBS_get_asn1_element);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Int64>)
+    >
+  >
+  get CBS_get_asn1_int64 => ffi.Native.addressOf(self.CBS_get_asn1_int64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Int64>, CBS_ASN1_TAG)
+    >
+  >
+  get CBS_get_asn1_int64_with_tag =>
+      ffi.Native.addressOf(self.CBS_get_asn1_int64_with_tag);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint64>)
+    >
+  >
+  get CBS_get_asn1_oid_component =>
+      ffi.Native.addressOf(self.CBS_get_asn1_oid_component);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint64>)
+    >
+  >
+  get CBS_get_asn1_uint64 => ffi.Native.addressOf(self.CBS_get_asn1_uint64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint64>, CBS_ASN1_TAG)
+    >
+  >
+  get CBS_get_asn1_uint64_with_tag =>
+      ffi.Native.addressOf(self.CBS_get_asn1_uint64_with_tag);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<CBS>, ffi.Size)
+    >
+  >
+  get CBS_get_bytes => ffi.Native.addressOf(self.CBS_get_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint8>)
+    >
+  >
+  get CBS_get_last_u8 => ffi.Native.addressOf(self.CBS_get_last_u8);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)
+    >
+  >
+  get CBS_get_latin1 => ffi.Native.addressOf(self.CBS_get_latin1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CBS>,
+        ffi.Pointer<ffi.Int>,
+        CBS_ASN1_TAG,
+      )
+    >
+  >
+  get CBS_get_optional_asn1 => ffi.Native.addressOf(self.CBS_get_optional_asn1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBS>,
+        ffi.Pointer<ffi.Int>,
+        CBS_ASN1_TAG,
+        ffi.Int,
+      )
+    >
+  >
+  get CBS_get_optional_asn1_bool =>
+      ffi.Native.addressOf(self.CBS_get_optional_asn1_bool);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CBS>,
+        ffi.Pointer<ffi.Int>,
+        CBS_ASN1_TAG,
+      )
+    >
+  >
+  get CBS_get_optional_asn1_octet_string =>
+      ffi.Native.addressOf(self.CBS_get_optional_asn1_octet_string);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBS>,
+        ffi.Pointer<ffi.Uint64>,
+        CBS_ASN1_TAG,
+        ffi.Uint64,
+      )
+    >
+  >
+  get CBS_get_optional_asn1_uint64 =>
+      ffi.Native.addressOf(self.CBS_get_optional_asn1_uint64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint16>)
+    >
+  >
+  get CBS_get_u16 => ffi.Native.addressOf(self.CBS_get_u16);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<CBS>)>
+  >
+  get CBS_get_u16_length_prefixed =>
+      ffi.Native.addressOf(self.CBS_get_u16_length_prefixed);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint16>)
+    >
+  >
+  get CBS_get_u16le => ffi.Native.addressOf(self.CBS_get_u16le);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)
+    >
+  >
+  get CBS_get_u24 => ffi.Native.addressOf(self.CBS_get_u24);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<CBS>)>
+  >
+  get CBS_get_u24_length_prefixed =>
+      ffi.Native.addressOf(self.CBS_get_u24_length_prefixed);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)
+    >
+  >
+  get CBS_get_u32 => ffi.Native.addressOf(self.CBS_get_u32);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)
+    >
+  >
+  get CBS_get_u32le => ffi.Native.addressOf(self.CBS_get_u32le);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint64>)
+    >
+  >
+  get CBS_get_u48 => ffi.Native.addressOf(self.CBS_get_u48);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint64>)
+    >
+  >
+  get CBS_get_u64 => ffi.Native.addressOf(self.CBS_get_u64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint64>)
+    >
+  >
+  get CBS_get_u64_decimal => ffi.Native.addressOf(self.CBS_get_u64_decimal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint64>)
+    >
+  >
+  get CBS_get_u64le => ffi.Native.addressOf(self.CBS_get_u64le);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint8>)
+    >
+  >
+  get CBS_get_u8 => ffi.Native.addressOf(self.CBS_get_u8);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<CBS>)>
+  >
+  get CBS_get_u8_length_prefixed =>
+      ffi.Native.addressOf(self.CBS_get_u8_length_prefixed);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)
+    >
+  >
+  get CBS_get_ucs2_be => ffi.Native.addressOf(self.CBS_get_ucs2_be);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<CBS>, ffi.Uint8)
+    >
+  >
+  get CBS_get_until_first => ffi.Native.addressOf(self.CBS_get_until_first);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CBS>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get CBS_get_until_first_not_of =>
+      ffi.Native.addressOf(self.CBS_get_until_first_not_of);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CBS>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get CBS_get_until_first_of =>
+      ffi.Native.addressOf(self.CBS_get_until_first_of);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)
+    >
+  >
+  get CBS_get_utf32_be => ffi.Native.addressOf(self.CBS_get_utf32_be);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint32>)
+    >
+  >
+  get CBS_get_utf8 => ffi.Native.addressOf(self.CBS_get_utf8);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>)>>
+  get CBS_is_unsigned_asn1_integer =>
+      ffi.Native.addressOf(self.CBS_is_unsigned_asn1_integer);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>)>>
+  get CBS_is_valid_asn1_bitstring =>
+      ffi.Native.addressOf(self.CBS_is_valid_asn1_bitstring);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Int>)>
+  >
+  get CBS_is_valid_asn1_integer =>
+      ffi.Native.addressOf(self.CBS_is_valid_asn1_integer);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>)>>
+  get CBS_is_valid_asn1_oid => ffi.Native.addressOf(self.CBS_is_valid_asn1_oid);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>)>>
+  get CBS_is_valid_asn1_relative_oid =>
+      ffi.Native.addressOf(self.CBS_is_valid_asn1_relative_oid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get CBS_mem_equal => ffi.Native.addressOf(self.CBS_mem_equal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<tm>, ffi.Int)
+    >
+  >
+  get CBS_parse_generalized_time =>
+      ffi.Native.addressOf(self.CBS_parse_generalized_time);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<tm>, ffi.Int)
+    >
+  >
+  get CBS_parse_utc_time => ffi.Native.addressOf(self.CBS_parse_utc_time);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<CBS_ASN1_TAG Function(ffi.Pointer<CBS>)>>
+  get CBS_peek_any_asn1_tag => ffi.Native.addressOf(self.CBS_peek_any_asn1_tag);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>, CBS_ASN1_TAG)>
+  >
+  get CBS_peek_asn1_tag => ffi.Native.addressOf(self.CBS_peek_asn1_tag);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>, ffi.Size)>>
+  get CBS_skip => ffi.Native.addressOf(self.CBS_skip);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBS>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get CBS_stow => ffi.Native.addressOf(self.CBS_stow);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBS>, ffi.Pointer<ffi.Pointer<ffi.Char>>)
+    >
+  >
+  get CBS_strdup => ffi.Native.addressOf(self.CBS_strdup);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CERTIFICATEPOLICIES>)>
@@ -31824,13 +35330,35 @@ extension SymbolAddresses on _SymbolAddresses {
   get CERTIFICATEPOLICIES_free =>
       ffi.Native.addressOf(self.CERTIFICATEPOLICIES_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<CERTIFICATEPOLICIES> Function()>>
+  get CERTIFICATEPOLICIES_new =>
+      ffi.Native.addressOf(self.CERTIFICATEPOLICIES_new);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get CONF_modules_free =>
       ffi.Native.addressOf(self.CONF_modules_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Char>,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get CONF_modules_load_file =>
+      ffi.Native.addressOf(self.CONF_modules_load_file);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Int)>>
+  get CONF_modules_unload => ffi.Native.addressOf(self.CONF_modules_unload);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CRL_DIST_POINTS>)>
   >
   get CRL_DIST_POINTS_free => ffi.Native.addressOf(self.CRL_DIST_POINTS_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<CRL_DIST_POINTS> Function()>>
+  get CRL_DIST_POINTS_new => ffi.Native.addressOf(self.CRL_DIST_POINTS_new);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CRYPTO_BUFFER_POOL>)>
@@ -31838,8 +35366,141 @@ extension SymbolAddresses on _SymbolAddresses {
   get CRYPTO_BUFFER_POOL_free =>
       ffi.Native.addressOf(self.CRYPTO_BUFFER_POOL_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<CRYPTO_BUFFER_POOL> Function()>>
+  get CRYPTO_BUFFER_POOL_new =>
+      ffi.Native.addressOf(self.CRYPTO_BUFFER_POOL_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CRYPTO_BUFFER_POOL>)>
+  >
+  get CRYPTO_BUFFER_POOL_up_ref =>
+      ffi.Native.addressOf(self.CRYPTO_BUFFER_POOL_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<CRYPTO_BUFFER> Function(
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Size,
+      )
+    >
+  >
+  get CRYPTO_BUFFER_alloc => ffi.Native.addressOf(self.CRYPTO_BUFFER_alloc);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Uint8> Function(ffi.Pointer<CRYPTO_BUFFER>)
+    >
+  >
+  get CRYPTO_BUFFER_data => ffi.Native.addressOf(self.CRYPTO_BUFFER_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<CRYPTO_BUFFER> Function(ffi.Pointer<CRYPTO_BUFFER>)
+    >
+  >
+  get CRYPTO_BUFFER_dup_ref => ffi.Native.addressOf(self.CRYPTO_BUFFER_dup_ref);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CRYPTO_BUFFER>)>>
   get CRYPTO_BUFFER_free => ffi.Native.addressOf(self.CRYPTO_BUFFER_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<CRYPTO_BUFFER>, ffi.Pointer<CBS>)
+    >
+  >
+  get CRYPTO_BUFFER_init_CBS =>
+      ffi.Native.addressOf(self.CRYPTO_BUFFER_init_CBS);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<CRYPTO_BUFFER>)>>
+  get CRYPTO_BUFFER_len => ffi.Native.addressOf(self.CRYPTO_BUFFER_len);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<CRYPTO_BUFFER> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<CRYPTO_BUFFER_POOL>,
+      )
+    >
+  >
+  get CRYPTO_BUFFER_new => ffi.Native.addressOf(self.CRYPTO_BUFFER_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<CRYPTO_BUFFER> Function(
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CRYPTO_BUFFER_POOL>,
+      )
+    >
+  >
+  get CRYPTO_BUFFER_new_from_CBS =>
+      ffi.Native.addressOf(self.CRYPTO_BUFFER_new_from_CBS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<CRYPTO_BUFFER> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<CRYPTO_BUFFER_POOL>,
+      )
+    >
+  >
+  get CRYPTO_BUFFER_new_from_static_data_unsafe =>
+      ffi.Native.addressOf(self.CRYPTO_BUFFER_new_from_static_data_unsafe);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CRYPTO_BUFFER>)>>
+  get CRYPTO_BUFFER_up_ref => ffi.Native.addressOf(self.CRYPTO_BUFFER_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CRYPTO_THREADID>)>
+  >
+  get CRYPTO_THREADID_current =>
+      ffi.Native.addressOf(self.CRYPTO_THREADID_current);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Void Function(ffi.Pointer<CRYPTO_THREADID> threadid)
+          >
+        >,
+      )
+    >
+  >
+  get CRYPTO_THREADID_set_callback =>
+      ffi.Native.addressOf(self.CRYPTO_THREADID_set_callback);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<CRYPTO_THREADID>, ffi.UnsignedLong)
+    >
+  >
+  get CRYPTO_THREADID_set_numeric =>
+      ffi.Native.addressOf(self.CRYPTO_THREADID_set_numeric);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<CRYPTO_THREADID>, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get CRYPTO_THREADID_set_pointer =>
+      ffi.Native.addressOf(self.CRYPTO_THREADID_set_pointer);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get CRYPTO_cleanup_all_ex_data =>
+      ffi.Native.addressOf(self.CRYPTO_cleanup_all_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get CRYPTO_fips_186_2_prf => ffi.Native.addressOf(self.CRYPTO_fips_186_2_prf);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<
@@ -31848,46 +35509,1706 @@ extension SymbolAddresses on _SymbolAddresses {
   >
   get CRYPTO_free => ffi.Native.addressOf(self.CRYPTO_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<
+        ffi.NativeFunction<
+          ffi.Pointer<CRYPTO_dynlock_value> Function(
+            ffi.Pointer<ffi.Char>,
+            ffi.Int,
+          )
+        >
+      >
+      Function()
+    >
+  >
+  get CRYPTO_get_dynlock_create_callback =>
+      ffi.Native.addressOf(self.CRYPTO_get_dynlock_create_callback);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<CRYPTO_dynlock_value>,
+            ffi.Pointer<ffi.Char>,
+            ffi.Int,
+          )
+        >
+      >
+      Function()
+    >
+  >
+  get CRYPTO_get_dynlock_destroy_callback =>
+      ffi.Native.addressOf(self.CRYPTO_get_dynlock_destroy_callback);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Int,
+            ffi.Pointer<CRYPTO_dynlock_value>,
+            ffi.Pointer<ffi.Char>,
+            ffi.Int,
+          )
+        >
+      >
+      Function()
+    >
+  >
+  get CRYPTO_get_dynlock_lock_callback =>
+      ffi.Native.addressOf(self.CRYPTO_get_dynlock_lock_callback);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Int)>>
+  get CRYPTO_get_lock_name => ffi.Native.addressOf(self.CRYPTO_get_lock_name);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Int, ffi.Int, ffi.Pointer<ffi.Char>, ffi.Int)
+        >
+      >
+      Function()
+    >
+  >
+  get CRYPTO_get_locking_callback =>
+      ffi.Native.addressOf(self.CRYPTO_get_locking_callback);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> get CRYPTO_has_asm =>
+      ffi.Native.addressOf(self.CRYPTO_has_asm);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>>
+  get CRYPTO_is_confidential_build =>
+      ffi.Native.addressOf(self.CRYPTO_is_confidential_build);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get CRYPTO_library_init => ffi.Native.addressOf(self.CRYPTO_library_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Size, ffi.Pointer<ffi.Char>, ffi.Int)
+    >
+  >
+  get CRYPTO_malloc => ffi.Native.addressOf(self.CRYPTO_malloc);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> get CRYPTO_malloc_init =>
+      ffi.Native.addressOf(self.CRYPTO_malloc_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get CRYPTO_memcmp => ffi.Native.addressOf(self.CRYPTO_memcmp);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> get CRYPTO_num_locks =>
+      ffi.Native.addressOf(self.CRYPTO_num_locks);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get CRYPTO_pre_sandbox_init =>
+      ffi.Native.addressOf(self.CRYPTO_pre_sandbox_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<ffi.Void>,
+        ffi.Size,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+      )
+    >
+  >
+  get CRYPTO_realloc => ffi.Native.addressOf(self.CRYPTO_realloc);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Size, ffi.Size)>>
+  get CRYPTO_secure_malloc_init =>
+      ffi.Native.addressOf(self.CRYPTO_secure_malloc_init);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>>
+  get CRYPTO_secure_malloc_initialized =>
+      ffi.Native.addressOf(self.CRYPTO_secure_malloc_initialized);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function()>> get CRYPTO_secure_used =>
+      ffi.Native.addressOf(self.CRYPTO_secure_used);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Int Function(
+              ffi.Pointer<ffi.Int> num,
+              ffi.Int amount,
+              ffi.Int lock_num,
+              ffi.Pointer<ffi.Char> file,
+              ffi.Int line,
+            )
+          >
+        >,
+      )
+    >
+  >
+  get CRYPTO_set_add_lock_callback =>
+      ffi.Native.addressOf(self.CRYPTO_set_add_lock_callback);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Pointer<CRYPTO_dynlock_value> Function(
+              ffi.Pointer<ffi.Char> file,
+              ffi.Int line,
+            )
+          >
+        >,
+      )
+    >
+  >
+  get CRYPTO_set_dynlock_create_callback =>
+      ffi.Native.addressOf(self.CRYPTO_set_dynlock_create_callback);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<CRYPTO_dynlock_value> l,
+              ffi.Pointer<ffi.Char> file,
+              ffi.Int line,
+            )
+          >
+        >,
+      )
+    >
+  >
+  get CRYPTO_set_dynlock_destroy_callback =>
+      ffi.Native.addressOf(self.CRYPTO_set_dynlock_destroy_callback);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Int mode,
+              ffi.Pointer<CRYPTO_dynlock_value> l,
+              ffi.Pointer<ffi.Char> file,
+              ffi.Int line,
+            )
+          >
+        >,
+      )
+    >
+  >
+  get CRYPTO_set_dynlock_lock_callback =>
+      ffi.Native.addressOf(self.CRYPTO_set_dynlock_lock_callback);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function()>>,
+      )
+    >
+  >
+  get CRYPTO_set_id_callback =>
+      ffi.Native.addressOf(self.CRYPTO_set_id_callback);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Int mode,
+              ffi.Int lock_num,
+              ffi.Pointer<ffi.Char> file,
+              ffi.Int line,
+            )
+          >
+        >,
+      )
+    >
+  >
+  get CRYPTO_set_locking_callback =>
+      ffi.Native.addressOf(self.CRYPTO_set_locking_callback);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<DH>)>>
+  get DH_bits => ffi.Native.addressOf(self.DH_bits);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<DH>, ffi.Pointer<ffi.Int>)>
+  >
+  get DH_check => ffi.Native.addressOf(self.DH_check);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<DH>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get DH_check_pub_key => ffi.Native.addressOf(self.DH_check_pub_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<DH>,
+      )
+    >
+  >
+  get DH_compute_key => ffi.Native.addressOf(self.DH_compute_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<DH>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<EVP_MD>,
+      )
+    >
+  >
+  get DH_compute_key_hashed => ffi.Native.addressOf(self.DH_compute_key_hashed);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<DH>,
+      )
+    >
+  >
+  get DH_compute_key_padded => ffi.Native.addressOf(self.DH_compute_key_padded);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<DH>)>>
   get DH_free => ffi.Native.addressOf(self.DH_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<DH>)>>
+  get DH_generate_key => ffi.Native.addressOf(self.DH_generate_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<DH>, ffi.Int, ffi.Int, ffi.Pointer<BN_GENCB>)
+    >
+  >
+  get DH_generate_parameters_ex =>
+      ffi.Native.addressOf(self.DH_generate_parameters_ex);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DH>)>>
+  get DH_get0_g => ffi.Native.addressOf(self.DH_get0_g);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<DH>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+      )
+    >
+  >
+  get DH_get0_key => ffi.Native.addressOf(self.DH_get0_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DH>)>>
+  get DH_get0_p => ffi.Native.addressOf(self.DH_get0_p);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<DH>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+      )
+    >
+  >
+  get DH_get0_pqg => ffi.Native.addressOf(self.DH_get0_pqg);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DH>)>>
+  get DH_get0_priv_key => ffi.Native.addressOf(self.DH_get0_priv_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DH>)>>
+  get DH_get0_pub_key => ffi.Native.addressOf(self.DH_get0_pub_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DH>)>>
+  get DH_get0_q => ffi.Native.addressOf(self.DH_get0_q);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DH> Function()>>
+  get DH_get_rfc7919_2048 => ffi.Native.addressOf(self.DH_get_rfc7919_2048);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<DH>)>
+  >
+  get DH_marshal_parameters => ffi.Native.addressOf(self.DH_marshal_parameters);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DH> Function()>> get DH_new =>
+      ffi.Native.addressOf(self.DH_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DH> Function(ffi.Pointer<CBS>)>>
+  get DH_parse_parameters => ffi.Native.addressOf(self.DH_parse_parameters);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<DH>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get DH_set0_key => ffi.Native.addressOf(self.DH_set0_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<DH>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get DH_set0_pqg => ffi.Native.addressOf(self.DH_set0_pqg);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<DH>, ffi.UnsignedInt)>
+  >
+  get DH_set_length => ffi.Native.addressOf(self.DH_set_length);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<DH>)>>
+  get DH_size => ffi.Native.addressOf(self.DH_size);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<DH>)>>
+  get DH_up_ref => ffi.Native.addressOf(self.DH_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DH> Function(ffi.Pointer<DH>)>>
+  get DHparams_dup => ffi.Native.addressOf(self.DHparams_dup);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_STRING>)>>
   get DIRECTORYSTRING_free => ffi.Native.addressOf(self.DIRECTORYSTRING_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_STRING> Function()>>
+  get DIRECTORYSTRING_new => ffi.Native.addressOf(self.DIRECTORYSTRING_new);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ASN1_STRING>)>>
   get DISPLAYTEXT_free => ffi.Native.addressOf(self.DISPLAYTEXT_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_STRING> Function()>>
+  get DISPLAYTEXT_new => ffi.Native.addressOf(self.DISPLAYTEXT_new);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<DIST_POINT_NAME>)>
   >
   get DIST_POINT_NAME_free => ffi.Native.addressOf(self.DIST_POINT_NAME_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DIST_POINT_NAME> Function()>>
+  get DIST_POINT_NAME_new => ffi.Native.addressOf(self.DIST_POINT_NAME_new);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<DIST_POINT>)>>
   get DIST_POINT_free => ffi.Native.addressOf(self.DIST_POINT_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DIST_POINT> Function()>>
+  get DIST_POINT_new => ffi.Native.addressOf(self.DIST_POINT_new);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<DSA_SIG>)>>
   get DSA_SIG_free => ffi.Native.addressOf(self.DSA_SIG_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<DSA_SIG>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+      )
+    >
+  >
+  get DSA_SIG_get0 => ffi.Native.addressOf(self.DSA_SIG_get0);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<DSA_SIG>)>
+  >
+  get DSA_SIG_marshal => ffi.Native.addressOf(self.DSA_SIG_marshal);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DSA_SIG> Function()>>
+  get DSA_SIG_new => ffi.Native.addressOf(self.DSA_SIG_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<DSA_SIG> Function(ffi.Pointer<CBS>)>
+  >
+  get DSA_SIG_parse => ffi.Native.addressOf(self.DSA_SIG_parse);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<DSA_SIG>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get DSA_SIG_set0 => ffi.Native.addressOf(self.DSA_SIG_set0);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<DSA>)>>
+  get DSA_bits => ffi.Native.addressOf(self.DSA_bits);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<DSA>,
+      )
+    >
+  >
+  get DSA_check_signature => ffi.Native.addressOf(self.DSA_check_signature);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<DSA_SIG>,
+        ffi.Pointer<DSA>,
+      )
+    >
+  >
+  get DSA_do_check_signature =>
+      ffi.Native.addressOf(self.DSA_do_check_signature);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA_SIG> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<DSA>,
+      )
+    >
+  >
+  get DSA_do_sign => ffi.Native.addressOf(self.DSA_do_sign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<DSA_SIG>,
+        ffi.Pointer<DSA>,
+      )
+    >
+  >
+  get DSA_do_verify => ffi.Native.addressOf(self.DSA_do_verify);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DH> Function(ffi.Pointer<DSA>)>>
+  get DSA_dup_DH => ffi.Native.addressOf(self.DSA_dup_DH);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<DSA>)>>
   get DSA_free => ffi.Native.addressOf(self.DSA_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<DSA>)>>
+  get DSA_generate_key => ffi.Native.addressOf(self.DSA_generate_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<DSA>,
+        ffi.UnsignedInt,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.UnsignedLong>,
+        ffi.Pointer<BN_GENCB>,
+      )
+    >
+  >
+  get DSA_generate_parameters_ex =>
+      ffi.Native.addressOf(self.DSA_generate_parameters_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DSA>)>
+  >
+  get DSA_get0_g => ffi.Native.addressOf(self.DSA_get0_g);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<DSA>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+      )
+    >
+  >
+  get DSA_get0_key => ffi.Native.addressOf(self.DSA_get0_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DSA>)>
+  >
+  get DSA_get0_p => ffi.Native.addressOf(self.DSA_get0_p);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<DSA>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+      )
+    >
+  >
+  get DSA_get0_pqg => ffi.Native.addressOf(self.DSA_get0_pqg);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DSA>)>
+  >
+  get DSA_get0_priv_key => ffi.Native.addressOf(self.DSA_get0_priv_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DSA>)>
+  >
+  get DSA_get0_pub_key => ffi.Native.addressOf(self.DSA_get0_pub_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<DSA>)>
+  >
+  get DSA_get0_q => ffi.Native.addressOf(self.DSA_get0_q);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<DSA>, ffi.Int)
+    >
+  >
+  get DSA_get_ex_data => ffi.Native.addressOf(self.DSA_get_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Long,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<CRYPTO_EX_unused>,
+        ffi.Pointer<CRYPTO_EX_dup>,
+        ffi.Pointer<CRYPTO_EX_free>,
+      )
+    >
+  >
+  get DSA_get_ex_new_index => ffi.Native.addressOf(self.DSA_get_ex_new_index);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<DSA>)>
+  >
+  get DSA_marshal_parameters =>
+      ffi.Native.addressOf(self.DSA_marshal_parameters);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<DSA>)>
+  >
+  get DSA_marshal_private_key =>
+      ffi.Native.addressOf(self.DSA_marshal_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<DSA>)>
+  >
+  get DSA_marshal_public_key =>
+      ffi.Native.addressOf(self.DSA_marshal_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DSA> Function()>> get DSA_new =>
+      ffi.Native.addressOf(self.DSA_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DSA> Function(ffi.Pointer<CBS>)>>
+  get DSA_parse_parameters => ffi.Native.addressOf(self.DSA_parse_parameters);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DSA> Function(ffi.Pointer<CBS>)>>
+  get DSA_parse_private_key => ffi.Native.addressOf(self.DSA_parse_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DSA> Function(ffi.Pointer<CBS>)>>
+  get DSA_parse_public_key => ffi.Native.addressOf(self.DSA_parse_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<DSA>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get DSA_set0_key => ffi.Native.addressOf(self.DSA_set0_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<DSA>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get DSA_set0_pqg => ffi.Native.addressOf(self.DSA_set0_pqg);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<DSA>, ffi.Int, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get DSA_set_ex_data => ffi.Native.addressOf(self.DSA_set_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+        ffi.Pointer<DSA>,
+      )
+    >
+  >
+  get DSA_sign => ffi.Native.addressOf(self.DSA_sign);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<DSA>)>>
+  get DSA_size => ffi.Native.addressOf(self.DSA_size);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<DSA>)>>
+  get DSA_up_ref => ffi.Native.addressOf(self.DSA_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<DSA>,
+      )
+    >
+  >
+  get DSA_verify => ffi.Native.addressOf(self.DSA_verify);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<DSA> Function(ffi.Pointer<DSA>)>>
+  get DSAparams_dup => ffi.Native.addressOf(self.DSAparams_dup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Void>,
+        ffi.Size,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<EC_KEY>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Pointer<ffi.Void> Function(
+              ffi.Pointer<ffi.Void> in$,
+              ffi.Size inlen,
+              ffi.Pointer<ffi.Void> out,
+              ffi.Pointer<ffi.Size> outlen,
+            )
+          >
+        >,
+      )
+    >
+  >
+  get ECDH_compute_key => ffi.Native.addressOf(self.ECDH_compute_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<EC_KEY>,
+      )
+    >
+  >
+  get ECDH_compute_key_fips => ffi.Native.addressOf(self.ECDH_compute_key_fips);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ECDSA_SIG>)>>
   get ECDSA_SIG_free => ffi.Native.addressOf(self.ECDSA_SIG_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ECDSA_SIG> Function(ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get ECDSA_SIG_from_bytes => ffi.Native.addressOf(self.ECDSA_SIG_from_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ECDSA_SIG>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+      )
+    >
+  >
+  get ECDSA_SIG_get0 => ffi.Native.addressOf(self.ECDSA_SIG_get0);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<ECDSA_SIG>)>
+  >
+  get ECDSA_SIG_get0_r => ffi.Native.addressOf(self.ECDSA_SIG_get0_r);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<ECDSA_SIG>)>
+  >
+  get ECDSA_SIG_get0_s => ffi.Native.addressOf(self.ECDSA_SIG_get0_s);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<ECDSA_SIG>)
+    >
+  >
+  get ECDSA_SIG_marshal => ffi.Native.addressOf(self.ECDSA_SIG_marshal);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Size)>>
+  get ECDSA_SIG_max_len => ffi.Native.addressOf(self.ECDSA_SIG_max_len);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ECDSA_SIG> Function()>>
+  get ECDSA_SIG_new => ffi.Native.addressOf(self.ECDSA_SIG_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ECDSA_SIG> Function(ffi.Pointer<CBS>)>
+  >
+  get ECDSA_SIG_parse => ffi.Native.addressOf(self.ECDSA_SIG_parse);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ECDSA_SIG>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get ECDSA_SIG_set0 => ffi.Native.addressOf(self.ECDSA_SIG_set0);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ECDSA_SIG>,
+      )
+    >
+  >
+  get ECDSA_SIG_to_bytes => ffi.Native.addressOf(self.ECDSA_SIG_to_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ECDSA_SIG> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EC_KEY>,
+      )
+    >
+  >
+  get ECDSA_do_sign => ffi.Native.addressOf(self.ECDSA_do_sign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ECDSA_SIG>,
+        ffi.Pointer<EC_KEY>,
+      )
+    >
+  >
+  get ECDSA_do_verify => ffi.Native.addressOf(self.ECDSA_do_verify);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+        ffi.Pointer<EC_KEY>,
+      )
+    >
+  >
+  get ECDSA_sign => ffi.Native.addressOf(self.ECDSA_sign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<EC_KEY>,
+      )
+    >
+  >
+  get ECDSA_sign_p1363 => ffi.Native.addressOf(self.ECDSA_sign_p1363);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ECDSA_SIG> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EC_KEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get ECDSA_sign_with_nonce_and_leak_private_key_for_testing =>
+      ffi.Native.addressOf(
+        self.ECDSA_sign_with_nonce_and_leak_private_key_for_testing,
+      );
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EC_KEY>)>>
+  get ECDSA_size => ffi.Native.addressOf(self.ECDSA_size);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EC_KEY>)>>
+  get ECDSA_size_p1363 => ffi.Native.addressOf(self.ECDSA_size_p1363);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EC_KEY>,
+      )
+    >
+  >
+  get ECDSA_verify => ffi.Native.addressOf(self.ECDSA_verify);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EC_KEY>,
+      )
+    >
+  >
+  get ECDSA_verify_p1363 => ffi.Native.addressOf(self.ECDSA_verify_p1363);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_GROUP_cmp => ffi.Native.addressOf(self.EC_GROUP_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_GROUP> Function(ffi.Pointer<EC_GROUP>)>
+  >
+  get EC_GROUP_dup => ffi.Native.addressOf(self.EC_GROUP_dup);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_GROUP>)>>
   get EC_GROUP_free => ffi.Native.addressOf(self.EC_GROUP_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_POINT> Function(ffi.Pointer<EC_GROUP>)>
+  >
+  get EC_GROUP_get0_generator =>
+      ffi.Native.addressOf(self.EC_GROUP_get0_generator);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<EC_GROUP>)>
+  >
+  get EC_GROUP_get0_order => ffi.Native.addressOf(self.EC_GROUP_get0_order);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EC_GROUP>)>>
+  get EC_GROUP_get_asn1_flag =>
+      ffi.Native.addressOf(self.EC_GROUP_get_asn1_flag);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_GROUP_get_cofactor => ffi.Native.addressOf(self.EC_GROUP_get_cofactor);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_GROUP_get_curve_GFp =>
+      ffi.Native.addressOf(self.EC_GROUP_get_curve_GFp);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EC_GROUP>)>>
+  get EC_GROUP_get_curve_name =>
+      ffi.Native.addressOf(self.EC_GROUP_get_curve_name);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<EC_GROUP>)>
+  >
+  get EC_GROUP_get_degree => ffi.Native.addressOf(self.EC_GROUP_get_degree);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_GROUP_get_order => ffi.Native.addressOf(self.EC_GROUP_get_order);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_METHOD> Function(ffi.Pointer<EC_GROUP>)>
+  >
+  get EC_GROUP_method_of => ffi.Native.addressOf(self.EC_GROUP_method_of);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EC_GROUP> Function(ffi.Int)>>
+  get EC_GROUP_new_by_curve_name =>
+      ffi.Native.addressOf(self.EC_GROUP_new_by_curve_name);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_GROUP> Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_GROUP_new_curve_GFp =>
+      ffi.Native.addressOf(self.EC_GROUP_new_curve_GFp);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EC_GROUP>)>>
+  get EC_GROUP_order_bits => ffi.Native.addressOf(self.EC_GROUP_order_bits);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_GROUP>, ffi.Int)>
+  >
+  get EC_GROUP_set_asn1_flag =>
+      ffi.Native.addressOf(self.EC_GROUP_set_asn1_flag);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get EC_GROUP_set_generator =>
+      ffi.Native.addressOf(self.EC_GROUP_set_generator);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<EC_GROUP>, ffi.UnsignedInt)
+    >
+  >
+  get EC_GROUP_set_point_conversion_form =>
+      ffi.Native.addressOf(self.EC_GROUP_set_point_conversion_form);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EC_KEY>)>>
+  get EC_KEY_check_fips => ffi.Native.addressOf(self.EC_KEY_check_fips);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EC_KEY>)>>
+  get EC_KEY_check_key => ffi.Native.addressOf(self.EC_KEY_check_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EC_KEY_derive_from_secret =>
+      ffi.Native.addressOf(self.EC_KEY_derive_from_secret);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_KEY> Function(ffi.Pointer<EC_KEY>)>
+  >
+  get EC_KEY_dup => ffi.Native.addressOf(self.EC_KEY_dup);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_KEY>)>>
   get EC_KEY_free => ffi.Native.addressOf(self.EC_KEY_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EC_KEY>)>>
+  get EC_KEY_generate_key => ffi.Native.addressOf(self.EC_KEY_generate_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EC_KEY>)>>
+  get EC_KEY_generate_key_fips =>
+      ffi.Native.addressOf(self.EC_KEY_generate_key_fips);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_GROUP> Function(ffi.Pointer<EC_KEY>)>
+  >
+  get EC_KEY_get0_group => ffi.Native.addressOf(self.EC_KEY_get0_group);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<EC_KEY>)>
+  >
+  get EC_KEY_get0_private_key =>
+      ffi.Native.addressOf(self.EC_KEY_get0_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_POINT> Function(ffi.Pointer<EC_KEY>)>
+  >
+  get EC_KEY_get0_public_key =>
+      ffi.Native.addressOf(self.EC_KEY_get0_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<EC_KEY>)>>
+  get EC_KEY_get_conv_form => ffi.Native.addressOf(self.EC_KEY_get_conv_form);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<EC_KEY>)>>
+  get EC_KEY_get_enc_flags => ffi.Native.addressOf(self.EC_KEY_get_enc_flags);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<EC_KEY>, ffi.Int)
+    >
+  >
+  get EC_KEY_get_ex_data => ffi.Native.addressOf(self.EC_KEY_get_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Long,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<CRYPTO_EX_unused>,
+        ffi.Pointer<CRYPTO_EX_dup>,
+        ffi.Pointer<CRYPTO_EX_free>,
+      )
+    >
+  >
+  get EC_KEY_get_ex_new_index =>
+      ffi.Native.addressOf(self.EC_KEY_get_ex_new_index);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EC_KEY>)>>
+  get EC_KEY_is_opaque => ffi.Native.addressOf(self.EC_KEY_is_opaque);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(
+        ffi.Pointer<EC_KEY>,
+        ffi.UnsignedInt,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_KEY_key2buf => ffi.Native.addressOf(self.EC_KEY_key2buf);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<EC_GROUP>)
+    >
+  >
+  get EC_KEY_marshal_curve_name =>
+      ffi.Native.addressOf(self.EC_KEY_marshal_curve_name);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<EC_KEY>, ffi.UnsignedInt)
+    >
+  >
+  get EC_KEY_marshal_private_key =>
+      ffi.Native.addressOf(self.EC_KEY_marshal_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EC_KEY> Function()>>
+  get EC_KEY_new => ffi.Native.addressOf(self.EC_KEY_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EC_KEY> Function(ffi.Int)>>
+  get EC_KEY_new_by_curve_name =>
+      ffi.Native.addressOf(self.EC_KEY_new_by_curve_name);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_KEY> Function(ffi.Pointer<ENGINE>)>
+  >
+  get EC_KEY_new_method => ffi.Native.addressOf(self.EC_KEY_new_method);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_KEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_KEY_oct2key => ffi.Native.addressOf(self.EC_KEY_oct2key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EC_KEY>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get EC_KEY_oct2priv => ffi.Native.addressOf(self.EC_KEY_oct2priv);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_GROUP> Function(ffi.Pointer<CBS>)>
+  >
+  get EC_KEY_parse_curve_name =>
+      ffi.Native.addressOf(self.EC_KEY_parse_curve_name);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_GROUP> Function(ffi.Pointer<CBS>)>
+  >
+  get EC_KEY_parse_parameters =>
+      ffi.Native.addressOf(self.EC_KEY_parse_parameters);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(ffi.Pointer<CBS>, ffi.Pointer<EC_GROUP>)
+    >
+  >
+  get EC_KEY_parse_private_key =>
+      ffi.Native.addressOf(self.EC_KEY_parse_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(
+        ffi.Pointer<EC_KEY>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get EC_KEY_priv2buf => ffi.Native.addressOf(self.EC_KEY_priv2buf);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(ffi.Pointer<EC_KEY>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get EC_KEY_priv2oct => ffi.Native.addressOf(self.EC_KEY_priv2oct);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_KEY>, ffi.Int)>
+  >
+  get EC_KEY_set_asn1_flag => ffi.Native.addressOf(self.EC_KEY_set_asn1_flag);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_KEY>, ffi.UnsignedInt)>
+  >
+  get EC_KEY_set_conv_form => ffi.Native.addressOf(self.EC_KEY_set_conv_form);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_KEY>, ffi.UnsignedInt)>
+  >
+  get EC_KEY_set_enc_flags => ffi.Native.addressOf(self.EC_KEY_set_enc_flags);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EC_KEY>, ffi.Int, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get EC_KEY_set_ex_data => ffi.Native.addressOf(self.EC_KEY_set_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EC_KEY>, ffi.Pointer<EC_GROUP>)
+    >
+  >
+  get EC_KEY_set_group => ffi.Native.addressOf(self.EC_KEY_set_group);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EC_KEY>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get EC_KEY_set_private_key =>
+      ffi.Native.addressOf(self.EC_KEY_set_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EC_KEY>, ffi.Pointer<EC_POINT>)
+    >
+  >
+  get EC_KEY_set_public_key => ffi.Native.addressOf(self.EC_KEY_set_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_KEY>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get EC_KEY_set_public_key_affine_coordinates =>
+      ffi.Native.addressOf(self.EC_KEY_set_public_key_affine_coordinates);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EC_KEY>)>>
+  get EC_KEY_up_ref => ffi.Native.addressOf(self.EC_KEY_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EC_METHOD>)>>
+  get EC_METHOD_get_field_type =>
+      ffi.Native.addressOf(self.EC_METHOD_get_field_type);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_add => ffi.Native.addressOf(self.EC_POINT_add);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_POINT>)>>
   get EC_POINT_clear_free => ffi.Native.addressOf(self.EC_POINT_clear_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_cmp => ffi.Native.addressOf(self.EC_POINT_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EC_POINT>, ffi.Pointer<EC_POINT>)
+    >
+  >
+  get EC_POINT_copy => ffi.Native.addressOf(self.EC_POINT_copy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_dbl => ffi.Native.addressOf(self.EC_POINT_dbl);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_POINT> Function(
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<EC_GROUP>,
+      )
+    >
+  >
+  get EC_POINT_dup => ffi.Native.addressOf(self.EC_POINT_dup);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EC_POINT>)>>
   get EC_POINT_free => ffi.Native.addressOf(self.EC_POINT_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_get_affine_coordinates =>
+      ffi.Native.addressOf(self.EC_POINT_get_affine_coordinates);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_get_affine_coordinates_GFp =>
+      ffi.Native.addressOf(self.EC_POINT_get_affine_coordinates_GFp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_invert => ffi.Native.addressOf(self.EC_POINT_invert);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EC_GROUP>, ffi.Pointer<EC_POINT>)
+    >
+  >
+  get EC_POINT_is_at_infinity =>
+      ffi.Native.addressOf(self.EC_POINT_is_at_infinity);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_is_on_curve => ffi.Native.addressOf(self.EC_POINT_is_on_curve);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_mul => ffi.Native.addressOf(self.EC_POINT_mul);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_POINT> Function(ffi.Pointer<EC_GROUP>)>
+  >
+  get EC_POINT_new => ffi.Native.addressOf(self.EC_POINT_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_oct2point => ffi.Native.addressOf(self.EC_POINT_oct2point);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.UnsignedInt,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_point2buf => ffi.Native.addressOf(self.EC_POINT_point2buf);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CBB>,
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.UnsignedInt,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_point2cbb => ffi.Native.addressOf(self.EC_POINT_point2cbb);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.UnsignedInt,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_point2oct => ffi.Native.addressOf(self.EC_POINT_point2oct);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_set_affine_coordinates =>
+      ffi.Native.addressOf(self.EC_POINT_set_affine_coordinates);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_set_affine_coordinates_GFp =>
+      ffi.Native.addressOf(self.EC_POINT_set_affine_coordinates_GFp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Int,
+        ffi.Pointer<BN_CTX>,
+      )
+    >
+  >
+  get EC_POINT_set_compressed_coordinates_GFp =>
+      ffi.Native.addressOf(self.EC_POINT_set_compressed_coordinates_GFp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EC_GROUP>, ffi.Pointer<EC_POINT>)
+    >
+  >
+  get EC_POINT_set_to_infinity =>
+      ffi.Native.addressOf(self.EC_POINT_set_to_infinity);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Int)>>
+  get EC_curve_nid2nist => ffi.Native.addressOf(self.EC_curve_nid2nist);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>>
+  get EC_curve_nist2nid => ffi.Native.addressOf(self.EC_curve_nist2nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EC_encode_to_curve_p256_xmd_sha256_sswu =>
+      ffi.Native.addressOf(self.EC_encode_to_curve_p256_xmd_sha256_sswu);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EC_encode_to_curve_p384_xmd_sha384_sswu =>
+      ffi.Native.addressOf(self.EC_encode_to_curve_p384_xmd_sha384_sswu);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(ffi.Pointer<EC_builtin_curve>, ffi.Size)
+    >
+  >
+  get EC_get_builtin_curves => ffi.Native.addressOf(self.EC_get_builtin_curves);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EC_GROUP> Function()>>
+  get EC_group_p224 => ffi.Native.addressOf(self.EC_group_p224);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EC_GROUP> Function()>>
+  get EC_group_p256 => ffi.Native.addressOf(self.EC_group_p256);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EC_GROUP> Function()>>
+  get EC_group_p384 => ffi.Native.addressOf(self.EC_group_p384);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EC_GROUP> Function()>>
+  get EC_group_p521 => ffi.Native.addressOf(self.EC_group_p521);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EC_hash_to_curve_p256_xmd_sha256_sswu =>
+      ffi.Native.addressOf(self.EC_hash_to_curve_p256_xmd_sha256_sswu);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EC_hash_to_curve_p384_xmd_sha384_sswu =>
+      ffi.Native.addressOf(self.EC_hash_to_curve_p384_xmd_sha384_sswu);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EC_wpa3_sae_hash_to_curve_p256 =>
+      ffi.Native.addressOf(self.EC_wpa3_sae_hash_to_curve_p256);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<EC_POINT>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Uint8,
+      )
+    >
+  >
+  get EC_wpa3_sae_hunt_and_peck_p256 =>
+      ffi.Native.addressOf(self.EC_wpa3_sae_hunt_and_peck_p256);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ffi.Uint8>, ffi.Pointer<ffi.Uint8>)
+    >
+  >
+  get ED25519_keypair => ffi.Native.addressOf(self.ED25519_keypair);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get ED25519_keypair_from_seed =>
+      ffi.Native.addressOf(self.ED25519_keypair_from_seed);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get ED25519_sign => ffi.Native.addressOf(self.ED25519_sign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get ED25519_sign_prehashed =>
+      ffi.Native.addressOf(self.ED25519_sign_prehashed);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get ED25519_verify => ffi.Native.addressOf(self.ED25519_verify);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get ED25519_verify_prehashed =>
+      ffi.Native.addressOf(self.ED25519_verify_prehashed);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EDIPARTYNAME>)>>
   get EDIPARTYNAME_free => ffi.Native.addressOf(self.EDIPARTYNAME_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EDIPARTYNAME> Function()>>
+  get EDIPARTYNAME_new => ffi.Native.addressOf(self.EDIPARTYNAME_new);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get ENGINE_cleanup =>
       ffi.Native.addressOf(self.ENGINE_cleanup);
@@ -31895,15 +37216,517 @@ extension SymbolAddresses on _SymbolAddresses {
   ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ENGINE>)>>
   get ENGINE_free => ffi.Native.addressOf(self.ENGINE_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ECDSA_METHOD> Function(ffi.Pointer<ENGINE>)>
+  >
+  get ENGINE_get_ECDSA_method =>
+      ffi.Native.addressOf(self.ENGINE_get_ECDSA_method);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<RSA_METHOD> Function(ffi.Pointer<ENGINE>)>
+  >
+  get ENGINE_get_RSA_method => ffi.Native.addressOf(self.ENGINE_get_RSA_method);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get ENGINE_load_builtin_engines =>
+      ffi.Native.addressOf(self.ENGINE_load_builtin_engines);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ENGINE> Function()>>
+  get ENGINE_new => ffi.Native.addressOf(self.ENGINE_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>>
+  get ENGINE_register_all_complete =>
+      ffi.Native.addressOf(self.ENGINE_register_all_complete);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ENGINE>, ffi.Pointer<ECDSA_METHOD>, ffi.Size)
+    >
+  >
+  get ENGINE_set_ECDSA_method =>
+      ffi.Native.addressOf(self.ENGINE_set_ECDSA_method);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ENGINE>, ffi.Pointer<RSA_METHOD>, ffi.Size)
+    >
+  >
+  get ENGINE_set_RSA_method => ffi.Native.addressOf(self.ENGINE_set_RSA_method);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.UnsignedInt)>>
+  get ERR_add_error_data => ffi.Native.addressOf(self.ERR_add_error_data);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>)>>
+  get ERR_add_error_dataf => ffi.Native.addressOf(self.ERR_add_error_dataf);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get ERR_clear_error =>
+      ffi.Native.addressOf(self.ERR_clear_error);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get ERR_clear_system_error =>
+      ffi.Native.addressOf(self.ERR_clear_system_error);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Uint32, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get ERR_error_string => ffi.Native.addressOf(self.ERR_error_string);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(
+        ffi.Uint32,
+        ffi.Pointer<ffi.Char>,
+        ffi.Size,
+      )
+    >
+  >
+  get ERR_error_string_n => ffi.Native.addressOf(self.ERR_error_string_n);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get ERR_free_strings =>
+      ffi.Native.addressOf(self.ERR_free_strings);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Uint32)>>
+  get ERR_func_error_string => ffi.Native.addressOf(self.ERR_func_error_string);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function()>> get ERR_get_error =>
+      ffi.Native.addressOf(self.ERR_get_error);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Uint32 Function(
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get ERR_get_error_line => ffi.Native.addressOf(self.ERR_get_error_line);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Uint32 Function(
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get ERR_get_error_line_data =>
+      ffi.Native.addressOf(self.ERR_get_error_line_data);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>>
+  get ERR_get_next_error_library =>
+      ffi.Native.addressOf(self.ERR_get_next_error_library);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Uint32)>>
+  get ERR_lib_error_string => ffi.Native.addressOf(self.ERR_lib_error_string);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Uint32)>>
+  get ERR_lib_symbol_name => ffi.Native.addressOf(self.ERR_lib_symbol_name);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get ERR_load_BIO_strings => ffi.Native.addressOf(self.ERR_load_BIO_strings);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get ERR_load_ERR_strings => ffi.Native.addressOf(self.ERR_load_ERR_strings);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get ERR_load_RAND_strings => ffi.Native.addressOf(self.ERR_load_RAND_strings);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get ERR_load_crypto_strings =>
+      ffi.Native.addressOf(self.ERR_load_crypto_strings);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function()>> get ERR_peek_error =>
+      ffi.Native.addressOf(self.ERR_peek_error);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Uint32 Function(
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get ERR_peek_error_line => ffi.Native.addressOf(self.ERR_peek_error_line);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Uint32 Function(
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get ERR_peek_error_line_data =>
+      ffi.Native.addressOf(self.ERR_peek_error_line_data);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function()>>
+  get ERR_peek_last_error => ffi.Native.addressOf(self.ERR_peek_last_error);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Uint32 Function(
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get ERR_peek_last_error_line =>
+      ffi.Native.addressOf(self.ERR_peek_last_error_line);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Uint32 Function(
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get ERR_peek_last_error_line_data =>
+      ffi.Native.addressOf(self.ERR_peek_last_error_line_data);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> get ERR_pop_to_mark =>
+      ffi.Native.addressOf(self.ERR_pop_to_mark);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<BIO>)>>
+  get ERR_print_errors => ffi.Native.addressOf(self.ERR_print_errors);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ERR_print_errors_callback_t, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get ERR_print_errors_cb => ffi.Native.addressOf(self.ERR_print_errors_cb);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<FILE>)>>
+  get ERR_print_errors_fp => ffi.Native.addressOf(self.ERR_print_errors_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Int,
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<ffi.Char>,
+        ffi.UnsignedInt,
+      )
+    >
+  >
+  get ERR_put_error => ffi.Native.addressOf(self.ERR_put_error);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Uint32)>>
+  get ERR_reason_error_string =>
+      ffi.Native.addressOf(self.ERR_reason_error_string);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Uint32)>>
+  get ERR_reason_symbol_name =>
+      ffi.Native.addressOf(self.ERR_reason_symbol_name);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.UnsignedLong)>>
+  get ERR_remove_state => ffi.Native.addressOf(self.ERR_remove_state);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CRYPTO_THREADID>)>
+  >
+  get ERR_remove_thread_state =>
+      ffi.Native.addressOf(self.ERR_remove_thread_state);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>, ffi.Int)>
+  >
+  get ERR_set_error_data => ffi.Native.addressOf(self.ERR_set_error_data);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> get ERR_set_mark =>
+      ffi.Native.addressOf(self.ERR_set_mark);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_AEAD> Function(ffi.Pointer<EVP_AEAD_CTX>)
+    >
+  >
+  get EVP_AEAD_CTX_aead => ffi.Native.addressOf(self.EVP_AEAD_CTX_aead);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_AEAD_CTX>)>>
   get EVP_AEAD_CTX_cleanup => ffi.Native.addressOf(self.EVP_AEAD_CTX_cleanup);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_AEAD_CTX>)>>
   get EVP_AEAD_CTX_free => ffi.Native.addressOf(self.EVP_AEAD_CTX_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_AEAD_CTX>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_get_iv => ffi.Native.addressOf(self.EVP_AEAD_CTX_get_iv);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_AEAD_CTX>,
+        ffi.Pointer<EVP_AEAD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Size,
+        ffi.Pointer<ENGINE>,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_init => ffi.Native.addressOf(self.EVP_AEAD_CTX_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_AEAD_CTX>,
+        ffi.Pointer<EVP_AEAD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Size,
+        ffi.UnsignedInt,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_init_with_direction =>
+      ffi.Native.addressOf(self.EVP_AEAD_CTX_init_with_direction);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_AEAD_CTX> Function(
+        ffi.Pointer<EVP_AEAD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_new => ffi.Native.addressOf(self.EVP_AEAD_CTX_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_AEAD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_open => ffi.Native.addressOf(self.EVP_AEAD_CTX_open);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_AEAD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_open_gather =>
+      ffi.Native.addressOf(self.EVP_AEAD_CTX_open_gather);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_AEAD_CTX>,
+        ffi.Pointer<CRYPTO_IOVEC>,
+        ffi.Size,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<CRYPTO_IVEC>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_openv => ffi.Native.addressOf(self.EVP_AEAD_CTX_openv);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_AEAD_CTX>,
+        ffi.Pointer<CRYPTO_IOVEC>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<CRYPTO_IVEC>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_openv_detached =>
+      ffi.Native.addressOf(self.EVP_AEAD_CTX_openv_detached);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_AEAD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_seal => ffi.Native.addressOf(self.EVP_AEAD_CTX_seal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_AEAD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_seal_scatter =>
+      ffi.Native.addressOf(self.EVP_AEAD_CTX_seal_scatter);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_AEAD_CTX>,
+        ffi.Pointer<CRYPTO_IOVEC>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<CRYPTO_IVEC>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_sealv => ffi.Native.addressOf(self.EVP_AEAD_CTX_sealv);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_AEAD_CTX>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_AEAD_CTX_tag_len => ffi.Native.addressOf(self.EVP_AEAD_CTX_tag_len);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_AEAD_CTX>)>>
+  get EVP_AEAD_CTX_zero => ffi.Native.addressOf(self.EVP_AEAD_CTX_zero);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_AEAD>)>>
+  get EVP_AEAD_key_length => ffi.Native.addressOf(self.EVP_AEAD_key_length);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_AEAD>)>>
+  get EVP_AEAD_max_overhead => ffi.Native.addressOf(self.EVP_AEAD_max_overhead);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_AEAD>)>>
+  get EVP_AEAD_max_tag_len => ffi.Native.addressOf(self.EVP_AEAD_max_tag_len);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_AEAD>)>>
+  get EVP_AEAD_nonce_length => ffi.Native.addressOf(self.EVP_AEAD_nonce_length);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.UnsignedInt,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get EVP_BytesToKey => ffi.Native.addressOf(self.EVP_BytesToKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER_CTX>)>
+  >
+  get EVP_CIPHER_CTX_block_size =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_block_size);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_CIPHER> Function(ffi.Pointer<EVP_CIPHER_CTX>)
+    >
+  >
+  get EVP_CIPHER_CTX_cipher => ffi.Native.addressOf(self.EVP_CIPHER_CTX_cipher);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>)>>
   get EVP_CIPHER_CTX_cleanup =>
       ffi.Native.addressOf(self.EVP_CIPHER_CTX_cleanup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>, ffi.Pointer<EVP_CIPHER_CTX>)
+    >
+  >
+  get EVP_CIPHER_CTX_copy => ffi.Native.addressOf(self.EVP_CIPHER_CTX_copy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get EVP_CIPHER_CTX_ctrl => ffi.Native.addressOf(self.EVP_CIPHER_CTX_ctrl);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>)>>
+  get EVP_CIPHER_CTX_encrypting =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_encrypting);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<EVP_CIPHER_CTX>)>
+  >
+  get EVP_CIPHER_CTX_flags => ffi.Native.addressOf(self.EVP_CIPHER_CTX_flags);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_CIPHER_CTX>)>
@@ -31911,27 +37734,2201 @@ extension SymbolAddresses on _SymbolAddresses {
   get EVP_CIPHER_CTX_free => ffi.Native.addressOf(self.EVP_CIPHER_CTX_free);
   @meta.RecordUse()
   ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<EVP_CIPHER_CTX>)
+    >
+  >
+  get EVP_CIPHER_CTX_get_app_data =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_get_app_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_CIPHER_CTX>)>
+  >
+  get EVP_CIPHER_CTX_init => ffi.Native.addressOf(self.EVP_CIPHER_CTX_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER_CTX>)>
+  >
+  get EVP_CIPHER_CTX_iv_length =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_iv_length);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER_CTX>)>
+  >
+  get EVP_CIPHER_CTX_key_length =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_key_length);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_CIPHER_CTX>)>
+  >
+  get EVP_CIPHER_CTX_max_final =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_max_final);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_CIPHER_CTX>, ffi.Size)>
+  >
+  get EVP_CIPHER_CTX_max_next_update =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_max_next_update);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<EVP_CIPHER_CTX>)>
+  >
+  get EVP_CIPHER_CTX_mode => ffi.Native.addressOf(self.EVP_CIPHER_CTX_mode);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER_CTX> Function()>>
+  get EVP_CIPHER_CTX_new => ffi.Native.addressOf(self.EVP_CIPHER_CTX_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>)>>
+  get EVP_CIPHER_CTX_nid => ffi.Native.addressOf(self.EVP_CIPHER_CTX_nid);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>)>>
+  get EVP_CIPHER_CTX_reset => ffi.Native.addressOf(self.EVP_CIPHER_CTX_reset);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<EVP_CIPHER_CTX>, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get EVP_CIPHER_CTX_set_app_data =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_set_app_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<EVP_CIPHER_CTX>, ffi.Uint32)
+    >
+  >
+  get EVP_CIPHER_CTX_set_flags =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_set_flags);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>, ffi.UnsignedInt)
+    >
+  >
+  get EVP_CIPHER_CTX_set_key_length =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_set_key_length);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_CIPHER_CTX>, ffi.Int)>
+  >
+  get EVP_CIPHER_CTX_set_padding =>
+      ffi.Native.addressOf(self.EVP_CIPHER_CTX_set_padding);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER>)>
+  >
+  get EVP_CIPHER_block_size => ffi.Native.addressOf(self.EVP_CIPHER_block_size);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<EVP_CIPHER>)>>
+  get EVP_CIPHER_flags => ffi.Native.addressOf(self.EVP_CIPHER_flags);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER>)>
+  >
+  get EVP_CIPHER_iv_length => ffi.Native.addressOf(self.EVP_CIPHER_iv_length);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<EVP_CIPHER>)>
+  >
+  get EVP_CIPHER_key_length => ffi.Native.addressOf(self.EVP_CIPHER_key_length);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<EVP_CIPHER>)>>
+  get EVP_CIPHER_mode => ffi.Native.addressOf(self.EVP_CIPHER_mode);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_CIPHER>)>>
+  get EVP_CIPHER_nid => ffi.Native.addressOf(self.EVP_CIPHER_nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_Cipher => ffi.Native.addressOf(self.EVP_Cipher);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get EVP_CipherFinal => ffi.Native.addressOf(self.EVP_CipherFinal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get EVP_CipherFinal_ex => ffi.Native.addressOf(self.EVP_CipherFinal_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_CipherFinal_ex2 => ffi.Native.addressOf(self.EVP_CipherFinal_ex2);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+      )
+    >
+  >
+  get EVP_CipherInit => ffi.Native.addressOf(self.EVP_CipherInit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ENGINE>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+      )
+    >
+  >
+  get EVP_CipherInit_ex => ffi.Native.addressOf(self.EVP_CipherInit_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+      )
+    >
+  >
+  get EVP_CipherUpdate => ffi.Native.addressOf(self.EVP_CipherUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_CipherUpdateAAD => ffi.Native.addressOf(self.EVP_CipherUpdateAAD);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_CipherUpdate_ex => ffi.Native.addressOf(self.EVP_CipherUpdate_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_DecodeBase64 => ffi.Native.addressOf(self.EVP_DecodeBase64);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get EVP_DecodeBlock => ffi.Native.addressOf(self.EVP_DecodeBlock);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_ENCODE_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get EVP_DecodeFinal => ffi.Native.addressOf(self.EVP_DecodeFinal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_ENCODE_CTX>)>
+  >
+  get EVP_DecodeInit => ffi.Native.addressOf(self.EVP_DecodeInit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_ENCODE_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_DecodeUpdate => ffi.Native.addressOf(self.EVP_DecodeUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Size>, ffi.Size)>
+  >
+  get EVP_DecodedLength => ffi.Native.addressOf(self.EVP_DecodedLength);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get EVP_DecryptFinal => ffi.Native.addressOf(self.EVP_DecryptFinal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get EVP_DecryptFinal_ex => ffi.Native.addressOf(self.EVP_DecryptFinal_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_DecryptFinal_ex2 => ffi.Native.addressOf(self.EVP_DecryptFinal_ex2);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get EVP_DecryptInit => ffi.Native.addressOf(self.EVP_DecryptInit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ENGINE>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get EVP_DecryptInit_ex => ffi.Native.addressOf(self.EVP_DecryptInit_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+      )
+    >
+  >
+  get EVP_DecryptUpdate => ffi.Native.addressOf(self.EVP_DecryptUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_DecryptUpdate_ex => ffi.Native.addressOf(self.EVP_DecryptUpdate_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Void>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ENGINE>,
+      )
+    >
+  >
+  get EVP_Digest => ffi.Native.addressOf(self.EVP_Digest);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get EVP_DigestFinal => ffi.Native.addressOf(self.EVP_DigestFinal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_DigestFinalXOF => ffi.Native.addressOf(self.EVP_DigestFinalXOF);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get EVP_DigestFinal_ex => ffi.Native.addressOf(self.EVP_DigestFinal_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_MD_CTX>, ffi.Pointer<EVP_MD>)
+    >
+  >
+  get EVP_DigestInit => ffi.Native.addressOf(self.EVP_DigestInit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ENGINE>,
+      )
+    >
+  >
+  get EVP_DigestInit_ex => ffi.Native.addressOf(self.EVP_DigestInit_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_DigestSign => ffi.Native.addressOf(self.EVP_DigestSign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get EVP_DigestSignFinal => ffi.Native.addressOf(self.EVP_DigestSignFinal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY_CTX>>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ENGINE>,
+        ffi.Pointer<EVP_PKEY>,
+      )
+    >
+  >
+  get EVP_DigestSignInit => ffi.Native.addressOf(self.EVP_DigestSignInit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_MD_CTX>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get EVP_DigestSignUpdate => ffi.Native.addressOf(self.EVP_DigestSignUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_MD_CTX>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get EVP_DigestUpdate => ffi.Native.addressOf(self.EVP_DigestUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_DigestVerify => ffi.Native.addressOf(self.EVP_DigestVerify);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_DigestVerifyFinal => ffi.Native.addressOf(self.EVP_DigestVerifyFinal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY_CTX>>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ENGINE>,
+        ffi.Pointer<EVP_PKEY>,
+      )
+    >
+  >
+  get EVP_DigestVerifyInit => ffi.Native.addressOf(self.EVP_DigestVerifyInit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_MD_CTX>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get EVP_DigestVerifyUpdate =>
+      ffi.Native.addressOf(self.EVP_DigestVerifyUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_ENCODE_CTX>)>
   >
   get EVP_ENCODE_CTX_free => ffi.Native.addressOf(self.EVP_ENCODE_CTX_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_ENCODE_CTX> Function()>>
+  get EVP_ENCODE_CTX_new => ffi.Native.addressOf(self.EVP_ENCODE_CTX_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_EncodeBlock => ffi.Native.addressOf(self.EVP_EncodeBlock);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<EVP_ENCODE_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get EVP_EncodeFinal => ffi.Native.addressOf(self.EVP_EncodeFinal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_ENCODE_CTX>)>
+  >
+  get EVP_EncodeInit => ffi.Native.addressOf(self.EVP_EncodeInit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<EVP_ENCODE_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_EncodeUpdate => ffi.Native.addressOf(self.EVP_EncodeUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Size>, ffi.Size)>
+  >
+  get EVP_EncodedLength => ffi.Native.addressOf(self.EVP_EncodedLength);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get EVP_EncryptFinal => ffi.Native.addressOf(self.EVP_EncryptFinal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get EVP_EncryptFinal_ex => ffi.Native.addressOf(self.EVP_EncryptFinal_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_EncryptFinal_ex2 => ffi.Native.addressOf(self.EVP_EncryptFinal_ex2);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get EVP_EncryptInit => ffi.Native.addressOf(self.EVP_EncryptInit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ENGINE>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get EVP_EncryptInit_ex => ffi.Native.addressOf(self.EVP_EncryptInit_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+      )
+    >
+  >
+  get EVP_EncryptUpdate => ffi.Native.addressOf(self.EVP_EncryptUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_CIPHER_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_EncryptUpdate_ex => ffi.Native.addressOf(self.EVP_EncryptUpdate_ex);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_KEM>)>>
+  get EVP_KEM_ciphertext_len =>
+      ffi.Native.addressOf(self.EVP_KEM_ciphertext_len);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_KEM>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EVP_PKEY>,
+      )
+    >
+  >
+  get EVP_KEM_decap => ffi.Native.addressOf(self.EVP_KEM_decap);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_KEM>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EVP_PKEY>,
+      )
+    >
+  >
+  get EVP_KEM_encap => ffi.Native.addressOf(self.EVP_KEM_encap);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_KEM>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_KEM_encap_external_entropy_for_testing =>
+      ffi.Native.addressOf(self.EVP_KEM_encap_external_entropy_for_testing);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_KEM>)>>
+  get EVP_KEM_entropy_len_for_testing =>
+      ffi.Native.addressOf(self.EVP_KEM_entropy_len_for_testing);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_KEM>)>>
+  get EVP_KEM_secret_len => ffi.Native.addressOf(self.EVP_KEM_secret_len);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_MD_CTX>)>>
+  get EVP_MD_CTX_block_size => ffi.Native.addressOf(self.EVP_MD_CTX_block_size);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_MD_CTX>)>>
+  get EVP_MD_CTX_cleanse => ffi.Native.addressOf(self.EVP_MD_CTX_cleanse);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_MD_CTX>)>>
   get EVP_MD_CTX_cleanup => ffi.Native.addressOf(self.EVP_MD_CTX_cleanup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_MD_CTX>, ffi.Pointer<EVP_MD_CTX>)
+    >
+  >
+  get EVP_MD_CTX_copy => ffi.Native.addressOf(self.EVP_MD_CTX_copy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_MD_CTX>, ffi.Pointer<EVP_MD_CTX>)
+    >
+  >
+  get EVP_MD_CTX_copy_ex => ffi.Native.addressOf(self.EVP_MD_CTX_copy_ex);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD_CTX> Function()>>
+  get EVP_MD_CTX_create => ffi.Native.addressOf(self.EVP_MD_CTX_create);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_MD_CTX>)>>
+  get EVP_MD_CTX_destroy => ffi.Native.addressOf(self.EVP_MD_CTX_destroy);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_MD_CTX>)>>
   get EVP_MD_CTX_free => ffi.Native.addressOf(self.EVP_MD_CTX_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_MD> Function(ffi.Pointer<EVP_MD_CTX>)>
+  >
+  get EVP_MD_CTX_get0_md => ffi.Native.addressOf(self.EVP_MD_CTX_get0_md);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_MD_CTX>)>>
+  get EVP_MD_CTX_init => ffi.Native.addressOf(self.EVP_MD_CTX_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_MD> Function(ffi.Pointer<EVP_MD_CTX>)>
+  >
+  get EVP_MD_CTX_md => ffi.Native.addressOf(self.EVP_MD_CTX_md);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<EVP_MD_CTX>, ffi.Pointer<EVP_MD_CTX>)
+    >
+  >
+  get EVP_MD_CTX_move => ffi.Native.addressOf(self.EVP_MD_CTX_move);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD_CTX> Function()>>
+  get EVP_MD_CTX_new => ffi.Native.addressOf(self.EVP_MD_CTX_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY_CTX> Function(ffi.Pointer<EVP_MD_CTX>)
+    >
+  >
+  get EVP_MD_CTX_pkey_ctx => ffi.Native.addressOf(self.EVP_MD_CTX_pkey_ctx);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_MD_CTX>)>>
+  get EVP_MD_CTX_reset => ffi.Native.addressOf(self.EVP_MD_CTX_reset);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_MD_CTX>, ffi.Int)>
+  >
+  get EVP_MD_CTX_set_flags => ffi.Native.addressOf(self.EVP_MD_CTX_set_flags);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_MD_CTX>)>>
+  get EVP_MD_CTX_size => ffi.Native.addressOf(self.EVP_MD_CTX_size);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_MD_CTX>)>>
+  get EVP_MD_CTX_type => ffi.Native.addressOf(self.EVP_MD_CTX_type);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_MD>)>>
+  get EVP_MD_block_size => ffi.Native.addressOf(self.EVP_MD_block_size);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_MD> Function(
+        ffi.Pointer<OSSL_LIB_CTX>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get EVP_MD_fetch => ffi.Native.addressOf(self.EVP_MD_fetch);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<EVP_MD>)>>
+  get EVP_MD_flags => ffi.Native.addressOf(self.EVP_MD_flags);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_MD>)>>
   get EVP_MD_free => ffi.Native.addressOf(self.EVP_MD_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<EVP_MD>)>>
+  get EVP_MD_meth_get_flags => ffi.Native.addressOf(self.EVP_MD_meth_get_flags);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_MD>)>>
+  get EVP_MD_nid => ffi.Native.addressOf(self.EVP_MD_nid);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<EVP_MD>)>>
+  get EVP_MD_size => ffi.Native.addressOf(self.EVP_MD_size);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_MD>)>>
+  get EVP_MD_type => ffi.Native.addressOf(self.EVP_MD_type);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_MD>)>>
+  get EVP_MD_up_ref => ffi.Native.addressOf(self.EVP_MD_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Char>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Uint64,
+        ffi.Uint64,
+        ffi.Uint64,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PBE_scrypt => ffi.Native.addressOf(self.EVP_PBE_scrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<PKCS8_PRIV_KEY_INFO>)
+    >
+  >
+  get EVP_PKCS82PKEY => ffi.Native.addressOf(self.EVP_PKCS82PKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<PKCS8_PRIV_KEY_INFO> Function(ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY2PKCS8 => ffi.Native.addressOf(self.EVP_PKEY2PKCS8);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY_CTX> Function(ffi.Pointer<EVP_PKEY_CTX>)
+    >
+  >
+  get EVP_PKEY_CTX_dup => ffi.Native.addressOf(self.EVP_PKEY_CTX_dup);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_PKEY_CTX>)>>
   get EVP_PKEY_CTX_free => ffi.Native.addressOf(self.EVP_PKEY_CTX_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<EVP_PKEY_CTX>)
+    >
+  >
+  get EVP_PKEY_CTX_get0_pkey =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_get0_pkey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get EVP_PKEY_CTX_get0_rsa_oaep_label =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_get0_rsa_oaep_label);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Pointer<EVP_MD>>,
+      )
+    >
+  >
+  get EVP_PKEY_CTX_get_rsa_mgf1_md =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_get_rsa_mgf1_md);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Pointer<EVP_MD>>,
+      )
+    >
+  >
+  get EVP_PKEY_CTX_get_rsa_oaep_md =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_get_rsa_oaep_md);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Pointer<ffi.Int>)
+    >
+  >
+  get EVP_PKEY_CTX_get_rsa_padding =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_get_rsa_padding);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Pointer<ffi.Int>)
+    >
+  >
+  get EVP_PKEY_CTX_get_rsa_pss_saltlen =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_get_rsa_pss_saltlen);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Pointer<EVP_MD>>,
+      )
+    >
+  >
+  get EVP_PKEY_CTX_get_signature_md =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_get_signature_md);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY_CTX> Function(
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<ENGINE>,
+      )
+    >
+  >
+  get EVP_PKEY_CTX_new => ffi.Native.addressOf(self.EVP_PKEY_CTX_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY_CTX> Function(ffi.Int, ffi.Pointer<ENGINE>)
+    >
+  >
+  get EVP_PKEY_CTX_new_id => ffi.Native.addressOf(self.EVP_PKEY_CTX_new_id);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_CTX_set0_rsa_oaep_label =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set0_rsa_oaep_label);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_CTX_set1_signature_context_string =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set1_signature_context_string);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Int)>
+  >
+  get EVP_PKEY_CTX_set_dh_pad =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_dh_pad);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Int)>
+  >
+  get EVP_PKEY_CTX_set_dsa_paramgen_bits =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_dsa_paramgen_bits);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Int)>
+  >
+  get EVP_PKEY_CTX_set_dsa_paramgen_q_bits =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_dsa_paramgen_q_bits);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Int)>
+  >
+  get EVP_PKEY_CTX_set_ec_param_enc =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_ec_param_enc);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Int)>
+  >
+  get EVP_PKEY_CTX_set_ec_paramgen_curve_nid =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_ec_paramgen_curve_nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Int)>
+  >
+  get EVP_PKEY_CTX_set_rsa_keygen_bits =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_rsa_keygen_bits);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get EVP_PKEY_CTX_set_rsa_keygen_pubexp =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_rsa_keygen_pubexp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Pointer<EVP_MD>)
+    >
+  >
+  get EVP_PKEY_CTX_set_rsa_mgf1_md =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_rsa_mgf1_md);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Pointer<EVP_MD>)
+    >
+  >
+  get EVP_PKEY_CTX_set_rsa_oaep_md =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_rsa_oaep_md);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Int)>
+  >
+  get EVP_PKEY_CTX_set_rsa_padding =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_rsa_padding);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Pointer<EVP_MD>)
+    >
+  >
+  get EVP_PKEY_CTX_set_rsa_pss_keygen_md =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_rsa_pss_keygen_md);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Pointer<EVP_MD>)
+    >
+  >
+  get EVP_PKEY_CTX_set_rsa_pss_keygen_mgf1_md =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_rsa_pss_keygen_mgf1_md);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Int)>
+  >
+  get EVP_PKEY_CTX_set_rsa_pss_keygen_saltlen =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_rsa_pss_keygen_saltlen);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Int)>
+  >
+  get EVP_PKEY_CTX_set_rsa_pss_saltlen =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_rsa_pss_saltlen);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Pointer<EVP_MD>)
+    >
+  >
+  get EVP_PKEY_CTX_set_signature_md =>
+      ffi.Native.addressOf(self.EVP_PKEY_CTX_set_signature_md);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Int, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get EVP_PKEY_assign => ffi.Native.addressOf(self.EVP_PKEY_assign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<DH>)>
+  >
+  get EVP_PKEY_assign_DH => ffi.Native.addressOf(self.EVP_PKEY_assign_DH);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<DSA>)
+    >
+  >
+  get EVP_PKEY_assign_DSA => ffi.Native.addressOf(self.EVP_PKEY_assign_DSA);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<EC_KEY>)
+    >
+  >
+  get EVP_PKEY_assign_EC_KEY =>
+      ffi.Native.addressOf(self.EVP_PKEY_assign_EC_KEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<RSA>)
+    >
+  >
+  get EVP_PKEY_assign_RSA => ffi.Native.addressOf(self.EVP_PKEY_assign_RSA);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_base_id => ffi.Native.addressOf(self.EVP_PKEY_base_id);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_bits => ffi.Native.addressOf(self.EVP_PKEY_bits);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY_cmp => ffi.Native.addressOf(self.EVP_PKEY_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY_cmp_parameters =>
+      ffi.Native.addressOf(self.EVP_PKEY_cmp_parameters);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY_copy_parameters =>
+      ffi.Native.addressOf(self.EVP_PKEY_copy_parameters);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<EVP_PKEY>)>
+  >
+  get EVP_PKEY_copy_public => ffi.Native.addressOf(self.EVP_PKEY_copy_public);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_decapsulate => ffi.Native.addressOf(self.EVP_PKEY_decapsulate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Pointer<OSSL_PARAM>)
+    >
+  >
+  get EVP_PKEY_decapsulate_init =>
+      ffi.Native.addressOf(self.EVP_PKEY_decapsulate_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_decrypt => ffi.Native.addressOf(self.EVP_PKEY_decrypt);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>>
+  get EVP_PKEY_decrypt_init => ffi.Native.addressOf(self.EVP_PKEY_decrypt_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get EVP_PKEY_derive => ffi.Native.addressOf(self.EVP_PKEY_derive);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>>
+  get EVP_PKEY_derive_init => ffi.Native.addressOf(self.EVP_PKEY_derive_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY_derive_set_peer =>
+      ffi.Native.addressOf(self.EVP_PKEY_derive_set_peer);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<EVP_PKEY>)>
+  >
+  get EVP_PKEY_dup_ref => ffi.Native.addressOf(self.EVP_PKEY_dup_ref);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get EVP_PKEY_encapsulate => ffi.Native.addressOf(self.EVP_PKEY_encapsulate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>, ffi.Pointer<OSSL_PARAM>)
+    >
+  >
+  get EVP_PKEY_encapsulate_init =>
+      ffi.Native.addressOf(self.EVP_PKEY_encapsulate_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_encrypt => ffi.Native.addressOf(self.EVP_PKEY_encrypt);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>>
+  get EVP_PKEY_encrypt_init => ffi.Native.addressOf(self.EVP_PKEY_encrypt_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY_eq => ffi.Native.addressOf(self.EVP_PKEY_eq);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EVP_PKEY>)>>
   get EVP_PKEY_free => ffi.Native.addressOf(self.EVP_PKEY_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<EVP_PKEY_ALG>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_from_ec_compressed_point =>
+      ffi.Native.addressOf(self.EVP_PKEY_from_ec_compressed_point);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<EVP_PKEY_ALG>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_from_ec_private_scalar =>
+      ffi.Native.addressOf(self.EVP_PKEY_from_ec_private_scalar);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<EVP_PKEY_ALG>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_from_ec_uncompressed_point =>
+      ffi.Native.addressOf(self.EVP_PKEY_from_ec_uncompressed_point);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY_ALG>>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_from_private_key_info =>
+      ffi.Native.addressOf(self.EVP_PKEY_from_private_key_info);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<EVP_PKEY_ALG>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_from_private_seed =>
+      ffi.Native.addressOf(self.EVP_PKEY_from_private_seed);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<EVP_PKEY_ALG>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_from_raw_private_key =>
+      ffi.Native.addressOf(self.EVP_PKEY_from_raw_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<EVP_PKEY_ALG>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_from_raw_public_key =>
+      ffi.Native.addressOf(self.EVP_PKEY_from_raw_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<EVP_PKEY_ALG>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_from_rsa_private_key =>
+      ffi.Native.addressOf(self.EVP_PKEY_from_rsa_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<EVP_PKEY_ALG>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_from_rsa_public_key =>
+      ffi.Native.addressOf(self.EVP_PKEY_from_rsa_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY_ALG>>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_from_subject_public_key_info =>
+      ffi.Native.addressOf(self.EVP_PKEY_from_subject_public_key_info);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<EVP_PKEY_ALG>)
+    >
+  >
+  get EVP_PKEY_generate_from_alg =>
+      ffi.Native.addressOf(self.EVP_PKEY_generate_from_alg);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<EVP_PKEY>)>
+  >
+  get EVP_PKEY_get0 => ffi.Native.addressOf(self.EVP_PKEY_get0);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<DH> Function(ffi.Pointer<EVP_PKEY>)>
+  >
+  get EVP_PKEY_get0_DH => ffi.Native.addressOf(self.EVP_PKEY_get0_DH);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<DSA> Function(ffi.Pointer<EVP_PKEY>)>
+  >
+  get EVP_PKEY_get0_DSA => ffi.Native.addressOf(self.EVP_PKEY_get0_DSA);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_KEY> Function(ffi.Pointer<EVP_PKEY>)>
+  >
+  get EVP_PKEY_get0_EC_KEY => ffi.Native.addressOf(self.EVP_PKEY_get0_EC_KEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<RSA> Function(ffi.Pointer<EVP_PKEY>)>
+  >
+  get EVP_PKEY_get0_RSA => ffi.Native.addressOf(self.EVP_PKEY_get0_RSA);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<DH> Function(ffi.Pointer<EVP_PKEY>)>
+  >
+  get EVP_PKEY_get1_DH => ffi.Native.addressOf(self.EVP_PKEY_get1_DH);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<DSA> Function(ffi.Pointer<EVP_PKEY>)>
+  >
+  get EVP_PKEY_get1_DSA => ffi.Native.addressOf(self.EVP_PKEY_get1_DSA);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EC_KEY> Function(ffi.Pointer<EVP_PKEY>)>
+  >
+  get EVP_PKEY_get1_EC_KEY => ffi.Native.addressOf(self.EVP_PKEY_get1_EC_KEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<RSA> Function(ffi.Pointer<EVP_PKEY>)>
+  >
+  get EVP_PKEY_get1_RSA => ffi.Native.addressOf(self.EVP_PKEY_get1_RSA);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get EVP_PKEY_get1_tls_encodedpoint =>
+      ffi.Native.addressOf(self.EVP_PKEY_get1_tls_encodedpoint);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_get_ec_curve_nid =>
+      ffi.Native.addressOf(self.EVP_PKEY_get_ec_curve_nid);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_get_ec_point_conv_form =>
+      ffi.Native.addressOf(self.EVP_PKEY_get_ec_point_conv_form);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get EVP_PKEY_get_private_seed =>
+      ffi.Native.addressOf(self.EVP_PKEY_get_private_seed);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get EVP_PKEY_get_raw_private_key =>
+      ffi.Native.addressOf(self.EVP_PKEY_get_raw_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get EVP_PKEY_get_raw_public_key =>
+      ffi.Native.addressOf(self.EVP_PKEY_get_raw_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_has_private => ffi.Native.addressOf(self.EVP_PKEY_has_private);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_has_public => ffi.Native.addressOf(self.EVP_PKEY_has_public);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_id => ffi.Native.addressOf(self.EVP_PKEY_id);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_is_opaque => ffi.Native.addressOf(self.EVP_PKEY_is_opaque);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+      )
+    >
+  >
+  get EVP_PKEY_keygen => ffi.Native.addressOf(self.EVP_PKEY_keygen);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>>
+  get EVP_PKEY_keygen_init => ffi.Native.addressOf(self.EVP_PKEY_keygen_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY_marshal_ec_compressed_point =>
+      ffi.Native.addressOf(self.EVP_PKEY_marshal_ec_compressed_point);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY_marshal_ec_private_scalar =>
+      ffi.Native.addressOf(self.EVP_PKEY_marshal_ec_private_scalar);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY_marshal_ec_uncompressed_point =>
+      ffi.Native.addressOf(self.EVP_PKEY_marshal_ec_uncompressed_point);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY_marshal_rsa_private_key =>
+      ffi.Native.addressOf(self.EVP_PKEY_marshal_rsa_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY_marshal_rsa_public_key =>
+      ffi.Native.addressOf(self.EVP_PKEY_marshal_rsa_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_missing_parameters =>
+      ffi.Native.addressOf(self.EVP_PKEY_missing_parameters);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function()>>
+  get EVP_PKEY_new => ffi.Native.addressOf(self.EVP_PKEY_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Int,
+        ffi.Pointer<ENGINE>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_new_raw_private_key =>
+      ffi.Native.addressOf(self.EVP_PKEY_new_raw_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Int,
+        ffi.Pointer<ENGINE>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_new_raw_public_key =>
+      ffi.Native.addressOf(self.EVP_PKEY_new_raw_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_PKEY_parameters_eq =>
+      ffi.Native.addressOf(self.EVP_PKEY_parameters_eq);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+      )
+    >
+  >
+  get EVP_PKEY_paramgen => ffi.Native.addressOf(self.EVP_PKEY_paramgen);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>>
+  get EVP_PKEY_paramgen_init =>
+      ffi.Native.addressOf(self.EVP_PKEY_paramgen_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Int,
+        ffi.Pointer<ASN1_PCTX>,
+      )
+    >
+  >
+  get EVP_PKEY_print_params => ffi.Native.addressOf(self.EVP_PKEY_print_params);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Int,
+        ffi.Pointer<ASN1_PCTX>,
+      )
+    >
+  >
+  get EVP_PKEY_print_private =>
+      ffi.Native.addressOf(self.EVP_PKEY_print_private);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Int,
+        ffi.Pointer<ASN1_PCTX>,
+      )
+    >
+  >
+  get EVP_PKEY_print_public => ffi.Native.addressOf(self.EVP_PKEY_print_public);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<DH>)>
+  >
+  get EVP_PKEY_set1_DH => ffi.Native.addressOf(self.EVP_PKEY_set1_DH);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<DSA>)
+    >
+  >
+  get EVP_PKEY_set1_DSA => ffi.Native.addressOf(self.EVP_PKEY_set1_DSA);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<EC_KEY>)
+    >
+  >
+  get EVP_PKEY_set1_EC_KEY => ffi.Native.addressOf(self.EVP_PKEY_set1_EC_KEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<RSA>)
+    >
+  >
+  get EVP_PKEY_set1_RSA => ffi.Native.addressOf(self.EVP_PKEY_set1_RSA);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get EVP_PKEY_set1_tls_encodedpoint =>
+      ffi.Native.addressOf(self.EVP_PKEY_set1_tls_encodedpoint);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>, ffi.Int)>
+  >
+  get EVP_PKEY_set_type => ffi.Native.addressOf(self.EVP_PKEY_set_type);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_sign => ffi.Native.addressOf(self.EVP_PKEY_sign);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>>
+  get EVP_PKEY_sign_init => ffi.Native.addressOf(self.EVP_PKEY_sign_init);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_size => ffi.Native.addressOf(self.EVP_PKEY_size);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>
+  get EVP_PKEY_type => ffi.Native.addressOf(self.EVP_PKEY_type);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY>)>>
+  get EVP_PKEY_up_ref => ffi.Native.addressOf(self.EVP_PKEY_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_verify => ffi.Native.addressOf(self.EVP_PKEY_verify);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>>
+  get EVP_PKEY_verify_init => ffi.Native.addressOf(self.EVP_PKEY_verify_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get EVP_PKEY_verify_recover =>
+      ffi.Native.addressOf(self.EVP_PKEY_verify_recover);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_PKEY_CTX>)>>
+  get EVP_PKEY_verify_recover_init =>
+      ffi.Native.addressOf(self.EVP_PKEY_verify_recover_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<OSSL_LIB_CTX>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get EVP_Q_digest => ffi.Native.addressOf(self.EVP_Q_digest);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function(ffi.UnsignedInt)>
+  >
+  get EVP_RSA_gen => ffi.Native.addressOf(self.EVP_RSA_gen);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+        ffi.Pointer<EVP_PKEY>,
+      )
+    >
+  >
+  get EVP_SignFinal => ffi.Native.addressOf(self.EVP_SignFinal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_MD_CTX>, ffi.Pointer<EVP_MD>)
+    >
+  >
+  get EVP_SignInit => ffi.Native.addressOf(self.EVP_SignInit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ENGINE>,
+      )
+    >
+  >
+  get EVP_SignInit_ex => ffi.Native.addressOf(self.EVP_SignInit_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_MD_CTX>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get EVP_SignUpdate => ffi.Native.addressOf(self.EVP_SignUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EVP_PKEY>,
+      )
+    >
+  >
+  get EVP_VerifyFinal => ffi.Native.addressOf(self.EVP_VerifyFinal);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_MD_CTX>, ffi.Pointer<EVP_MD>)
+    >
+  >
+  get EVP_VerifyInit => ffi.Native.addressOf(self.EVP_VerifyInit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_MD_CTX>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ENGINE>,
+      )
+    >
+  >
+  get EVP_VerifyInit_ex => ffi.Native.addressOf(self.EVP_VerifyInit_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EVP_MD_CTX>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get EVP_VerifyUpdate => ffi.Native.addressOf(self.EVP_VerifyUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get EVP_add_cipher_alias => ffi.Native.addressOf(self.EVP_add_cipher_alias);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<EVP_MD>)>>
+  get EVP_add_digest => ffi.Native.addressOf(self.EVP_add_digest);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_cbc_sha1_tls =>
+      ffi.Native.addressOf(self.EVP_aead_aes_128_cbc_sha1_tls);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_cbc_sha1_tls_implicit_iv =>
+      ffi.Native.addressOf(self.EVP_aead_aes_128_cbc_sha1_tls_implicit_iv);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_cbc_sha256_tls =>
+      ffi.Native.addressOf(self.EVP_aead_aes_128_cbc_sha256_tls);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_ccm_bluetooth =>
+      ffi.Native.addressOf(self.EVP_aead_aes_128_ccm_bluetooth);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_ccm_bluetooth_8 =>
+      ffi.Native.addressOf(self.EVP_aead_aes_128_ccm_bluetooth_8);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_ccm_matter =>
+      ffi.Native.addressOf(self.EVP_aead_aes_128_ccm_matter);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_ctr_hmac_sha256 =>
+      ffi.Native.addressOf(self.EVP_aead_aes_128_ctr_hmac_sha256);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_eax => ffi.Native.addressOf(self.EVP_aead_aes_128_eax);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_gcm => ffi.Native.addressOf(self.EVP_aead_aes_128_gcm);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_gcm_randnonce =>
+      ffi.Native.addressOf(self.EVP_aead_aes_128_gcm_randnonce);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_gcm_siv =>
+      ffi.Native.addressOf(self.EVP_aead_aes_128_gcm_siv);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_gcm_tls12 =>
+      ffi.Native.addressOf(self.EVP_aead_aes_128_gcm_tls12);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_128_gcm_tls13 =>
+      ffi.Native.addressOf(self.EVP_aead_aes_128_gcm_tls13);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_192_gcm => ffi.Native.addressOf(self.EVP_aead_aes_192_gcm);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_256_cbc_sha1_tls =>
+      ffi.Native.addressOf(self.EVP_aead_aes_256_cbc_sha1_tls);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_256_cbc_sha1_tls_implicit_iv =>
+      ffi.Native.addressOf(self.EVP_aead_aes_256_cbc_sha1_tls_implicit_iv);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_256_ctr_hmac_sha256 =>
+      ffi.Native.addressOf(self.EVP_aead_aes_256_ctr_hmac_sha256);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_256_eax => ffi.Native.addressOf(self.EVP_aead_aes_256_eax);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_256_gcm => ffi.Native.addressOf(self.EVP_aead_aes_256_gcm);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_256_gcm_randnonce =>
+      ffi.Native.addressOf(self.EVP_aead_aes_256_gcm_randnonce);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_256_gcm_siv =>
+      ffi.Native.addressOf(self.EVP_aead_aes_256_gcm_siv);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_256_gcm_tls12 =>
+      ffi.Native.addressOf(self.EVP_aead_aes_256_gcm_tls12);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_aes_256_gcm_tls13 =>
+      ffi.Native.addressOf(self.EVP_aead_aes_256_gcm_tls13);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_chacha20_poly1305 =>
+      ffi.Native.addressOf(self.EVP_aead_chacha20_poly1305);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_des_ede3_cbc_sha1_tls =>
+      ffi.Native.addressOf(self.EVP_aead_des_ede3_cbc_sha1_tls);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_des_ede3_cbc_sha1_tls_implicit_iv =>
+      ffi.Native.addressOf(self.EVP_aead_des_ede3_cbc_sha1_tls_implicit_iv);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_AEAD> Function()>>
+  get EVP_aead_xchacha20_poly1305 =>
+      ffi.Native.addressOf(self.EVP_aead_xchacha20_poly1305);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_128_cbc => ffi.Native.addressOf(self.EVP_aes_128_cbc);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_128_ctr => ffi.Native.addressOf(self.EVP_aes_128_ctr);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_128_ecb => ffi.Native.addressOf(self.EVP_aes_128_ecb);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_128_gcm => ffi.Native.addressOf(self.EVP_aes_128_gcm);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_128_ofb => ffi.Native.addressOf(self.EVP_aes_128_ofb);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_192_cbc => ffi.Native.addressOf(self.EVP_aes_192_cbc);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_192_ctr => ffi.Native.addressOf(self.EVP_aes_192_ctr);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_192_ecb => ffi.Native.addressOf(self.EVP_aes_192_ecb);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_192_gcm => ffi.Native.addressOf(self.EVP_aes_192_gcm);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_192_ofb => ffi.Native.addressOf(self.EVP_aes_192_ofb);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_256_cbc => ffi.Native.addressOf(self.EVP_aes_256_cbc);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_256_ctr => ffi.Native.addressOf(self.EVP_aes_256_ctr);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_256_ecb => ffi.Native.addressOf(self.EVP_aes_256_ecb);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_256_gcm => ffi.Native.addressOf(self.EVP_aes_256_gcm);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_aes_256_ofb => ffi.Native.addressOf(self.EVP_aes_256_ofb);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD> Function()>>
+  get EVP_blake2b256 => ffi.Native.addressOf(self.EVP_blake2b256);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get EVP_cleanup =>
       ffi.Native.addressOf(self.EVP_cleanup);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<OSSL_LIB_CTX>)>>
+  get EVP_default_properties_is_fips_enabled =>
+      ffi.Native.addressOf(self.EVP_default_properties_is_fips_enabled);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_des_cbc => ffi.Native.addressOf(self.EVP_des_cbc);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_des_ecb => ffi.Native.addressOf(self.EVP_des_ecb);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_des_ede => ffi.Native.addressOf(self.EVP_des_ede);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_des_ede3 => ffi.Native.addressOf(self.EVP_des_ede3);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_des_ede3_cbc => ffi.Native.addressOf(self.EVP_des_ede3_cbc);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_des_ede3_ecb => ffi.Native.addressOf(self.EVP_des_ede3_ecb);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_des_ede_cbc => ffi.Native.addressOf(self.EVP_des_ede_cbc);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_enc_null => ffi.Native.addressOf(self.EVP_enc_null);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function(ffi.Pointer<ffi.Char>)>
+  >
+  get EVP_get_cipherbyname => ffi.Native.addressOf(self.EVP_get_cipherbyname);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function(ffi.Int)>>
+  get EVP_get_cipherbynid => ffi.Native.addressOf(self.EVP_get_cipherbynid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_MD> Function(ffi.Pointer<ffi.Char>)>
+  >
+  get EVP_get_digestbyname => ffi.Native.addressOf(self.EVP_get_digestbyname);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD> Function(ffi.Int)>>
+  get EVP_get_digestbynid => ffi.Native.addressOf(self.EVP_get_digestbynid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_MD> Function(ffi.Pointer<ASN1_OBJECT>)>
+  >
+  get EVP_get_digestbyobj => ffi.Native.addressOf(self.EVP_get_digestbyobj);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>>
+  get EVP_has_aes_hardware => ffi.Native.addressOf(self.EVP_has_aes_hardware);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_KEM> Function()>>
+  get EVP_kem_ml_kem_1024 => ffi.Native.addressOf(self.EVP_kem_ml_kem_1024);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_KEM> Function()>>
+  get EVP_kem_ml_kem_768 => ffi.Native.addressOf(self.EVP_kem_ml_kem_768);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_KEM> Function()>>
+  get EVP_kem_xwing => ffi.Native.addressOf(self.EVP_kem_xwing);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<EVP_MD>)>
+  >
+  get EVP_marshal_digest_algorithm =>
+      ffi.Native.addressOf(self.EVP_marshal_digest_algorithm);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<EVP_MD>)>
+  >
+  get EVP_marshal_digest_algorithm_no_params =>
+      ffi.Native.addressOf(self.EVP_marshal_digest_algorithm_no_params);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_marshal_private_key =>
+      ffi.Native.addressOf(self.EVP_marshal_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get EVP_marshal_public_key =>
+      ffi.Native.addressOf(self.EVP_marshal_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD> Function()>> get EVP_md4 =>
+      ffi.Native.addressOf(self.EVP_md4);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD> Function()>> get EVP_md5 =>
+      ffi.Native.addressOf(self.EVP_md5);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD> Function()>>
+  get EVP_md5_sha1 => ffi.Native.addressOf(self.EVP_md5_sha1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_MD> Function(ffi.Pointer<CBS>)>
+  >
+  get EVP_parse_digest_algorithm =>
+      ffi.Native.addressOf(self.EVP_parse_digest_algorithm);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>)>>
+  get EVP_parse_digest_algorithm_nid =>
+      ffi.Native.addressOf(self.EVP_parse_digest_algorithm_nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<CBS>)>
+  >
+  get EVP_parse_private_key => ffi.Native.addressOf(self.EVP_parse_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<CBS>)>
+  >
+  get EVP_parse_public_key => ffi.Native.addressOf(self.EVP_parse_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_dsa => ffi.Native.addressOf(self.EVP_pkey_dsa);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_ec_p224 => ffi.Native.addressOf(self.EVP_pkey_ec_p224);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_ec_p256 => ffi.Native.addressOf(self.EVP_pkey_ec_p256);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_ec_p384 => ffi.Native.addressOf(self.EVP_pkey_ec_p384);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_ec_p521 => ffi.Native.addressOf(self.EVP_pkey_ec_p521);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_ed25519 => ffi.Native.addressOf(self.EVP_pkey_ed25519);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_ml_dsa_44 => ffi.Native.addressOf(self.EVP_pkey_ml_dsa_44);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_ml_dsa_65 => ffi.Native.addressOf(self.EVP_pkey_ml_dsa_65);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_ml_dsa_87 => ffi.Native.addressOf(self.EVP_pkey_ml_dsa_87);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_ml_kem_1024 => ffi.Native.addressOf(self.EVP_pkey_ml_kem_1024);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_ml_kem_768 => ffi.Native.addressOf(self.EVP_pkey_ml_kem_768);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_rsa => ffi.Native.addressOf(self.EVP_pkey_rsa);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_rsa_pss_sha256 =>
+      ffi.Native.addressOf(self.EVP_pkey_rsa_pss_sha256);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_rsa_pss_sha384 =>
+      ffi.Native.addressOf(self.EVP_pkey_rsa_pss_sha384);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_rsa_pss_sha512 =>
+      ffi.Native.addressOf(self.EVP_pkey_rsa_pss_sha512);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_x25519 => ffi.Native.addressOf(self.EVP_pkey_x25519);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_PKEY_ALG> Function()>>
+  get EVP_pkey_xwing => ffi.Native.addressOf(self.EVP_pkey_xwing);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_rc2_40_cbc => ffi.Native.addressOf(self.EVP_rc2_40_cbc);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_rc2_cbc => ffi.Native.addressOf(self.EVP_rc2_cbc);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_CIPHER> Function()>>
+  get EVP_rc4 => ffi.Native.addressOf(self.EVP_rc4);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD> Function()>>
+  get EVP_sha1 => ffi.Native.addressOf(self.EVP_sha1);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD> Function()>>
+  get EVP_sha224 => ffi.Native.addressOf(self.EVP_sha224);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD> Function()>>
+  get EVP_sha256 => ffi.Native.addressOf(self.EVP_sha256);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD> Function()>>
+  get EVP_sha384 => ffi.Native.addressOf(self.EVP_sha384);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD> Function()>>
+  get EVP_sha512 => ffi.Native.addressOf(self.EVP_sha512);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EVP_MD> Function()>>
+  get EVP_sha512_256 => ffi.Native.addressOf(self.EVP_sha512_256);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<EXTENDED_KEY_USAGE>)>
@@ -31939,22 +39936,254 @@ extension SymbolAddresses on _SymbolAddresses {
   get EXTENDED_KEY_USAGE_free =>
       ffi.Native.addressOf(self.EXTENDED_KEY_USAGE_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<EXTENDED_KEY_USAGE> Function()>>
+  get EXTENDED_KEY_USAGE_new =>
+      ffi.Native.addressOf(self.EXTENDED_KEY_USAGE_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> get FIPS_mode =>
+      ffi.Native.addressOf(self.FIPS_mode);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>
+  get FIPS_mode_set => ffi.Native.addressOf(self.FIPS_mode_set);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function()>>
+  get FIPS_module_name => ffi.Native.addressOf(self.FIPS_module_name);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>>
+  get FIPS_query_algorithm_status =>
+      ffi.Native.addressOf(self.FIPS_query_algorithm_status);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.UnsignedInt)>>
+  get FIPS_read_counter => ffi.Native.addressOf(self.FIPS_read_counter);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function()>> get FIPS_version =>
+      ffi.Native.addressOf(self.FIPS_version);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<GENERAL_NAMES>)>>
   get GENERAL_NAMES_free => ffi.Native.addressOf(self.GENERAL_NAMES_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<GENERAL_NAMES> Function()>>
+  get GENERAL_NAMES_new => ffi.Native.addressOf(self.GENERAL_NAMES_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<GENERAL_NAME> Function(ffi.Pointer<GENERAL_NAME>)
+    >
+  >
+  get GENERAL_NAME_dup => ffi.Native.addressOf(self.GENERAL_NAME_dup);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<GENERAL_NAME>)>>
   get GENERAL_NAME_free => ffi.Native.addressOf(self.GENERAL_NAME_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<GENERAL_NAME>,
+        ffi.Pointer<ffi.Pointer<ASN1_OBJECT>>,
+        ffi.Pointer<ffi.Pointer<ASN1_TYPE>>,
+      )
+    >
+  >
+  get GENERAL_NAME_get0_otherName =>
+      ffi.Native.addressOf(self.GENERAL_NAME_get0_otherName);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<GENERAL_NAME>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get GENERAL_NAME_get0_value =>
+      ffi.Native.addressOf(self.GENERAL_NAME_get0_value);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<GENERAL_NAME> Function()>>
+  get GENERAL_NAME_new => ffi.Native.addressOf(self.GENERAL_NAME_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<GENERAL_NAME>)
+    >
+  >
+  get GENERAL_NAME_print => ffi.Native.addressOf(self.GENERAL_NAME_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<GENERAL_NAME>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Pointer<ASN1_TYPE>,
+      )
+    >
+  >
+  get GENERAL_NAME_set0_othername =>
+      ffi.Native.addressOf(self.GENERAL_NAME_set0_othername);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<GENERAL_NAME>,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get GENERAL_NAME_set0_value =>
+      ffi.Native.addressOf(self.GENERAL_NAME_set0_value);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<GENERAL_SUBTREE>)>
   >
   get GENERAL_SUBTREE_free => ffi.Native.addressOf(self.GENERAL_SUBTREE_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<GENERAL_SUBTREE> Function()>>
+  get GENERAL_SUBTREE_new => ffi.Native.addressOf(self.GENERAL_SUBTREE_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get HKDF => ffi.Native.addressOf(self.HKDF);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get HKDF_expand => ffi.Native.addressOf(self.HKDF_expand);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get HKDF_extract => ffi.Native.addressOf(self.HKDF_extract);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Uint8> Function(
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get HMAC => ffi.Native.addressOf(self.HMAC);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>>
+  get HMAC_CTX_cleanse => ffi.Native.addressOf(self.HMAC_CTX_cleanse);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>>
   get HMAC_CTX_cleanup => ffi.Native.addressOf(self.HMAC_CTX_cleanup);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<HMAC_CTX>, ffi.Pointer<HMAC_CTX>)
+    >
+  >
+  get HMAC_CTX_copy => ffi.Native.addressOf(self.HMAC_CTX_copy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<HMAC_CTX>, ffi.Pointer<HMAC_CTX>)
+    >
+  >
+  get HMAC_CTX_copy_ex => ffi.Native.addressOf(self.HMAC_CTX_copy_ex);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>>
   get HMAC_CTX_free => ffi.Native.addressOf(self.HMAC_CTX_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_MD> Function(ffi.Pointer<HMAC_CTX>)>
+  >
+  get HMAC_CTX_get_md => ffi.Native.addressOf(self.HMAC_CTX_get_md);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>>
+  get HMAC_CTX_init => ffi.Native.addressOf(self.HMAC_CTX_init);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<HMAC_CTX> Function()>>
+  get HMAC_CTX_new => ffi.Native.addressOf(self.HMAC_CTX_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<HMAC_CTX>)>>
+  get HMAC_CTX_reset => ffi.Native.addressOf(self.HMAC_CTX_reset);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<HMAC_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get HMAC_Final => ffi.Native.addressOf(self.HMAC_Final);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<HMAC_CTX>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Int,
+        ffi.Pointer<EVP_MD>,
+      )
+    >
+  >
+  get HMAC_Init => ffi.Native.addressOf(self.HMAC_Init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<HMAC_CTX>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Size,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ENGINE>,
+      )
+    >
+  >
+  get HMAC_Init_ex => ffi.Native.addressOf(self.HMAC_Init_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<HMAC_CTX>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get HMAC_Update => ffi.Native.addressOf(self.HMAC_Update);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<HMAC_CTX>)>>
+  get HMAC_size => ffi.Native.addressOf(self.HMAC_size);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ISSUING_DIST_POINT>)>
@@ -31962,27 +40191,276 @@ extension SymbolAddresses on _SymbolAddresses {
   get ISSUING_DIST_POINT_free =>
       ffi.Native.addressOf(self.ISSUING_DIST_POINT_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ISSUING_DIST_POINT> Function()>>
+  get ISSUING_DIST_POINT_new =>
+      ffi.Native.addressOf(self.ISSUING_DIST_POINT_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+  get METHOD_ref => ffi.Native.addressOf(self.METHOD_ref);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+  get METHOD_unref => ffi.Native.addressOf(self.METHOD_unref);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<NAME_CONSTRAINTS>)
+    >
+  >
+  get NAME_CONSTRAINTS_check =>
+      ffi.Native.addressOf(self.NAME_CONSTRAINTS_check);
+  @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<NAME_CONSTRAINTS>)>
   >
   get NAME_CONSTRAINTS_free => ffi.Native.addressOf(self.NAME_CONSTRAINTS_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<NAME_CONSTRAINTS> Function()>>
+  get NAME_CONSTRAINTS_new => ffi.Native.addressOf(self.NAME_CONSTRAINTS_new);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CONF>)>>
   get NCONF_free => ffi.Native.addressOf(self.NCONF_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_CONF_VALUE> Function(
+        ffi.Pointer<CONF>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get NCONF_get_section => ffi.Native.addressOf(self.NCONF_get_section);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(
+        ffi.Pointer<CONF>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get NCONF_get_string => ffi.Native.addressOf(self.NCONF_get_string);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CONF>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Long>,
+      )
+    >
+  >
+  get NCONF_load => ffi.Native.addressOf(self.NCONF_load);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CONF>,
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Long>,
+      )
+    >
+  >
+  get NCONF_load_bio => ffi.Native.addressOf(self.NCONF_load_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<CONF> Function(ffi.Pointer<ffi.Void>)>
+  >
+  get NCONF_new => ffi.Native.addressOf(self.NCONF_new);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<NETSCAPE_SPKAC>)>
   >
   get NETSCAPE_SPKAC_free => ffi.Native.addressOf(self.NETSCAPE_SPKAC_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<NETSCAPE_SPKAC> Function()>>
+  get NETSCAPE_SPKAC_new => ffi.Native.addressOf(self.NETSCAPE_SPKAC_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<NETSCAPE_SPKI> Function(ffi.Pointer<ffi.Char>, ossl_ssize_t)
+    >
+  >
+  get NETSCAPE_SPKI_b64_decode =>
+      ffi.Native.addressOf(self.NETSCAPE_SPKI_b64_decode);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Pointer<NETSCAPE_SPKI>)
+    >
+  >
+  get NETSCAPE_SPKI_b64_encode =>
+      ffi.Native.addressOf(self.NETSCAPE_SPKI_b64_encode);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<NETSCAPE_SPKI>)>>
   get NETSCAPE_SPKI_free => ffi.Native.addressOf(self.NETSCAPE_SPKI_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<NETSCAPE_SPKI>)
+    >
+  >
+  get NETSCAPE_SPKI_get_pubkey =>
+      ffi.Native.addressOf(self.NETSCAPE_SPKI_get_pubkey);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<NETSCAPE_SPKI> Function()>>
+  get NETSCAPE_SPKI_new => ffi.Native.addressOf(self.NETSCAPE_SPKI_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<NETSCAPE_SPKI>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get NETSCAPE_SPKI_set_pubkey =>
+      ffi.Native.addressOf(self.NETSCAPE_SPKI_set_pubkey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<NETSCAPE_SPKI>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<EVP_MD>,
+      )
+    >
+  >
+  get NETSCAPE_SPKI_sign => ffi.Native.addressOf(self.NETSCAPE_SPKI_sign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<NETSCAPE_SPKI>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get NETSCAPE_SPKI_verify => ffi.Native.addressOf(self.NETSCAPE_SPKI_verify);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<NOTICEREF>)>>
   get NOTICEREF_free => ffi.Native.addressOf(self.NOTICEREF_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<NOTICEREF> Function()>>
+  get NOTICEREF_new => ffi.Native.addressOf(self.NOTICEREF_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBS>)>>
+  get OBJ_cbs2nid => ffi.Native.addressOf(self.OBJ_cbs2nid);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get OBJ_cleanup =>
       ffi.Native.addressOf(self.OBJ_cleanup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_OBJECT>, ffi.Pointer<ASN1_OBJECT>)
+    >
+  >
+  get OBJ_cmp => ffi.Native.addressOf(self.OBJ_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get OBJ_create => ffi.Native.addressOf(self.OBJ_create);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OBJECT> Function(ffi.Pointer<ASN1_OBJECT>)
+    >
+  >
+  get OBJ_dup => ffi.Native.addressOf(self.OBJ_dup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Int, ffi.Pointer<ffi.Int>, ffi.Pointer<ffi.Int>)
+    >
+  >
+  get OBJ_find_sigid_algs => ffi.Native.addressOf(self.OBJ_find_sigid_algs);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Int>, ffi.Int, ffi.Int)>
+  >
+  get OBJ_find_sigid_by_algs =>
+      ffi.Native.addressOf(self.OBJ_find_sigid_by_algs);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Uint8> Function(ffi.Pointer<ASN1_OBJECT>)
+    >
+  >
+  get OBJ_get0_data => ffi.Native.addressOf(self.OBJ_get0_data);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_OBJECT> Function()>>
+  get OBJ_get_undef => ffi.Native.addressOf(self.OBJ_get_undef);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<ASN1_OBJECT>)>>
+  get OBJ_length => ffi.Native.addressOf(self.OBJ_length);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>>
+  get OBJ_ln2nid => ffi.Native.addressOf(self.OBJ_ln2nid);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Int)>>
+  get OBJ_nid2cbb => ffi.Native.addressOf(self.OBJ_nid2cbb);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Int)>>
+  get OBJ_nid2ln => ffi.Native.addressOf(self.OBJ_nid2ln);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ASN1_OBJECT> Function(ffi.Int)>>
+  get OBJ_nid2obj => ffi.Native.addressOf(self.OBJ_nid2obj);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Int)>>
+  get OBJ_nid2sn => ffi.Native.addressOf(self.OBJ_nid2sn);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_OBJECT>)>>
+  get OBJ_obj2nid => ffi.Native.addressOf(self.OBJ_obj2nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Int,
+      )
+    >
+  >
+  get OBJ_obj2txt => ffi.Native.addressOf(self.OBJ_obj2txt);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>>
+  get OBJ_sn2nid => ffi.Native.addressOf(self.OBJ_sn2nid);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>>
+  get OBJ_txt2nid => ffi.Native.addressOf(self.OBJ_txt2nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OBJECT> Function(ffi.Pointer<ffi.Char>, ffi.Int)
+    >
+  >
+  get OBJ_txt2obj => ffi.Native.addressOf(self.OBJ_txt2obj);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get OPENSSL_add_all_algorithms_conf =>
+      ffi.Native.addressOf(self.OPENSSL_add_all_algorithms_conf);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get OPENSSL_asprintf => ffi.Native.addressOf(self.OPENSSL_asprintf);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Size, ffi.Size)>
+  >
+  get OPENSSL_calloc => ffi.Native.addressOf(self.OPENSSL_calloc);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Size)>
+  >
+  get OPENSSL_cleanse => ffi.Native.addressOf(self.OPENSSL_cleanse);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get OPENSSL_cleanup =>
       ffi.Native.addressOf(self.OPENSSL_cleanup);
@@ -31992,8 +40470,70 @@ extension SymbolAddresses on _SymbolAddresses {
   >
   get OPENSSL_clear_free => ffi.Native.addressOf(self.OPENSSL_clear_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Char>)>>
+  get OPENSSL_config => ffi.Native.addressOf(self.OPENSSL_config);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
   get OPENSSL_free => ffi.Native.addressOf(self.OPENSSL_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Int)>
+  >
+  get OPENSSL_fromxdigit => ffi.Native.addressOf(self.OPENSSL_fromxdigit);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<ffi.Void>, ffi.Size)>
+  >
+  get OPENSSL_hash32 => ffi.Native.addressOf(self.OPENSSL_hash32);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Uint64, ffi.Pointer<OPENSSL_INIT_SETTINGS>)
+    >
+  >
+  get OPENSSL_init_crypto => ffi.Native.addressOf(self.OPENSSL_init_crypto);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>
+  get OPENSSL_isalnum => ffi.Native.addressOf(self.OPENSSL_isalnum);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>
+  get OPENSSL_isalpha => ffi.Native.addressOf(self.OPENSSL_isalpha);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>
+  get OPENSSL_isdigit => ffi.Native.addressOf(self.OPENSSL_isdigit);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>
+  get OPENSSL_isspace => ffi.Native.addressOf(self.OPENSSL_isspace);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>
+  get OPENSSL_isxdigit => ffi.Native.addressOf(self.OPENSSL_isxdigit);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get OPENSSL_load_builtin_modules =>
+      ffi.Native.addressOf(self.OPENSSL_load_builtin_modules);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Size)>>
+  get OPENSSL_malloc => ffi.Native.addressOf(self.OPENSSL_malloc);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> get OPENSSL_malloc_init =>
+      ffi.Native.addressOf(self.OPENSSL_malloc_init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get OPENSSL_memdup => ffi.Native.addressOf(self.OPENSSL_memdup);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get OPENSSL_no_config =>
+      ffi.Native.addressOf(self.OPENSSL_no_config);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get OPENSSL_realloc => ffi.Native.addressOf(self.OPENSSL_realloc);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Size)>
@@ -32001,14 +40541,1402 @@ extension SymbolAddresses on _SymbolAddresses {
   get OPENSSL_secure_clear_free =>
       ffi.Native.addressOf(self.OPENSSL_secure_clear_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Size)>>
+  get OPENSSL_secure_malloc => ffi.Native.addressOf(self.OPENSSL_secure_malloc);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<OPENSSL_STACK> Function(
+        ffi.Pointer<OPENSSL_STACK>,
+        OPENSSL_sk_call_copy_func,
+        OPENSSL_sk_copy_func,
+        OPENSSL_sk_call_free_func,
+        OPENSSL_sk_free_func,
+      )
+    >
+  >
+  get OPENSSL_sk_deep_copy => ffi.Native.addressOf(self.OPENSSL_sk_deep_copy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<OPENSSL_STACK>, ffi.Size)
+    >
+  >
+  get OPENSSL_sk_delete => ffi.Native.addressOf(self.OPENSSL_sk_delete);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<OPENSSL_STACK>,
+        OPENSSL_sk_call_delete_if_func,
+        OPENSSL_sk_delete_if_func,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get OPENSSL_sk_delete_if => ffi.Native.addressOf(self.OPENSSL_sk_delete_if);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<OPENSSL_STACK>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get OPENSSL_sk_delete_ptr => ffi.Native.addressOf(self.OPENSSL_sk_delete_ptr);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<OPENSSL_STACK> Function(ffi.Pointer<OPENSSL_STACK>)
+    >
+  >
+  get OPENSSL_sk_dup => ffi.Native.addressOf(self.OPENSSL_sk_dup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<OPENSSL_STACK>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Void>,
+        OPENSSL_sk_call_cmp_func,
+      )
+    >
+  >
+  get OPENSSL_sk_find => ffi.Native.addressOf(self.OPENSSL_sk_find);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<OPENSSL_STACK>)>>
   get OPENSSL_sk_free => ffi.Native.addressOf(self.OPENSSL_sk_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(
+        ffi.Pointer<OPENSSL_STACK>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Size,
+      )
+    >
+  >
+  get OPENSSL_sk_insert => ffi.Native.addressOf(self.OPENSSL_sk_insert);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<OPENSSL_STACK>)>>
+  get OPENSSL_sk_is_sorted => ffi.Native.addressOf(self.OPENSSL_sk_is_sorted);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<OPENSSL_STACK>)
+    >
+  >
+  get OPENSSL_sk_last => ffi.Native.addressOf(self.OPENSSL_sk_last);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<OPENSSL_STACK> Function(OPENSSL_sk_cmp_func)>
+  >
+  get OPENSSL_sk_new => ffi.Native.addressOf(self.OPENSSL_sk_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<OPENSSL_STACK> Function()>>
+  get OPENSSL_sk_new_null => ffi.Native.addressOf(self.OPENSSL_sk_new_null);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<OPENSSL_STACK>)>>
+  get OPENSSL_sk_num => ffi.Native.addressOf(self.OPENSSL_sk_num);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<OPENSSL_STACK>)
+    >
+  >
+  get OPENSSL_sk_pop => ffi.Native.addressOf(self.OPENSSL_sk_pop);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<OPENSSL_STACK>,
+        OPENSSL_sk_call_free_func,
+        OPENSSL_sk_free_func,
+      )
+    >
+  >
+  get OPENSSL_sk_pop_free_ex =>
+      ffi.Native.addressOf(self.OPENSSL_sk_pop_free_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(ffi.Pointer<OPENSSL_STACK>, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get OPENSSL_sk_push => ffi.Native.addressOf(self.OPENSSL_sk_push);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<OPENSSL_STACK>,
+        ffi.Size,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get OPENSSL_sk_set => ffi.Native.addressOf(self.OPENSSL_sk_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      OPENSSL_sk_cmp_func Function(
+        ffi.Pointer<OPENSSL_STACK>,
+        OPENSSL_sk_cmp_func,
+      )
+    >
+  >
+  get OPENSSL_sk_set_cmp_func =>
+      ffi.Native.addressOf(self.OPENSSL_sk_set_cmp_func);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<OPENSSL_STACK>)
+    >
+  >
+  get OPENSSL_sk_shift => ffi.Native.addressOf(self.OPENSSL_sk_shift);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<OPENSSL_STACK>, OPENSSL_sk_call_cmp_func)
+    >
+  >
+  get OPENSSL_sk_sort => ffi.Native.addressOf(self.OPENSSL_sk_sort);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<OPENSSL_STACK>,
+        OPENSSL_sk_call_cmp_func,
+        OPENSSL_sk_call_free_func,
+        OPENSSL_sk_free_func,
+      )
+    >
+  >
+  get OPENSSL_sk_sort_and_dedup =>
+      ffi.Native.addressOf(self.OPENSSL_sk_sort_and_dedup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<OPENSSL_STACK>, ffi.Size)
+    >
+  >
+  get OPENSSL_sk_value => ffi.Native.addressOf(self.OPENSSL_sk_value);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<OPENSSL_STACK>)>>
+  get OPENSSL_sk_zero => ffi.Native.addressOf(self.OPENSSL_sk_zero);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get OPENSSL_strcasecmp => ffi.Native.addressOf(self.OPENSSL_strcasecmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>)>
+  >
+  get OPENSSL_strdup => ffi.Native.addressOf(self.OPENSSL_strdup);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<ffi.Char>)>>
+  get OPENSSL_strhash => ffi.Native.addressOf(self.OPENSSL_strhash);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>, ffi.Size)
+    >
+  >
+  get OPENSSL_strlcat => ffi.Native.addressOf(self.OPENSSL_strlcat);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>, ffi.Size)
+    >
+  >
+  get OPENSSL_strlcpy => ffi.Native.addressOf(self.OPENSSL_strlcpy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>, ffi.Size)
+    >
+  >
+  get OPENSSL_strncasecmp => ffi.Native.addressOf(self.OPENSSL_strncasecmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>, ffi.Size)
+    >
+  >
+  get OPENSSL_strndup => ffi.Native.addressOf(self.OPENSSL_strndup);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Size Function(ffi.Pointer<ffi.Char>, ffi.Size)>
+  >
+  get OPENSSL_strnlen => ffi.Native.addressOf(self.OPENSSL_strnlen);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>
+  get OPENSSL_tolower => ffi.Native.addressOf(self.OPENSSL_tolower);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<__va_list_tag>,
+      )
+    >
+  >
+  get OPENSSL_vasprintf => ffi.Native.addressOf(self.OPENSSL_vasprintf);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Size)>>
+  get OPENSSL_zalloc => ffi.Native.addressOf(self.OPENSSL_zalloc);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<OTHERNAME>)>>
   get OTHERNAME_free => ffi.Native.addressOf(self.OTHERNAME_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<OTHERNAME> Function()>>
+  get OTHERNAME_new => ffi.Native.addressOf(self.OTHERNAME_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get OpenSSL_add_all_algorithms =>
+      ffi.Native.addressOf(self.OpenSSL_add_all_algorithms);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get OpenSSL_add_all_ciphers =>
+      ffi.Native.addressOf(self.OpenSSL_add_all_ciphers);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get OpenSSL_add_all_digests =>
+      ffi.Native.addressOf(self.OpenSSL_add_all_digests);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Int)>>
+  get OpenSSL_version => ffi.Native.addressOf(self.OpenSSL_version);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function()>>
+  get OpenSSL_version_num => ffi.Native.addressOf(self.OpenSSL_version_num);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<d2i_of_void>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<ffi.Void>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_ASN1_read => ffi.Native.addressOf(self.PEM_ASN1_read);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<d2i_of_void>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<ffi.Void>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_ASN1_read_bio => ffi.Native.addressOf(self.PEM_ASN1_read_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<i2d_of_void>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_ASN1_write => ffi.Native.addressOf(self.PEM_ASN1_write);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<i2d_of_void>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_ASN1_write_bio => ffi.Native.addressOf(self.PEM_ASN1_write_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509_INFO> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<stack_st_X509_INFO>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_X509_INFO_read => ffi.Native.addressOf(self.PEM_X509_INFO_read);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509_INFO> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<stack_st_X509_INFO>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_X509_INFO_read_bio =>
+      ffi.Native.addressOf(self.PEM_X509_INFO_read_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Long>,
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<BIO>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_bytes_read_bio => ffi.Native.addressOf(self.PEM_bytes_read_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_def_callback => ffi.Native.addressOf(self.PEM_def_callback);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Long>,
+      )
+    >
+  >
+  get PEM_read => ffi.Native.addressOf(self.PEM_read);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DH> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<DH>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_DHparams => ffi.Native.addressOf(self.PEM_read_DHparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<DSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_DSAPrivateKey =>
+      ffi.Native.addressOf(self.PEM_read_DSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<DSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_DSA_PUBKEY => ffi.Native.addressOf(self.PEM_read_DSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<DSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_DSAparams => ffi.Native.addressOf(self.PEM_read_DSAparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_ECPrivateKey => ffi.Native.addressOf(self.PEM_read_ECPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_EC_PUBKEY => ffi.Native.addressOf(self.PEM_read_EC_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<PKCS7> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<PKCS7>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_PKCS7 => ffi.Native.addressOf(self.PEM_read_PKCS7);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_SIG> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<X509_SIG>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_PKCS8 => ffi.Native.addressOf(self.PEM_read_PKCS8);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<PKCS8_PRIV_KEY_INFO> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<PKCS8_PRIV_KEY_INFO>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_PKCS8_PRIV_KEY_INFO =>
+      ffi.Native.addressOf(self.PEM_read_PKCS8_PRIV_KEY_INFO);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_PUBKEY => ffi.Native.addressOf(self.PEM_read_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_PrivateKey => ffi.Native.addressOf(self.PEM_read_PrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<RSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_RSAPrivateKey =>
+      ffi.Native.addressOf(self.PEM_read_RSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<RSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_RSAPublicKey => ffi.Native.addressOf(self.PEM_read_RSAPublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<RSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_RSA_PUBKEY => ffi.Native.addressOf(self.PEM_read_RSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<X509>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_X509 => ffi.Native.addressOf(self.PEM_read_X509);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<X509>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_X509_AUX => ffi.Native.addressOf(self.PEM_read_X509_AUX);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_CRL> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<X509_CRL>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_X509_CRL => ffi.Native.addressOf(self.PEM_read_X509_CRL);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_REQ> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<X509_REQ>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_X509_REQ => ffi.Native.addressOf(self.PEM_read_X509_REQ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Long>,
+      )
+    >
+  >
+  get PEM_read_bio => ffi.Native.addressOf(self.PEM_read_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DH> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<DH>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_DHparams => ffi.Native.addressOf(self.PEM_read_bio_DHparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<DSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_DSAPrivateKey =>
+      ffi.Native.addressOf(self.PEM_read_bio_DSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<DSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_DSA_PUBKEY =>
+      ffi.Native.addressOf(self.PEM_read_bio_DSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<DSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_DSAparams =>
+      ffi.Native.addressOf(self.PEM_read_bio_DSAparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_ECPrivateKey =>
+      ffi.Native.addressOf(self.PEM_read_bio_ECPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_EC_PUBKEY =>
+      ffi.Native.addressOf(self.PEM_read_bio_EC_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<PKCS7> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<PKCS7>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_PKCS7 => ffi.Native.addressOf(self.PEM_read_bio_PKCS7);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_SIG> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<X509_SIG>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_PKCS8 => ffi.Native.addressOf(self.PEM_read_bio_PKCS8);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<PKCS8_PRIV_KEY_INFO> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<PKCS8_PRIV_KEY_INFO>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_PKCS8_PRIV_KEY_INFO =>
+      ffi.Native.addressOf(self.PEM_read_bio_PKCS8_PRIV_KEY_INFO);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_PUBKEY => ffi.Native.addressOf(self.PEM_read_bio_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_PrivateKey =>
+      ffi.Native.addressOf(self.PEM_read_bio_PrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<RSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_RSAPrivateKey =>
+      ffi.Native.addressOf(self.PEM_read_bio_RSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<RSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_RSAPublicKey =>
+      ffi.Native.addressOf(self.PEM_read_bio_RSAPublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<RSA>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_RSA_PUBKEY =>
+      ffi.Native.addressOf(self.PEM_read_bio_RSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<X509>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_X509 => ffi.Native.addressOf(self.PEM_read_bio_X509);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<X509>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_X509_AUX => ffi.Native.addressOf(self.PEM_read_bio_X509_AUX);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_CRL> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<X509_CRL>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_X509_CRL => ffi.Native.addressOf(self.PEM_read_bio_X509_CRL);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_REQ> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<X509_REQ>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_read_bio_X509_REQ => ffi.Native.addressOf(self.PEM_read_bio_X509_REQ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Long,
+      )
+    >
+  >
+  get PEM_write => ffi.Native.addressOf(self.PEM_write);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<DH>)>
+  >
+  get PEM_write_DHparams => ffi.Native.addressOf(self.PEM_write_DHparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<DSA>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_DSAPrivateKey =>
+      ffi.Native.addressOf(self.PEM_write_DSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<DSA>)>
+  >
+  get PEM_write_DSA_PUBKEY => ffi.Native.addressOf(self.PEM_write_DSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<DSA>)>
+  >
+  get PEM_write_DSAparams => ffi.Native.addressOf(self.PEM_write_DSAparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<EC_KEY>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_ECPrivateKey =>
+      ffi.Native.addressOf(self.PEM_write_ECPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<EC_KEY>)>
+  >
+  get PEM_write_EC_PUBKEY => ffi.Native.addressOf(self.PEM_write_EC_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<PKCS7>)>
+  >
+  get PEM_write_PKCS7 => ffi.Native.addressOf(self.PEM_write_PKCS7);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_SIG>)
+    >
+  >
+  get PEM_write_PKCS8 => ffi.Native.addressOf(self.PEM_write_PKCS8);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_PKCS8PrivateKey =>
+      ffi.Native.addressOf(self.PEM_write_PKCS8PrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Int,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_PKCS8PrivateKey_nid =>
+      ffi.Native.addressOf(self.PEM_write_PKCS8PrivateKey_nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<PKCS8_PRIV_KEY_INFO>)
+    >
+  >
+  get PEM_write_PKCS8_PRIV_KEY_INFO =>
+      ffi.Native.addressOf(self.PEM_write_PKCS8_PRIV_KEY_INFO);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get PEM_write_PUBKEY => ffi.Native.addressOf(self.PEM_write_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_PrivateKey => ffi.Native.addressOf(self.PEM_write_PrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<RSA>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_RSAPrivateKey =>
+      ffi.Native.addressOf(self.PEM_write_RSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<RSA>)>
+  >
+  get PEM_write_RSAPublicKey =>
+      ffi.Native.addressOf(self.PEM_write_RSAPublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<RSA>)>
+  >
+  get PEM_write_RSA_PUBKEY => ffi.Native.addressOf(self.PEM_write_RSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509>)>
+  >
+  get PEM_write_X509 => ffi.Native.addressOf(self.PEM_write_X509);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509>)>
+  >
+  get PEM_write_X509_AUX => ffi.Native.addressOf(self.PEM_write_X509_AUX);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_CRL>)
+    >
+  >
+  get PEM_write_X509_CRL => ffi.Native.addressOf(self.PEM_write_X509_CRL);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_REQ>)
+    >
+  >
+  get PEM_write_X509_REQ => ffi.Native.addressOf(self.PEM_write_X509_REQ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_REQ>)
+    >
+  >
+  get PEM_write_X509_REQ_NEW =>
+      ffi.Native.addressOf(self.PEM_write_X509_REQ_NEW);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Long,
+      )
+    >
+  >
+  get PEM_write_bio => ffi.Native.addressOf(self.PEM_write_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DH>)>
+  >
+  get PEM_write_bio_DHparams =>
+      ffi.Native.addressOf(self.PEM_write_bio_DHparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<DSA>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_bio_DSAPrivateKey =>
+      ffi.Native.addressOf(self.PEM_write_bio_DSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DSA>)>
+  >
+  get PEM_write_bio_DSA_PUBKEY =>
+      ffi.Native.addressOf(self.PEM_write_bio_DSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DSA>)>
+  >
+  get PEM_write_bio_DSAparams =>
+      ffi.Native.addressOf(self.PEM_write_bio_DSAparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<EC_KEY>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_bio_ECPrivateKey =>
+      ffi.Native.addressOf(self.PEM_write_bio_ECPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<EC_KEY>)>
+  >
+  get PEM_write_bio_EC_PUBKEY =>
+      ffi.Native.addressOf(self.PEM_write_bio_EC_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<PKCS7>)>
+  >
+  get PEM_write_bio_PKCS7 => ffi.Native.addressOf(self.PEM_write_bio_PKCS7);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_SIG>)
+    >
+  >
+  get PEM_write_bio_PKCS8 => ffi.Native.addressOf(self.PEM_write_bio_PKCS8);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_bio_PKCS8PrivateKey =>
+      ffi.Native.addressOf(self.PEM_write_bio_PKCS8PrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Int,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_bio_PKCS8PrivateKey_nid =>
+      ffi.Native.addressOf(self.PEM_write_bio_PKCS8PrivateKey_nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<PKCS8_PRIV_KEY_INFO>)
+    >
+  >
+  get PEM_write_bio_PKCS8_PRIV_KEY_INFO =>
+      ffi.Native.addressOf(self.PEM_write_bio_PKCS8_PRIV_KEY_INFO);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get PEM_write_bio_PUBKEY => ffi.Native.addressOf(self.PEM_write_bio_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_bio_PrivateKey =>
+      ffi.Native.addressOf(self.PEM_write_bio_PrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<RSA>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get PEM_write_bio_RSAPrivateKey =>
+      ffi.Native.addressOf(self.PEM_write_bio_RSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<RSA>)>
+  >
+  get PEM_write_bio_RSAPublicKey =>
+      ffi.Native.addressOf(self.PEM_write_bio_RSAPublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<RSA>)>
+  >
+  get PEM_write_bio_RSA_PUBKEY =>
+      ffi.Native.addressOf(self.PEM_write_bio_RSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509>)>
+  >
+  get PEM_write_bio_X509 => ffi.Native.addressOf(self.PEM_write_bio_X509);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509>)>
+  >
+  get PEM_write_bio_X509_AUX =>
+      ffi.Native.addressOf(self.PEM_write_bio_X509_AUX);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_CRL>)
+    >
+  >
+  get PEM_write_bio_X509_CRL =>
+      ffi.Native.addressOf(self.PEM_write_bio_X509_CRL);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_REQ>)
+    >
+  >
+  get PEM_write_bio_X509_REQ =>
+      ffi.Native.addressOf(self.PEM_write_bio_X509_REQ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_REQ>)
+    >
+  >
+  get PEM_write_bio_X509_REQ_NEW =>
+      ffi.Native.addressOf(self.PEM_write_bio_X509_REQ_NEW);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Char>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Uint32,
+        ffi.Pointer<EVP_MD>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get PKCS5_PBKDF2_HMAC => ffi.Native.addressOf(self.PKCS5_PBKDF2_HMAC);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Char>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Uint32,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get PKCS5_PBKDF2_HMAC_SHA1 =>
+      ffi.Native.addressOf(self.PKCS5_PBKDF2_HMAC_SHA1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<stack_st_X509_CRL>)
+    >
+  >
+  get PKCS7_bundle_CRLs => ffi.Native.addressOf(self.PKCS7_bundle_CRLs);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<stack_st_X509>)
+    >
+  >
+  get PKCS7_bundle_certificates =>
+      ffi.Native.addressOf(self.PKCS7_bundle_certificates);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<stack_st_CRYPTO_BUFFER>)
+    >
+  >
+  get PKCS7_bundle_raw_certificates =>
+      ffi.Native.addressOf(self.PKCS7_bundle_raw_certificates);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<PKCS7>)>>
   get PKCS7_free => ffi.Native.addressOf(self.PKCS7_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<stack_st_X509_CRL>, ffi.Pointer<CBS>)
+    >
+  >
+  get PKCS7_get_CRLs => ffi.Native.addressOf(self.PKCS7_get_CRLs);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<stack_st_X509_CRL>, ffi.Pointer<BIO>)
+    >
+  >
+  get PKCS7_get_PEM_CRLs => ffi.Native.addressOf(self.PKCS7_get_PEM_CRLs);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<stack_st_X509>, ffi.Pointer<BIO>)
+    >
+  >
+  get PKCS7_get_PEM_certificates =>
+      ffi.Native.addressOf(self.PKCS7_get_PEM_certificates);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<stack_st_X509>, ffi.Pointer<CBS>)
+    >
+  >
+  get PKCS7_get_certificates =>
+      ffi.Native.addressOf(self.PKCS7_get_certificates);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<stack_st_CRYPTO_BUFFER>,
+        ffi.Pointer<CBS>,
+        ffi.Pointer<CRYPTO_BUFFER_POOL>,
+      )
+    >
+  >
+  get PKCS7_get_raw_certificates =>
+      ffi.Native.addressOf(self.PKCS7_get_raw_certificates);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<PKCS7> Function(
+        ffi.Pointer<X509>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<stack_st_X509>,
+        ffi.Pointer<BIO>,
+        ffi.Int,
+      )
+    >
+  >
+  get PKCS7_sign => ffi.Native.addressOf(self.PKCS7_sign);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<PKCS7>)>>
+  get PKCS7_type_is_data => ffi.Native.addressOf(self.PKCS7_type_is_data);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<PKCS7>)>>
+  get PKCS7_type_is_digest => ffi.Native.addressOf(self.PKCS7_type_is_digest);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<PKCS7>)>>
+  get PKCS7_type_is_encrypted =>
+      ffi.Native.addressOf(self.PKCS7_type_is_encrypted);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<PKCS7>)>>
+  get PKCS7_type_is_enveloped =>
+      ffi.Native.addressOf(self.PKCS7_type_is_enveloped);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<PKCS7>)>>
+  get PKCS7_type_is_signed => ffi.Native.addressOf(self.PKCS7_type_is_signed);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<PKCS7>)>>
+  get PKCS7_type_is_signedAndEnveloped =>
+      ffi.Native.addressOf(self.PKCS7_type_is_signedAndEnveloped);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<PKCS8_PRIV_KEY_INFO>)>
@@ -32016,13 +41944,23 @@ extension SymbolAddresses on _SymbolAddresses {
   get PKCS8_PRIV_KEY_INFO_free =>
       ffi.Native.addressOf(self.PKCS8_PRIV_KEY_INFO_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<PKCS8_PRIV_KEY_INFO> Function()>>
+  get PKCS8_PRIV_KEY_INFO_new =>
+      ffi.Native.addressOf(self.PKCS8_PRIV_KEY_INFO_new);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<POLICYINFO>)>>
   get POLICYINFO_free => ffi.Native.addressOf(self.POLICYINFO_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<POLICYINFO> Function()>>
+  get POLICYINFO_new => ffi.Native.addressOf(self.POLICYINFO_new);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<POLICYQUALINFO>)>
   >
   get POLICYQUALINFO_free => ffi.Native.addressOf(self.POLICYQUALINFO_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<POLICYQUALINFO> Function()>>
+  get POLICYQUALINFO_new => ffi.Native.addressOf(self.POLICYQUALINFO_new);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<POLICY_CONSTRAINTS>)>
@@ -32030,80 +41968,2632 @@ extension SymbolAddresses on _SymbolAddresses {
   get POLICY_CONSTRAINTS_free =>
       ffi.Native.addressOf(self.POLICY_CONSTRAINTS_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<POLICY_CONSTRAINTS> Function()>>
+  get POLICY_CONSTRAINTS_new =>
+      ffi.Native.addressOf(self.POLICY_CONSTRAINTS_new);
+  @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<POLICY_MAPPING>)>
   >
   get POLICY_MAPPING_free => ffi.Native.addressOf(self.POLICY_MAPPING_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<POLICY_MAPPING> Function()>>
+  get POLICY_MAPPING_new => ffi.Native.addressOf(self.POLICY_MAPPING_new);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<RAND_METHOD> Function()>>
+  get RAND_OpenSSL => ffi.Native.addressOf(self.RAND_OpenSSL);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<RAND_METHOD> Function()>>
+  get RAND_SSLeay => ffi.Native.addressOf(self.RAND_SSLeay);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int, ffi.Double)
+    >
+  >
+  get RAND_add => ffi.Native.addressOf(self.RAND_add);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Size)>
+  >
+  get RAND_bytes => ffi.Native.addressOf(self.RAND_bytes);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get RAND_cleanup =>
       ffi.Native.addressOf(self.RAND_cleanup);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+  get RAND_disable_fork_unsafe_buffering =>
+      ffi.Native.addressOf(self.RAND_disable_fork_unsafe_buffering);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>>
+  get RAND_egd => ffi.Native.addressOf(self.RAND_egd);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Int)>>
+  get RAND_enable_fork_unsafe_buffering =>
+      ffi.Native.addressOf(self.RAND_enable_fork_unsafe_buffering);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>, ffi.Size)
+    >
+  >
+  get RAND_file_name => ffi.Native.addressOf(self.RAND_file_name);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<RAND_METHOD> Function()>>
+  get RAND_get_rand_method => ffi.Native.addressOf(self.RAND_get_rand_method);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Uint8>, ffi.Size)>
+  >
+  get RAND_get_system_entropy_for_custom_prng =>
+      ffi.Native.addressOf(self.RAND_get_system_entropy_for_custom_prng);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.Long)>
+  >
+  get RAND_load_file => ffi.Native.addressOf(self.RAND_load_file);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> get RAND_poll =>
+      ffi.Native.addressOf(self.RAND_poll);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Size)>
+  >
+  get RAND_pseudo_bytes => ffi.Native.addressOf(self.RAND_pseudo_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int)>
+  >
+  get RAND_seed => ffi.Native.addressOf(self.RAND_seed);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<RAND_METHOD>)>>
+  get RAND_set_rand_method => ffi.Native.addressOf(self.RAND_set_rand_method);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> get RAND_status =>
+      ffi.Native.addressOf(self.RAND_status);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<RSA> Function(ffi.Pointer<RSA>)>>
+  get RSAPrivateKey_dup => ffi.Native.addressOf(self.RSAPrivateKey_dup);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<RSA> Function(ffi.Pointer<RSA>)>>
+  get RSAPublicKey_dup => ffi.Native.addressOf(self.RSAPublicKey_dup);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<RSA_PSS_PARAMS>)>
   >
   get RSA_PSS_PARAMS_free => ffi.Native.addressOf(self.RSA_PSS_PARAMS_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<RSA_PSS_PARAMS> Function()>>
+  get RSA_PSS_PARAMS_new => ffi.Native.addressOf(self.RSA_PSS_PARAMS_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get RSA_add_pkcs1_prefix => ffi.Native.addressOf(self.RSA_add_pkcs1_prefix);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<RSA>)>>
+  get RSA_bits => ffi.Native.addressOf(self.RSA_bits);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<RSA>)>>
+  get RSA_blinding_off => ffi.Native.addressOf(self.RSA_blinding_off);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<RSA>, ffi.Pointer<BN_CTX>)>
+  >
+  get RSA_blinding_on => ffi.Native.addressOf(self.RSA_blinding_on);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<RSA>)>>
+  get RSA_check_fips => ffi.Native.addressOf(self.RSA_check_fips);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<RSA>)>>
+  get RSA_check_key => ffi.Native.addressOf(self.RSA_check_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Int,
+      )
+    >
+  >
+  get RSA_decrypt => ffi.Native.addressOf(self.RSA_decrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Int,
+      )
+    >
+  >
+  get RSA_encrypt => ffi.Native.addressOf(self.RSA_encrypt);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<RSA>)>>
+  get RSA_flags => ffi.Native.addressOf(self.RSA_flags);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<RSA>)>>
   get RSA_free => ffi.Native.addressOf(self.RSA_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Int,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BN_GENCB>,
+      )
+    >
+  >
+  get RSA_generate_key_ex => ffi.Native.addressOf(self.RSA_generate_key_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<RSA>, ffi.Int, ffi.Pointer<BN_GENCB>)
+    >
+  >
+  get RSA_generate_key_fips => ffi.Native.addressOf(self.RSA_generate_key_fips);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+      )
+    >
+  >
+  get RSA_get0_crt_params => ffi.Native.addressOf(self.RSA_get0_crt_params);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>
+  >
+  get RSA_get0_d => ffi.Native.addressOf(self.RSA_get0_d);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>
+  >
+  get RSA_get0_dmp1 => ffi.Native.addressOf(self.RSA_get0_dmp1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>
+  >
+  get RSA_get0_dmq1 => ffi.Native.addressOf(self.RSA_get0_dmq1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>
+  >
+  get RSA_get0_e => ffi.Native.addressOf(self.RSA_get0_e);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+      )
+    >
+  >
+  get RSA_get0_factors => ffi.Native.addressOf(self.RSA_get0_factors);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>
+  >
+  get RSA_get0_iqmp => ffi.Native.addressOf(self.RSA_get0_iqmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+        ffi.Pointer<ffi.Pointer<BIGNUM>>,
+      )
+    >
+  >
+  get RSA_get0_key => ffi.Native.addressOf(self.RSA_get0_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>
+  >
+  get RSA_get0_n => ffi.Native.addressOf(self.RSA_get0_n);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>
+  >
+  get RSA_get0_p => ffi.Native.addressOf(self.RSA_get0_p);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<RSA_PSS_PARAMS> Function(ffi.Pointer<RSA>)>
+  >
+  get RSA_get0_pss_params => ffi.Native.addressOf(self.RSA_get0_pss_params);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<BIGNUM> Function(ffi.Pointer<RSA>)>
+  >
+  get RSA_get0_q => ffi.Native.addressOf(self.RSA_get0_q);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<RSA>, ffi.Int)
+    >
+  >
+  get RSA_get_ex_data => ffi.Native.addressOf(self.RSA_get_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Long,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<CRYPTO_EX_unused>,
+        ffi.Pointer<CRYPTO_EX_dup>,
+        ffi.Pointer<CRYPTO_EX_free>,
+      )
+    >
+  >
+  get RSA_get_ex_new_index => ffi.Native.addressOf(self.RSA_get_ex_new_index);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<RSA>)>>
+  get RSA_is_opaque => ffi.Native.addressOf(self.RSA_is_opaque);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<RSA>)>
+  >
+  get RSA_marshal_private_key =>
+      ffi.Native.addressOf(self.RSA_marshal_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<CBB>, ffi.Pointer<RSA>)>
+  >
+  get RSA_marshal_public_key =>
+      ffi.Native.addressOf(self.RSA_marshal_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<RSA> Function()>> get RSA_new =>
+      ffi.Native.addressOf(self.RSA_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<RSA> Function(ffi.Pointer<ENGINE>)>
+  >
+  get RSA_new_method => ffi.Native.addressOf(self.RSA_new_method);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(ffi.Pointer<ENGINE>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get RSA_new_method_no_e => ffi.Native.addressOf(self.RSA_new_method_no_e);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get RSA_new_private_key => ffi.Native.addressOf(self.RSA_new_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get RSA_new_private_key_large_e =>
+      ffi.Native.addressOf(self.RSA_new_private_key_large_e);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get RSA_new_private_key_no_crt =>
+      ffi.Native.addressOf(self.RSA_new_private_key_no_crt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get RSA_new_private_key_no_e =>
+      ffi.Native.addressOf(self.RSA_new_private_key_no_e);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get RSA_new_public_key => ffi.Native.addressOf(self.RSA_new_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(ffi.Pointer<BIGNUM>, ffi.Pointer<BIGNUM>)
+    >
+  >
+  get RSA_new_public_key_large_e =>
+      ffi.Native.addressOf(self.RSA_new_public_key_large_e);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<EVP_MD>,
+      )
+    >
+  >
+  get RSA_padding_add_PKCS1_OAEP_mgf1 =>
+      ffi.Native.addressOf(self.RSA_padding_add_PKCS1_OAEP_mgf1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Int,
+      )
+    >
+  >
+  get RSA_padding_add_PKCS1_PSS_mgf1 =>
+      ffi.Native.addressOf(self.RSA_padding_add_PKCS1_PSS_mgf1);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<RSA> Function(ffi.Pointer<CBS>)>>
+  get RSA_parse_private_key => ffi.Native.addressOf(self.RSA_parse_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<RSA> Function(ffi.Pointer<CBS>)>>
+  get RSA_parse_public_key => ffi.Native.addressOf(self.RSA_parse_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<RSA>, ffi.Int)
+    >
+  >
+  get RSA_print => ffi.Native.addressOf(self.RSA_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<RSA>,
+        ffi.Int,
+      )
+    >
+  >
+  get RSA_private_decrypt => ffi.Native.addressOf(self.RSA_private_decrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<RSA>,
+        ffi.Int,
+      )
+    >
+  >
+  get RSA_private_encrypt => ffi.Native.addressOf(self.RSA_private_encrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get RSA_private_key_from_bytes =>
+      ffi.Native.addressOf(self.RSA_private_key_from_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<RSA>,
+      )
+    >
+  >
+  get RSA_private_key_to_bytes =>
+      ffi.Native.addressOf(self.RSA_private_key_to_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<RSA>,
+        ffi.Int,
+      )
+    >
+  >
+  get RSA_public_decrypt => ffi.Native.addressOf(self.RSA_public_decrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<RSA>,
+        ffi.Int,
+      )
+    >
+  >
+  get RSA_public_encrypt => ffi.Native.addressOf(self.RSA_public_encrypt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get RSA_public_key_from_bytes =>
+      ffi.Native.addressOf(self.RSA_public_key_from_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<RSA>,
+      )
+    >
+  >
+  get RSA_public_key_to_bytes =>
+      ffi.Native.addressOf(self.RSA_public_key_to_bytes);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get RSA_set0_crt_params => ffi.Native.addressOf(self.RSA_set0_crt_params);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get RSA_set0_factors => ffi.Native.addressOf(self.RSA_set0_factors);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+        ffi.Pointer<BIGNUM>,
+      )
+    >
+  >
+  get RSA_set0_key => ffi.Native.addressOf(self.RSA_set0_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<RSA>, ffi.Int, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get RSA_set_ex_data => ffi.Native.addressOf(self.RSA_set_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+        ffi.Pointer<RSA>,
+      )
+    >
+  >
+  get RSA_sign => ffi.Native.addressOf(self.RSA_sign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Int,
+      )
+    >
+  >
+  get RSA_sign_pss_mgf1 => ffi.Native.addressOf(self.RSA_sign_pss_mgf1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Int,
+      )
+    >
+  >
+  get RSA_sign_raw => ffi.Native.addressOf(self.RSA_sign_raw);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.Pointer<RSA>)>>
+  get RSA_size => ffi.Native.addressOf(self.RSA_size);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<RSA>, ffi.Int)>>
+  get RSA_test_flags => ffi.Native.addressOf(self.RSA_test_flags);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<RSA>)>>
+  get RSA_up_ref => ffi.Native.addressOf(self.RSA_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<RSA>,
+      )
+    >
+  >
+  get RSA_verify => ffi.Native.addressOf(self.RSA_verify);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+      )
+    >
+  >
+  get RSA_verify_PKCS1_PSS_mgf1 =>
+      ffi.Native.addressOf(self.RSA_verify_PKCS1_PSS_mgf1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get RSA_verify_pss_mgf1 => ffi.Native.addressOf(self.RSA_verify_pss_mgf1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Int,
+      )
+    >
+  >
+  get RSA_verify_raw => ffi.Native.addressOf(self.RSA_verify_raw);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Uint8> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get SHA1 => ffi.Native.addressOf(self.SHA1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Pointer<SHA_CTX>)
+    >
+  >
+  get SHA1_Final => ffi.Native.addressOf(self.SHA1_Final);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<SHA_CTX>)>>
+  get SHA1_Init => ffi.Native.addressOf(self.SHA1_Init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<SHA_CTX>, ffi.Pointer<ffi.Uint8>)
+    >
+  >
+  get SHA1_Transform => ffi.Native.addressOf(self.SHA1_Transform);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<SHA_CTX>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get SHA1_Update => ffi.Native.addressOf(self.SHA1_Update);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Uint8> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get SHA224 => ffi.Native.addressOf(self.SHA224);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Pointer<SHA256_CTX>)
+    >
+  >
+  get SHA224_Final => ffi.Native.addressOf(self.SHA224_Final);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<SHA256_CTX>)>>
+  get SHA224_Init => ffi.Native.addressOf(self.SHA224_Init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<SHA256_CTX>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get SHA224_Update => ffi.Native.addressOf(self.SHA224_Update);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Uint8> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get SHA256 => ffi.Native.addressOf(self.SHA256);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Pointer<SHA256_CTX>)
+    >
+  >
+  get SHA256_Final => ffi.Native.addressOf(self.SHA256_Final);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<SHA256_CTX>)>>
+  get SHA256_Init => ffi.Native.addressOf(self.SHA256_Init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<SHA256_CTX>, ffi.Pointer<ffi.Uint8>)
+    >
+  >
+  get SHA256_Transform => ffi.Native.addressOf(self.SHA256_Transform);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Uint32>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get SHA256_TransformBlocks =>
+      ffi.Native.addressOf(self.SHA256_TransformBlocks);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<SHA256_CTX>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get SHA256_Update => ffi.Native.addressOf(self.SHA256_Update);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Uint8> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get SHA384 => ffi.Native.addressOf(self.SHA384);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Pointer<SHA512_CTX>)
+    >
+  >
+  get SHA384_Final => ffi.Native.addressOf(self.SHA384_Final);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<SHA512_CTX>)>>
+  get SHA384_Init => ffi.Native.addressOf(self.SHA384_Init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<SHA512_CTX>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get SHA384_Update => ffi.Native.addressOf(self.SHA384_Update);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Uint8> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get SHA512 => ffi.Native.addressOf(self.SHA512);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Uint8> Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get SHA512_256 => ffi.Native.addressOf(self.SHA512_256);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Pointer<SHA512_CTX>)
+    >
+  >
+  get SHA512_256_Final => ffi.Native.addressOf(self.SHA512_256_Final);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<SHA512_CTX>)>>
+  get SHA512_256_Init => ffi.Native.addressOf(self.SHA512_256_Init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<SHA512_CTX>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get SHA512_256_Update => ffi.Native.addressOf(self.SHA512_256_Update);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Uint8>, ffi.Pointer<SHA512_CTX>)
+    >
+  >
+  get SHA512_Final => ffi.Native.addressOf(self.SHA512_Final);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<SHA512_CTX>)>>
+  get SHA512_Init => ffi.Native.addressOf(self.SHA512_Init);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<SHA512_CTX>, ffi.Pointer<ffi.Uint8>)
+    >
+  >
+  get SHA512_Transform => ffi.Native.addressOf(self.SHA512_Transform);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<SHA512_CTX>, ffi.Pointer<ffi.Void>, ffi.Size)
+    >
+  >
+  get SHA512_Update => ffi.Native.addressOf(self.SHA512_Update);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<SPAKE2_CTX>)>>
   get SPAKE2_CTX_free => ffi.Native.addressOf(self.SPAKE2_CTX_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<SPAKE2_CTX> Function(
+        ffi.UnsignedInt,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get SPAKE2_CTX_new => ffi.Native.addressOf(self.SPAKE2_CTX_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<SPAKE2_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get SPAKE2_generate_msg => ffi.Native.addressOf(self.SPAKE2_generate_msg);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<SPAKE2_CTX>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Size>,
+        ffi.Size,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get SPAKE2_process_msg => ffi.Native.addressOf(self.SPAKE2_process_msg);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function()>> get SSLeay =>
+      ffi.Native.addressOf(self.SSLeay);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Int)>>
+  get SSLeay_version => ffi.Native.addressOf(self.SSLeay_version);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<USERNOTICE>)>>
   get USERNOTICE_free => ffi.Native.addressOf(self.USERNOTICE_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<USERNOTICE> Function()>>
+  get USERNOTICE_new => ffi.Native.addressOf(self.USERNOTICE_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.Uint8>,
+      )
+    >
+  >
+  get X25519 => ffi.Native.addressOf(self.X25519);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ffi.Uint8>, ffi.Pointer<ffi.Uint8>)
+    >
+  >
+  get X25519_keypair => ffi.Native.addressOf(self.X25519_keypair);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ffi.Uint8>, ffi.Pointer<ffi.Uint8>)
+    >
+  >
+  get X25519_public_from_private =>
+      ffi.Native.addressOf(self.X25519_public_from_private);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CONF>,
+        ffi.Pointer<X509V3_CTX>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<X509_CRL>,
+      )
+    >
+  >
+  get X509V3_EXT_CRL_add_nconf =>
+      ffi.Native.addressOf(self.X509V3_EXT_CRL_add_nconf);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CONF>,
+        ffi.Pointer<X509V3_CTX>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<X509_REQ>,
+      )
+    >
+  >
+  get X509V3_EXT_REQ_add_nconf =>
+      ffi.Native.addressOf(self.X509V3_EXT_REQ_add_nconf);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509V3_EXT_METHOD>)>
+  >
+  get X509V3_EXT_add => ffi.Native.addressOf(self.X509V3_EXT_add);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>
+  get X509V3_EXT_add_alias => ffi.Native.addressOf(self.X509V3_EXT_add_alias);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CONF>,
+        ffi.Pointer<X509V3_CTX>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<X509>,
+      )
+    >
+  >
+  get X509V3_EXT_add_nconf => ffi.Native.addressOf(self.X509V3_EXT_add_nconf);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CONF>,
+        ffi.Pointer<X509V3_CTX>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Pointer<stack_st_X509_EXTENSION>>,
+      )
+    >
+  >
+  get X509V3_EXT_add_nconf_sk =>
+      ffi.Native.addressOf(self.X509V3_EXT_add_nconf_sk);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<X509_EXTENSION>)
+    >
+  >
+  get X509V3_EXT_d2i => ffi.Native.addressOf(self.X509V3_EXT_d2i);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Pointer<ffi.Void>)>
   >
   get X509V3_EXT_free => ffi.Native.addressOf(self.X509V3_EXT_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509V3_EXT_METHOD> Function(ffi.Pointer<X509_EXTENSION>)
+    >
+  >
+  get X509V3_EXT_get => ffi.Native.addressOf(self.X509V3_EXT_get);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509V3_EXT_METHOD> Function(ffi.Int)>
+  >
+  get X509V3_EXT_get_nid => ffi.Native.addressOf(self.X509V3_EXT_get_nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get X509V3_EXT_i2d => ffi.Native.addressOf(self.X509V3_EXT_i2d);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(
+        ffi.Pointer<CONF>,
+        ffi.Pointer<X509V3_CTX>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get X509V3_EXT_nconf => ffi.Native.addressOf(self.X509V3_EXT_nconf);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(
+        ffi.Pointer<CONF>,
+        ffi.Pointer<X509V3_CTX>,
+        ffi.Int,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get X509V3_EXT_nconf_nid => ffi.Native.addressOf(self.X509V3_EXT_nconf_nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<X509_EXTENSION>,
+        ffi.UnsignedLong,
+        ffi.Int,
+      )
+    >
+  >
+  get X509V3_EXT_print => ffi.Native.addressOf(self.X509V3_EXT_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<X509_EXTENSION>,
+        ffi.Int,
+        ffi.Int,
+      )
+    >
+  >
+  get X509V3_EXT_print_fp => ffi.Native.addressOf(self.X509V3_EXT_print_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<stack_st_X509_EXTENSION>>,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+        ffi.Int,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get X509V3_add1_i2d => ffi.Native.addressOf(self.X509V3_add1_i2d);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>>
+  get X509V3_add_standard_extensions =>
+      ffi.Native.addressOf(self.X509V3_add_standard_extensions);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CONF_VALUE>)>>
   get X509V3_conf_free => ffi.Native.addressOf(self.X509V3_conf_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<stack_st_X509_EXTENSION>,
+        ffi.UnsignedLong,
+        ffi.Int,
+      )
+    >
+  >
+  get X509V3_extensions_print =>
+      ffi.Native.addressOf(self.X509V3_extensions_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<stack_st_X509_EXTENSION>,
+        ffi.Int,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get X509V3_get_d2i => ffi.Native.addressOf(self.X509V3_get_d2i);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<X509V3_CTX>,
+        ffi.Pointer<X509>,
+        ffi.Pointer<X509>,
+        ffi.Pointer<X509_REQ>,
+        ffi.Pointer<X509_CRL>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509V3_set_ctx => ffi.Native.addressOf(self.X509V3_set_ctx);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<X509V3_CTX>, ffi.Pointer<CONF>)
+    >
+  >
+  get X509V3_set_nconf => ffi.Native.addressOf(self.X509V3_set_nconf);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_ALGOR>, ffi.Pointer<X509_ALGOR>)
+    >
+  >
+  get X509_ALGOR_cmp => ffi.Native.addressOf(self.X509_ALGOR_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_ALGOR>, ffi.Pointer<X509_ALGOR>)
+    >
+  >
+  get X509_ALGOR_copy => ffi.Native.addressOf(self.X509_ALGOR_copy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_ALGOR> Function(ffi.Pointer<X509_ALGOR>)
+    >
+  >
+  get X509_ALGOR_dup => ffi.Native.addressOf(self.X509_ALGOR_dup);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_ALGOR>)>>
   get X509_ALGOR_free => ffi.Native.addressOf(self.X509_ALGOR_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Pointer<ASN1_OBJECT>>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Pointer<ffi.Void>>,
+        ffi.Pointer<X509_ALGOR>,
+      )
+    >
+  >
+  get X509_ALGOR_get0 => ffi.Native.addressOf(self.X509_ALGOR_get0);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_ALGOR> Function()>>
+  get X509_ALGOR_new => ffi.Native.addressOf(self.X509_ALGOR_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_ALGOR>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get X509_ALGOR_set0 => ffi.Native.addressOf(self.X509_ALGOR_set0);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_ALGOR>, ffi.Pointer<EVP_MD>)
+    >
+  >
+  get X509_ALGOR_set_md => ffi.Native.addressOf(self.X509_ALGOR_set_md);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_ATTRIBUTE>)>>
+  get X509_ATTRIBUTE_count => ffi.Native.addressOf(self.X509_ATTRIBUTE_count);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_ATTRIBUTE> Function(
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get X509_ATTRIBUTE_create => ffi.Native.addressOf(self.X509_ATTRIBUTE_create);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_ATTRIBUTE> Function(
+        ffi.Pointer<ffi.Pointer<X509_ATTRIBUTE>>,
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_ATTRIBUTE_create_by_NID =>
+      ffi.Native.addressOf(self.X509_ATTRIBUTE_create_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_ATTRIBUTE> Function(
+        ffi.Pointer<ffi.Pointer<X509_ATTRIBUTE>>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_ATTRIBUTE_create_by_OBJ =>
+      ffi.Native.addressOf(self.X509_ATTRIBUTE_create_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_ATTRIBUTE> Function(
+        ffi.Pointer<ffi.Pointer<X509_ATTRIBUTE>>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<ffi.UnsignedChar>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_ATTRIBUTE_create_by_txt =>
+      ffi.Native.addressOf(self.X509_ATTRIBUTE_create_by_txt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_ATTRIBUTE> Function(ffi.Pointer<X509_ATTRIBUTE>)
+    >
+  >
+  get X509_ATTRIBUTE_dup => ffi.Native.addressOf(self.X509_ATTRIBUTE_dup);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_ATTRIBUTE>)>
   >
   get X509_ATTRIBUTE_free => ffi.Native.addressOf(self.X509_ATTRIBUTE_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<X509_ATTRIBUTE>,
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get X509_ATTRIBUTE_get0_data =>
+      ffi.Native.addressOf(self.X509_ATTRIBUTE_get0_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OBJECT> Function(ffi.Pointer<X509_ATTRIBUTE>)
+    >
+  >
+  get X509_ATTRIBUTE_get0_object =>
+      ffi.Native.addressOf(self.X509_ATTRIBUTE_get0_object);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_TYPE> Function(ffi.Pointer<X509_ATTRIBUTE>, ffi.Int)
+    >
+  >
+  get X509_ATTRIBUTE_get0_type =>
+      ffi.Native.addressOf(self.X509_ATTRIBUTE_get0_type);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_ATTRIBUTE> Function()>>
+  get X509_ATTRIBUTE_new => ffi.Native.addressOf(self.X509_ATTRIBUTE_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_ATTRIBUTE>,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_ATTRIBUTE_set1_data =>
+      ffi.Native.addressOf(self.X509_ATTRIBUTE_set1_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_ATTRIBUTE>, ffi.Pointer<ASN1_OBJECT>)
+    >
+  >
+  get X509_ATTRIBUTE_set1_object =>
+      ffi.Native.addressOf(self.X509_ATTRIBUTE_set1_object);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<X509_REVOKED>)
+    >
+  >
+  get X509_CRL_add0_revoked => ffi.Native.addressOf(self.X509_CRL_add0_revoked);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_CRL>,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+        ffi.Int,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get X509_CRL_add1_ext_i2d => ffi.Native.addressOf(self.X509_CRL_add1_ext_i2d);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_CRL>,
+        ffi.Pointer<X509_EXTENSION>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_CRL_add_ext => ffi.Native.addressOf(self.X509_CRL_add_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<X509_CRL>)
+    >
+  >
+  get X509_CRL_cmp => ffi.Native.addressOf(self.X509_CRL_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(ffi.Pointer<X509_CRL>, ffi.Int)
+    >
+  >
+  get X509_CRL_delete_ext => ffi.Native.addressOf(self.X509_CRL_delete_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_CRL>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get X509_CRL_digest => ffi.Native.addressOf(self.X509_CRL_digest);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509_CRL> Function(ffi.Pointer<X509_CRL>)>
+  >
+  get X509_CRL_dup => ffi.Native.addressOf(self.X509_CRL_dup);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_CRL>)>>
   get X509_CRL_free => ffi.Native.addressOf(self.X509_CRL_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_CRL>,
+        ffi.Pointer<ffi.Pointer<X509_REVOKED>>,
+        ffi.Pointer<X509>,
+      )
+    >
+  >
+  get X509_CRL_get0_by_cert => ffi.Native.addressOf(self.X509_CRL_get0_by_cert);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_CRL>,
+        ffi.Pointer<ffi.Pointer<X509_REVOKED>>,
+        ffi.Pointer<ASN1_INTEGER>,
+      )
+    >
+  >
+  get X509_CRL_get0_by_serial =>
+      ffi.Native.addressOf(self.X509_CRL_get0_by_serial);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509_EXTENSION> Function(ffi.Pointer<X509_CRL>)
+    >
+  >
+  get X509_CRL_get0_extensions =>
+      ffi.Native.addressOf(self.X509_CRL_get0_extensions);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509_CRL>)>
+  >
+  get X509_CRL_get0_lastUpdate =>
+      ffi.Native.addressOf(self.X509_CRL_get0_lastUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509_CRL>)>
+  >
+  get X509_CRL_get0_nextUpdate =>
+      ffi.Native.addressOf(self.X509_CRL_get0_nextUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<X509_CRL>,
+        ffi.Pointer<ffi.Pointer<ASN1_BIT_STRING>>,
+        ffi.Pointer<ffi.Pointer<X509_ALGOR>>,
+      )
+    >
+  >
+  get X509_CRL_get0_signature =>
+      ffi.Native.addressOf(self.X509_CRL_get0_signature);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509_REVOKED> Function(ffi.Pointer<X509_CRL>)
+    >
+  >
+  get X509_CRL_get_REVOKED => ffi.Native.addressOf(self.X509_CRL_get_REVOKED);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(ffi.Pointer<X509_CRL>, ffi.Int)
+    >
+  >
+  get X509_CRL_get_ext => ffi.Native.addressOf(self.X509_CRL_get_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Int, ffi.Int)
+    >
+  >
+  get X509_CRL_get_ext_by_NID =>
+      ffi.Native.addressOf(self.X509_CRL_get_ext_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<ASN1_OBJECT>, ffi.Int)
+    >
+  >
+  get X509_CRL_get_ext_by_OBJ =>
+      ffi.Native.addressOf(self.X509_CRL_get_ext_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Int, ffi.Int)
+    >
+  >
+  get X509_CRL_get_ext_by_critical =>
+      ffi.Native.addressOf(self.X509_CRL_get_ext_by_critical);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_CRL>)>>
+  get X509_CRL_get_ext_count =>
+      ffi.Native.addressOf(self.X509_CRL_get_ext_count);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<X509_CRL>,
+        ffi.Int,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get X509_CRL_get_ext_d2i => ffi.Native.addressOf(self.X509_CRL_get_ext_d2i);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509_NAME> Function(ffi.Pointer<X509_CRL>)>
+  >
+  get X509_CRL_get_issuer => ffi.Native.addressOf(self.X509_CRL_get_issuer);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509_CRL>)>
+  >
+  get X509_CRL_get_lastUpdate =>
+      ffi.Native.addressOf(self.X509_CRL_get_lastUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509_CRL>)>
+  >
+  get X509_CRL_get_nextUpdate =>
+      ffi.Native.addressOf(self.X509_CRL_get_nextUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_CRL>)>>
+  get X509_CRL_get_signature_nid =>
+      ffi.Native.addressOf(self.X509_CRL_get_signature_nid);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Long Function(ffi.Pointer<X509_CRL>)>>
+  get X509_CRL_get_version => ffi.Native.addressOf(self.X509_CRL_get_version);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<X509_CRL>)
+    >
+  >
+  get X509_CRL_match => ffi.Native.addressOf(self.X509_CRL_match);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_CRL> Function()>>
+  get X509_CRL_new => ffi.Native.addressOf(self.X509_CRL_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_CRL>)
+    >
+  >
+  get X509_CRL_print => ffi.Native.addressOf(self.X509_CRL_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_CRL>)
+    >
+  >
+  get X509_CRL_print_fp => ffi.Native.addressOf(self.X509_CRL_print_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<ASN1_TIME>)
+    >
+  >
+  get X509_CRL_set1_lastUpdate =>
+      ffi.Native.addressOf(self.X509_CRL_set1_lastUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<ASN1_TIME>)
+    >
+  >
+  get X509_CRL_set1_nextUpdate =>
+      ffi.Native.addressOf(self.X509_CRL_set1_nextUpdate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<X509_ALGOR>)
+    >
+  >
+  get X509_CRL_set1_signature_algo =>
+      ffi.Native.addressOf(self.X509_CRL_set1_signature_algo);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get X509_CRL_set1_signature_value =>
+      ffi.Native.addressOf(self.X509_CRL_set1_signature_value);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<X509_NAME>)
+    >
+  >
+  get X509_CRL_set_issuer_name =>
+      ffi.Native.addressOf(self.X509_CRL_set_issuer_name);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Long)>
+  >
+  get X509_CRL_set_version => ffi.Native.addressOf(self.X509_CRL_set_version);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_CRL>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<EVP_MD>,
+      )
+    >
+  >
+  get X509_CRL_sign => ffi.Native.addressOf(self.X509_CRL_sign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<EVP_MD_CTX>)
+    >
+  >
+  get X509_CRL_sign_ctx => ffi.Native.addressOf(self.X509_CRL_sign_ctx);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_CRL>)>>
+  get X509_CRL_sort => ffi.Native.addressOf(self.X509_CRL_sort);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_CRL>)>>
+  get X509_CRL_up_ref => ffi.Native.addressOf(self.X509_CRL_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_CRL>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get X509_CRL_verify => ffi.Native.addressOf(self.X509_CRL_verify);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(
+        ffi.Pointer<ffi.Pointer<X509_EXTENSION>>,
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<ASN1_OCTET_STRING>,
+      )
+    >
+  >
+  get X509_EXTENSION_create_by_NID =>
+      ffi.Native.addressOf(self.X509_EXTENSION_create_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(
+        ffi.Pointer<ffi.Pointer<X509_EXTENSION>>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Int,
+        ffi.Pointer<ASN1_OCTET_STRING>,
+      )
+    >
+  >
+  get X509_EXTENSION_create_by_OBJ =>
+      ffi.Native.addressOf(self.X509_EXTENSION_create_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(ffi.Pointer<X509_EXTENSION>)
+    >
+  >
+  get X509_EXTENSION_dup => ffi.Native.addressOf(self.X509_EXTENSION_dup);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_EXTENSION>)>
   >
   get X509_EXTENSION_free => ffi.Native.addressOf(self.X509_EXTENSION_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_EXTENSION>)>>
+  get X509_EXTENSION_get_critical =>
+      ffi.Native.addressOf(self.X509_EXTENSION_get_critical);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OCTET_STRING> Function(ffi.Pointer<X509_EXTENSION>)
+    >
+  >
+  get X509_EXTENSION_get_data =>
+      ffi.Native.addressOf(self.X509_EXTENSION_get_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OBJECT> Function(ffi.Pointer<X509_EXTENSION>)
+    >
+  >
+  get X509_EXTENSION_get_object =>
+      ffi.Native.addressOf(self.X509_EXTENSION_get_object);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_EXTENSION> Function()>>
+  get X509_EXTENSION_new => ffi.Native.addressOf(self.X509_EXTENSION_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_EXTENSION>, ffi.Int)>
+  >
+  get X509_EXTENSION_set_critical =>
+      ffi.Native.addressOf(self.X509_EXTENSION_set_critical);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_EXTENSION>,
+        ffi.Pointer<ASN1_OCTET_STRING>,
+      )
+    >
+  >
+  get X509_EXTENSION_set_data =>
+      ffi.Native.addressOf(self.X509_EXTENSION_set_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_EXTENSION>, ffi.Pointer<ASN1_OBJECT>)
+    >
+  >
+  get X509_EXTENSION_set_object =>
+      ffi.Native.addressOf(self.X509_EXTENSION_set_object);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_INFO>)>>
   get X509_INFO_free => ffi.Native.addressOf(self.X509_INFO_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_LOOKUP>, ffi.Pointer<ffi.Char>, ffi.Int)
+    >
+  >
+  get X509_LOOKUP_add_dir => ffi.Native.addressOf(self.X509_LOOKUP_add_dir);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_LOOKUP>,
+        ffi.Int,
+        ffi.Pointer<ffi.Char>,
+        ffi.Long,
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+      )
+    >
+  >
+  get X509_LOOKUP_ctrl => ffi.Native.addressOf(self.X509_LOOKUP_ctrl);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_LOOKUP_METHOD> Function()>>
+  get X509_LOOKUP_file => ffi.Native.addressOf(self.X509_LOOKUP_file);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_LOOKUP>)>>
   get X509_LOOKUP_free => ffi.Native.addressOf(self.X509_LOOKUP_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_LOOKUP_METHOD> Function()>>
+  get X509_LOOKUP_hash_dir => ffi.Native.addressOf(self.X509_LOOKUP_hash_dir);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_LOOKUP>, ffi.Pointer<ffi.Char>, ffi.Int)
+    >
+  >
+  get X509_LOOKUP_load_file => ffi.Native.addressOf(self.X509_LOOKUP_load_file);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_NAME_ENTRY> Function(
+        ffi.Pointer<ffi.Pointer<X509_NAME_ENTRY>>,
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ossl_ssize_t,
+      )
+    >
+  >
+  get X509_NAME_ENTRY_create_by_NID =>
+      ffi.Native.addressOf(self.X509_NAME_ENTRY_create_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_NAME_ENTRY> Function(
+        ffi.Pointer<ffi.Pointer<X509_NAME_ENTRY>>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ossl_ssize_t,
+      )
+    >
+  >
+  get X509_NAME_ENTRY_create_by_OBJ =>
+      ffi.Native.addressOf(self.X509_NAME_ENTRY_create_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_NAME_ENTRY> Function(
+        ffi.Pointer<ffi.Pointer<X509_NAME_ENTRY>>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ossl_ssize_t,
+      )
+    >
+  >
+  get X509_NAME_ENTRY_create_by_txt =>
+      ffi.Native.addressOf(self.X509_NAME_ENTRY_create_by_txt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_NAME_ENTRY> Function(ffi.Pointer<X509_NAME_ENTRY>)
+    >
+  >
+  get X509_NAME_ENTRY_dup => ffi.Native.addressOf(self.X509_NAME_ENTRY_dup);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_NAME_ENTRY>)>
   >
   get X509_NAME_ENTRY_free => ffi.Native.addressOf(self.X509_NAME_ENTRY_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_STRING> Function(ffi.Pointer<X509_NAME_ENTRY>)
+    >
+  >
+  get X509_NAME_ENTRY_get_data =>
+      ffi.Native.addressOf(self.X509_NAME_ENTRY_get_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OBJECT> Function(ffi.Pointer<X509_NAME_ENTRY>)
+    >
+  >
+  get X509_NAME_ENTRY_get_object =>
+      ffi.Native.addressOf(self.X509_NAME_ENTRY_get_object);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_NAME_ENTRY> Function()>>
+  get X509_NAME_ENTRY_new => ffi.Native.addressOf(self.X509_NAME_ENTRY_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_NAME_ENTRY>)>
+  >
+  get X509_NAME_ENTRY_set => ffi.Native.addressOf(self.X509_NAME_ENTRY_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_NAME_ENTRY>,
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ossl_ssize_t,
+      )
+    >
+  >
+  get X509_NAME_ENTRY_set_data =>
+      ffi.Native.addressOf(self.X509_NAME_ENTRY_set_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_NAME_ENTRY>, ffi.Pointer<ASN1_OBJECT>)
+    >
+  >
+  get X509_NAME_ENTRY_set_object =>
+      ffi.Native.addressOf(self.X509_NAME_ENTRY_set_object);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_NAME>,
+        ffi.Pointer<X509_NAME_ENTRY>,
+        ffi.Int,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_NAME_add_entry => ffi.Native.addressOf(self.X509_NAME_add_entry);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_NAME>,
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ossl_ssize_t,
+        ffi.Int,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_NAME_add_entry_by_NID =>
+      ffi.Native.addressOf(self.X509_NAME_add_entry_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_NAME>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ossl_ssize_t,
+        ffi.Int,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_NAME_add_entry_by_OBJ =>
+      ffi.Native.addressOf(self.X509_NAME_add_entry_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_NAME>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<ffi.Uint8>,
+        ossl_ssize_t,
+        ffi.Int,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_NAME_add_entry_by_txt =>
+      ffi.Native.addressOf(self.X509_NAME_add_entry_by_txt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_NAME>, ffi.Pointer<X509_NAME>)
+    >
+  >
+  get X509_NAME_cmp => ffi.Native.addressOf(self.X509_NAME_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_NAME_ENTRY> Function(ffi.Pointer<X509_NAME>, ffi.Int)
+    >
+  >
+  get X509_NAME_delete_entry =>
+      ffi.Native.addressOf(self.X509_NAME_delete_entry);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_NAME>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get X509_NAME_digest => ffi.Native.addressOf(self.X509_NAME_digest);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509_NAME> Function(ffi.Pointer<X509_NAME>)>
+  >
+  get X509_NAME_dup => ffi.Native.addressOf(self.X509_NAME_dup);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_NAME>)>>
+  get X509_NAME_entry_count => ffi.Native.addressOf(self.X509_NAME_entry_count);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_NAME>)>>
   get X509_NAME_free => ffi.Native.addressOf(self.X509_NAME_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_NAME>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Size>,
+      )
+    >
+  >
+  get X509_NAME_get0_der => ffi.Native.addressOf(self.X509_NAME_get0_der);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_NAME_ENTRY> Function(ffi.Pointer<X509_NAME>, ffi.Int)
+    >
+  >
+  get X509_NAME_get_entry => ffi.Native.addressOf(self.X509_NAME_get_entry);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_NAME>, ffi.Int, ffi.Int)
+    >
+  >
+  get X509_NAME_get_index_by_NID =>
+      ffi.Native.addressOf(self.X509_NAME_get_index_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_NAME>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_NAME_get_index_by_OBJ =>
+      ffi.Native.addressOf(self.X509_NAME_get_index_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_NAME>,
+        ffi.Int,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_NAME_get_text_by_NID =>
+      ffi.Native.addressOf(self.X509_NAME_get_text_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_NAME>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_NAME_get_text_by_OBJ =>
+      ffi.Native.addressOf(self.X509_NAME_get_text_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<X509_NAME>)>>
+  get X509_NAME_hash => ffi.Native.addressOf(self.X509_NAME_hash);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<X509_NAME>)>>
+  get X509_NAME_hash_old => ffi.Native.addressOf(self.X509_NAME_hash_old);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_NAME> Function()>>
+  get X509_NAME_new => ffi.Native.addressOf(self.X509_NAME_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(
+        ffi.Pointer<X509_NAME>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_NAME_oneline => ffi.Native.addressOf(self.X509_NAME_oneline);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_NAME>, ffi.Int)
+    >
+  >
+  get X509_NAME_print => ffi.Native.addressOf(self.X509_NAME_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<X509_NAME>,
+        ffi.Int,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get X509_NAME_print_ex => ffi.Native.addressOf(self.X509_NAME_print_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<X509_NAME>,
+        ffi.Int,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get X509_NAME_print_ex_fp => ffi.Native.addressOf(self.X509_NAME_print_ex_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<X509_NAME>>,
+        ffi.Pointer<X509_NAME>,
+      )
+    >
+  >
+  get X509_NAME_set => ffi.Native.addressOf(self.X509_NAME_set);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_OBJECT>)>>
   get X509_OBJECT_free => ffi.Native.addressOf(self.X509_OBJECT_free);
   @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_OBJECT>)>>
+  get X509_OBJECT_free_contents =>
+      ffi.Native.addressOf(self.X509_OBJECT_free_contents);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509> Function(ffi.Pointer<X509_OBJECT>)>
+  >
+  get X509_OBJECT_get0_X509 => ffi.Native.addressOf(self.X509_OBJECT_get0_X509);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_OBJECT>)>>
+  get X509_OBJECT_get_type => ffi.Native.addressOf(self.X509_OBJECT_get_type);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_OBJECT> Function()>>
+  get X509_OBJECT_new => ffi.Native.addressOf(self.X509_OBJECT_new);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_PUBKEY>)>>
   get X509_PUBKEY_free => ffi.Native.addressOf(self.X509_PUBKEY_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509_PUBKEY>)>
+  >
+  get X509_PUBKEY_get => ffi.Native.addressOf(self.X509_PUBKEY_get);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509_PUBKEY>)>
+  >
+  get X509_PUBKEY_get0 => ffi.Native.addressOf(self.X509_PUBKEY_get0);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<ASN1_OBJECT>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Pointer<X509_ALGOR>>,
+        ffi.Pointer<X509_PUBKEY>,
+      )
+    >
+  >
+  get X509_PUBKEY_get0_param =>
+      ffi.Native.addressOf(self.X509_PUBKEY_get0_param);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_BIT_STRING> Function(ffi.Pointer<X509_PUBKEY>)
+    >
+  >
+  get X509_PUBKEY_get0_public_key =>
+      ffi.Native.addressOf(self.X509_PUBKEY_get0_public_key);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_PUBKEY> Function()>>
+  get X509_PUBKEY_new => ffi.Native.addressOf(self.X509_PUBKEY_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<X509_PUBKEY>>,
+        ffi.Pointer<EVP_PKEY>,
+      )
+    >
+  >
+  get X509_PUBKEY_set => ffi.Native.addressOf(self.X509_PUBKEY_set);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_PUBKEY>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_PUBKEY_set0_param =>
+      ffi.Native.addressOf(self.X509_PUBKEY_set0_param);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_PURPOSE> Function(ffi.Int)>>
+  get X509_PURPOSE_get0 => ffi.Native.addressOf(self.X509_PURPOSE_get0);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>>
+  get X509_PURPOSE_get_by_sname =>
+      ffi.Native.addressOf(self.X509_PURPOSE_get_by_sname);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_PURPOSE>)>>
+  get X509_PURPOSE_get_id => ffi.Native.addressOf(self.X509_PURPOSE_get_id);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Pointer<X509_ATTRIBUTE>)
+    >
+  >
+  get X509_REQ_add1_attr => ffi.Native.addressOf(self.X509_REQ_add1_attr);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REQ>,
+        ffi.Int,
+        ffi.Int,
+        ffi.Pointer<ffi.UnsignedChar>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_REQ_add1_attr_by_NID =>
+      ffi.Native.addressOf(self.X509_REQ_add1_attr_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REQ>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Int,
+        ffi.Pointer<ffi.UnsignedChar>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_REQ_add1_attr_by_OBJ =>
+      ffi.Native.addressOf(self.X509_REQ_add1_attr_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REQ>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<ffi.UnsignedChar>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_REQ_add1_attr_by_txt =>
+      ffi.Native.addressOf(self.X509_REQ_add1_attr_by_txt);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REQ>,
+        ffi.Pointer<stack_st_X509_EXTENSION>,
+      )
+    >
+  >
+  get X509_REQ_add_extensions =>
+      ffi.Native.addressOf(self.X509_REQ_add_extensions);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REQ>,
+        ffi.Pointer<stack_st_X509_EXTENSION>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_REQ_add_extensions_nid =>
+      ffi.Native.addressOf(self.X509_REQ_add_extensions_nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get X509_REQ_check_private_key =>
+      ffi.Native.addressOf(self.X509_REQ_check_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_ATTRIBUTE> Function(ffi.Pointer<X509_REQ>, ffi.Int)
+    >
+  >
+  get X509_REQ_delete_attr => ffi.Native.addressOf(self.X509_REQ_delete_attr);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REQ>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get X509_REQ_digest => ffi.Native.addressOf(self.X509_REQ_digest);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509_REQ> Function(ffi.Pointer<X509_REQ>)>
+  >
+  get X509_REQ_dup => ffi.Native.addressOf(self.X509_REQ_dup);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>
+  get X509_REQ_extension_nid =>
+      ffi.Native.addressOf(self.X509_REQ_extension_nid);
   @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_REQ>)>>
   get X509_REQ_free => ffi.Native.addressOf(self.X509_REQ_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509_REQ>)>
+  >
+  get X509_REQ_get0_pubkey => ffi.Native.addressOf(self.X509_REQ_get0_pubkey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<X509_REQ>,
+        ffi.Pointer<ffi.Pointer<ASN1_BIT_STRING>>,
+        ffi.Pointer<ffi.Pointer<X509_ALGOR>>,
+      )
+    >
+  >
+  get X509_REQ_get0_signature =>
+      ffi.Native.addressOf(self.X509_REQ_get0_signature);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_OPENSSL_STRING> Function(ffi.Pointer<X509_REQ>)
+    >
+  >
+  get X509_REQ_get1_email => ffi.Native.addressOf(self.X509_REQ_get1_email);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_ATTRIBUTE> Function(ffi.Pointer<X509_REQ>, ffi.Int)
+    >
+  >
+  get X509_REQ_get_attr => ffi.Native.addressOf(self.X509_REQ_get_attr);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Int, ffi.Int)
+    >
+  >
+  get X509_REQ_get_attr_by_NID =>
+      ffi.Native.addressOf(self.X509_REQ_get_attr_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Pointer<ASN1_OBJECT>, ffi.Int)
+    >
+  >
+  get X509_REQ_get_attr_by_OBJ =>
+      ffi.Native.addressOf(self.X509_REQ_get_attr_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_REQ>)>>
+  get X509_REQ_get_attr_count =>
+      ffi.Native.addressOf(self.X509_REQ_get_attr_count);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509_EXTENSION> Function(ffi.Pointer<X509_REQ>)
+    >
+  >
+  get X509_REQ_get_extensions =>
+      ffi.Native.addressOf(self.X509_REQ_get_extensions);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509_REQ>)>
+  >
+  get X509_REQ_get_pubkey => ffi.Native.addressOf(self.X509_REQ_get_pubkey);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_REQ>)>>
+  get X509_REQ_get_signature_nid =>
+      ffi.Native.addressOf(self.X509_REQ_get_signature_nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509_NAME> Function(ffi.Pointer<X509_REQ>)>
+  >
+  get X509_REQ_get_subject_name =>
+      ffi.Native.addressOf(self.X509_REQ_get_subject_name);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Long Function(ffi.Pointer<X509_REQ>)>>
+  get X509_REQ_get_version => ffi.Native.addressOf(self.X509_REQ_get_version);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_REQ> Function()>>
+  get X509_REQ_new => ffi.Native.addressOf(self.X509_REQ_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_REQ>)
+    >
+  >
+  get X509_REQ_print => ffi.Native.addressOf(self.X509_REQ_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<X509_REQ>,
+        ffi.UnsignedLong,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get X509_REQ_print_ex => ffi.Native.addressOf(self.X509_REQ_print_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_REQ>)
+    >
+  >
+  get X509_REQ_print_fp => ffi.Native.addressOf(self.X509_REQ_print_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Pointer<X509_ALGOR>)
+    >
+  >
+  get X509_REQ_set1_signature_algo =>
+      ffi.Native.addressOf(self.X509_REQ_set1_signature_algo);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get X509_REQ_set1_signature_value =>
+      ffi.Native.addressOf(self.X509_REQ_set1_signature_value);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get X509_REQ_set_pubkey => ffi.Native.addressOf(self.X509_REQ_set_pubkey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Pointer<X509_NAME>)
+    >
+  >
+  get X509_REQ_set_subject_name =>
+      ffi.Native.addressOf(self.X509_REQ_set_subject_name);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Long)>
+  >
+  get X509_REQ_set_version => ffi.Native.addressOf(self.X509_REQ_set_version);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REQ>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<EVP_MD>,
+      )
+    >
+  >
+  get X509_REQ_sign => ffi.Native.addressOf(self.X509_REQ_sign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Pointer<EVP_MD_CTX>)
+    >
+  >
+  get X509_REQ_sign_ctx => ffi.Native.addressOf(self.X509_REQ_sign_ctx);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REQ>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get X509_REQ_verify => ffi.Native.addressOf(self.X509_REQ_verify);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REVOKED>,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+        ffi.Int,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get X509_REVOKED_add1_ext_i2d =>
+      ffi.Native.addressOf(self.X509_REVOKED_add1_ext_i2d);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REVOKED>,
+        ffi.Pointer<X509_EXTENSION>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_REVOKED_add_ext => ffi.Native.addressOf(self.X509_REVOKED_add_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(ffi.Pointer<X509_REVOKED>, ffi.Int)
+    >
+  >
+  get X509_REVOKED_delete_ext =>
+      ffi.Native.addressOf(self.X509_REVOKED_delete_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_REVOKED> Function(ffi.Pointer<X509_REVOKED>)
+    >
+  >
+  get X509_REVOKED_dup => ffi.Native.addressOf(self.X509_REVOKED_dup);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_REVOKED>)>>
   get X509_REVOKED_free => ffi.Native.addressOf(self.X509_REVOKED_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509_EXTENSION> Function(ffi.Pointer<X509_REVOKED>)
+    >
+  >
+  get X509_REVOKED_get0_extensions =>
+      ffi.Native.addressOf(self.X509_REVOKED_get0_extensions);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509_REVOKED>)
+    >
+  >
+  get X509_REVOKED_get0_revocationDate =>
+      ffi.Native.addressOf(self.X509_REVOKED_get0_revocationDate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_INTEGER> Function(ffi.Pointer<X509_REVOKED>)
+    >
+  >
+  get X509_REVOKED_get0_serialNumber =>
+      ffi.Native.addressOf(self.X509_REVOKED_get0_serialNumber);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(ffi.Pointer<X509_REVOKED>, ffi.Int)
+    >
+  >
+  get X509_REVOKED_get_ext => ffi.Native.addressOf(self.X509_REVOKED_get_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REVOKED>, ffi.Int, ffi.Int)
+    >
+  >
+  get X509_REVOKED_get_ext_by_NID =>
+      ffi.Native.addressOf(self.X509_REVOKED_get_ext_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REVOKED>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509_REVOKED_get_ext_by_OBJ =>
+      ffi.Native.addressOf(self.X509_REVOKED_get_ext_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REVOKED>, ffi.Int, ffi.Int)
+    >
+  >
+  get X509_REVOKED_get_ext_by_critical =>
+      ffi.Native.addressOf(self.X509_REVOKED_get_ext_by_critical);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_REVOKED>)>>
+  get X509_REVOKED_get_ext_count =>
+      ffi.Native.addressOf(self.X509_REVOKED_get_ext_count);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<X509_REVOKED>,
+        ffi.Int,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get X509_REVOKED_get_ext_d2i =>
+      ffi.Native.addressOf(self.X509_REVOKED_get_ext_d2i);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_REVOKED> Function()>>
+  get X509_REVOKED_new => ffi.Native.addressOf(self.X509_REVOKED_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REVOKED>, ffi.Pointer<ASN1_TIME>)
+    >
+  >
+  get X509_REVOKED_set_revocationDate =>
+      ffi.Native.addressOf(self.X509_REVOKED_set_revocationDate);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_REVOKED>, ffi.Pointer<ASN1_INTEGER>)
+    >
+  >
+  get X509_REVOKED_set_serialNumber =>
+      ffi.Native.addressOf(self.X509_REVOKED_set_serialNumber);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_SIG>)>>
   get X509_SIG_free => ffi.Native.addressOf(self.X509_SIG_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<X509_SIG>,
+        ffi.Pointer<ffi.Pointer<X509_ALGOR>>,
+        ffi.Pointer<ffi.Pointer<ASN1_OCTET_STRING>>,
+      )
+    >
+  >
+  get X509_SIG_get0 => ffi.Native.addressOf(self.X509_SIG_get0);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<X509_SIG>,
+        ffi.Pointer<ffi.Pointer<X509_ALGOR>>,
+        ffi.Pointer<ffi.Pointer<ASN1_OCTET_STRING>>,
+      )
+    >
+  >
+  get X509_SIG_getm => ffi.Native.addressOf(self.X509_SIG_getm);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_SIG> Function()>>
+  get X509_SIG_new => ffi.Native.addressOf(self.X509_SIG_new);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_STORE_CTX>)>
@@ -32116,8 +44606,444 @@ extension SymbolAddresses on _SymbolAddresses {
   >
   get X509_STORE_CTX_free => ffi.Native.addressOf(self.X509_STORE_CTX_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509> Function(ffi.Pointer<X509_STORE_CTX>)>
+  >
+  get X509_STORE_CTX_get0_cert =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get0_cert);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509> Function(ffi.Pointer<X509_STORE_CTX>)
+    >
+  >
+  get X509_STORE_CTX_get0_chain =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get0_chain);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_CRL> Function(ffi.Pointer<X509_STORE_CTX>)
+    >
+  >
+  get X509_STORE_CTX_get0_current_crl =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get0_current_crl);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_VERIFY_PARAM> Function(ffi.Pointer<X509_STORE_CTX>)
+    >
+  >
+  get X509_STORE_CTX_get0_param =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get0_param);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_STORE_CTX> Function(ffi.Pointer<X509_STORE_CTX>)
+    >
+  >
+  get X509_STORE_CTX_get0_parent_ctx =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get0_parent_ctx);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_STORE> Function(ffi.Pointer<X509_STORE_CTX>)
+    >
+  >
+  get X509_STORE_CTX_get0_store =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get0_store);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509> Function(ffi.Pointer<X509_STORE_CTX>)
+    >
+  >
+  get X509_STORE_CTX_get0_untrusted =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get0_untrusted);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509> Function(
+        ffi.Pointer<X509_STORE_CTX>,
+        ffi.Pointer<X509_NAME>,
+      )
+    >
+  >
+  get X509_STORE_CTX_get1_certs =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get1_certs);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509> Function(ffi.Pointer<X509_STORE_CTX>)
+    >
+  >
+  get X509_STORE_CTX_get1_chain =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get1_chain);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509_CRL> Function(
+        ffi.Pointer<X509_STORE_CTX>,
+        ffi.Pointer<X509_NAME>,
+      )
+    >
+  >
+  get X509_STORE_CTX_get1_crls =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get1_crls);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ffi.Pointer<X509>>,
+        ffi.Pointer<X509_STORE_CTX>,
+        ffi.Pointer<X509>,
+      )
+    >
+  >
+  get X509_STORE_CTX_get1_issuer =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get1_issuer);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_STORE_CTX>,
+        ffi.Int,
+        ffi.Pointer<X509_NAME>,
+        ffi.Pointer<X509_OBJECT>,
+      )
+    >
+  >
+  get X509_STORE_CTX_get_by_subject =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get_by_subject);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509> Function(ffi.Pointer<X509_STORE_CTX>)
+    >
+  >
+  get X509_STORE_CTX_get_chain =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get_chain);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509> Function(ffi.Pointer<X509_STORE_CTX>)>
+  >
+  get X509_STORE_CTX_get_current_cert =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get_current_cert);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_STORE_CTX>)>>
+  get X509_STORE_CTX_get_error =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get_error);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_STORE_CTX>)>>
+  get X509_STORE_CTX_get_error_depth =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get_error_depth);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<X509_STORE_CTX>, ffi.Int)
+    >
+  >
+  get X509_STORE_CTX_get_ex_data =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Long,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<CRYPTO_EX_unused>,
+        ffi.Pointer<CRYPTO_EX_dup>,
+        ffi.Pointer<CRYPTO_EX_free>,
+      )
+    >
+  >
+  get X509_STORE_CTX_get_ex_new_index =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_get_ex_new_index);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_STORE_CTX>,
+        ffi.Pointer<X509_STORE>,
+        ffi.Pointer<X509>,
+        ffi.Pointer<stack_st_X509>,
+      )
+    >
+  >
+  get X509_STORE_CTX_init => ffi.Native.addressOf(self.X509_STORE_CTX_init);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_STORE_CTX> Function()>>
+  get X509_STORE_CTX_new => ffi.Native.addressOf(self.X509_STORE_CTX_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<X509_STORE_CTX>,
+        ffi.Pointer<stack_st_X509_CRL>,
+      )
+    >
+  >
+  get X509_STORE_CTX_set0_crls =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set0_crls);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<X509_STORE_CTX>,
+        ffi.Pointer<X509_VERIFY_PARAM>,
+      )
+    >
+  >
+  get X509_STORE_CTX_set0_param =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set0_param);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<X509_STORE_CTX>, ffi.Pointer<stack_st_X509>)
+    >
+  >
+  get X509_STORE_CTX_set0_trusted_stack =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set0_trusted_stack);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<X509_STORE_CTX>, ffi.Pointer<stack_st_X509>)
+    >
+  >
+  get X509_STORE_CTX_set_chain =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set_chain);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_STORE_CTX>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get X509_STORE_CTX_set_default =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set_default);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_STORE_CTX>, ffi.Int)>
+  >
+  get X509_STORE_CTX_set_depth =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set_depth);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_STORE_CTX>, ffi.Int)>
+  >
+  get X509_STORE_CTX_set_error =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set_error);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_STORE_CTX>,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get X509_STORE_CTX_set_ex_data =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<X509_STORE_CTX>, ffi.UnsignedLong)
+    >
+  >
+  get X509_STORE_CTX_set_flags =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set_flags);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_STORE_CTX>, ffi.Int)>
+  >
+  get X509_STORE_CTX_set_purpose =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set_purpose);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<X509_STORE_CTX>, ffi.UnsignedLong, time_t)
+    >
+  >
+  get X509_STORE_CTX_set_time =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set_time);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<X509_STORE_CTX>,
+        ffi.UnsignedLong,
+        ffi.Int64,
+      )
+    >
+  >
+  get X509_STORE_CTX_set_time_posix =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set_time_posix);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_STORE_CTX>, ffi.Int)>
+  >
+  get X509_STORE_CTX_set_trust =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set_trust);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<X509_STORE_CTX>,
+        ffi.Pointer<
+          ffi.NativeFunction<
+            ffi.Int Function(ffi.Int ok, ffi.Pointer<X509_STORE_CTX> ctx)
+          >
+        >,
+      )
+    >
+  >
+  get X509_STORE_CTX_set_verify_cb =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_set_verify_cb);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<X509_STORE_CTX>, ffi.Pointer<stack_st_X509>)
+    >
+  >
+  get X509_STORE_CTX_trusted_stack =>
+      ffi.Native.addressOf(self.X509_STORE_CTX_trusted_stack);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_STORE>, ffi.Pointer<X509>)
+    >
+  >
+  get X509_STORE_add_cert => ffi.Native.addressOf(self.X509_STORE_add_cert);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_STORE>, ffi.Pointer<X509_CRL>)
+    >
+  >
+  get X509_STORE_add_crl => ffi.Native.addressOf(self.X509_STORE_add_crl);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_LOOKUP> Function(
+        ffi.Pointer<X509_STORE>,
+        ffi.Pointer<X509_LOOKUP_METHOD>,
+      )
+    >
+  >
+  get X509_STORE_add_lookup => ffi.Native.addressOf(self.X509_STORE_add_lookup);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_STORE>)>>
   get X509_STORE_free => ffi.Native.addressOf(self.X509_STORE_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509_OBJECT> Function(ffi.Pointer<X509_STORE>)
+    >
+  >
+  get X509_STORE_get0_objects =>
+      ffi.Native.addressOf(self.X509_STORE_get0_objects);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_VERIFY_PARAM> Function(ffi.Pointer<X509_STORE>)
+    >
+  >
+  get X509_STORE_get0_param => ffi.Native.addressOf(self.X509_STORE_get0_param);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509_OBJECT> Function(ffi.Pointer<X509_STORE>)
+    >
+  >
+  get X509_STORE_get1_objects =>
+      ffi.Native.addressOf(self.X509_STORE_get1_objects);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_STORE>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get X509_STORE_load_locations =>
+      ffi.Native.addressOf(self.X509_STORE_load_locations);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_STORE> Function()>>
+  get X509_STORE_new => ffi.Native.addressOf(self.X509_STORE_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_STORE>, ffi.Pointer<X509_VERIFY_PARAM>)
+    >
+  >
+  get X509_STORE_set1_param => ffi.Native.addressOf(self.X509_STORE_set1_param);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_STORE>)>>
+  get X509_STORE_set_default_paths =>
+      ffi.Native.addressOf(self.X509_STORE_set_default_paths);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_STORE>, ffi.Int)>
+  >
+  get X509_STORE_set_depth => ffi.Native.addressOf(self.X509_STORE_set_depth);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_STORE>, ffi.UnsignedLong)
+    >
+  >
+  get X509_STORE_set_flags => ffi.Native.addressOf(self.X509_STORE_set_flags);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_STORE>, ffi.Int)>
+  >
+  get X509_STORE_set_purpose =>
+      ffi.Native.addressOf(self.X509_STORE_set_purpose);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_STORE>, ffi.Int)>
+  >
+  get X509_STORE_set_trust => ffi.Native.addressOf(self.X509_STORE_set_trust);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<X509_STORE>, X509_STORE_CTX_verify_cb)
+    >
+  >
+  get X509_STORE_set_verify_cb =>
+      ffi.Native.addressOf(self.X509_STORE_set_verify_cb);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_STORE>)>>
+  get X509_STORE_up_ref => ffi.Native.addressOf(self.X509_STORE_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_VERIFY_PARAM>, ffi.Pointer<ASN1_OBJECT>)
+    >
+  >
+  get X509_VERIFY_PARAM_add0_policy =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_add0_policy);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_VERIFY_PARAM>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Size,
+      )
+    >
+  >
+  get X509_VERIFY_PARAM_add1_host =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_add1_host);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_VERIFY_PARAM>, ffi.UnsignedLong)
+    >
+  >
+  get X509_VERIFY_PARAM_clear_flags =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_clear_flags);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509_VERIFY_PARAM>)>
@@ -32126,15 +45052,3183 @@ extension SymbolAddresses on _SymbolAddresses {
       ffi.Native.addressOf(self.X509_VERIFY_PARAM_free);
   @meta.RecordUse()
   ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_VERIFY_PARAM>)>
+  >
+  get X509_VERIFY_PARAM_get_depth =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_get_depth);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.UnsignedLong Function(ffi.Pointer<X509_VERIFY_PARAM>)
+    >
+  >
+  get X509_VERIFY_PARAM_get_flags =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_get_flags);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_VERIFY_PARAM>,
+        ffi.Pointer<X509_VERIFY_PARAM>,
+      )
+    >
+  >
+  get X509_VERIFY_PARAM_inherit =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_inherit);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509_VERIFY_PARAM> Function()>>
+  get X509_VERIFY_PARAM_new => ffi.Native.addressOf(self.X509_VERIFY_PARAM_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_VERIFY_PARAM>,
+        ffi.Pointer<X509_VERIFY_PARAM>,
+      )
+    >
+  >
+  get X509_VERIFY_PARAM_set1 =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_VERIFY_PARAM>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Size,
+      )
+    >
+  >
+  get X509_VERIFY_PARAM_set1_email =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set1_email);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_VERIFY_PARAM>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Size,
+      )
+    >
+  >
+  get X509_VERIFY_PARAM_set1_host =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set1_host);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_VERIFY_PARAM>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+      )
+    >
+  >
+  get X509_VERIFY_PARAM_set1_ip =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set1_ip);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_VERIFY_PARAM>, ffi.Pointer<ffi.Char>)
+    >
+  >
+  get X509_VERIFY_PARAM_set1_ip_asc =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set1_ip_asc);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_VERIFY_PARAM>,
+        ffi.Pointer<stack_st_ASN1_OBJECT>,
+      )
+    >
+  >
+  get X509_VERIFY_PARAM_set1_policies =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set1_policies);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<X509_VERIFY_PARAM>, ffi.Int)
+    >
+  >
+  get X509_VERIFY_PARAM_set_depth =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set_depth);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_VERIFY_PARAM>, ffi.UnsignedLong)
+    >
+  >
+  get X509_VERIFY_PARAM_set_flags =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set_flags);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<X509_VERIFY_PARAM>, ffi.UnsignedInt)
+    >
+  >
+  get X509_VERIFY_PARAM_set_hostflags =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set_hostflags);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_VERIFY_PARAM>, ffi.Int)
+    >
+  >
+  get X509_VERIFY_PARAM_set_purpose =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set_purpose);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<X509_VERIFY_PARAM>, time_t)
+    >
+  >
+  get X509_VERIFY_PARAM_set_time =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set_time);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<X509_VERIFY_PARAM>, ffi.Int64)
+    >
+  >
+  get X509_VERIFY_PARAM_set_time_posix =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set_time_posix);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_VERIFY_PARAM>, ffi.Int)
+    >
+  >
+  get X509_VERIFY_PARAM_set_trust =>
+      ffi.Native.addressOf(self.X509_VERIFY_PARAM_set_trust);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509>,
+        ffi.Int,
+        ffi.Pointer<ffi.Void>,
+        ffi.Int,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get X509_add1_ext_i2d => ffi.Native.addressOf(self.X509_add1_ext_i2d);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ASN1_OBJECT>)
+    >
+  >
+  get X509_add1_reject_object =>
+      ffi.Native.addressOf(self.X509_add1_reject_object);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ASN1_OBJECT>)
+    >
+  >
+  get X509_add1_trust_object =>
+      ffi.Native.addressOf(self.X509_add1_trust_object);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<X509_EXTENSION>, ffi.Int)
+    >
+  >
+  get X509_add_ext => ffi.Native.addressOf(self.X509_add_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Uint8> Function(ffi.Pointer<X509>, ffi.Pointer<ffi.Int>)
+    >
+  >
+  get X509_alias_get0 => ffi.Native.addressOf(self.X509_alias_get0);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ffi.Uint8>, ossl_ssize_t)
+    >
+  >
+  get X509_alias_set1 => ffi.Native.addressOf(self.X509_alias_set1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509> Function(ffi.Pointer<stack_st_X509>)
+    >
+  >
+  get X509_chain_up_ref => ffi.Native.addressOf(self.X509_chain_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>)>>
+  get X509_check_ca => ffi.Native.addressOf(self.X509_check_ca);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Size,
+        ffi.UnsignedInt,
+      )
+    >
+  >
+  get X509_check_email => ffi.Native.addressOf(self.X509_check_email);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Size,
+        ffi.UnsignedInt,
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+      )
+    >
+  >
+  get X509_check_host => ffi.Native.addressOf(self.X509_check_host);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Size,
+        ffi.UnsignedInt,
+      )
+    >
+  >
+  get X509_check_ip => ffi.Native.addressOf(self.X509_check_ip);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509>,
+        ffi.Pointer<ffi.Char>,
+        ffi.UnsignedInt,
+      )
+    >
+  >
+  get X509_check_ip_asc => ffi.Native.addressOf(self.X509_check_ip_asc);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<X509>)>
+  >
+  get X509_check_issued => ffi.Native.addressOf(self.X509_check_issued);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get X509_check_private_key =>
+      ffi.Native.addressOf(self.X509_check_private_key);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>, ffi.Int, ffi.Int)>
+  >
+  get X509_check_purpose => ffi.Native.addressOf(self.X509_check_purpose);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>, ffi.Int, ffi.Int)>
+  >
+  get X509_check_trust => ffi.Native.addressOf(self.X509_check_trust);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<X509>)>
+  >
+  get X509_cmp => ffi.Native.addressOf(self.X509_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_TIME>)>>
+  get X509_cmp_current_time => ffi.Native.addressOf(self.X509_cmp_current_time);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ASN1_TIME>, ffi.Pointer<time_t>)
+    >
+  >
+  get X509_cmp_time => ffi.Native.addressOf(self.X509_cmp_time);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_TIME>, ffi.Int64)>
+  >
+  get X509_cmp_time_posix => ffi.Native.addressOf(self.X509_cmp_time_posix);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ASN1_TIME>, ffi.Int64)>
+  >
+  get X509_cmp_time_posix_nonstandard =>
+      ffi.Native.addressOf(self.X509_cmp_time_posix_nonstandard);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(ffi.Pointer<X509>, ffi.Int)
+    >
+  >
+  get X509_delete_ext => ffi.Native.addressOf(self.X509_delete_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get X509_digest => ffi.Native.addressOf(self.X509_digest);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509> Function(ffi.Pointer<X509>)>>
+  get X509_dup => ffi.Native.addressOf(self.X509_dup);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509> Function(ffi.Pointer<X509>)>>
+  get X509_dup_ref => ffi.Native.addressOf(self.X509_dup_ref);
+  @meta.RecordUse()
+  ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<stack_st_OPENSSL_STRING>)>
   >
   get X509_email_free => ffi.Native.addressOf(self.X509_email_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509> Function(
+        ffi.Pointer<stack_st_X509>,
+        ffi.Pointer<X509_NAME>,
+        ffi.Pointer<ASN1_INTEGER>,
+      )
+    >
+  >
+  get X509_find_by_issuer_and_serial =>
+      ffi.Native.addressOf(self.X509_find_by_issuer_and_serial);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509> Function(
+        ffi.Pointer<stack_st_X509>,
+        ffi.Pointer<X509_NAME>,
+      )
+    >
+  >
+  get X509_find_by_subject => ffi.Native.addressOf(self.X509_find_by_subject);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509>)>>
   get X509_free => ffi.Native.addressOf(self.X509_free);
   @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<GENERAL_NAMES> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get0_authority_issuer =>
+      ffi.Native.addressOf(self.X509_get0_authority_issuer);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OCTET_STRING> Function(ffi.Pointer<X509>)
+    >
+  >
+  get X509_get0_authority_key_id =>
+      ffi.Native.addressOf(self.X509_get0_authority_key_id);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_INTEGER> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get0_authority_serial =>
+      ffi.Native.addressOf(self.X509_get0_authority_serial);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509_EXTENSION> Function(ffi.Pointer<X509>)
+    >
+  >
+  get X509_get0_extensions => ffi.Native.addressOf(self.X509_get0_extensions);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get0_notAfter => ffi.Native.addressOf(self.X509_get0_notAfter);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get0_notBefore => ffi.Native.addressOf(self.X509_get0_notBefore);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get0_pubkey => ffi.Native.addressOf(self.X509_get0_pubkey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_BIT_STRING> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get0_pubkey_bitstr =>
+      ffi.Native.addressOf(self.X509_get0_pubkey_bitstr);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_INTEGER> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get0_serialNumber =>
+      ffi.Native.addressOf(self.X509_get0_serialNumber);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Pointer<ASN1_BIT_STRING>>,
+        ffi.Pointer<ffi.Pointer<X509_ALGOR>>,
+        ffi.Pointer<X509>,
+      )
+    >
+  >
+  get X509_get0_signature => ffi.Native.addressOf(self.X509_get0_signature);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OCTET_STRING> Function(ffi.Pointer<X509>)
+    >
+  >
+  get X509_get0_subject_key_id =>
+      ffi.Native.addressOf(self.X509_get0_subject_key_id);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509_ALGOR> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get0_tbs_sigalg => ffi.Native.addressOf(self.X509_get0_tbs_sigalg);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<X509>,
+        ffi.Pointer<ffi.Pointer<ASN1_BIT_STRING>>,
+        ffi.Pointer<ffi.Pointer<ASN1_BIT_STRING>>,
+      )
+    >
+  >
+  get X509_get0_uids => ffi.Native.addressOf(self.X509_get0_uids);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_OPENSSL_STRING> Function(ffi.Pointer<X509>)
+    >
+  >
+  get X509_get1_email => ffi.Native.addressOf(self.X509_get1_email);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_OPENSSL_STRING> Function(ffi.Pointer<X509>)
+    >
+  >
+  get X509_get1_ocsp => ffi.Native.addressOf(self.X509_get1_ocsp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509_PUBKEY> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get_X509_PUBKEY => ffi.Native.addressOf(self.X509_get_X509_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function()>>
+  get X509_get_default_cert_area =>
+      ffi.Native.addressOf(self.X509_get_default_cert_area);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function()>>
+  get X509_get_default_cert_dir =>
+      ffi.Native.addressOf(self.X509_get_default_cert_dir);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function()>>
+  get X509_get_default_cert_dir_env =>
+      ffi.Native.addressOf(self.X509_get_default_cert_dir_env);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function()>>
+  get X509_get_default_cert_file =>
+      ffi.Native.addressOf(self.X509_get_default_cert_file);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function()>>
+  get X509_get_default_cert_file_env =>
+      ffi.Native.addressOf(self.X509_get_default_cert_file_env);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function()>>
+  get X509_get_default_private_dir =>
+      ffi.Native.addressOf(self.X509_get_default_private_dir);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<X509>, ffi.Int)
+    >
+  >
+  get X509_get_ex_data => ffi.Native.addressOf(self.X509_get_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Long,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<CRYPTO_EX_unused>,
+        ffi.Pointer<CRYPTO_EX_dup>,
+        ffi.Pointer<CRYPTO_EX_free>,
+      )
+    >
+  >
+  get X509_get_ex_new_index => ffi.Native.addressOf(self.X509_get_ex_new_index);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(ffi.Pointer<X509>, ffi.Int)
+    >
+  >
+  get X509_get_ext => ffi.Native.addressOf(self.X509_get_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>, ffi.Int, ffi.Int)>
+  >
+  get X509_get_ext_by_NID => ffi.Native.addressOf(self.X509_get_ext_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ASN1_OBJECT>, ffi.Int)
+    >
+  >
+  get X509_get_ext_by_OBJ => ffi.Native.addressOf(self.X509_get_ext_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>, ffi.Int, ffi.Int)>
+  >
+  get X509_get_ext_by_critical =>
+      ffi.Native.addressOf(self.X509_get_ext_by_critical);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>)>>
+  get X509_get_ext_count => ffi.Native.addressOf(self.X509_get_ext_count);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<X509>,
+        ffi.Int,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Int>,
+      )
+    >
+  >
+  get X509_get_ext_d2i => ffi.Native.addressOf(self.X509_get_ext_d2i);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<X509>)>>
+  get X509_get_extended_key_usage =>
+      ffi.Native.addressOf(self.X509_get_extended_key_usage);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<X509>)>>
+  get X509_get_extension_flags =>
+      ffi.Native.addressOf(self.X509_get_extension_flags);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509_NAME> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get_issuer_name => ffi.Native.addressOf(self.X509_get_issuer_name);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<X509>)>>
+  get X509_get_key_usage => ffi.Native.addressOf(self.X509_get_key_usage);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get_notAfter => ffi.Native.addressOf(self.X509_get_notAfter);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get_notBefore => ffi.Native.addressOf(self.X509_get_notBefore);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Long Function(ffi.Pointer<X509>)>>
+  get X509_get_pathlen => ffi.Native.addressOf(self.X509_get_pathlen);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<EVP_PKEY> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get_pubkey => ffi.Native.addressOf(self.X509_get_pubkey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_INTEGER> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get_serialNumber => ffi.Native.addressOf(self.X509_get_serialNumber);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>)>>
+  get X509_get_signature_nid =>
+      ffi.Native.addressOf(self.X509_get_signature_nid);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509_NAME> Function(ffi.Pointer<X509>)>
+  >
+  get X509_get_subject_name => ffi.Native.addressOf(self.X509_get_subject_name);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Long Function(ffi.Pointer<X509>)>>
+  get X509_get_version => ffi.Native.addressOf(self.X509_get_version);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>
+  >
+  get X509_getm_notAfter => ffi.Native.addressOf(self.X509_getm_notAfter);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<X509>)>
+  >
+  get X509_getm_notBefore => ffi.Native.addressOf(self.X509_getm_notBefore);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_TIME> Function(ffi.Pointer<ASN1_TIME>, ffi.Long)
+    >
+  >
+  get X509_gmtime_adj => ffi.Native.addressOf(self.X509_gmtime_adj);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<X509>)>
+  >
+  get X509_issuer_name_cmp => ffi.Native.addressOf(self.X509_issuer_name_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<X509>)>>
+  get X509_issuer_name_hash => ffi.Native.addressOf(self.X509_issuer_name_hash);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<X509>)>>
+  get X509_issuer_name_hash_old =>
+      ffi.Native.addressOf(self.X509_issuer_name_hash_old);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Uint8> Function(ffi.Pointer<X509>, ffi.Pointer<ffi.Int>)
+    >
+  >
+  get X509_keyid_get0 => ffi.Native.addressOf(self.X509_keyid_get0);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ffi.Uint8>, ossl_ssize_t)
+    >
+  >
+  get X509_keyid_set1 => ffi.Native.addressOf(self.X509_keyid_set1);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_LOOKUP>, ffi.Pointer<ffi.Char>, ffi.Int)
+    >
+  >
+  get X509_load_cert_crl_file =>
+      ffi.Native.addressOf(self.X509_load_cert_crl_file);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_LOOKUP>, ffi.Pointer<ffi.Char>, ffi.Int)
+    >
+  >
+  get X509_load_cert_file => ffi.Native.addressOf(self.X509_load_cert_file);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509_LOOKUP>, ffi.Pointer<ffi.Char>, ffi.Int)
+    >
+  >
+  get X509_load_crl_file => ffi.Native.addressOf(self.X509_load_crl_file);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<X509> Function()>> get X509_new =>
+      ffi.Native.addressOf(self.X509_new);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Pointer<X509> Function(ffi.Pointer<CRYPTO_BUFFER>)>
+  >
+  get X509_parse_from_buffer =>
+      ffi.Native.addressOf(self.X509_parse_from_buffer);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509> Function(
+        ffi.Pointer<CRYPTO_BUFFER>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY_ALG>>,
+        ffi.Size,
+      )
+    >
+  >
+  get X509_parse_with_algorithms =>
+      ffi.Native.addressOf(self.X509_parse_with_algorithms);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509>)>
+  >
+  get X509_print => ffi.Native.addressOf(self.X509_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<X509>,
+        ffi.UnsignedLong,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get X509_print_ex => ffi.Native.addressOf(self.X509_print_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<X509>,
+        ffi.UnsignedLong,
+        ffi.UnsignedLong,
+      )
+    >
+  >
+  get X509_print_ex_fp => ffi.Native.addressOf(self.X509_print_ex_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509>)>
+  >
+  get X509_print_fp => ffi.Native.addressOf(self.X509_print_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509>,
+        ffi.Pointer<EVP_MD>,
+        ffi.Pointer<ffi.Uint8>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )
+    >
+  >
+  get X509_pubkey_digest => ffi.Native.addressOf(self.X509_pubkey_digest);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509>)>>
+  get X509_reject_clear => ffi.Native.addressOf(self.X509_reject_clear);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ASN1_TIME>)
+    >
+  >
+  get X509_set1_notAfter => ffi.Native.addressOf(self.X509_set1_notAfter);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ASN1_TIME>)
+    >
+  >
+  get X509_set1_notBefore => ffi.Native.addressOf(self.X509_set1_notBefore);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<X509_ALGOR>)
+    >
+  >
+  get X509_set1_signature_algo =>
+      ffi.Native.addressOf(self.X509_set1_signature_algo);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ffi.Uint8>, ffi.Size)
+    >
+  >
+  get X509_set1_signature_value =>
+      ffi.Native.addressOf(self.X509_set1_signature_value);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Int, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get X509_set_ex_data => ffi.Native.addressOf(self.X509_set_ex_data);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<X509_NAME>)
+    >
+  >
+  get X509_set_issuer_name => ffi.Native.addressOf(self.X509_set_issuer_name);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ASN1_TIME>)
+    >
+  >
+  get X509_set_notAfter => ffi.Native.addressOf(self.X509_set_notAfter);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ASN1_TIME>)
+    >
+  >
+  get X509_set_notBefore => ffi.Native.addressOf(self.X509_set_notBefore);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get X509_set_pubkey => ffi.Native.addressOf(self.X509_set_pubkey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ASN1_INTEGER>)
+    >
+  >
+  get X509_set_serialNumber => ffi.Native.addressOf(self.X509_set_serialNumber);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<X509_NAME>)
+    >
+  >
+  get X509_set_subject_name => ffi.Native.addressOf(self.X509_set_subject_name);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>, ffi.Long)>>
+  get X509_set_version => ffi.Native.addressOf(self.X509_set_version);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<EVP_MD>,
+      )
+    >
+  >
+  get X509_sign => ffi.Native.addressOf(self.X509_sign);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<EVP_MD_CTX>)
+    >
+  >
+  get X509_sign_ctx => ffi.Native.addressOf(self.X509_sign_ctx);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_STRING>, ffi.Int)
+    >
+  >
+  get X509_signature_dump => ffi.Native.addressOf(self.X509_signature_dump);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<X509_ALGOR>,
+        ffi.Pointer<ASN1_STRING>,
+      )
+    >
+  >
+  get X509_signature_print => ffi.Native.addressOf(self.X509_signature_print);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<X509>)>
+  >
+  get X509_subject_name_cmp => ffi.Native.addressOf(self.X509_subject_name_cmp);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<X509>)>>
+  get X509_subject_name_hash =>
+      ffi.Native.addressOf(self.X509_subject_name_hash);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<X509>)>>
+  get X509_subject_name_hash_old =>
+      ffi.Native.addressOf(self.X509_subject_name_hash_old);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_EXTENSION>)>>
+  get X509_supported_extension =>
+      ffi.Native.addressOf(self.X509_supported_extension);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_TIME> Function(
+        ffi.Pointer<ASN1_TIME>,
+        ffi.Long,
+        ffi.Pointer<time_t>,
+      )
+    >
+  >
+  get X509_time_adj => ffi.Native.addressOf(self.X509_time_adj);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_TIME> Function(
+        ffi.Pointer<ASN1_TIME>,
+        ffi.Int,
+        ffi.Long,
+        ffi.Pointer<time_t>,
+      )
+    >
+  >
+  get X509_time_adj_ex => ffi.Native.addressOf(self.X509_time_adj_ex);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<X509>)>>
+  get X509_trust_clear => ffi.Native.addressOf(self.X509_trust_clear);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509>)>>
+  get X509_up_ref => ffi.Native.addressOf(self.X509_up_ref);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get X509_verify => ffi.Native.addressOf(self.X509_verify);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<X509_STORE_CTX>)>>
+  get X509_verify_cert => ffi.Native.addressOf(self.X509_verify_cert);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.Long)>>
+  get X509_verify_cert_error_string =>
+      ffi.Native.addressOf(self.X509_verify_cert_error_string);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_X509_EXTENSION> Function(
+        ffi.Pointer<ffi.Pointer<stack_st_X509_EXTENSION>>,
+        ffi.Pointer<X509_EXTENSION>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509v3_add_ext => ffi.Native.addressOf(self.X509v3_add_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(
+        ffi.Pointer<stack_st_X509_EXTENSION>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509v3_delete_ext => ffi.Native.addressOf(self.X509v3_delete_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(
+        ffi.Pointer<stack_st_X509_EXTENSION>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509v3_get_ext => ffi.Native.addressOf(self.X509v3_get_ext);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<stack_st_X509_EXTENSION>, ffi.Int, ffi.Int)
+    >
+  >
+  get X509v3_get_ext_by_NID => ffi.Native.addressOf(self.X509v3_get_ext_by_NID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<stack_st_X509_EXTENSION>,
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Int,
+      )
+    >
+  >
+  get X509v3_get_ext_by_OBJ => ffi.Native.addressOf(self.X509v3_get_ext_by_OBJ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<stack_st_X509_EXTENSION>, ffi.Int, ffi.Int)
+    >
+  >
+  get X509v3_get_ext_by_critical =>
+      ffi.Native.addressOf(self.X509v3_get_ext_by_critical);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<stack_st_X509_EXTENSION>)>
+  >
+  get X509v3_get_ext_count => ffi.Native.addressOf(self.X509v3_get_ext_count);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OCTET_STRING> Function(ffi.Pointer<ffi.Char>)
+    >
+  >
+  get a2i_IPADDRESS => ffi.Native.addressOf(self.a2i_IPADDRESS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OCTET_STRING> Function(ffi.Pointer<ffi.Char>)
+    >
+  >
+  get a2i_IPADDRESS_NC => ffi.Native.addressOf(self.a2i_IPADDRESS_NC);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_BIT_STRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_BIT_STRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get c2i_ASN1_BIT_STRING => ffi.Native.addressOf(self.c2i_ASN1_BIT_STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_INTEGER> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_INTEGER>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get c2i_ASN1_INTEGER => ffi.Native.addressOf(self.c2i_ASN1_INTEGER);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OBJECT> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_OBJECT>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get c2i_ASN1_OBJECT => ffi.Native.addressOf(self.c2i_ASN1_OBJECT);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_BIT_STRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_BIT_STRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_BIT_STRING => ffi.Native.addressOf(self.d2i_ASN1_BIT_STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_BMPSTRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_BMPSTRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_BMPSTRING => ffi.Native.addressOf(self.d2i_ASN1_BMPSTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ASN1_BOOLEAN Function(
+        ffi.Pointer<ASN1_BOOLEAN>,
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_BOOLEAN => ffi.Native.addressOf(self.d2i_ASN1_BOOLEAN);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_ENUMERATED> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_ENUMERATED>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_ENUMERATED => ffi.Native.addressOf(self.d2i_ASN1_ENUMERATED);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_GENERALIZEDTIME> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_GENERALIZEDTIME>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_GENERALIZEDTIME =>
+      ffi.Native.addressOf(self.d2i_ASN1_GENERALIZEDTIME);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_GENERALSTRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_GENERALSTRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_GENERALSTRING =>
+      ffi.Native.addressOf(self.d2i_ASN1_GENERALSTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_IA5STRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_IA5STRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_IA5STRING => ffi.Native.addressOf(self.d2i_ASN1_IA5STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_INTEGER> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_INTEGER>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_INTEGER => ffi.Native.addressOf(self.d2i_ASN1_INTEGER);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_NULL> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_NULL>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_NULL => ffi.Native.addressOf(self.d2i_ASN1_NULL);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OBJECT> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_OBJECT>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_OBJECT => ffi.Native.addressOf(self.d2i_ASN1_OBJECT);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OCTET_STRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_OCTET_STRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_OCTET_STRING => ffi.Native.addressOf(self.d2i_ASN1_OCTET_STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_PRINTABLESTRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_PRINTABLESTRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_PRINTABLESTRING =>
+      ffi.Native.addressOf(self.d2i_ASN1_PRINTABLESTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_SEQUENCE_ANY> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_SEQUENCE_ANY>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_SEQUENCE_ANY => ffi.Native.addressOf(self.d2i_ASN1_SEQUENCE_ANY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_SEQUENCE_ANY> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_SEQUENCE_ANY>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_SET_ANY => ffi.Native.addressOf(self.d2i_ASN1_SET_ANY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_T61STRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_T61STRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_T61STRING => ffi.Native.addressOf(self.d2i_ASN1_T61STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_TIME> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_TIME>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_TIME => ffi.Native.addressOf(self.d2i_ASN1_TIME);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_TYPE> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_TYPE>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_TYPE => ffi.Native.addressOf(self.d2i_ASN1_TYPE);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_UNIVERSALSTRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_UNIVERSALSTRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_UNIVERSALSTRING =>
+      ffi.Native.addressOf(self.d2i_ASN1_UNIVERSALSTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_UTCTIME> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_UTCTIME>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_UTCTIME => ffi.Native.addressOf(self.d2i_ASN1_UTCTIME);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_UTF8STRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_UTF8STRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_UTF8STRING => ffi.Native.addressOf(self.d2i_ASN1_UTF8STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_VISIBLESTRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_VISIBLESTRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ASN1_VISIBLESTRING =>
+      ffi.Native.addressOf(self.d2i_ASN1_VISIBLESTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<AUTHORITY_INFO_ACCESS> Function(
+        ffi.Pointer<ffi.Pointer<AUTHORITY_INFO_ACCESS>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_AUTHORITY_INFO_ACCESS =>
+      ffi.Native.addressOf(self.d2i_AUTHORITY_INFO_ACCESS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<AUTHORITY_KEYID> Function(
+        ffi.Pointer<ffi.Pointer<AUTHORITY_KEYID>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_AUTHORITY_KEYID => ffi.Native.addressOf(self.d2i_AUTHORITY_KEYID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_AutoPrivateKey => ffi.Native.addressOf(self.d2i_AutoPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<BASIC_CONSTRAINTS> Function(
+        ffi.Pointer<ffi.Pointer<BASIC_CONSTRAINTS>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_BASIC_CONSTRAINTS => ffi.Native.addressOf(self.d2i_BASIC_CONSTRAINTS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<CERTIFICATEPOLICIES> Function(
+        ffi.Pointer<ffi.Pointer<CERTIFICATEPOLICIES>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_CERTIFICATEPOLICIES =>
+      ffi.Native.addressOf(self.d2i_CERTIFICATEPOLICIES);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<CRL_DIST_POINTS> Function(
+        ffi.Pointer<ffi.Pointer<CRL_DIST_POINTS>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_CRL_DIST_POINTS => ffi.Native.addressOf(self.d2i_CRL_DIST_POINTS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DH> Function(
+        ffi.Pointer<ffi.Pointer<DH>>,
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_DHparams => ffi.Native.addressOf(self.d2i_DHparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DH> Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Pointer<DH>>)
+    >
+  >
+  get d2i_DHparams_bio => ffi.Native.addressOf(self.d2i_DHparams_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_STRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_STRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_DIRECTORYSTRING => ffi.Native.addressOf(self.d2i_DIRECTORYSTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_STRING> Function(
+        ffi.Pointer<ffi.Pointer<ASN1_STRING>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_DISPLAYTEXT => ffi.Native.addressOf(self.d2i_DISPLAYTEXT);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<ffi.Pointer<DSA>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_DSAPrivateKey => ffi.Native.addressOf(self.d2i_DSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Pointer<DSA>>)
+    >
+  >
+  get d2i_DSAPrivateKey_bio => ffi.Native.addressOf(self.d2i_DSAPrivateKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<DSA>>,
+      )
+    >
+  >
+  get d2i_DSAPrivateKey_fp => ffi.Native.addressOf(self.d2i_DSAPrivateKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<ffi.Pointer<DSA>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_DSAPublicKey => ffi.Native.addressOf(self.d2i_DSAPublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<ffi.Pointer<DSA>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_DSA_PUBKEY => ffi.Native.addressOf(self.d2i_DSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Pointer<DSA>>)
+    >
+  >
+  get d2i_DSA_PUBKEY_bio => ffi.Native.addressOf(self.d2i_DSA_PUBKEY_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<DSA>>,
+      )
+    >
+  >
+  get d2i_DSA_PUBKEY_fp => ffi.Native.addressOf(self.d2i_DSA_PUBKEY_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA_SIG> Function(
+        ffi.Pointer<ffi.Pointer<DSA_SIG>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_DSA_SIG => ffi.Native.addressOf(self.d2i_DSA_SIG);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<DSA> Function(
+        ffi.Pointer<ffi.Pointer<DSA>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_DSAparams => ffi.Native.addressOf(self.d2i_DSAparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ECDSA_SIG> Function(
+        ffi.Pointer<ffi.Pointer<ECDSA_SIG>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ECDSA_SIG => ffi.Native.addressOf(self.d2i_ECDSA_SIG);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_GROUP> Function(
+        ffi.Pointer<ffi.Pointer<EC_GROUP>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ECPKParameters => ffi.Native.addressOf(self.d2i_ECPKParameters);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ECParameters => ffi.Native.addressOf(self.d2i_ECParameters);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ECPrivateKey => ffi.Native.addressOf(self.d2i_ECPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+      )
+    >
+  >
+  get d2i_ECPrivateKey_bio => ffi.Native.addressOf(self.d2i_ECPrivateKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+      )
+    >
+  >
+  get d2i_ECPrivateKey_fp => ffi.Native.addressOf(self.d2i_ECPrivateKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_EC_PUBKEY => ffi.Native.addressOf(self.d2i_EC_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+      )
+    >
+  >
+  get d2i_EC_PUBKEY_bio => ffi.Native.addressOf(self.d2i_EC_PUBKEY_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+      )
+    >
+  >
+  get d2i_EC_PUBKEY_fp => ffi.Native.addressOf(self.d2i_EC_PUBKEY_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EXTENDED_KEY_USAGE> Function(
+        ffi.Pointer<ffi.Pointer<EXTENDED_KEY_USAGE>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_EXTENDED_KEY_USAGE =>
+      ffi.Native.addressOf(self.d2i_EXTENDED_KEY_USAGE);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<GENERAL_NAME> Function(
+        ffi.Pointer<ffi.Pointer<GENERAL_NAME>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_GENERAL_NAME => ffi.Native.addressOf(self.d2i_GENERAL_NAME);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<GENERAL_NAMES> Function(
+        ffi.Pointer<ffi.Pointer<GENERAL_NAMES>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_GENERAL_NAMES => ffi.Native.addressOf(self.d2i_GENERAL_NAMES);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ISSUING_DIST_POINT> Function(
+        ffi.Pointer<ffi.Pointer<ISSUING_DIST_POINT>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_ISSUING_DIST_POINT =>
+      ffi.Native.addressOf(self.d2i_ISSUING_DIST_POINT);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<NETSCAPE_SPKAC> Function(
+        ffi.Pointer<ffi.Pointer<NETSCAPE_SPKAC>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_NETSCAPE_SPKAC => ffi.Native.addressOf(self.d2i_NETSCAPE_SPKAC);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<NETSCAPE_SPKI> Function(
+        ffi.Pointer<ffi.Pointer<NETSCAPE_SPKI>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_NETSCAPE_SPKI => ffi.Native.addressOf(self.d2i_NETSCAPE_SPKI);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<PKCS7> Function(
+        ffi.Pointer<ffi.Pointer<PKCS7>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Size,
+      )
+    >
+  >
+  get d2i_PKCS7 => ffi.Native.addressOf(self.d2i_PKCS7);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<PKCS7> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<PKCS7>>,
+      )
+    >
+  >
+  get d2i_PKCS7_bio => ffi.Native.addressOf(self.d2i_PKCS7_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get d2i_PKCS8PrivateKey_bio =>
+      ffi.Native.addressOf(self.d2i_PKCS8PrivateKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get d2i_PKCS8PrivateKey_fp =>
+      ffi.Native.addressOf(self.d2i_PKCS8PrivateKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<PKCS8_PRIV_KEY_INFO> Function(
+        ffi.Pointer<ffi.Pointer<PKCS8_PRIV_KEY_INFO>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_PKCS8_PRIV_KEY_INFO =>
+      ffi.Native.addressOf(self.d2i_PKCS8_PRIV_KEY_INFO);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<PKCS8_PRIV_KEY_INFO> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<PKCS8_PRIV_KEY_INFO>>,
+      )
+    >
+  >
+  get d2i_PKCS8_PRIV_KEY_INFO_bio =>
+      ffi.Native.addressOf(self.d2i_PKCS8_PRIV_KEY_INFO_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<PKCS8_PRIV_KEY_INFO> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<PKCS8_PRIV_KEY_INFO>>,
+      )
+    >
+  >
+  get d2i_PKCS8_PRIV_KEY_INFO_fp =>
+      ffi.Native.addressOf(self.d2i_PKCS8_PRIV_KEY_INFO_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_SIG> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<X509_SIG>>,
+      )
+    >
+  >
+  get d2i_PKCS8_bio => ffi.Native.addressOf(self.d2i_PKCS8_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_SIG> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<X509_SIG>>,
+      )
+    >
+  >
+  get d2i_PKCS8_fp => ffi.Native.addressOf(self.d2i_PKCS8_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_PUBKEY => ffi.Native.addressOf(self.d2i_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+      )
+    >
+  >
+  get d2i_PUBKEY_bio => ffi.Native.addressOf(self.d2i_PUBKEY_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+      )
+    >
+  >
+  get d2i_PUBKEY_fp => ffi.Native.addressOf(self.d2i_PUBKEY_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Int,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_PrivateKey => ffi.Native.addressOf(self.d2i_PrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+      )
+    >
+  >
+  get d2i_PrivateKey_bio => ffi.Native.addressOf(self.d2i_PrivateKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+      )
+    >
+  >
+  get d2i_PrivateKey_fp => ffi.Native.addressOf(self.d2i_PrivateKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EVP_PKEY> Function(
+        ffi.Int,
+        ffi.Pointer<ffi.Pointer<EVP_PKEY>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_PublicKey => ffi.Native.addressOf(self.d2i_PublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<ffi.Pointer<RSA>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_RSAPrivateKey => ffi.Native.addressOf(self.d2i_RSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Pointer<RSA>>)
+    >
+  >
+  get d2i_RSAPrivateKey_bio => ffi.Native.addressOf(self.d2i_RSAPrivateKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<RSA>>,
+      )
+    >
+  >
+  get d2i_RSAPrivateKey_fp => ffi.Native.addressOf(self.d2i_RSAPrivateKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<ffi.Pointer<RSA>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_RSAPublicKey => ffi.Native.addressOf(self.d2i_RSAPublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Pointer<RSA>>)
+    >
+  >
+  get d2i_RSAPublicKey_bio => ffi.Native.addressOf(self.d2i_RSAPublicKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<RSA>>,
+      )
+    >
+  >
+  get d2i_RSAPublicKey_fp => ffi.Native.addressOf(self.d2i_RSAPublicKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA_PSS_PARAMS> Function(
+        ffi.Pointer<ffi.Pointer<RSA_PSS_PARAMS>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_RSA_PSS_PARAMS => ffi.Native.addressOf(self.d2i_RSA_PSS_PARAMS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<ffi.Pointer<RSA>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_RSA_PUBKEY => ffi.Native.addressOf(self.d2i_RSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(ffi.Pointer<BIO>, ffi.Pointer<ffi.Pointer<RSA>>)
+    >
+  >
+  get d2i_RSA_PUBKEY_bio => ffi.Native.addressOf(self.d2i_RSA_PUBKEY_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<RSA> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<RSA>>,
+      )
+    >
+  >
+  get d2i_RSA_PUBKEY_fp => ffi.Native.addressOf(self.d2i_RSA_PUBKEY_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509> Function(
+        ffi.Pointer<ffi.Pointer<X509>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509 => ffi.Native.addressOf(self.d2i_X509);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_ALGOR> Function(
+        ffi.Pointer<ffi.Pointer<X509_ALGOR>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509_ALGOR => ffi.Native.addressOf(self.d2i_X509_ALGOR);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_ATTRIBUTE> Function(
+        ffi.Pointer<ffi.Pointer<X509_ATTRIBUTE>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509_ATTRIBUTE => ffi.Native.addressOf(self.d2i_X509_ATTRIBUTE);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509> Function(
+        ffi.Pointer<ffi.Pointer<X509>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509_AUX => ffi.Native.addressOf(self.d2i_X509_AUX);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_CRL> Function(
+        ffi.Pointer<ffi.Pointer<X509_CRL>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509_CRL => ffi.Native.addressOf(self.d2i_X509_CRL);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_CRL> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<X509_CRL>>,
+      )
+    >
+  >
+  get d2i_X509_CRL_bio => ffi.Native.addressOf(self.d2i_X509_CRL_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_CRL> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<X509_CRL>>,
+      )
+    >
+  >
+  get d2i_X509_CRL_fp => ffi.Native.addressOf(self.d2i_X509_CRL_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSION> Function(
+        ffi.Pointer<ffi.Pointer<X509_EXTENSION>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509_EXTENSION => ffi.Native.addressOf(self.d2i_X509_EXTENSION);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_EXTENSIONS> Function(
+        ffi.Pointer<ffi.Pointer<X509_EXTENSIONS>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509_EXTENSIONS => ffi.Native.addressOf(self.d2i_X509_EXTENSIONS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_NAME> Function(
+        ffi.Pointer<ffi.Pointer<X509_NAME>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509_NAME => ffi.Native.addressOf(self.d2i_X509_NAME);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_PUBKEY> Function(
+        ffi.Pointer<ffi.Pointer<X509_PUBKEY>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509_PUBKEY => ffi.Native.addressOf(self.d2i_X509_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_REQ> Function(
+        ffi.Pointer<ffi.Pointer<X509_REQ>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509_REQ => ffi.Native.addressOf(self.d2i_X509_REQ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_REQ> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<X509_REQ>>,
+      )
+    >
+  >
+  get d2i_X509_REQ_bio => ffi.Native.addressOf(self.d2i_X509_REQ_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_REQ> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<X509_REQ>>,
+      )
+    >
+  >
+  get d2i_X509_REQ_fp => ffi.Native.addressOf(self.d2i_X509_REQ_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_REVOKED> Function(
+        ffi.Pointer<ffi.Pointer<X509_REVOKED>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509_REVOKED => ffi.Native.addressOf(self.d2i_X509_REVOKED);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509_SIG> Function(
+        ffi.Pointer<ffi.Pointer<X509_SIG>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get d2i_X509_SIG => ffi.Native.addressOf(self.d2i_X509_SIG);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509> Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<ffi.Pointer<X509>>,
+      )
+    >
+  >
+  get d2i_X509_bio => ffi.Native.addressOf(self.d2i_X509_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<X509> Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<ffi.Pointer<X509>>,
+      )
+    >
+  >
+  get d2i_X509_fp => ffi.Native.addressOf(self.d2i_X509_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_ENUMERATED>)
+    >
+  >
+  get i2a_ASN1_ENUMERATED => ffi.Native.addressOf(self.i2a_ASN1_ENUMERATED);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_INTEGER>)
+    >
+  >
+  get i2a_ASN1_INTEGER => ffi.Native.addressOf(self.i2a_ASN1_INTEGER);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_OBJECT>)
+    >
+  >
+  get i2a_ASN1_OBJECT => ffi.Native.addressOf(self.i2a_ASN1_OBJECT);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<ASN1_STRING>, ffi.Int)
+    >
+  >
+  get i2a_ASN1_STRING => ffi.Native.addressOf(self.i2a_ASN1_STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_BIT_STRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2c_ASN1_BIT_STRING => ffi.Native.addressOf(self.i2c_ASN1_BIT_STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_INTEGER>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2c_ASN1_INTEGER => ffi.Native.addressOf(self.i2c_ASN1_INTEGER);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_BIT_STRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_BIT_STRING => ffi.Native.addressOf(self.i2d_ASN1_BIT_STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_BMPSTRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_BMPSTRING => ffi.Native.addressOf(self.i2d_ASN1_BMPSTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ASN1_BOOLEAN, ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>)
+    >
+  >
+  get i2d_ASN1_BOOLEAN => ffi.Native.addressOf(self.i2d_ASN1_BOOLEAN);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_ENUMERATED>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_ENUMERATED => ffi.Native.addressOf(self.i2d_ASN1_ENUMERATED);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_GENERALIZEDTIME>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_GENERALIZEDTIME =>
+      ffi.Native.addressOf(self.i2d_ASN1_GENERALIZEDTIME);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_GENERALSTRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_GENERALSTRING =>
+      ffi.Native.addressOf(self.i2d_ASN1_GENERALSTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_IA5STRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_IA5STRING => ffi.Native.addressOf(self.i2d_ASN1_IA5STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_INTEGER>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_INTEGER => ffi.Native.addressOf(self.i2d_ASN1_INTEGER);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_NULL>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_NULL => ffi.Native.addressOf(self.i2d_ASN1_NULL);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_OBJECT>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_OBJECT => ffi.Native.addressOf(self.i2d_ASN1_OBJECT);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_OCTET_STRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_OCTET_STRING => ffi.Native.addressOf(self.i2d_ASN1_OCTET_STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_PRINTABLESTRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_PRINTABLESTRING =>
+      ffi.Native.addressOf(self.i2d_ASN1_PRINTABLESTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_SEQUENCE_ANY>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_SEQUENCE_ANY => ffi.Native.addressOf(self.i2d_ASN1_SEQUENCE_ANY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_SEQUENCE_ANY>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_SET_ANY => ffi.Native.addressOf(self.i2d_ASN1_SET_ANY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_T61STRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_T61STRING => ffi.Native.addressOf(self.i2d_ASN1_T61STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_TIME>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_TIME => ffi.Native.addressOf(self.i2d_ASN1_TIME);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_TYPE>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_TYPE => ffi.Native.addressOf(self.i2d_ASN1_TYPE);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_UNIVERSALSTRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_UNIVERSALSTRING =>
+      ffi.Native.addressOf(self.i2d_ASN1_UNIVERSALSTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_UTCTIME>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_UTCTIME => ffi.Native.addressOf(self.i2d_ASN1_UTCTIME);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_UTF8STRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_UTF8STRING => ffi.Native.addressOf(self.i2d_ASN1_UTF8STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_VISIBLESTRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ASN1_VISIBLESTRING =>
+      ffi.Native.addressOf(self.i2d_ASN1_VISIBLESTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<AUTHORITY_INFO_ACCESS>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_AUTHORITY_INFO_ACCESS =>
+      ffi.Native.addressOf(self.i2d_AUTHORITY_INFO_ACCESS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<AUTHORITY_KEYID>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_AUTHORITY_KEYID => ffi.Native.addressOf(self.i2d_AUTHORITY_KEYID);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BASIC_CONSTRAINTS>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_BASIC_CONSTRAINTS => ffi.Native.addressOf(self.i2d_BASIC_CONSTRAINTS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CERTIFICATEPOLICIES>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_CERTIFICATEPOLICIES =>
+      ffi.Native.addressOf(self.i2d_CERTIFICATEPOLICIES);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<CRL_DIST_POINTS>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_CRL_DIST_POINTS => ffi.Native.addressOf(self.i2d_CRL_DIST_POINTS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<DH>,
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+      )
+    >
+  >
+  get i2d_DHparams => ffi.Native.addressOf(self.i2d_DHparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DH>)>
+  >
+  get i2d_DHparams_bio => ffi.Native.addressOf(self.i2d_DHparams_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_STRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_DIRECTORYSTRING => ffi.Native.addressOf(self.i2d_DIRECTORYSTRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ASN1_STRING>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_DISPLAYTEXT => ffi.Native.addressOf(self.i2d_DISPLAYTEXT);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<DSA>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_DSAPrivateKey => ffi.Native.addressOf(self.i2d_DSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DSA>)>
+  >
+  get i2d_DSAPrivateKey_bio => ffi.Native.addressOf(self.i2d_DSAPrivateKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<DSA>)>
+  >
+  get i2d_DSAPrivateKey_fp => ffi.Native.addressOf(self.i2d_DSAPrivateKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<DSA>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_DSAPublicKey => ffi.Native.addressOf(self.i2d_DSAPublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<DSA>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_DSA_PUBKEY => ffi.Native.addressOf(self.i2d_DSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<DSA>)>
+  >
+  get i2d_DSA_PUBKEY_bio => ffi.Native.addressOf(self.i2d_DSA_PUBKEY_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<DSA>)>
+  >
+  get i2d_DSA_PUBKEY_fp => ffi.Native.addressOf(self.i2d_DSA_PUBKEY_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<DSA_SIG>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_DSA_SIG => ffi.Native.addressOf(self.i2d_DSA_SIG);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<DSA>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_DSAparams => ffi.Native.addressOf(self.i2d_DSAparams);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ECDSA_SIG>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ECDSA_SIG => ffi.Native.addressOf(self.i2d_ECDSA_SIG);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_GROUP>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ECPKParameters => ffi.Native.addressOf(self.i2d_ECPKParameters);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EC_KEY>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_ECParameters => ffi.Native.addressOf(self.i2d_ECParameters);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EC_KEY>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_ECPrivateKey => ffi.Native.addressOf(self.i2d_ECPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<EC_KEY>)>
+  >
+  get i2d_ECPrivateKey_bio => ffi.Native.addressOf(self.i2d_ECPrivateKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<EC_KEY>)>
+  >
+  get i2d_ECPrivateKey_fp => ffi.Native.addressOf(self.i2d_ECPrivateKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<EC_KEY>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_EC_PUBKEY => ffi.Native.addressOf(self.i2d_EC_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<EC_KEY>)>
+  >
+  get i2d_EC_PUBKEY_bio => ffi.Native.addressOf(self.i2d_EC_PUBKEY_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<EC_KEY>)>
+  >
+  get i2d_EC_PUBKEY_fp => ffi.Native.addressOf(self.i2d_EC_PUBKEY_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EXTENDED_KEY_USAGE>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_EXTENDED_KEY_USAGE =>
+      ffi.Native.addressOf(self.i2d_EXTENDED_KEY_USAGE);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<GENERAL_NAME>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_GENERAL_NAME => ffi.Native.addressOf(self.i2d_GENERAL_NAME);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<GENERAL_NAMES>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_GENERAL_NAMES => ffi.Native.addressOf(self.i2d_GENERAL_NAMES);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<ISSUING_DIST_POINT>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_ISSUING_DIST_POINT =>
+      ffi.Native.addressOf(self.i2d_ISSUING_DIST_POINT);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<NETSCAPE_SPKAC>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_NETSCAPE_SPKAC => ffi.Native.addressOf(self.i2d_NETSCAPE_SPKAC);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<NETSCAPE_SPKI>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_NETSCAPE_SPKI => ffi.Native.addressOf(self.i2d_NETSCAPE_SPKI);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<PKCS7>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_PKCS7 => ffi.Native.addressOf(self.i2d_PKCS7);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<PKCS7>)>
+  >
+  get i2d_PKCS7_bio => ffi.Native.addressOf(self.i2d_PKCS7_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get i2d_PKCS8PrivateKeyInfo_bio =>
+      ffi.Native.addressOf(self.i2d_PKCS8PrivateKeyInfo_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get i2d_PKCS8PrivateKeyInfo_fp =>
+      ffi.Native.addressOf(self.i2d_PKCS8PrivateKeyInfo_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get i2d_PKCS8PrivateKey_bio =>
+      ffi.Native.addressOf(self.i2d_PKCS8PrivateKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<EVP_CIPHER>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get i2d_PKCS8PrivateKey_fp =>
+      ffi.Native.addressOf(self.i2d_PKCS8PrivateKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<BIO>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Int,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get i2d_PKCS8PrivateKey_nid_bio =>
+      ffi.Native.addressOf(self.i2d_PKCS8PrivateKey_nid_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<FILE>,
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Int,
+        ffi.Pointer<ffi.Char>,
+        ffi.Int,
+        ffi.Pointer<pem_password_cb>,
+        ffi.Pointer<ffi.Void>,
+      )
+    >
+  >
+  get i2d_PKCS8PrivateKey_nid_fp =>
+      ffi.Native.addressOf(self.i2d_PKCS8PrivateKey_nid_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<PKCS8_PRIV_KEY_INFO>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_PKCS8_PRIV_KEY_INFO =>
+      ffi.Native.addressOf(self.i2d_PKCS8_PRIV_KEY_INFO);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<PKCS8_PRIV_KEY_INFO>)
+    >
+  >
+  get i2d_PKCS8_PRIV_KEY_INFO_bio =>
+      ffi.Native.addressOf(self.i2d_PKCS8_PRIV_KEY_INFO_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<PKCS8_PRIV_KEY_INFO>)
+    >
+  >
+  get i2d_PKCS8_PRIV_KEY_INFO_fp =>
+      ffi.Native.addressOf(self.i2d_PKCS8_PRIV_KEY_INFO_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_SIG>)
+    >
+  >
+  get i2d_PKCS8_bio => ffi.Native.addressOf(self.i2d_PKCS8_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_SIG>)
+    >
+  >
+  get i2d_PKCS8_fp => ffi.Native.addressOf(self.i2d_PKCS8_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_PUBKEY => ffi.Native.addressOf(self.i2d_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get i2d_PUBKEY_bio => ffi.Native.addressOf(self.i2d_PUBKEY_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get i2d_PUBKEY_fp => ffi.Native.addressOf(self.i2d_PUBKEY_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_PrivateKey => ffi.Native.addressOf(self.i2d_PrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get i2d_PrivateKey_bio => ffi.Native.addressOf(self.i2d_PrivateKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<EVP_PKEY>)
+    >
+  >
+  get i2d_PrivateKey_fp => ffi.Native.addressOf(self.i2d_PrivateKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EVP_PKEY>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_PublicKey => ffi.Native.addressOf(self.i2d_PublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<RSA>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_RSAPrivateKey => ffi.Native.addressOf(self.i2d_RSAPrivateKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<RSA>)>
+  >
+  get i2d_RSAPrivateKey_bio => ffi.Native.addressOf(self.i2d_RSAPrivateKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<RSA>)>
+  >
+  get i2d_RSAPrivateKey_fp => ffi.Native.addressOf(self.i2d_RSAPrivateKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<RSA>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_RSAPublicKey => ffi.Native.addressOf(self.i2d_RSAPublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<RSA>)>
+  >
+  get i2d_RSAPublicKey_bio => ffi.Native.addressOf(self.i2d_RSAPublicKey_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<RSA>)>
+  >
+  get i2d_RSAPublicKey_fp => ffi.Native.addressOf(self.i2d_RSAPublicKey_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<RSA_PSS_PARAMS>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_RSA_PSS_PARAMS => ffi.Native.addressOf(self.i2d_RSA_PSS_PARAMS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<RSA>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_RSA_PUBKEY => ffi.Native.addressOf(self.i2d_RSA_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<RSA>)>
+  >
+  get i2d_RSA_PUBKEY_bio => ffi.Native.addressOf(self.i2d_RSA_PUBKEY_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<RSA>)>
+  >
+  get i2d_RSA_PUBKEY_fp => ffi.Native.addressOf(self.i2d_RSA_PUBKEY_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_X509 => ffi.Native.addressOf(self.i2d_X509);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_ALGOR>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_X509_ALGOR => ffi.Native.addressOf(self.i2d_X509_ALGOR);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_ATTRIBUTE>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_X509_ATTRIBUTE => ffi.Native.addressOf(self.i2d_X509_ATTRIBUTE);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_X509_AUX => ffi.Native.addressOf(self.i2d_X509_AUX);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_CRL>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_X509_CRL => ffi.Native.addressOf(self.i2d_X509_CRL);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_CRL>)
+    >
+  >
+  get i2d_X509_CRL_bio => ffi.Native.addressOf(self.i2d_X509_CRL_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_CRL>)
+    >
+  >
+  get i2d_X509_CRL_fp => ffi.Native.addressOf(self.i2d_X509_CRL_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_CRL>,
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+      )
+    >
+  >
+  get i2d_X509_CRL_tbs => ffi.Native.addressOf(self.i2d_X509_CRL_tbs);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_EXTENSION>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_X509_EXTENSION => ffi.Native.addressOf(self.i2d_X509_EXTENSION);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_EXTENSIONS>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_X509_EXTENSIONS => ffi.Native.addressOf(self.i2d_X509_EXTENSIONS);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_NAME>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_X509_NAME => ffi.Native.addressOf(self.i2d_X509_NAME);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_PUBKEY>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_X509_PUBKEY => ffi.Native.addressOf(self.i2d_X509_PUBKEY);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REQ>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_X509_REQ => ffi.Native.addressOf(self.i2d_X509_REQ);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509_REQ>)
+    >
+  >
+  get i2d_X509_REQ_bio => ffi.Native.addressOf(self.i2d_X509_REQ_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509_REQ>)
+    >
+  >
+  get i2d_X509_REQ_fp => ffi.Native.addressOf(self.i2d_X509_REQ_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REVOKED>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_X509_REVOKED => ffi.Native.addressOf(self.i2d_X509_REVOKED);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_SIG>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_X509_SIG => ffi.Native.addressOf(self.i2d_X509_SIG);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<BIO>, ffi.Pointer<X509>)>
+  >
+  get i2d_X509_bio => ffi.Native.addressOf(self.i2d_X509_bio);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<FILE>, ffi.Pointer<X509>)>
+  >
+  get i2d_X509_fp => ffi.Native.addressOf(self.i2d_X509_fp);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_X509_tbs => ffi.Native.addressOf(self.i2d_X509_tbs);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_CRL>,
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+      )
+    >
+  >
+  get i2d_re_X509_CRL_tbs => ffi.Native.addressOf(self.i2d_re_X509_CRL_tbs);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<X509_REQ>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+      )
+    >
+  >
+  get i2d_re_X509_REQ_tbs => ffi.Native.addressOf(self.i2d_re_X509_REQ_tbs);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<X509>, ffi.Pointer<ffi.Pointer<ffi.Uint8>>)
+    >
+  >
+  get i2d_re_X509_tbs => ffi.Native.addressOf(self.i2d_re_X509_tbs);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(
+        ffi.Pointer<EC_KEY>,
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+      )
+    >
+  >
+  get i2o_ECPublicKey => ffi.Native.addressOf(self.i2o_ECPublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(
+        ffi.Pointer<X509V3_EXT_METHOD>,
+        ffi.Pointer<ASN1_ENUMERATED>,
+      )
+    >
+  >
+  get i2s_ASN1_ENUMERATED => ffi.Native.addressOf(self.i2s_ASN1_ENUMERATED);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(
+        ffi.Pointer<X509V3_EXT_METHOD>,
+        ffi.Pointer<ASN1_INTEGER>,
+      )
+    >
+  >
+  get i2s_ASN1_INTEGER => ffi.Native.addressOf(self.i2s_ASN1_INTEGER);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Char> Function(
+        ffi.Pointer<X509V3_EXT_METHOD>,
+        ffi.Pointer<ASN1_OCTET_STRING>,
+      )
+    >
+  >
+  get i2s_ASN1_OCTET_STRING => ffi.Native.addressOf(self.i2s_ASN1_OCTET_STRING);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.Int, ffi.Pointer<ASN1_OBJECT>)
+    >
+  >
+  get i2t_ASN1_OBJECT => ffi.Native.addressOf(self.i2t_ASN1_OBJECT);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_CONF_VALUE> Function(
+        ffi.Pointer<X509V3_EXT_METHOD>,
+        ffi.Pointer<GENERAL_NAME>,
+        ffi.Pointer<stack_st_CONF_VALUE>,
+      )
+    >
+  >
+  get i2v_GENERAL_NAME => ffi.Native.addressOf(self.i2v_GENERAL_NAME);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<stack_st_CONF_VALUE> Function(
+        ffi.Pointer<X509V3_EXT_METHOD>,
+        ffi.Pointer<GENERAL_NAMES>,
+        ffi.Pointer<stack_st_CONF_VALUE>,
+      )
+    >
+  >
+  get i2v_GENERAL_NAMES => ffi.Native.addressOf(self.i2v_GENERAL_NAMES);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<EC_KEY> Function(
+        ffi.Pointer<ffi.Pointer<EC_KEY>>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Long,
+      )
+    >
+  >
+  get o2i_ECPublicKey => ffi.Native.addressOf(self.o2i_ECPublicKey);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_INTEGER> Function(
+        ffi.Pointer<X509V3_EXT_METHOD>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get s2i_ASN1_INTEGER => ffi.Native.addressOf(self.s2i_ASN1_INTEGER);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ASN1_OCTET_STRING> Function(
+        ffi.Pointer<X509V3_EXT_METHOD>,
+        ffi.Pointer<X509V3_CTX>,
+        ffi.Pointer<ffi.Char>,
+      )
+    >
+  >
+  get s2i_ASN1_OCTET_STRING => ffi.Native.addressOf(self.s2i_ASN1_OCTET_STRING);
+  @meta.RecordUse()
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<OPENSSL_STACK>)>>
   get sk_free => ffi.Native.addressOf(self.sk_free);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Pointer<OPENSSL_STACK> Function()>>
+  get sk_new_null => ffi.Native.addressOf(self.sk_new_null);
+  @meta.RecordUse()
+  ffi.Pointer<ffi.NativeFunction<ffi.Size Function(ffi.Pointer<OPENSSL_STACK>)>>
+  get sk_num => ffi.Native.addressOf(self.sk_num);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<OPENSSL_STACK>)
+    >
+  >
+  get sk_pop => ffi.Native.addressOf(self.sk_pop);
   @meta.RecordUse()
   ffi.Pointer<
     ffi.NativeFunction<
@@ -32142,6 +48236,31 @@ extension SymbolAddresses on _SymbolAddresses {
     >
   >
   get sk_pop_free => ffi.Native.addressOf(self.sk_pop_free);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<OPENSSL_STACK>,
+        OPENSSL_sk_call_free_func,
+        OPENSSL_sk_free_func,
+      )
+    >
+  >
+  get sk_pop_free_ex => ffi.Native.addressOf(self.sk_pop_free_ex);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Size Function(ffi.Pointer<OPENSSL_STACK>, ffi.Pointer<ffi.Void>)
+    >
+  >
+  get sk_push => ffi.Native.addressOf(self.sk_push);
+  @meta.RecordUse()
+  ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<OPENSSL_STACK>, ffi.Size)
+    >
+  >
+  get sk_value => ffi.Native.addressOf(self.sk_value);
 }
 
 typedef ACCESS_DESCRIPTION = ACCESS_DESCRIPTION_st;
@@ -36306,76 +52425,7 @@ final class _G_fpos_t extends ffi.Struct {
   external __mbstate_t __state;
 }
 
-final class _IO_FILE extends ffi.Struct {
-  @ffi.Int()
-  external int _flags;
-
-  external ffi.Pointer<ffi.Char> _IO_read_ptr;
-
-  external ffi.Pointer<ffi.Char> _IO_read_end;
-
-  external ffi.Pointer<ffi.Char> _IO_read_base;
-
-  external ffi.Pointer<ffi.Char> _IO_write_base;
-
-  external ffi.Pointer<ffi.Char> _IO_write_ptr;
-
-  external ffi.Pointer<ffi.Char> _IO_write_end;
-
-  external ffi.Pointer<ffi.Char> _IO_buf_base;
-
-  external ffi.Pointer<ffi.Char> _IO_buf_end;
-
-  external ffi.Pointer<ffi.Char> _IO_save_base;
-
-  external ffi.Pointer<ffi.Char> _IO_backup_base;
-
-  external ffi.Pointer<ffi.Char> _IO_save_end;
-
-  external ffi.Pointer<_IO_marker> _markers;
-
-  external ffi.Pointer<_IO_FILE> _chain;
-
-  @ffi.Int()
-  external int _fileno;
-
-  @ffi.Int()
-  external int _flags2;
-
-  @__off_t()
-  external int _old_offset;
-
-  @ffi.UnsignedShort()
-  external int _cur_column;
-
-  @ffi.SignedChar()
-  external int _vtable_offset;
-
-  @ffi.Array.multi([1])
-  external ffi.Array<ffi.Char> _shortbuf;
-
-  external ffi.Pointer<_IO_lock_t> _lock;
-
-  @__off64_t()
-  external int _offset;
-
-  external ffi.Pointer<_IO_codecvt> _codecvt;
-
-  external ffi.Pointer<_IO_wide_data> _wide_data;
-
-  external ffi.Pointer<_IO_FILE> _freeres_list;
-
-  external ffi.Pointer<ffi.Void> _freeres_buf;
-
-  @ffi.Size()
-  external int __pad5;
-
-  @ffi.Int()
-  external int _mode;
-
-  @ffi.Array.multi([20])
-  external ffi.Array<ffi.Char> _unused2;
-}
+final class _IO_FILE extends ffi.Opaque {}
 
 final class _IO_codecvt extends ffi.Opaque {}
 
@@ -36531,9 +52581,6 @@ final class __pthread_cond_s extends ffi.Struct {
   external __atomic_wide_counter __g1_start;
 
   @ffi.Array.multi([2])
-  external ffi.Array<ffi.UnsignedInt> __g_refs;
-
-  @ffi.Array.multi([2])
   external ffi.Array<ffi.UnsignedInt> __g_size;
 
   @ffi.UnsignedInt()
@@ -36544,6 +52591,12 @@ final class __pthread_cond_s extends ffi.Struct {
 
   @ffi.Array.multi([2])
   external ffi.Array<ffi.UnsignedInt> __g_signals;
+
+  @ffi.UnsignedInt()
+  external int __unused_initialized_1;
+
+  @ffi.UnsignedInt()
+  external int __unused_initialized_2;
 }
 
 final class __pthread_internal_list extends ffi.Struct {
@@ -36578,7 +52631,7 @@ final class __pthread_mutex_s extends ffi.Struct {
   external int __spins;
 
   @ffi.Short()
-  external int __elision;
+  external int __glibc_reserved;
 
   external __pthread_list_t __list;
 }
@@ -36608,11 +52661,8 @@ final class __pthread_rwlock_arch_t extends ffi.Struct {
   @ffi.Int()
   external int __shared;
 
-  @ffi.SignedChar()
-  external int __rwelision;
-
-  @ffi.Array.multi([7])
-  external ffi.Array<ffi.UnsignedChar> __pad1;
+  @ffi.UnsignedLong()
+  external int __pad1;
 
   @ffi.UnsignedLong()
   external int __pad2;

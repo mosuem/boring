@@ -98,9 +98,7 @@ Future<void> main() async {
           node.name = unprefixed;
           // Lets the link hook keep only the functions an application uses.
           node.recordUse = true;
-          if (unprefixed.endsWith('_free') || unprefixed.endsWith('_cleanup')) {
-            node.exposeSymbolAddress = true;
-          }
+          node.exposeSymbolAddress = true;
         },
         struct: (node) {
           node.isIncluded = !node.originalName.startsWith('_bssl_hidden_');
@@ -183,8 +181,8 @@ Future<void> _recordAddressUses(File bindings) async {
     '  const _SymbolAddresses();\n'
     '}\n'
     '\n'
-    '/// The addresses of the functions releasing BoringSSL objects, for\n'
-    '/// `NativeFinalizer`s.\n'
+    '/// The addresses of the bound BoringSSL functions, for\n'
+    '/// `NativeFinalizer`s and passing function pointers to native code.\n'
     '///\n'
     '/// Use these instead of `Native.addressOf`, which is not recorded as a\n'
     '/// use of the function, so the link hook would drop it.\n'

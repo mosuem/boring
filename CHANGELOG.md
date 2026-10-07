@@ -1,6 +1,9 @@
 ## 0.4.2-wip
 
 - Update BoringSSL to e98a6564.
+- Expose `addresses.*` (`SymbolAddresses` extension getters annotated with
+  `@RecordUse()`) for all bound BoringSSL functions, not just `*_free` and
+  `*_cleanup` functions.
 
 ## 0.4.1
 
