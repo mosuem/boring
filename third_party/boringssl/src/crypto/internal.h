@@ -26,6 +26,7 @@
 #include <string.h>
 
 #include <type_traits>
+#include <utility>
 
 #if defined(BORINGSSL_CONSTANT_TIME_VALIDATION)
 #include <valgrind/memcheck.h>
@@ -48,8 +49,6 @@
 
 #if defined(OPENSSL_THREADS)
 #include <atomic>
-#else
-#include <utility>
 #endif
 
 #if defined(OPENSSL_WINDOWS_THREADS)
@@ -657,7 +656,7 @@ class OPENSSL_EXPORT StaticMutex {
   // UnlockWrite releases a write lock.
   void UnlockWrite();
 
-protected:
+ protected:
 #if !defined(OPENSSL_THREADS)
   // Nothing.
 #elif defined(OPENSSL_WINDOWS_THREADS)
@@ -669,7 +668,7 @@ protected:
 #endif
 };
 
-class OPENSSL_EXPORT Mutex  : public StaticMutex {
+class OPENSSL_EXPORT Mutex : public StaticMutex {
  public:
   constexpr Mutex() = default;
   ~Mutex();
@@ -780,9 +779,9 @@ struct ExDataClass {
 // CRYPTO_get_ex_new_index_ex allocates a new index for `ex_data_class`. Each
 // class of object should provide a wrapper function that uses the correct
 // `ExDataClass`. It returns the new index on success and -1 on error.
-OPENSSL_EXPORT int CRYPTO_get_ex_new_index_ex(
-    ExDataClass *ex_data_class, long argl, void *argp,
-    CRYPTO_EX_free *free_func);
+OPENSSL_EXPORT int CRYPTO_get_ex_new_index_ex(ExDataClass *ex_data_class,
+                                              long argl, void *argp,
+                                              CRYPTO_EX_free *free_func);
 
 // CRYPTO_set_ex_data sets an extra data pointer on a given object. Each class
 // of object should provide a wrapper function.
@@ -1031,7 +1030,7 @@ inline uint64_t CRYPTO_rotr_u64(uint64_t value, int shift) {
 
 // CRYPTO_bit_width returns the smallest number of bits needed to represent `n`.
 // It returns zero if `n` is zero.
-inline int CRYPTO_bit_width(uint64_t n) {
+inline constexpr int CRYPTO_bit_width(uint64_t n) {
 #if OPENSSL_HAS_BUILTIN(__builtin_clzll)
   static_assert(sizeof(unsigned long long) >= sizeof(uint64_t));
   return n ? (sizeof(unsigned long long) * 8 - __builtin_clzll(n)) : 0;
@@ -1760,6 +1759,34 @@ template <typename Public>
 inline const typename Public::ImplType *FromOpaque(const Public *p) {
   return static_cast<const typename Public::ImplType *>(p);
 }
+
+template <auto F, typename... Args>
+inline constexpr decltype(auto) AsmThunk(Args... args) noexcept(
+    noexcept(F(std::forward<Args>(args)...))) {
+  return F(std::forward<Args>(args)...);
+}
+
+template <auto Item>
+struct AsmRaw {
+  static inline constexpr auto kRaw = Item;
+};
+
+// TODO(crbug.com/585160970): We should replace this with a more long term
+// solution. A better design is possible.
+#define DECLARE_ASM_FUNCTION(ret, name, params)                             \
+  namespace asm_raw {                                                       \
+                                                                            \
+  extern "C" ret name params noexcept;                                      \
+                                                                            \
+  }                                                                         \
+                                                                            \
+  inline constexpr decltype(asm_raw::name) &name = AsmThunk<asm_raw::name>; \
+                                                                            \
+  template <>                                                               \
+  struct AsmRaw<name> {                                                     \
+    static inline constexpr auto kRaw = asm_raw::name;                      \
+  };
+
 
 BSSL_NAMESPACE_END
 
